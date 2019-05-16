@@ -77,8 +77,8 @@ subprojects {
         sonarqube {
             properties {
                 property("sonar.kotlin.detekt.reportPaths", "build/reports/detekt/detekt.xml")
-                property("sonar.sources", listOf("src/commonMain/kotlin", "src/jvmMain/kotlin"))
-                property("sonar.test", listOf("src/commonTest/kotlin", "src/jvmTest/kotlin"))
+                property("sonar.sources", files("src/commonMain/kotlin", "src/jvmMain/kotlin"))
+                property("sonar.test", files("src/commonTest/kotlin", "src/jvmTest/kotlin"))
             }
         }
     }
