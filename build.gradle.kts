@@ -85,6 +85,8 @@ sonarqube {
         })
 
         property("sonar.kotlin.detekt.reportPaths", "build/reports/detekt/detekt.xml")
+
+        property("sonar.sources", "src/*/kotlin")
         property("sonar.coverage.exclusions", "**/commonMain/**")
     }
 }

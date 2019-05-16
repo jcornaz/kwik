@@ -3,5 +3,6 @@
 image:https://img.shields.io/badge/License-Apache%202.0-blue.svg[link="LICENSE"]
 image:https://img.shields.io/badge/status-incubating-orange.svg[link="https://gist.githubusercontent.com/jcornaz/46736c3d1f21b4c929bd97549b7406b2/raw/ProjectStatusFlow"]
 image:https://travis-ci.com/jcornaz/kwik.svg?branch=master["Build Status", link="https://travis-ci.com/jcornaz/kwik"]
+image:https://sonarcloud.io/api/project_badges/measure?project=jcornaz_kwik&metric=alert_status["Quality gate", link="https://sonarcloud.io/dashboard?id=jcornaz_kwik"]
 
 Property-based testing library for Kotlin
