@@ -25,6 +25,34 @@ subprojects {
 
     kotlin {
         jvm()
+
+        sourceSets {
+            commonMain {
+                dependencies {
+                    api(kotlin("stdlib-common"))
+                }
+            }
+
+            commonTest {
+                dependencies {
+                    api(kotlin("test-common"))
+                    api(kotlin("test-annotations-common"))
+                }
+            }
+
+            val jvmMain by existing {
+                dependencies {
+                    implementation(kotlin("stdlib"))
+                }
+            }
+
+            val jvmTest by existing {
+                dependencies {
+                    implementation(kotlin("test"))
+                    implementation(kotlin("test-junit"))
+                }
+            }
+        }
     }
 }
 
