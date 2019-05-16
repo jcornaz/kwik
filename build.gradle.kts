@@ -72,6 +72,22 @@ subprojects {
         buildUponDefaultConfig = true
         config = files("$rootDir/detekt-config.yml")
     }
+
+    subprojects {
+        sonarqube {
+            properties {
+                property("sonar.kotlin.detekt.reportPaths", "build/reports/detekt/detekt.xml")
+                property(
+                    "sonar.sources", listOf(
+                        "src/commonMain/kotlin",
+                        "src/commonTest/kotlin",
+                        "src/jvmMain/kotlin",
+                        "src/jvmTest/kotlin"
+                    )
+                )
+            }
+        }
+    }
 }
 
 sonarqube {
@@ -83,17 +99,6 @@ sonarqube {
         property("sonar.projectVersion", project.version.toString().let {
             if ('+' in it) it.substringBeforeLast('.') else it
         })
-
-        property("sonar.kotlin.detekt.reportPaths", "build/reports/detekt/detekt.xml")
-
-        property(
-            "sonar.sources", listOf(
-                "src/commonMain/kotlin",
-                "src/commonTest/kotlin",
-                "src/jvmMain/kotlin",
-                "src/jvmTest/kotlin"
-            )
-        )
 
         property("sonar.coverage.exclusions", "**/commonMain/**")
     }
