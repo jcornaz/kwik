@@ -65,8 +65,8 @@ subprojects {
     detekt {
         input = files(
             "src/commonMain/kotlin",
-            "src/jvmMain/kotlin",
             "src/commonTest/kotlin",
+            "src/jvmMain/kotlin",
             "src/jvmTest/kotlin"
         )
         buildUponDefaultConfig = true
@@ -86,7 +86,15 @@ sonarqube {
 
         property("sonar.kotlin.detekt.reportPaths", "build/reports/detekt/detekt.xml")
 
-        property("sonar.sources", "src/*/kotlin")
+        property(
+            "sonar.sources", listOf(
+                "src/commonMain/kotlin",
+                "src/commonTest/kotlin",
+                "src/jvmMain/kotlin",
+                "src/jvmTest/kotlin"
+            )
+        )
+
         property("sonar.coverage.exclusions", "**/commonMain/**")
     }
 }
