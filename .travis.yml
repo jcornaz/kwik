@@ -1,0 +1,20 @@
+language: java
+
+branches:
+  only:
+    - master
+    - develop
+    - /^release.*$/
+
+jdk:
+  - oraclejdk11
+
+before_install:
+  - chmod +x gradlew
+
+script:
+  - ./gradlew check --no-daemon
+
+cache:
+  directories:
+    - $HOME/.gradle/
