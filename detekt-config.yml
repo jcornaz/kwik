@@ -1,0 +1,5 @@
+style:
+  MaxLineLength:
+    maxLineLength: 150
+  FunctionNaming:
+    functionPattern: '^([a-zA-Z$][a-zA-Z$0-9]*)|(`.*`)$' # Wait for the resolution of: https://github.com/arturbosch/detekt/issues/1639

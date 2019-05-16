@@ -1,5 +1,9 @@
 language: java
 
+addons:
+  sonarcloud:
+    organization: "jcornaz-github"
+
 branches:
   only:
     - master
@@ -13,7 +17,7 @@ before_install:
   - chmod +x gradlew
 
 script:
-  - ./gradlew check --no-daemon
+  - ./gradlew check sonarqube --no-daemon
 
 cache:
   directories:
