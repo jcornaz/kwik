@@ -1,7 +1,7 @@
 package com.github.jcornaz.kwik
 
 /**
- * Returns a generator of values built from the elements of `this` generator and the [other] generator with the same index
+ * Returns a generator of values built from the elements of `this` generator and the [other] generator
  * using the provided [transform] function applied to each pair of elements.
  */
 fun <A, B, R> Generator<A>.zip(
@@ -10,7 +10,7 @@ fun <A, B, R> Generator<A>.zip(
 ): Generator<R> = MergingGenerator(this, other, transform)
 
 /**
- * Returns a generator of values built from the elements of `this` generator and the [other] sequence with the same index.
+ * Returns a generator of values built from the elements of `this` generator and the [other] generator
  */
 infix fun <A, B> Generator<A>.zip(
     other: Generator<B>
