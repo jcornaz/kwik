@@ -4,9 +4,23 @@ import kotlin.random.Random
 
 private const val DEFAULT_SAMPLE_RATIO = 0.2
 
+/**
+ * Returns a new generator adding the given [samples] into generated random values.
+ *
+ * The "random" values always start by the given [samples] so that they always appear at least once.
+ *
+ * @param ratio Ratio of random values which should be picked from the [samples].
+ */
 fun <T> Generator<T>.withSamples(vararg samples: T, ratio: Double = DEFAULT_SAMPLE_RATIO): Generator<T> =
     SampleGenerator(this, samples.toList(), ratio)
 
+/**
+ * Returns a new generator adding `null` into generated random values.
+ *
+ * The "random" values always start by `null` so that it always appear at least once.
+ *
+ * @param ratio Ratio of random values which should be `null`.
+ */
 fun <T> Generator<T>.withNull(ratio: Double = DEFAULT_SAMPLE_RATIO): Generator<T?> =
     NullGenerator(this, ratio)
 
