@@ -13,9 +13,6 @@ branches:
 jdk:
   - oraclejdk11
 
-before_install:
-  - chmod +x gradlew
-
 script:
   - if [ "$TRAVIS_BRANCH" = "master" ]; then ./gradlew bintrayUpload sonarqube --no-daemon --no-build-cache; fi
   - if [ "$TRAVIS_BRANCH" != "master" ]; then ./gradlew check sonarqube --no-daemon; fi
