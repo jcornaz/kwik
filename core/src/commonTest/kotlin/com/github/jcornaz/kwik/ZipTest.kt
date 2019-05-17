@@ -3,7 +3,7 @@ package com.github.jcornaz.kwik
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
-class ZipTest : GeneratorContract() {
+class ZipTest : AbstractGeneratorTest() {
 
     override val generator: Generator<*> = Generator.create { it.nextInt() } zip Generator.create { it.nextDouble() }
 
@@ -13,7 +13,7 @@ class ZipTest : GeneratorContract() {
     }
 }
 
-class ZipWithTransformTest : GeneratorContract() {
+class ZipWithTransformTest : AbstractGeneratorTest() {
 
     override val generator: Generator<*> =
         Generator.create { it.nextInt() }

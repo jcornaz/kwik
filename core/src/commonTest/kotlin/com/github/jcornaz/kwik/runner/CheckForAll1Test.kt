@@ -1,57 +1,16 @@
 import com.github.jcornaz.kwik.Generator
 import com.github.jcornaz.kwik.checkForAll
+import com.github.jcornaz.kwik.runner.AbstractRunnerTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
-class CheckForAll1Test {
+class CheckForAll1Test : AbstractRunnerTest() {
 
     private val testGenerator = Generator.create { it.nextInt() }
 
-    @Test
-    fun zeroIterationShouldFail() {
-        assertFailsWith<IllegalArgumentException> {
-            checkForAll(testGenerator, iterations = 0) {
-                // do nothing
-            }
-        }
-    }
-
-    @Test
-    fun invokeThePropertyOncePerIteration() {
-        var invocations = 0
-
-        checkForAll(testGenerator) {
-            invocations++
-        }
-
-        assertEquals(200, invocations)
-    }
-
-    @Test
-    fun exceptionAreRethrown() {
-        val exception = assertFailsWith<CustomException> {
-            checkForAll(testGenerator) {
-                throw CustomException("hello from exception")
-            }
-        }
-
-        assertEquals("hello from exception", exception.message)
-    }
-
-    @Test
-    fun failFastInCaseOfFalsification() {
-        var invocations = 0
-
-        assertFailsWith<AssertionError> {
-            checkForAll(testGenerator, 42) {
-                invocations++
-                throw AssertionError()
-            }
-        }
-
-        assertEquals(1, invocations)
+    override fun evaluate(iterations: Int, seed: Long, invocation: () -> Unit) {
+        checkForAll(testGenerator, iterations, seed) { invocation() }
     }
 
     @Test

@@ -1,42 +1,17 @@
 import com.github.jcornaz.kwik.Generator
 import com.github.jcornaz.kwik.forAll
+import com.github.jcornaz.kwik.runner.AbstractRunnerTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
-class ForAll1Test {
+class ForAll1Test : AbstractRunnerTest() {
 
     private val testGenerator = Generator.create { it.nextInt() }
 
-    @Test
-    fun zeroIterationShouldFail() {
-        assertFailsWith<IllegalArgumentException> {
-            forAll(testGenerator, iterations = 0) { true }
-        }
-    }
-
-    @Test
-    fun invokeThePropertyOncePerIteration() {
-        var invocations = 0
-
-        forAll(testGenerator) {
-            invocations++
-            true
-        }
-
-        assertEquals(200, invocations)
-    }
-
-    @Test
-    fun exceptionAreRethrown() {
-        val exception = assertFailsWith<CustomException> {
-            forAll(testGenerator) {
-                throw CustomException("hello from exception")
-            }
-        }
-
-        assertEquals("hello from exception", exception.message)
+    override fun evaluate(iterations: Int, seed: Long, invocation: () -> Unit) {
+        forAll(testGenerator, iterations, seed) { invocation(); true }
     }
 
     @Test
@@ -44,7 +19,7 @@ class ForAll1Test {
         var invocations = 0
 
         assertFailsWith<AssertionError> {
-            forAll(testGenerator, 42) {
+            forAll(testGenerator, iterations = 200) {
                 invocations++
                 false
             }

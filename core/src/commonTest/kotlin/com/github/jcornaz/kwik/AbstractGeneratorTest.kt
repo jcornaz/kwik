@@ -3,7 +3,7 @@ package com.github.jcornaz.kwik
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-abstract class GeneratorContract {
+abstract class AbstractGeneratorTest {
     abstract val generator: Generator<*>
 
     @Test
