@@ -23,8 +23,7 @@ fun <A> checkForAll(
 ) {
     require(iterations > 0) { "Iterations must be > 0, but was: $iterations" }
 
-    generator
-        .testValues(seed, 0.0)
+    generator.randoms(seed)
         .take(iterations)
         .forEach(property)
 }
@@ -47,26 +46,4 @@ fun <A> forAll(
     property: (A) -> Boolean
 ) = checkForAll(generator, iterations, seed) {
     if (!property(it)) throw AssertionError("Property falsified with: $it")
-}
-
-private fun <T> Generator<T>.testValues(seed: Long, edgeCaseRatio: Double): Sequence<T> {
-    if (edgeCases.isEmpty()) return randoms(seed)
-
-    return edgeCases.asSequence() + sequence {
-        val randomValues = randoms(seed).iterator()
-        val rng = Random(seed)
-
-        var edgeCasesEmitted = edgeCases.size
-        var valuesEmitted = edgeCasesEmitted
-
-        while (true) {
-            if (edgeCasesEmitted < edgeCaseRatio * valuesEmitted) {
-                yield(edgeCases.random(rng))
-                edgeCasesEmitted++
-            } else {
-                yield(randomValues.next())
-            }
-            valuesEmitted++
-        }
-    }
 }
