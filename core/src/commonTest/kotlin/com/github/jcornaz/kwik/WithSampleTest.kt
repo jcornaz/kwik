@@ -2,8 +2,13 @@ package com.github.jcornaz.kwik
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
-class WithSampleTest {
+class WithSampleTest : GeneratorContract() {
+
+    override val generator: Generator<*> =
+        Generator.create { it.nextInt(5, Int.MAX_VALUE) }
+            .withSamples(1, 2, 3, 4)
 
     @Test
     fun startsWithSamples() {
@@ -26,14 +31,23 @@ class WithSampleTest {
 
         assertEquals(40, sampleOccurrenceCount)
     }
+}
+
+class WithNullTest : GeneratorContract() {
+
+    override val generator: Generator<*> =
+        Generator.create { it.nextInt(5, Int.MAX_VALUE) }
+            .withNull()
 
     @Test
-    fun isPredictable() {
-        val generator = Generator.create { it.nextInt() }.withSamples(1, 2, 3, 4)
+    fun startsWithNull() {
+        assertNull(Generator.create { Any() }.withNull().randoms(42).first())
+    }
 
-        val generation1 = generator.randoms(5).take(200).toList()
-        val generation2 = generator.randoms(5).take(200).toList()
+    @Test
+    fun respectGivenRatio() {
+        val values: Sequence<Any?> = Generator.create { Any() }.withNull(ratio = 0.4).randoms(12).take(100)
 
-        assertEquals(generation1, generation2)
+        assertEquals(40, values.count { it == null })
     }
 }
