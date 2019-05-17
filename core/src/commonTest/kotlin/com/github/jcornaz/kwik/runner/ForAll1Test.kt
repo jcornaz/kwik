@@ -1,6 +1,5 @@
 import com.github.jcornaz.kwik.Generator
 import com.github.jcornaz.kwik.forAll
-import com.github.jcornaz.kwik.randomSequence
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -52,24 +51,6 @@ class ForAll1Test {
         }
 
         assertEquals(1, invocations)
-    }
-
-    @Test
-    fun startsWithEdgeCases() {
-        val edgeCases = listOf(1, 2, 3, 4)
-        val generator = object : Generator<Int> {
-            override val edgeCases: List<Int> get() = edgeCases
-            override fun randoms(seed: Long): Sequence<Int> = randomSequence(seed) { 0 }
-        }
-
-        val arguments = mutableListOf<Int>()
-
-        forAll(generator) {
-            arguments += it
-            true
-        }
-
-        assertEquals(edgeCases, arguments.take(4))
     }
 
     @Test

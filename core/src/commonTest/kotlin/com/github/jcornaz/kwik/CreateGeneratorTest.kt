@@ -2,14 +2,8 @@ package com.github.jcornaz.kwik
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 class CreateGeneratorTest {
-
-    @Test
-    fun doNotContainsAnyEdgeCase() {
-        assertTrue(Generator.create { }.edgeCases.isEmpty())
-    }
 
     @Test
     fun isPredictable() {
