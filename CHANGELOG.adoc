@@ -10,3 +10,4 @@ and this project adheres to https://semver.org/spec/v2.0.0.html[Semantic Version
 * `randomSequence` helper to easily create a random (yet predictable) sequence of value
 * `forAll` and `checkForAll` function to assess a property of the system under test.
 * `withSample` and `withNull` to inject constants values to be always tested
+* `zip` operator to combine two given generators
