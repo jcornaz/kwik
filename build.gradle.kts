@@ -1,18 +1,21 @@
 @file:Suppress("UNUSED_VARIABLE")
 
+import com.jfrog.bintray.gradle.BintrayExtension
+import com.jfrog.bintray.gradle.BintrayPlugin
 import io.gitlab.arturbosch.detekt.DetektPlugin
 import io.gitlab.arturbosch.detekt.detekt
 import org.sonarqube.gradle.SonarQubeTask
+import java.util.*
 
 plugins {
+    `maven-publish`
     kotlin("multiplatform") version "1.3.31"
     id("org.ajoberstar.reckon") version "0.10.0"
     id("com.github.ben-manes.versions") version "0.21.0"
     id("io.gitlab.arturbosch.detekt") version "1.0.0-RC14" apply false
     id("org.sonarqube") version "2.7"
+    id("com.jfrog.bintray") version "1.8.4" apply false
 }
-
-group = "com.github.jcornaz.kwik"
 
 reckon {
     scopeFromProp()
@@ -20,6 +23,8 @@ reckon {
 }
 
 allprojects {
+    group = "com.github.jcornaz.kwik"
+
     repositories {
         mavenCentral()
         jcenter()
@@ -29,6 +34,8 @@ allprojects {
 subprojects {
     apply(plugin = "org.jetbrains.kotlin.multiplatform")
     apply<DetektPlugin>()
+    apply<BintrayPlugin>()
+    apply<MavenPublishPlugin>()
 
     kotlin {
         jvm()
@@ -71,6 +78,53 @@ subprojects {
         )
         buildUponDefaultConfig = true
         config = files("$rootDir/detekt-config.yml")
+    }
+
+    publishing {
+        publications.withType<MavenPublication>().apply {
+            val metadata by getting {
+                artifactId = "kwik-${project.name}-common"
+            }
+
+            val jvm by getting {
+                artifactId = "kwik-${project.name}-jvm"
+            }
+        }
+    }
+
+    configure<BintrayExtension> {
+        user = System.getenv("BINTRAY_USER")
+        key = System.getenv("BINTRAY_KEY")
+        publish = true
+
+        with(pkg) {
+            userOrg = "kwik"
+            name = "kwik"
+            repo = when {
+                '+' in project.version.toString() -> "dev"
+                '-' in project.version.toString() -> "beta"
+                else -> "stable"
+            }
+
+            setLicenses("Apache-2.0")
+
+            vcsUrl = "https://github.com/jcornaz/kwik"
+            githubRepo = "jcornaz/kwik"
+
+            with(version) {
+                name = project.version.toString()
+                released = Date().toString()
+                if ('+' !in project.version.toString()) {
+                    vcsTag = project.version.toString()
+                }
+            }
+        }
+
+        setPublications("metadata", "jvm")
+    }
+
+    tasks.named("bintrayUpload") {
+        dependsOn("check")
     }
 }
 

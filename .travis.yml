@@ -17,7 +17,8 @@ before_install:
   - chmod +x gradlew
 
 script:
-  - ./gradlew check sonarqube --no-daemon
+  - if [ "$TRAVIS_BRANCH" = "master" ]; then ./gradlew bintrayUpload sonarqube --no-daemon --no-buid-cache; fi
+  - if [ "$TRAVIS_BRANCH" != "master" ]; then ./gradlew check sonarqube --no-daemon; fi
 
 cache:
   directories:
