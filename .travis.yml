@@ -7,15 +7,12 @@ addons:
 branches:
   only:
     - master
-    - develop
-    - /^release.*$/
 
 jdk:
   - oraclejdk11
 
 script:
-  - if [ "$TRAVIS_BRANCH" = "master" ]; then ./gradlew bintrayUpload sonarqube --no-daemon --no-build-cache; fi
-  - if [ "$TRAVIS_BRANCH" != "master" ]; then ./gradlew check sonarqube --no-daemon; fi
+  - ./travis_script.sh
 
 cache:
   directories:
