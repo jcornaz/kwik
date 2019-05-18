@@ -46,8 +46,9 @@ fun Generator.Companion.floats(
 
     val range = from..until
     val samples = listOf(0f, 1f, -1f).filter { it in range }
+    val generate = create { it.nextFloat() * (until - from) + from }
 
-    return create { it.nextFloat() * (until - from) + from }.withSamples(samples)
+    return if (samples.isEmpty()) generate else generate.withSamples(samples)
 }
 
 /**
@@ -63,8 +64,9 @@ fun Generator.Companion.doubles(
 
     val range = from..until
     val samples = listOf(0.0, 1.0, -1.0).filter { it in range }
+    val generator = create { it.nextDouble(from, until) }
 
-    return create { it.nextDouble(from, until) }.withSamples(samples)
+    return if (samples.isEmpty()) generator else generator.withSamples(samples)
 }
 
 /**
