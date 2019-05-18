@@ -6,7 +6,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class StringGenerator : AbstractGeneratorTest() {
+class StringGeneratorTest : AbstractGeneratorTest() {
     override val generator: Generator<String> = Generator.strings()
 
     @Test

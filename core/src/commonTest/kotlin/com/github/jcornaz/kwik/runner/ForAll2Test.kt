@@ -62,4 +62,12 @@ class ForAll2Test : AbstractRunnerTest() {
 
         assertEquals(pass1, pass2)
     }
+
+    @Test
+    @Suppress("USELESS_IS_CHECK")
+    fun canBeCalledWithoutExplicitGenerator() {
+        forAll { a: Int, b: Long ->
+            a is Int && b is Long
+        }
+    }
 }

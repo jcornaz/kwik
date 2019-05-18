@@ -17,7 +17,7 @@ class CheckForAll1Test : AbstractRunnerTest() {
     fun evaluateForRandomValues() {
         val values = mutableSetOf<Int>()
 
-        checkForAll(testGenerator, seed = 0L) {
+        checkForAll(testGenerator, seed = 0L) { it ->
             values += it
         }
 
@@ -33,14 +33,22 @@ class CheckForAll1Test : AbstractRunnerTest() {
 
         val seed = 123564L
 
-        checkForAll(gen, seed = seed) {
+        checkForAll(gen, seed = seed) { it ->
             pass1 += it
         }
 
-        checkForAll(gen, seed = seed) {
+        checkForAll(gen, seed = seed) { it ->
             pass2 += it
         }
 
         assertEquals(pass1, pass2)
+    }
+
+    @Test
+    @Suppress("USELESS_IS_CHECK")
+    fun canBeCalledWithoutExplicitGenerator() {
+        checkForAll { it: Int ->
+            assertTrue(it is Int)
+        }
     }
 }

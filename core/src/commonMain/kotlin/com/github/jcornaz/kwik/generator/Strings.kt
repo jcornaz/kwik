@@ -3,6 +3,7 @@ package com.github.jcornaz.kwik.generator
 import com.github.jcornaz.kwik.Generator
 import com.github.jcornaz.kwik.withSamples
 
+@Suppress("MagicNumber")
 private val PRINTABLE_CHARACTERS = (32..127).map { it.toChar() }.toSet()
 
 /**

@@ -72,9 +72,7 @@ subprojects {
     detekt {
         input = files(
             "src/commonMain/kotlin",
-            "src/jvmMain/kotlin",
-            "src/commonTest/kotlin",
-            "src/jvmTest/kotlin"
+            "src/jvmMain/kotlin"
         )
         buildUponDefaultConfig = true
         config = files("$rootDir/detekt-config.yml")

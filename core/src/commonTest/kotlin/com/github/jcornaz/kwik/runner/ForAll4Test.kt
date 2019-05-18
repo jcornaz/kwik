@@ -72,5 +72,13 @@ class ForAll4Test : AbstractRunnerTest() {
         assertEquals(pass1, pass2)
     }
 
+    @Test
+    @Suppress("USELESS_IS_CHECK")
+    fun canBeCalledWithoutExplicitGenerator() {
+        forAll { a: Int, b: Long, c: Double, d: Float ->
+            a is Int && b is Long && c is Double && d is Float
+        }
+    }
+
     private data class Input(val a: Int, val b: Double, val c: Long, val d: Float)
 }

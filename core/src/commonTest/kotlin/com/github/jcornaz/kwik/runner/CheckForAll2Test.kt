@@ -45,4 +45,13 @@ class CheckForAll2Test : AbstractRunnerTest() {
 
         assertEquals(pass1, pass2)
     }
+
+    @Test
+    @Suppress("USELESS_IS_CHECK")
+    fun canBeCalledWithoutExplicitGenerator() {
+        checkForAll { a: Int, b: Double ->
+            assertTrue(a is Int)
+            assertTrue(b is Double)
+        }
+    }
 }
