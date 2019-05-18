@@ -4,10 +4,18 @@ import com.github.jcornaz.kwik.AbstractGeneratorTest
 import com.github.jcornaz.kwik.Generator
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
 class IntGeneratorTest : AbstractGeneratorTest() {
     override val generator: Generator<*> = Generator.ints()
+
+    @Test
+    fun failForInvalidRange() {
+        assertFailsWith<IllegalArgumentException> {
+            Generator.ints(3, -2)
+        }
+    }
 
     @Test
     fun produceInsideGivenRange() {

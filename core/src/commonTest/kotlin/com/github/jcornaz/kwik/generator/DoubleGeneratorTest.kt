@@ -4,10 +4,18 @@ import com.github.jcornaz.kwik.AbstractGeneratorTest
 import com.github.jcornaz.kwik.Generator
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
 class DoubleGeneratorTest : AbstractGeneratorTest() {
     override val generator: Generator<*> = Generator.doubles()
+
+    @Test
+    fun failForInvalidRange() {
+        assertFailsWith<IllegalArgumentException> {
+            Generator.doubles(3.0, -2.0)
+        }
+    }
 
     @Test
     fun produceInsideGivenRange() {
