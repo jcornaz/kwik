@@ -5,9 +5,11 @@ The format is based on https://keepachangelog.com/en/1.0.0/[Keep a Changelog], +
 and this project adheres to https://semver.org/spec/v2.0.0.html[Semantic Versioning].
 
 ## Current version
+### Added
+* `ints()`, `longs()`, `floats()`, `doubles()` and `boolean()` generators
+* `map` operator to transform an existing generator
 
 ## [0.1.0-alpha.1](tree/0.1.0-alpha.1)
-
 ### Added
 * `Generator` interface for generating random values
 * `randomSequence` helper to easily create a random (yet predictable) sequence of value
