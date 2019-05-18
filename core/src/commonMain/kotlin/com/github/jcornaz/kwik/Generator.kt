@@ -28,6 +28,17 @@ interface Generator<T> {
         fun <T> create(next: (Random) -> T): Generator<T> = object : Generator<T> {
             override fun randoms(seed: Long): Sequence<T> = randomSequence(seed, next)
         }
+
+        /**
+         * Create a random [Generator] generating values out of the given [samples]
+         */
+        fun <T> of(vararg samples: T): Generator<T> {
+            require(samples.isNotEmpty()) { "No given sample " }
+
+            return object : Generator<T> {
+                override fun randoms(seed: Long): Sequence<T> = randomSequence(seed) { samples.random(it) }
+            }
+        }
     }
 }
 
