@@ -11,7 +11,7 @@ and this project adheres to https://semver.org/spec/v2.0.0.html[Semantic Version
 * `Generator.of()` to create a generate from a finite set of samples
 * `enum()` to create a generator from an enum
 
-## [0.1.0-alpha.1](tree/0.1.0-alpha.1)
+## [0.1.0-alpha.1](https://github.com/jcornaz/kwik/tree/0.1.0-alpha.1)
 ### Added
 * `Generator` interface for generating random values
 * `randomSequence` helper to easily create a random (yet predictable) sequence of value
