@@ -4,7 +4,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
-class WithSampleTest : GeneratorContract() {
+class WithSampleTest : AbstractGeneratorTest() {
 
     override val generator: Generator<*> =
         Generator.create { it.nextInt(5, Int.MAX_VALUE) }
@@ -33,7 +33,7 @@ class WithSampleTest : GeneratorContract() {
     }
 }
 
-class WithNullTest : GeneratorContract() {
+class WithNullTest : AbstractGeneratorTest() {
 
     override val generator: Generator<*> =
         Generator.create { it.nextInt(5, Int.MAX_VALUE) }
