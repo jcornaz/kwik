@@ -102,7 +102,7 @@ subprojects {
             name = "kwik"
             repo = when {
                 '+' in project.version.toString() -> "dev"
-                '-' in project.version.toString() -> "beta"
+                '-' in project.version.toString() -> "preview"
                 else -> "stable"
             }
 
