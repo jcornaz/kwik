@@ -1,11 +1,14 @@
-= Change log
+# Change log
 List of notable changes to this project.
 
 The format is based on https://keepachangelog.com/en/1.0.0/[Keep a Changelog], +
 and this project adheres to https://semver.org/spec/v2.0.0.html[Semantic Versioning].
 
-== link:tree/master[Current version]
-=== Added
+## Current version
+
+## [0.1.0-alpha.1](tree/0.1.0-alpha.1)
+
+### Added
 * `Generator` interface for generating random values
 * `randomSequence` helper to easily create a random (yet predictable) sequence of value
 * `forAll` and `checkForAll` function to assess a property of the system under test.
