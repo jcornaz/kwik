@@ -14,21 +14,21 @@ private val PRINTABLE_CHARACTERS = (32..127).map { it.toChar() }.toSet()
  */
 fun Generator.Companion.strings(
     minLength: Int = 0,
-    maxLength: Int = 200,
+    maxLength: Int = 1000,
     charset: Set<Char> = PRINTABLE_CHARACTERS,
     exclude: Set<Char> = emptySet()
 ): Generator<String> {
     require(minLength >= 0) { "Invalid minLength: $minLength" }
     require(maxLength >= minLength) { "Invalid maxLength: $minLength (minLength=$minLength)" }
 
-    val actualCharset = charset - exclude
+    val characters = (charset - exclude).toList()
 
     val generator = create { rng ->
-        String(CharArray(rng.nextInt(minLength, maxLength + 1)) { actualCharset.random(rng) })
+        String(CharArray(rng.nextInt(minLength, maxLength + 1)) { characters.random(rng) })
     }
 
     val samples = listOf("", " ").filter { string ->
-        string.length in minLength..maxLength && string.all { it in actualCharset }
+        string.length in minLength..maxLength && string.all { it in characters }
     }
 
     return if (samples.isEmpty()) generator else generator.withSamples(samples)

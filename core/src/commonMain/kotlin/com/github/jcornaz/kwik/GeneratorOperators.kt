@@ -26,7 +26,7 @@ private class MergingGenerator<A, B, R>(
     private val transform: (A, B) -> R
 ) : Generator<R> {
     override fun randoms(seed: Long): Sequence<R> =
-        generator1.randoms(seed).zip(generator2.randoms(seed), transform)
+        generator1.randoms(seed).zip(generator2.randoms(seed + 1), transform)
 }
 
 /**
@@ -47,7 +47,7 @@ private class MapGenerator<T, R>(private val source: Generator<T>, private val t
  * @param ratio Ratio of random values which should be picked from the [samples].
  */
 fun <T> Generator<T>.withSamples(vararg samples: T, ratio: Double = DEFAULT_SAMPLE_RATIO): Generator<T> =
-    withSamples(samples.toList(), ratio)
+    withSamples(samples.asList(), ratio)
 
 /**
  * Returns a new generator adding the given [samples] into generated random values.
@@ -57,7 +57,7 @@ fun <T> Generator<T>.withSamples(vararg samples: T, ratio: Double = DEFAULT_SAMP
  * @param ratio Ratio of random values which should be picked from the [samples].
  */
 fun <T> Generator<T>.withSamples(samples: Collection<T>, ratio: Double = DEFAULT_SAMPLE_RATIO): Generator<T> =
-    SampleGenerator(this, samples, ratio)
+    SampleGenerator(this, (samples as? List<T>) ?: samples.toList(), ratio)
 
 /**
  * Returns a new generator adding `null` into generated random values.
@@ -70,10 +70,9 @@ fun <T> Generator<T>.withNull(ratio: Double = DEFAULT_SAMPLE_RATIO): Generator<T
     NullGenerator(this, ratio)
 
 
-
 private class SampleGenerator<T>(
     private val source: Generator<T>,
-    private val samples: Collection<T>,
+    private val samples: List<T>,
     private val ratio: Double
 ) : Generator<T> {
 
@@ -93,7 +92,7 @@ private class NullGenerator<T>(private val source: Generator<T>, private val rat
     override fun randoms(seed: Long): Sequence<T?> = source.randoms(seed).withSamples(listOf(null), ratio, seed)
 }
 
-private fun <T> Sequence<T>.withSamples(samples: Collection<T>, ratio: Double, seed: Long): Sequence<T> {
+private fun <T> Sequence<T>.withSamples(samples: List<T>, ratio: Double, seed: Long): Sequence<T> {
     return samples.asSequence() + sequence {
         val sourceValues = iterator()
         val rng = Random(seed)
