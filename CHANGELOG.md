@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Current version
+### Breaking changes
+* Default generator arguments added in `forAll` and `checkForAll`.
+
 ### Added
 * `ints()`, `longs()`, `floats()`, `doubles()` and `boolean()` generators
 * `map` operator to transform an existing generator
@@ -12,7 +15,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * `enum()` to create a generator from an enum
 * `strings()` to create a String generator
 * `default()` Capable of inferring what generator to return for a given type.
-  Used as a default argument in `forAll` and `checkForAll`.
 
 ## [0.1.0-alpha.1](https://github.com/jcornaz/kwik/tree/0.1.0-alpha.1)
 ### Added
