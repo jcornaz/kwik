@@ -13,8 +13,8 @@ private val PRINTABLE_CHARACTERS = (32..127).map { it.toChar() }.toSet()
  * @param exclude Characters to exclude from generated strings
  */
 fun Generator.Companion.strings(
-    minLength: Int = 0,
-    maxLength: Int = 1000,
+    minLength: Int = DEFAULT_MIN_SIZE,
+    maxLength: Int = DEFAULT_MAX_SIZE,
     charset: Set<Char> = PRINTABLE_CHARACTERS,
     exclude: Set<Char> = emptySet()
 ): Generator<String> {
@@ -24,7 +24,7 @@ fun Generator.Companion.strings(
     val characters = (charset - exclude).toList()
 
     val generator = create { rng ->
-        String(CharArray(rng.nextInt(minLength, maxLength + 1)) { characters.random(rng) })
+        String(CharArray(rng.nextSize(minLength, maxLength)) { characters.random(rng) })
     }
 
     val samples = listOf("", " ").filter { string ->

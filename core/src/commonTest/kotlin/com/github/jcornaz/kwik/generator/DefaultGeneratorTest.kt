@@ -46,9 +46,4 @@ class DefaultGeneratorTest {
     fun generateStrings() {
         assertTrue(Generator.default<String>().randoms(0).first() is String)
     }
-
-    @Test
-    fun generateAny() {
-        assertTrue(Generator.default<Any>().randoms(0).first() is Any)
-    }
 }

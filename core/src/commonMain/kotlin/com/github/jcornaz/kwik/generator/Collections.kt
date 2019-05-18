@@ -4,18 +4,11 @@ import com.github.jcornaz.kwik.Generator
 import com.github.jcornaz.kwik.withSamples
 import kotlin.random.Random
 
-private const val DEFAULT_MIN_SIZE = 0
-private const val DEFAULT_MAX_SIZE = 1000
-
 fun <T> Generator.Companion.lists(
     elementGen: Generator<T>,
     minSize: Int = DEFAULT_MIN_SIZE,
     maxSize: Int = DEFAULT_MAX_SIZE
-): Generator<List<T>> {
-    val generator = ListGenerator(elementGen, minSize, maxSize)
-
-    return if (minSize > 0) generator else generator.withSamples(emptyList<T>())
-}
+): Generator<List<T>> = ListGenerator(elementGen, minSize, maxSize)
 
 inline fun <reified T> Generator.Companion.lists(): Generator<List<T>> = lists(Generator.default())
 
@@ -35,7 +28,7 @@ private class ListGenerator<T>(
         val rng = Random(seed)
 
         while (true) {
-            yield(List(rng.nextInt(minSize, maxSize + 1)) { elements.next() })
+            yield(List(rng.nextSize(minSize, maxSize)) { elements.next() })
         }
     }
 }
@@ -44,11 +37,7 @@ fun <T> Generator.Companion.sets(
     elementGen: Generator<T>,
     minSize: Int = DEFAULT_MIN_SIZE,
     maxSize: Int = DEFAULT_MAX_SIZE
-): Generator<Set<T>> {
-    val generator = SetGenerator(elementGen, minSize, maxSize)
-
-    return if (minSize > 0) generator else generator.withSamples(emptySet<T>())
-}
+): Generator<Set<T>> = SetGenerator(elementGen, minSize, maxSize)
 
 inline fun <reified T> Generator.Companion.sets(): Generator<Set<T>> = sets(Generator.default())
 
@@ -68,7 +57,7 @@ private class SetGenerator<T>(
         val rng = Random(seed)
 
         while (true) {
-            val size = rng.nextInt(minSize, maxSize + 1)
+            val size = rng.nextSize(minSize, maxSize)
             val set = HashSet<T>(size)
 
             repeat(size) {
@@ -93,11 +82,7 @@ fun <K, V> Generator.Companion.maps(
     valueGen: Generator<V>,
     minSize: Int = DEFAULT_MIN_SIZE,
     maxSize: Int = DEFAULT_MAX_SIZE
-): Generator<Map<K, V>> {
-    val generator = MapGenerator(keyGen, valueGen, minSize, maxSize)
-
-    return if (minSize > 0) generator else generator.withSamples(emptyMap())
-}
+): Generator<Map<K, V>> = MapGenerator(keyGen, valueGen, minSize, maxSize)
 
 inline fun <reified K, reified V> Generator.Companion.maps(): Generator<Map<K, V>> =
     maps(Generator.default(), Generator.default())
@@ -120,7 +105,7 @@ private class MapGenerator<K, V>(
         val rng = Random(seed)
 
         while (true) {
-            val size = rng.nextInt(minSize, maxSize + 1)
+            val size = rng.nextSize(minSize, maxSize)
             val map = HashMap<K, V>(size)
 
             repeat(size) {

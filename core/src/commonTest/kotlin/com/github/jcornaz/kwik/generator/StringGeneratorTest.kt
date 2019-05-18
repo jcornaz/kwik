@@ -13,13 +13,11 @@ class StringGeneratorTest : AbstractGeneratorTest() {
     fun generateStringsOfGivenLengthRange() {
         val values = Generator.strings(minLength = 3, maxLength = 12).randoms(-123).take(200)
 
-        values.forEach { println(it.length) }
-
         assertTrue(values.all { it.length in 3..12 })
     }
 
     @Test
-    fun startsWithEmptyAndBlank() {
+    fun containsEmpty() {
         assertEquals(listOf("", " "), Generator.strings().randoms(42).take(2).toList())
     }
 
@@ -31,25 +29,27 @@ class StringGeneratorTest : AbstractGeneratorTest() {
     }
 
     @Test
-    fun generateOfAllLength() {
-        val lengths = IntArray(101)
+    fun generateOfManyLength() {
+        val lengths = mutableSetOf<Int>()
 
-        Generator.strings(maxLength = 100).randoms(42).take(1000)
+        Generator.strings(maxLength = 1000)
+            .randoms(0)
+            .take(1000)
             .forEach {
-                lengths[it.length]++
+                lengths += it.length
             }
 
-        assertTrue(lengths.all { it > 0 })
+        assertTrue(lengths.size > 100)
     }
 
     @Test
     fun generateDifferentValues() {
         val values = mutableSetOf<String>()
 
-        Generator.strings().randoms(42).take(1000).forEach {
+        Generator.strings().randoms(0).take(200).forEach {
             values += it
         }
 
-        assertTrue(values.size > 700)
+        assertTrue(values.size > 100)
     }
 }
