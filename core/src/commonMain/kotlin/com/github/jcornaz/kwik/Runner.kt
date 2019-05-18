@@ -22,6 +22,9 @@ fun <A> checkForAll(
 ) {
     require(iterations > 0) { "Iterations must be > 0, but was: $iterations" }
 
+    println("Iterations: $iterations")
+    println("Seed: $seed")
+
     generator.randoms(seed)
         .take(iterations)
         .forEach(property)
