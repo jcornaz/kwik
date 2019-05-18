@@ -1,8 +1,8 @@
 # Change log
 List of notable changes to this project.
 
-The format is based on https://keepachangelog.com/en/1.0.0/[Keep a Changelog], +
-and this project adheres to https://semver.org/spec/v2.0.0.html[Semantic Versioning].
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Current version
 ### Added
