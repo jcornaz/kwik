@@ -12,7 +12,7 @@ Property-based testing library for Kotlin
 [source,kotlin]
 ----
 repositories {
-    maven { url = uri("https://dl.bintray.com/kwik/dev") }
+    maven { url = uri("https://dl.bintray.com/kwik/preview") }
 }
 
 dependencies {
