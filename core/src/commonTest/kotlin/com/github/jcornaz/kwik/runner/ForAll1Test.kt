@@ -19,7 +19,7 @@ class ForAll1Test : AbstractRunnerTest() {
         var invocations = 0
 
         assertFailsWith<AssertionError> {
-            forAll(testGenerator, iterations = 200) {
+            forAll(testGenerator, iterations = 200) { _ ->
                 invocations++
                 false
             }
@@ -32,7 +32,7 @@ class ForAll1Test : AbstractRunnerTest() {
     fun evaluateForRandomValues() {
         val values = mutableSetOf<Int>()
 
-        forAll(testGenerator, seed = 0L) {
+        forAll(testGenerator, seed = 0L) { it ->
             values += it
             true
         }
@@ -49,17 +49,23 @@ class ForAll1Test : AbstractRunnerTest() {
 
         val seed = 123564L
 
-        forAll(gen, seed = seed) {
+        forAll(gen, seed = seed) { it ->
             pass1 += it
             true
         }
 
-        forAll(gen, seed = seed) {
+        forAll(gen, seed = seed) { it ->
             pass2 += it
             true
         }
 
         assertEquals(pass1, pass2)
+    }
+
+    @Test
+    @Suppress("USELESS_IS_CHECK")
+    fun canBeCalledWithoutExplicitGenerator() {
+        forAll { it: Int -> it is Int }
     }
 }
 
