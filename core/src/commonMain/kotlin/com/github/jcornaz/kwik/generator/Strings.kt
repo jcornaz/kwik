@@ -3,7 +3,7 @@ package com.github.jcornaz.kwik.generator
 import com.github.jcornaz.kwik.Generator
 import com.github.jcornaz.kwik.withSamples
 
-@Suppress("MagicNumber")
+@Suppress("MagicNumber", "TopLevelPropertyNaming")
 private val PRINTABLE_CHARACTERS = (32..127).map { it.toChar() }.toSet()
 
 /**
@@ -13,8 +13,8 @@ private val PRINTABLE_CHARACTERS = (32..127).map { it.toChar() }.toSet()
  * @param exclude Characters to exclude from generated strings
  */
 fun Generator.Companion.strings(
-    minLength: Int = 0,
-    maxLength: Int = 1000,
+    minLength: Int = DEFAULT_MIN_SIZE,
+    maxLength: Int = DEFAULT_MAX_SIZE,
     charset: Set<Char> = PRINTABLE_CHARACTERS,
     exclude: Set<Char> = emptySet()
 ): Generator<String> {
@@ -24,12 +24,10 @@ fun Generator.Companion.strings(
     val characters = (charset - exclude).toList()
 
     val generator = create { rng ->
-        String(CharArray(rng.nextInt(minLength, maxLength + 1)) { characters.random(rng) })
+        String(CharArray(rng.nextSize(minLength, maxLength)) { characters.random(rng) })
     }
 
-    val samples = listOf("", " ").filter { string ->
-        string.length in minLength..maxLength && string.all { it in characters }
-    }
+    val edgeCases = if (' ' in characters && minLength <= 1 && maxLength >= 1) listOf(" ") else emptyList()
 
-    return if (samples.isEmpty()) generator else generator.withSamples(samples)
+    return if (edgeCases.isEmpty()) generator else generator.withSamples(edgeCases)
 }

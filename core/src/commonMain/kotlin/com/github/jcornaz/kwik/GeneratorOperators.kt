@@ -56,7 +56,7 @@ fun <T> Generator<T>.withSamples(vararg samples: T, ratio: Double = DEFAULT_SAMP
  *
  * @param ratio Ratio of random values which should be picked from the [samples].
  */
-fun <T> Generator<T>.withSamples(samples: Collection<T>, ratio: Double = DEFAULT_SAMPLE_RATIO): Generator<T> =
+fun <T> Generator<T>.withSamples(samples: Iterable<T>, ratio: Double = DEFAULT_SAMPLE_RATIO): Generator<T> =
     SampleGenerator(this, (samples as? List<T>) ?: samples.toList(), ratio)
 
 /**

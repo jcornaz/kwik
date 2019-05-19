@@ -9,12 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Default generator arguments added in `forAll` and `checkForAll`.
 
 ### Added
-* `ints()`, `longs()`, `floats()`, `doubles()` and `boolean()` generators
+* `ints`, `longs`, `floats`, `doubles` and `boolean` generators
 * `map` operator to transform an existing generator
 * `Generator.of()` to create a generate from a finite set of samples
-* `enum()` to create a generator from an enum
-* `strings()` to create a String generator
-* `default()` Capable of inferring what generator to return for a given type.
+* `enum` to create a generator from an enum
+* `strings` to create a String generator
+* `default` Capable of inferring what generator to return for a given type.
+* `lists`, `sets` and `maps` generators
 
 ## [0.1.0-alpha.1](https://github.com/jcornaz/kwik/tree/0.1.0-alpha.1)
 ### Added
