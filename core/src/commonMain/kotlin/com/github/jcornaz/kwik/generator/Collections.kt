@@ -1,15 +1,24 @@
 package com.github.jcornaz.kwik.generator
 
 import com.github.jcornaz.kwik.Generator
-import com.github.jcornaz.kwik.withSamples
 import kotlin.random.Random
 
+private const val MAX_EXTRA_ADD_ATTEMPT = 1000
+
+/**
+ * Returns a generator of [List] where sizes are all between [minSize] and [maxSize] (inclusive)
+ *
+ * @param elementGen Generator to use for elements in the list
+ */
 fun <T> Generator.Companion.lists(
     elementGen: Generator<T>,
     minSize: Int = DEFAULT_MIN_SIZE,
     maxSize: Int = DEFAULT_MAX_SIZE
 ): Generator<List<T>> = ListGenerator(elementGen, minSize, maxSize)
 
+/**
+ * Returns a generator of [List] using a default generator for the elements
+ */
 inline fun <reified T> Generator.Companion.lists(): Generator<List<T>> = lists(Generator.default())
 
 private class ListGenerator<T>(
@@ -33,12 +42,22 @@ private class ListGenerator<T>(
     }
 }
 
+/**
+ * Returns a generator of [Set] where sizes are all between [minSize] and [maxSize] (inclusive)
+ *
+ * If the domain of the elements is too small, this generator may fail after too many attempt to create a set of [minSize]
+ *
+ * @param elementGen Generator to use for elements in the set
+ */
 fun <T> Generator.Companion.sets(
     elementGen: Generator<T>,
     minSize: Int = DEFAULT_MIN_SIZE,
     maxSize: Int = DEFAULT_MAX_SIZE
 ): Generator<Set<T>> = SetGenerator(elementGen, minSize, maxSize)
 
+/**
+ * Returns a generator of [Set] using a default generator for the elements
+ */
 inline fun <reified T> Generator.Companion.sets(): Generator<Set<T>> = sets(Generator.default())
 
 private class SetGenerator<T>(
@@ -65,7 +84,7 @@ private class SetGenerator<T>(
             }
 
             var extraAttempt = 0
-            while (set.size < size && extraAttempt < 1000) {
+            while (set.size < size && extraAttempt < MAX_EXTRA_ADD_ATTEMPT) {
                 set += elements.next()
                 ++extraAttempt
             }
@@ -77,6 +96,14 @@ private class SetGenerator<T>(
     }
 }
 
+/**
+ * Returns a generator of [Map] where sizes are all between [minSize] and [maxSize] (inclusive)
+ *
+ * If the domain of the keys is too small, this generator may fail after too many attempt to create a set of [minSize]
+ *
+ * @param keyGen Generator to use for keys in the map
+ * @param valueGen Generator to use for values in the map
+ */
 fun <K, V> Generator.Companion.maps(
     keyGen: Generator<K>,
     valueGen: Generator<V>,
@@ -84,6 +111,9 @@ fun <K, V> Generator.Companion.maps(
     maxSize: Int = DEFAULT_MAX_SIZE
 ): Generator<Map<K, V>> = MapGenerator(keyGen, valueGen, minSize, maxSize)
 
+/**
+ * Returns a generator of [Map] using a default generator for the elements
+ */
 inline fun <reified K, reified V> Generator.Companion.maps(): Generator<Map<K, V>> =
     maps(Generator.default(), Generator.default())
 
@@ -113,7 +143,7 @@ private class MapGenerator<K, V>(
             }
 
             var extraAttempt = 0
-            while (map.size < size && extraAttempt < 1000) {
+            while (map.size < size && extraAttempt < MAX_EXTRA_ADD_ATTEMPT) {
                 map[keys.next()] = values.next()
                 ++extraAttempt
             }

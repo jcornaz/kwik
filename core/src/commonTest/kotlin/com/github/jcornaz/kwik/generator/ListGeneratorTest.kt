@@ -31,14 +31,14 @@ class ListGeneratorTest : AbstractGeneratorTest() {
     fun generateOfManySize() {
         val sizes = mutableSetOf<Int>()
 
-        Generator.lists(Generator.ints(), maxSize = 1000)
+        Generator.lists(Generator.ints())
             .randoms(0)
-            .take(1000)
+            .take(200)
             .forEach {
                 sizes += it.size
             }
 
-        assertTrue(sizes.size > 100)
+        assertTrue(sizes.size > 60)
     }
 
     @Test

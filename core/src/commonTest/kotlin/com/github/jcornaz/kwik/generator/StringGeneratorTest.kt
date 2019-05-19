@@ -3,7 +3,6 @@ package com.github.jcornaz.kwik.generator
 import com.github.jcornaz.kwik.AbstractGeneratorTest
 import com.github.jcornaz.kwik.Generator
 import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class StringGeneratorTest : AbstractGeneratorTest() {
@@ -11,19 +10,24 @@ class StringGeneratorTest : AbstractGeneratorTest() {
 
     @Test
     fun generateStringsOfGivenLengthRange() {
-        val values = Generator.strings(minLength = 3, maxLength = 12).randoms(-123).take(200)
+        val values = Generator.strings(minLength = 3, maxLength = 12).randoms(0).take(200)
 
         assertTrue(values.all { it.length in 3..12 })
     }
 
     @Test
-    fun containsEmpty() {
-        assertEquals(listOf("", " "), Generator.strings().randoms(42).take(2).toList())
+    fun generateEmpty() {
+        assertTrue(Generator.strings().randoms(0).take(200).any { it.isEmpty() })
+    }
+
+    @Test
+    fun generateBlank() {
+        assertTrue(Generator.strings().randoms(0).take(200).any { it.isNotEmpty() && it.isBlank() })
     }
 
     @Test
     fun dontGenerateExcludedChars() {
-        val values = Generator.strings(exclude = setOf('a', 'b', 'c')).randoms(42).take(1000)
+        val values = Generator.strings(exclude = setOf('a', 'b', 'c')).randoms(0).take(1000)
 
         assertTrue(values.none { string -> string.any { it == 'a' || it == 'b' || it == 'c' } })
     }

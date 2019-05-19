@@ -3,6 +3,7 @@ package com.github.jcornaz.kwik.generator
 import com.github.jcornaz.kwik.AbstractGeneratorTest
 import com.github.jcornaz.kwik.Generator
 import kotlin.test.Test
+import kotlin.test.assertFails
 import kotlin.test.assertTrue
 
 class MapGeneratorTest : AbstractGeneratorTest() {
@@ -31,14 +32,14 @@ class MapGeneratorTest : AbstractGeneratorTest() {
     fun generateOfManySize() {
         val sizes = mutableSetOf<Int>()
 
-        Generator.maps(Generator.ints(), Generator.doubles(), maxSize = 1000)
+        Generator.maps(Generator.ints(), Generator.doubles())
             .randoms(0)
             .take(200)
             .forEach {
                 sizes += it.size
             }
 
-        assertTrue(sizes.size > 100)
+        assertTrue(sizes.size > 60)
     }
 
     @Test
@@ -50,5 +51,15 @@ class MapGeneratorTest : AbstractGeneratorTest() {
         }
 
         assertTrue(values.size > 100)
+    }
+
+
+    @Test
+    fun failsWhenMinSizeIsNotPossible() {
+        val keyGenerator = Generator.create { it.nextInt(0, 3) }
+
+        assertFails {
+            Generator.maps(keyGenerator, Generator.ints(), minSize = 4).randoms(0).first()
+        }
     }
 }
