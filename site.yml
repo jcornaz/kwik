@@ -1,5 +1,7 @@
 site:
   title: Kwik
+  url: https://jcornaz.github.io/kwik
+  start_page: 0.1@kwik::getting-started.adoc
 
 content:
   sources:

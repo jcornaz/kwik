@@ -166,4 +166,14 @@ tasks {
             dependsOn("${it.path}:detekt")
         }
     }
+
+    val buildDoc by registering(Exec::class) {
+        workingDir = rootDir
+
+        commandLine("build_site.bat")
+    }
+
+    val gitPublishPush by existing {
+        dependsOn(buildDoc)
+    }
 }

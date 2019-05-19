@@ -1,0 +1,29 @@
+= Kwik
+
+Kwik is a property-based testing library for Kotlin.
+
+.Main features
+* Test-engine agnostic (Mix property-based tests with example-based tests written for the engine of your choice)
+* Multiplatform
+* No reflection (better compile-time feedback and faster runtime)
+* Configurable built-in generators
+* Easy way to create and combine generators
+
+== Status
+
+The project is incubating and its API may change in the future.
+
+Please give it a try and give feed back in the link:https://github.com/jcornaz/kwik/issues[issues].
+
+== Motivation
+
+Property based testing is great and very powerful. But despite the fact that many good libraries already exist,
+none of them fully fit my needs.
+
+.The existing alernatives often:
+* Are bound to a specific test-engine
+* Can only be used in Java module (not in Koltin multiplatform modules)
+* Relies on reflection, making them slower then it could be and make some error detectable only at runtime
+* Some of them also force the user to add unwanted dependencies in his/her classpath
+
+xref:getting-started.adoc[Get started]
