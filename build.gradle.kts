@@ -15,6 +15,7 @@ plugins {
     id("io.gitlab.arturbosch.detekt") version "1.0.0-RC14" apply false
     id("org.sonarqube") version "2.7"
     id("com.jfrog.bintray") version "1.8.4" apply false
+    id("org.ajoberstar.git-publish") version "2.1.1"
 }
 
 reckon {
@@ -48,6 +49,8 @@ subprojects {
             }
 
             commonTest {
+                kotlin.srcDir("$rootDir/docs/modules/ROOT/examples")
+
                 dependencies {
                     api(kotlin("test-common"))
                     api(kotlin("test-annotations-common"))
@@ -138,6 +141,16 @@ sonarqube {
 
         property("sonar.kotlin.detekt.reportPaths", "build/reports/detekt/detekt.xml")
         property("sonar.coverage.exclusions", "**/commonMain/**")
+    }
+}
+
+gitPublish {
+    repoUri.set("git@github.com:jcornaz/kwik.git")
+
+    branch.set("gh-pages")
+
+    contents {
+        from("build/site")
     }
 }
 

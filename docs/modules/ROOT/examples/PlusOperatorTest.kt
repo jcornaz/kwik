@@ -1,11 +1,10 @@
-package com.github.jcornaz.kwik.example
-
 import com.github.jcornaz.kwik.Generator
 import com.github.jcornaz.kwik.forAll
 import com.github.jcornaz.kwik.generator.ints
 import com.github.jcornaz.kwik.zip
 import kotlin.test.Test
 
+// tag::test[]
 class PlusOperatorTest {
 
     // Default config and generators
@@ -28,8 +27,8 @@ class PlusOperatorTest {
 
     // Configure or use a custom generator
     @Test
-    fun addNegativeSubtracts() = forAll(Generator.ints(min = 0), Generator.ints(max = 0)) { x, y ->
-        x + y <= x
+    fun addNegativeSubtracts() = forAll(Generator.ints(min = 0), Generator.ints(max = -1)) { x, y ->
+        x + y < x
     }
 
     // Create a custom generator
@@ -38,5 +37,6 @@ class PlusOperatorTest {
     // Combine generators
     val customGenerator2 = Generator.ints().zip(Generator.ints()) { x, y -> CustomClass(x, y) }
 }
+// end::test[]
 
 data class CustomClass(val x: Int, val y: Int)

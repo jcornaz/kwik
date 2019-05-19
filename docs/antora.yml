@@ -1,0 +1,5 @@
+name: kwik
+title: kwik
+version: '0.1'
+nav:
+  - modules/ROOT/nav.adoc
