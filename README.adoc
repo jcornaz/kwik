@@ -20,6 +20,15 @@ The project is incubating and its API may change in the future.
 
 Please give it a try and give feed back in the link:https://github.com/jcornaz/kwik/issues[issues].
 
+== Usage
+
+.Example with Junit or equivalent
+[source, kotlin]
+---
+include::core/src/commonTest/kotlin/com/github/jcornaz/kwik/example/PlusOperatorTest.kt[tag=plus-operator]
+---
+
+
 == Motivation
 
 Property based testing is great and very powerful. But despite the fact that many good libraries already exist,
@@ -33,7 +42,7 @@ none of them fully fit my needs.
 
 == Installation
 
-Latest version: image:https://api.bintray.com/packages/kwik/preview/kwik/images/download.svg[link="https://bintray.com/kwik/preview/kwik/_latestVersion"]
+image::https://api.bintray.com/packages/kwik/preview/kwik/images/download.svg[link="https://bintray.com/kwik/preview/kwik/_latestVersion"]
 
 1. Add https://dl.bintray.com/kwik/preview to your maven repositories
 2. Add `com.github.jcornaz.kwik:kwik-core-jvm:<version>` as a dependency
