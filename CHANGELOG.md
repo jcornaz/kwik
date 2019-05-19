@@ -4,10 +4,9 @@ List of notable changes to this project.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Current version
-### Breaking changes
-* Default generator arguments added in `forAll` and `checkForAll`.
+## [Unreleased]
 
+## [0.1.0-alpha.2] - 2019-05-19
 ### Added
 * `ints`, `longs`, `floats`, `doubles` and `boolean` generators
 * `map` operator to transform an existing generator
@@ -17,7 +16,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * `default` Capable of inferring what generator to return for a given type.
 * `lists`, `sets` and `maps` generators
 
-## [0.1.0-alpha.1](https://github.com/jcornaz/kwik/tree/0.1.0-alpha.1)
+### Changed
+* Default generator arguments added in `forAll` and `checkForAll`.
+
+### Removed
+* `checkForAll` functions as it was unsafe, allowing to forget assertions without compile-time error.
+
+## [0.1.0-alpha.1] - 2019-05-18
 ### Added
 * `Generator` interface for generating random values
 * `randomSequence` helper to easily create a random (yet predictable) sequence of value
