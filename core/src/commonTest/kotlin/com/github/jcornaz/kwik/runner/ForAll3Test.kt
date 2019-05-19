@@ -1,3 +1,5 @@
+package com.github.jcornaz.kwik.runner
+
 import com.github.jcornaz.kwik.Generator
 import com.github.jcornaz.kwik.forAll
 import com.github.jcornaz.kwik.runner.AbstractRunnerTest
