@@ -25,30 +25,11 @@ Please give it a try and give feed back in the link:https://github.com/jcornaz/k
 Property based testing is great and very powerful. But despite the fact that many good libraries already exist,
 none of them fully fit my needs.
 
-.Here is a review of the existing alternatives:
-* link:https://jqwik.net/[jqwik] and link:https://github.com/pholser/junit-quickcheck[junit-quickcheck]
-    ** :+1: Excellent API
-    ** :+1: Feature rich
-    ** :-1: Tight to test engines (Junit4 for `junit-quickcheck` and `jqwik` needs its own engine)
-    ** :-1: Heavily rely on reflection (Making it slower than it could be and many errors are only reported at runtime)
-    ** :-1: Java library
-        *** Disable some Kotlin powerful features (like null safety)
-        *** Cannot be used in Kotlin Common, JavaScript or Native code
-* link:https://github.com/mike-neck/kuickcheck[kuickcheck]
-    ** :+1: Kotlin API
-    ** :-1: Is a test-engine
-    ** :-1: Rely on reflection (Making it slower than it could be and many errors are only reported at runtime)
-    ** :-1: Api not as safe as it could be
-    ** :-1: Not published, and seems discontinued
-* link:https://github.com/kotlintest/kotlintest[KotlinTest]
-    ** :+1: Safe Kotlin API
-    ** :+1: Not tight to any test-engine
-    ** :-1: Force the user to add unwanted modules into his/her classpath +
-            (namely `kotlintest-assertions`, `kotlin-reflect`, `univocity-parsers` and `diffutils`)
-    ** :-1: Generators are not configurable, making it slow by design
-    ** :-1: Perform too many iterations by default (making tests slow)
-    ** :-1: Cannot be used in Kotlin Common, JavaScript or Native code
-
+.The existing alernatives often:
+* Are bound to a specific test-engine
+* Can only be used in Java module (not in Koltin multiplatform modules)
+* Relies on reflection, making them slower then it could be and make some error detectable only at runtime
+* Some of them also force the user to add unwanted dependencies in his/her classpath
 
 == Installation
 
