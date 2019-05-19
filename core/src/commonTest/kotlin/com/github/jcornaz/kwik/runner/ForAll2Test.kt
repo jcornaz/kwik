@@ -3,7 +3,6 @@ import com.github.jcornaz.kwik.forAll
 import com.github.jcornaz.kwik.runner.AbstractRunnerTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
 class ForAll2Test : AbstractRunnerTest() {
@@ -11,22 +10,8 @@ class ForAll2Test : AbstractRunnerTest() {
     private val testGenerator1 = Generator.create { it.nextInt() }
     private val testGenerator2 = Generator.create { it.nextDouble() }
 
-    override fun evaluate(iterations: Int, seed: Long, invocation: () -> Unit) {
-        forAll(testGenerator1, testGenerator2, iterations, seed) { _, _ -> invocation(); true }
-    }
-
-    @Test
-    fun failFastInCaseOfFalsification() {
-        var invocations = 0
-
-        assertFailsWith<AssertionError> {
-            forAll(testGenerator1, testGenerator2, iterations = 200) { _, _ ->
-                invocations++
-                false
-            }
-        }
-
-        assertEquals(1, invocations)
+    override fun evaluate(iterations: Int, seed: Long, invocation: () -> Boolean) {
+        forAll(testGenerator1, testGenerator2, iterations, seed) { _, _ -> invocation() }
     }
 
     @Test

@@ -7,14 +7,12 @@ import kotlin.test.assertFailsWith
 
 abstract class AbstractRunnerTest {
 
-    abstract fun evaluate(iterations: Int = 200, seed: Long = Random.nextLong(), invocation: () -> Unit)
+    abstract fun evaluate(iterations: Int = 200, seed: Long = Random.nextLong(), invocation: () -> Boolean)
 
     @Test
     fun zeroIterationShouldFail() {
         assertFailsWith<IllegalArgumentException> {
-            evaluate(iterations = 0) {
-                // do nothing
-            }
+            evaluate(iterations = 0) { true }
         }
     }
 
@@ -24,9 +22,24 @@ abstract class AbstractRunnerTest {
 
         evaluate {
             invocations++
+            true
         }
 
         assertEquals(200, invocations)
+    }
+
+    @Test
+    fun failFastInCaseOfFalsification() {
+        var invocations = 0
+
+        assertFailsWith<AssertionError> {
+            evaluate {
+                invocations++
+                false
+            }
+        }
+
+        assertEquals(1, invocations)
     }
 
     @Test
