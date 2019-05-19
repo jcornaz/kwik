@@ -29,3 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * `forAll` and `checkForAll` function to assess a property of the system under test.
 * `withSample` and `withNull` to inject constants values to be always tested
 * `zip` operator to combine two given generators
+
+[Unreleased]: https://github.com/jcornaz/kwik/compare/0.1.0-alpha.2...HEAD
+[0.1.0-alpha.2]: https://github.com/jcornaz/kwik/compare/0.1.0-alpha.1...0.1.0-alpha.2
+[0.1.0-alpha.1]: https://github.com/jcornaz/kwik/tree/0.1.0-alpha.1
