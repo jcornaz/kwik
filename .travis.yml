@@ -12,7 +12,7 @@ jdk:
   - oraclejdk11
 
 script:
-  - ./gradle/travis_script.sh
+  - ./travis_script.sh
 
 cache:
   directories:
