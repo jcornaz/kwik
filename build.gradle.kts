@@ -15,6 +15,7 @@ plugins {
     id("io.gitlab.arturbosch.detekt") version "1.0.0-RC14" apply false
     id("org.sonarqube") version "2.7"
     id("com.jfrog.bintray") version "1.8.4" apply false
+    id("io.github.rwinch.antora") version "0.0.1"
     id("org.ajoberstar.git-publish") version "2.1.1"
 }
 
@@ -167,13 +168,17 @@ tasks {
         }
     }
 
-    val buildDoc by registering(Exec::class) {
-        workingDir = rootDir
+    val buildDoc by registering(Task::class) {
+        dependsOn("antora")
 
-        commandLine("build_site.bat")
+        doLast {
+            File("${rootProject.buildDir}/site/.nojekyll").apply {
+                if (!exists()) createNewFile()
+            }
+        }
     }
 
-    val gitPublishPush by existing {
+    val gitPublishCopy by existing {
         dependsOn(buildDoc)
     }
 }
