@@ -10,13 +10,13 @@ image:https://img.shields.io/badge/dynamic/json.svg?color=blue&label=dev&query=n
 Property-based testing library for Kotlin.
 
 .Main features
-* Test-engine agnostic (Mix property-based tests with example-based tests written for the engine of your choice)
+* Test-engine agnostic (Mix properties with examples in the engine of your choice)
 * Multiplatform
-* No reflection (better compile-time feedback and faster runtime)
+* No reflection (better compile-time feedback and faster to execute)
 * Configurable built-in generators
 * Easy way to create and combine generators
 
-Have a look at the link:https://jcornaz.github.io/kwik/index.html[documentation]
+Have a look at the link:https://jcornaz.github.io/kwik/index.html[documentation] (Work in progress)
 
 == Status
 
