@@ -53,7 +53,7 @@ inline fun <reified A, reified B> forAll(
     seed: Long = Random.nextLong(),
     property: (A, B) -> Boolean
 ) {
-    forAll(generatorA zip generatorB, iterations, seed) { (a, b) ->
+    forAll(generatorA.combineWith(generatorB), iterations, seed) { (a, b) ->
         property(a, b)
     }
 }
@@ -77,7 +77,7 @@ inline fun <reified A, reified B, reified C> forAll(
     seed: Long = Random.nextLong(),
     property: (A, B, C) -> Boolean
 ) {
-    forAll(generatorA zip generatorB, generatorC, iterations, seed) { (a, b), c ->
+    forAll(generatorA.combineWith(generatorB), generatorC, iterations, seed) { (a, b), c ->
         property(a, b, c)
     }
 }
@@ -103,8 +103,8 @@ inline fun <reified A, reified B, reified C, reified D> forAll(
     property: (A, B, C, D) -> Boolean
 ) {
     forAll(
-        generatorA = generatorA zip generatorB,
-        generatorB = generatorC zip generatorD,
+        generatorA = generatorA.combineWith(generatorB),
+        generatorB = generatorC.combineWith(generatorD),
         iterations = iterations,
         seed = seed
     ) { (a, b), (c, d) ->

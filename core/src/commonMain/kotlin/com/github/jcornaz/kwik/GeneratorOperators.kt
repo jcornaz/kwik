@@ -8,7 +8,7 @@ private const val DEFAULT_SAMPLE_RATIO = 0.2
  * Returns a generator of values built from the elements of `this` generator and the [other] generator
  * using the provided [transform] function applied to each pair of elements.
  */
-fun <A, B, R> Generator<A>.zip(
+fun <A, B, R> Generator<A>.combineWith(
     other: Generator<B>,
     transform: (A, B) -> R
 ): Generator<R> = MergingGenerator(this, other, transform)
@@ -16,9 +16,27 @@ fun <A, B, R> Generator<A>.zip(
 /**
  * Returns a generator of values built from the elements of `this` generator and the [other] generator
  */
-infix fun <A, B> Generator<A>.zip(
+fun <A, B> Generator<A>.combineWith(
     other: Generator<B>
-): Generator<Pair<A, B>> = MergingGenerator(this, other) { a, b -> a to b }
+): Generator<Pair<A, B>> = MergingGenerator(this, other, ::Pair)
+
+/**
+ * Returns a generator of values built from the elements of [generator1] and [generator2]
+ * using the provided [transform] function applied to each pair of elements.
+ */
+fun <A, B, R> Generator.Companion.combine(
+    generator1: Generator<A>,
+    generator2: Generator<B>,
+    transform: (A, B) -> R
+): Generator<R> = MergingGenerator(generator1, generator2, transform)
+
+/**
+ * Returns a generator of values built from the elements of [generator1] and [generator2]
+ */
+fun <A, B> Generator.Companion.combine(
+    generator1: Generator<A>,
+    generator2: Generator<B>
+): Generator<Pair<A, B>> = MergingGenerator(generator1, generator2, ::Pair)
 
 private class MergingGenerator<A, B, R>(
     private val generator1: Generator<A>,

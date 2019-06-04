@@ -4,7 +4,14 @@ List of notable changes to this project.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+**Breaking changes are written in bold**
+
 ## [Unreleased]
+### Added 
+* `Generator.combine` as a style alternative to combine generators
+
+### Changed
+* **`zip` operator renamed to `combineWith` for better clarity and discoverability**
 
 ## [0.1.0-alpha.2] - 2019-05-19
 ### Added
@@ -17,10 +24,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * `lists`, `sets` and `maps` generators
 
 ### Changed
-* Default generator arguments added in `forAll` and `checkForAll`.
+* **Default generator arguments added in `forAll` and `checkForAll`.**
 
 ### Removed
-* `checkForAll` functions as it was unsafe, allowing to forget assertions without compile-time error.
+* **`checkForAll` functions as it was unsafe, allowing to forget assertions without compile-time error.**
 
 ## [0.1.0-alpha.1] - 2019-05-18
 ### Added
