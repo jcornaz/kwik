@@ -74,8 +74,12 @@ fun <T> Generator<T>.withSamples(vararg samples: T, ratio: Double = DEFAULT_SAMP
  *
  * @param ratio Ratio of random values which should be picked from the [samples].
  */
-fun <T> Generator<T>.withSamples(samples: Iterable<T>, ratio: Double = DEFAULT_SAMPLE_RATIO): Generator<T> =
-    SampleGenerator(this, (samples as? List<T>) ?: samples.toList(), ratio)
+fun <T> Generator<T>.withSamples(samples: Iterable<T>, ratio: Double = DEFAULT_SAMPLE_RATIO): Generator<T> {
+    val sampleList = (samples as? List<T>) ?: samples.toList()
+    if (sampleList.isEmpty()) return this
+
+    return SampleGenerator(this, sampleList, ratio)
+}
 
 /**
  * Returns a new generator adding `null` into generated random values.

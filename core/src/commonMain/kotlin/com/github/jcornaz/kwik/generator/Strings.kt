@@ -29,5 +29,5 @@ fun Generator.Companion.strings(
 
     val edgeCases = if (' ' in characters && minLength <= 1 && maxLength >= 1) listOf(" ") else emptyList()
 
-    return if (edgeCases.isEmpty()) generator else generator.withSamples(edgeCases)
+    return generator.withSamples(edgeCases)
 }

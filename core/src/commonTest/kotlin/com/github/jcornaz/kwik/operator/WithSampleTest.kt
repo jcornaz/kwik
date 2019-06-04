@@ -7,6 +7,7 @@ import com.github.jcornaz.kwik.withSamples
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
+import kotlin.test.assertSame
 
 class WithSampleTest : AbstractGeneratorTest() {
 
@@ -34,6 +35,12 @@ class WithSampleTest : AbstractGeneratorTest() {
             .count { it in 1..3 }
 
         assertEquals(40, sampleOccurrenceCount)
+    }
+
+    @Test
+    fun emptyListOfSamplesReturnOriginalGenerator() {
+        val gen = Generator.create { it.nextInt() }
+        assertSame(gen, gen.withSamples())
     }
 }
 
