@@ -50,8 +50,6 @@ subprojects {
             }
 
             commonTest {
-                kotlin.srcDir("$rootDir/docs/modules/ROOT/examples")
-
                 dependencies {
                     api(kotlin("test-common"))
                     api(kotlin("test-annotations-common"))

@@ -1,10 +1,9 @@
 import com.github.jcornaz.kwik.Generator
+import com.github.jcornaz.kwik.combineWith
 import com.github.jcornaz.kwik.forAll
 import com.github.jcornaz.kwik.generator.ints
-import com.github.jcornaz.kwik.combineWith
 import kotlin.test.Test
 
-// tag::test[]
 class PlusOperatorTest {
 
     // Default config and generators
@@ -37,6 +36,5 @@ class PlusOperatorTest {
     // Combine generators
     val customGenerator2 = Generator.ints().combineWith(Generator.ints()) { x, y -> CustomClass(x, y) }
 }
-// end::test[]
 
 data class CustomClass(val x: Int, val y: Int)
