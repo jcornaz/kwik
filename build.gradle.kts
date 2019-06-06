@@ -4,6 +4,7 @@ import com.jfrog.bintray.gradle.BintrayExtension
 import com.jfrog.bintray.gradle.BintrayPlugin
 import io.gitlab.arturbosch.detekt.DetektPlugin
 import io.gitlab.arturbosch.detekt.detekt
+import kr.motd.gradle.sphinx.gradle.SphinxTask
 import org.sonarqube.gradle.SonarQubeTask
 import java.util.*
 
@@ -15,8 +16,7 @@ plugins {
     id("io.gitlab.arturbosch.detekt") version "1.0.0-RC14" apply false
     id("org.sonarqube") version "2.7"
     id("com.jfrog.bintray") version "1.8.4" apply false
-    id("io.github.rwinch.antora") version "0.0.1"
-    id("org.ajoberstar.git-publish") version "2.1.1"
+    id("kr.motd.sphinx") version "2.4.0"
 }
 
 reckon {
@@ -143,16 +143,6 @@ sonarqube {
     }
 }
 
-gitPublish {
-    repoUri.set("git@github.com:jcornaz/kwik.git")
-
-    branch.set("gh-pages")
-
-    contents {
-        from("build/site")
-    }
-}
-
 tasks {
     register("version") {
         doLast {
@@ -166,17 +156,7 @@ tasks {
         }
     }
 
-    val buildDoc by registering(Task::class) {
-        dependsOn("antora")
-
-        doLast {
-            File("${rootProject.buildDir}/site/.nojekyll").apply {
-                if (!exists()) createNewFile()
-            }
-        }
-    }
-
-    val gitPublishCopy by existing {
-        dependsOn(buildDoc)
+    withType<SphinxTask> {
+        setSourceDirectory("$rootDir/docs")
     }
 }
