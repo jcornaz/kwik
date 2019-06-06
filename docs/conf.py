@@ -21,10 +21,6 @@ project = 'Kwik'
 copyright = '2019, Jonathan Cornaz'
 author = 'Jonathan Cornaz'
 
-# The full version, including alpha/beta/rc tags
-release = '0.1.0-alpha'
-
-
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be
