@@ -8,6 +8,7 @@ hs_err_pid*
 .gradle/
 build/
 out/
+docs/_build/
 
 # IDE
 .idea/
