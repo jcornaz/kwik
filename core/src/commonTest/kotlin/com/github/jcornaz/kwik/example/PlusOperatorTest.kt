@@ -61,4 +61,4 @@ class PlusOperatorTest {
 }
 
 data class CustomClass(val x: Int, val y: Int)
-enum class MyEnum
+enum class MyEnum { A, B }
