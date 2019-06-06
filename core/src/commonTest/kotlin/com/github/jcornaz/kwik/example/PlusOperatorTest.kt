@@ -1,40 +1,64 @@
-import com.github.jcornaz.kwik.Generator
-import com.github.jcornaz.kwik.combineWith
-import com.github.jcornaz.kwik.forAll
+import com.github.jcornaz.kwik.*
+import com.github.jcornaz.kwik.generator.enum
 import com.github.jcornaz.kwik.generator.ints
 import kotlin.test.Test
 
 class PlusOperatorTest {
 
-    // Default config and generators
+    //region Default config and generators
     @Test
     fun isCommutative() = forAll { x: Int, y: Int ->
         x + y == y + x
     }
+    //endregion
 
-    // With a given number of iterations
     @Test
-    fun isAssociative() = forAll(iterations = 1000) { x: Int, y: Int, z: Int ->
-        (x + y) + z == x + (y + z)
+    fun isAssociative() {
+        //region With a given number of iterations
+        forAll(iterations = 1000) { x: Int, y: Int, z: Int ->
+            (x + y) + z == x + (y + z)
+        }
+        //endregion
     }
 
-    // Use a seed to get reproducible results (useful when investigating a failure in the CI for instance)
     @Test
-    fun zeroIsNeutral() = forAll(seed = -4567) { x: Int ->
-        x + 0 == x
+    fun zeroIsNeutral() {
+        //region Use a seed to get reproducible results (useful when investigating a failure in the CI for instance)
+        forAll(seed = -4567) { x: Int ->
+            x + 0 == x
+        }
+        //endregion
     }
 
-    // Configure or use a custom generator
     @Test
-    fun addNegativeSubtracts() = forAll(Generator.ints(min = 0), Generator.ints(max = -1)) { x, y ->
-        x + y < x
+    fun addNegativeSubtracts() {
+        //region Configure or use a custom generator
+        forAll(Generator.ints(min = 0), Generator.ints(max = -1)) { x, y ->
+            x + y < x
+        }
+        //endregion
     }
 
-    // Create a custom generator
+    //region Create a custom generator
     val customGenerator1 = Generator.create { rng -> CustomClass(rng.nextInt(), rng.nextInt()) }
+    //endregion
 
-    // Combine generators
-    val customGenerator2 = Generator.ints().combineWith(Generator.ints()) { x, y -> CustomClass(x, y) }
+    //region Create a generator for an enum
+    val enumGenerator = Generator.enum<MyEnum>()
+
+    val finiteValueGenerator = Generator.of("a", "b", "c")
+    //endregion
+
+    //region Combine generators
+    val combinedGenerator = Generator.ints().combineWith(Generator.ints()) { x, y -> CustomClass(x, y) }
+    //endregion
+
+    //region Add samples
+    val generator = Generator.ints().withSamples(13, 42)
+
+    val generatorWithNull = Generator.ints().withNull()
+    //endregion
 }
 
 data class CustomClass(val x: Int, val y: Int)
+enum class MyEnum
