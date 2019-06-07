@@ -16,7 +16,7 @@ Property-based testing library for Kotlin.
 * Configurable built-in generators
 * Easy way to create and combine generators
 
-Have a look at the link:https://jcornaz.github.io/kwik/index.html[documentation] (Work in progress)
+Have a look at the link:https://kwik.readthedocs.io/en/latest[documentation] (Work in progress)
 
 == Status
 
