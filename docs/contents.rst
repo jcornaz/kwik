@@ -6,4 +6,5 @@ Welcome to Kwik's documentation!
 
     setup
     write-tests
+    Github <http://https://github.com/jcornaz/kwik>
     changelog
