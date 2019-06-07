@@ -32,7 +32,7 @@ If the project is for the JVM (Java), you probably want to use Junit_ or Spek_.
 - The available artifact ids are:
     - ``kwik-core-jvm`` for Kotlin/JVM modues
     - ``kwik-core-common`` for Kotlin/Common modules
-- Checkout the list of available versions: https://github.com/jcornaz/kwik/releases
+- Checkout a version from: https://github.com/jcornaz/kwik/releases
 
 **Example:**
 
