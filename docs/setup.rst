@@ -1,7 +1,8 @@
 Setup
 =====
 
-**1. Make sure to setup a test engine**
+Make sure to setup a test engine
+--------------------------------
 
 Kwik is not a test-engine, but only an assertion library.
 
@@ -18,7 +19,8 @@ If the project is for the JVM (Java), you probably want to use Junit_ or Spek_.
 .. _Spek: https://spekframework.org
 .. _kotlintest: https://github.com/kotlintest/kotlintest
 
-**2. Add the required repository to your build system:**
+Add the required repository to your build system
+------------------------------------------------
 
 - Stable versions will published on jcenter_
 - Alpha, beta and release-candidates are published on https://dl.bintray.com/kwik/preview
@@ -26,7 +28,8 @@ If the project is for the JVM (Java), you probably want to use Junit_ or Spek_.
 
 .. _jcenter: https://bintray.com/bintray/jcenter
 
-**3. Add the artifact dependency:**
+Add the artifact dependency
+---------------------------
 
 - The group id is ``com.github.jcornaz.kwik``
 - The available artifact ids are:
@@ -34,7 +37,8 @@ If the project is for the JVM (Java), you probably want to use Junit_ or Spek_.
     - ``kwik-core-common`` for Kotlin/Common modules
 - Checkout a version from: https://github.com/jcornaz/kwik/releases
 
-**Example:**
+Example
+-------
 
 .. code-block:: kotlin
 

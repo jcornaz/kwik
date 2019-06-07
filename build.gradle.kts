@@ -150,6 +150,11 @@ tasks {
         }
     }
 
+    val sphinx by existing {
+        inputs.file("$rootDir/CHANGELOG.rst")
+        inputs.file("$rootDir/README.rst")
+    }
+
     withType<SonarQubeTask> {
         subprojects.forEach {
             dependsOn("${it.path}:detekt")
