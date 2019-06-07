@@ -7,6 +7,7 @@ addons:
 branches:
   only:
     - master
+    - develop
 
 jdk:
   - oraclejdk11

@@ -4,7 +4,7 @@ Write property tests
 Basic usage
 -----------
 
-To evaluate a property one must invoke the function ``forAll`` like this:
+To evaluate a property we must invoke the function ``forAll`` like this:
 
 .. literalinclude:: ../core/src/commonTest/kotlin/com/github/jcornaz/kwik/example/PlusOperatorTest.kt
     :language: kotlin
@@ -15,17 +15,18 @@ To evaluate a property one must invoke the function ``forAll`` like this:
 ``forAll`` Will generate random inputs and evaluate the content of the lambda 200 times.
 If the lambda return false, it will immediately throws an ``AssertionError`` making the test fail.
 
-.. note::
+So the test pass only if the lambda returns true for 200 random inputs.
 
+.. note::
     Kwik can automatically generate values for ``Int``, ``Double``, ``Boolean`` and ``String``.
     For other type we have to `Create a custom generator`_
 
 Choose the number of iterations
 -------------------------------
 
-You may customize the number of iteration by setting the argument ``iteration``.
+By default the property is evaluated 200 times. But we can configure it by setting the argument ``iteration``.
 
-The following property will be evaluated 1000 times:
+For instance, the following property will be evaluated 1000 times:
 
 .. literalinclude:: ../core/src/commonTest/kotlin/com/github/jcornaz/kwik/example/PlusOperatorTest.kt
     :language: kotlin
@@ -39,10 +40,9 @@ Use a seed to get reproducible results
 Because Kwik use random values, it is by definition non-deterministic. But sometimes we do want some determinism.
 Let's say, for instance we observed a failure on the CI server once, how can be sure to reproduce it locally?
 
-To solve this problem, Kwik use seeds. By default a random seed is used, and printed in the console.
-So if you observe a failure in the CI, we simply look at the build-log to see what seed has been used.
-
-Then we can pass the seed to ``forAll`` so that it always pass the same sequence of inputs.
+To solve this problem, Kwik use seeds. By default a random seed is used and printed in the console.
+If we observe a failure in the CI, we simply look at the build-log to see what seed has been used,
+then we can pass the seed to ``forAll`` so that it always test the same inputs.
 
 .. literalinclude:: ../core/src/commonTest/kotlin/com/github/jcornaz/kwik/example/PlusOperatorTest.kt
     :language: kotlin
@@ -53,7 +53,7 @@ Then we can pass the seed to ``forAll`` so that it always pass the same sequence
 Customize generated values
 --------------------------
 
-To have good property tests we have to pass good inputs.
+Random input is good. But sometimes, we need to constraint the range of possible inputs.
 
 That's why the function ``forAll`` accepts *generators*, and all built-in *generators* can be configured.
 
@@ -66,9 +66,9 @@ That's why the function ``forAll`` accepts *generators*, and all built-in *gener
 Create a custom generator
 -------------------------
 
-But what if we want to use types which is not supported by Kwik, like a domain-specific one?
+But what if we want to test with input types which are not supported by Kwik, like domain-specific ones?
 
-For this we can create a generators by implementing the interface ``Generator``.
+For this we can create a generator by implementing the interface ``Generator``.
 
 But most of the time it may be simpler to call ``Generator.create``:
 

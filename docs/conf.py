@@ -50,10 +50,4 @@ html_theme = 'alabaster'
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
-html_context = {
-    "display_github": True,
-    "github_user": "jcornaz",
-    "github_repo": "github",
-    "github_version": "master",
-    "conf_py_path": "/docs/"
-}
+master_doc = 'contents'
