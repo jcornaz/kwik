@@ -22,7 +22,7 @@ If the project is for the JVM (Java), you probably want to use Junit_ or Spek_.
 Add the required repository to your build system
 ------------------------------------------------
 
-- Stable versions will published on jcenter_
+- Stable versions will be published on jcenter_
 - Alpha, beta and release-candidates are published on https://dl.bintray.com/kwik/preview
 - Development artifacts are published on https://dl.bintray.com/kwik/dev
 
@@ -37,15 +37,9 @@ Add the artifact dependency
     - ``kwik-core-common`` for Kotlin/Common modules
 - Checkout a version from: https://github.com/jcornaz/kwik/releases
 
-Example
--------
+Example with gradle
+-------------------
 
-.. code-block:: kotlin
-
-    repositories {
-        maven { url = uri("https://dl.bintray.com/kwik/preview") }
-    }
-
-    dependencies {
-        testCompile("com.github.jcornaz.kwik:kwik-core-jvm:0.1.0-alpha.2")
-    }
+.. include:: ../README.rst
+    :start-after: .. startGradleSetup
+    :end-before: .. endGradleSetup

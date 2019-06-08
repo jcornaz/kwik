@@ -46,12 +46,44 @@ Find more information about setup_ and usage_ on https://kwik.readthedocs.io
 Status
 ------
 
-The project is incubating and its API may change in the future.
+The project is incubating and the API may evolve in the future.
 
 Please give it a try and write a feed back in the issues_ or discuss on gitter_
 
 .. _issues: https://github.com/jcornaz/kwik/issues
 .. _gitter: https://gitter.im/kwik-test/community
+
+How it looks like
+-----------------
+
+.. code-block:: kotlin
+
+    class PlusOperatorTest {
+
+        @Test
+        fun isCommutative() = forAll { x: Int, y: Int ->
+            x + y == y + x
+        }
+
+        @Test
+        fun isAssociative() = forAll(iterations = 1000) { x: Int, y: Int, z: Int ->
+            (x + y) + z == x + (y + z)
+        }
+
+        @Test
+        fun zeroIsNeutral() = forAll(seed = -4567) { x: Int ->
+            x + 0 == x
+        }
+    }
+
+.. startUsageReference
+
+For more information read the usage_ and look at the available generators_
+
+.. _generators: https://kwik.readthedocs.io/en/latest/built-in-generators.html
+
+.. endUsageReference
+
 
 Motivation
 ----------
@@ -65,3 +97,26 @@ The existing alternatives often:
 * Can only be used in Java module (not in Kotlin multiplatform modules)
 * Relies on reflection, making them slower than it could be and make some errors detectable only at runtime
 * Some of them also force the user to add unwanted dependencies in the classpath
+
+Setup
+=====
+
+Example of setup using gradle.
+
+.. startGradleSetup
+.. code-block:: kotlin
+
+    repositories {
+        maven { url = uri("https://dl.bintray.com/kwik/preview") }
+    }
+
+    dependencies {
+        testCompile("com.github.jcornaz.kwik:kwik-core-jvm:0.1.0-alpha.2")
+    }
+.. endGradleSetup
+
+.. startReferenceToSetup
+
+Find more detailed information, read the setup_ instructions.
+
+.. endReferenceToSetup
