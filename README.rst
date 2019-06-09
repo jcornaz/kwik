@@ -90,7 +90,7 @@ none of them fully fit my needs.
 The existing alternatives often:
 
 * Are bound to a specific test-engine
-* Can only be used in Java module (not in Kotlin multiplatform modules)
+* Can only be used in Java module (not in Kotlin multi-platform modules)
 * Relies on reflection, making them slower than it could be and make some errors detectable only at runtime
 * Some of them also force the user to add unwanted dependencies in the classpath
 

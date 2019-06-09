@@ -102,10 +102,6 @@ And since ``null`` is a quite common edge-case, there is a dedicated ``withNull`
     :end-before: //endregion
 
 The generation will always start by emitting the given samples.
-They will also be emitted few times later so that they are tested more often than other arbitrary values.
-
-We can configure how often they have to be emitted with argument ``ratio``,
-corresponding of the requested ratio of sample vs random values.
 
 .. note::
     All built-in generators already have some samples included.

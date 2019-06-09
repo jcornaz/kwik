@@ -4,17 +4,11 @@ Generator operators
 Few operators are available as extension function on ``Generator`` to easily derive existing generators.
 
 
-``withSamples(vararg samples: T, ratio: Int = 0.2)``
-    add the given samples into the generated values
+``withSamples(vararg samples: T)``
+    add the given samples into the generated values, making sure the samples are always tested
 
-    the generated values will start by the samples, and then it will make sure that the ratio of samples/random values
-    stay >= to the given ratio
-
-``withNull(ratio: Int = 0.2)``
-    add ``null`` into the generated values
-
-    the generated values will start by ``null``, and then it will make sure that the ratio of ``null``/random values
-    stay >= to the given ratio
+``withNull()``
+    add ``null`` into the generated values, making sure is is always tested
 
 ``map(transform: (T) -> R)``
     apply a transformation to all elements emitted by the source generator
