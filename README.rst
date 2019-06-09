@@ -95,7 +95,7 @@ The existing alternatives often:
 * Some of them also force the user to add unwanted dependencies in the classpath
 
 Setup
-=====
+-----
 
 Example of setup using gradle.
 

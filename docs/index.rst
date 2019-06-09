@@ -17,5 +17,3 @@ For more information, read the :doc:`setup <setup>`
 
 .. include:: ../README.rst
     :start-after: .. endReferenceToSetup
-
-
