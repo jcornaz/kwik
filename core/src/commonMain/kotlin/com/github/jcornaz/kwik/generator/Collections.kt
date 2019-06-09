@@ -1,6 +1,7 @@
 package com.github.jcornaz.kwik.generator
 
 import com.github.jcornaz.kwik.Generator
+import com.github.jcornaz.kwik.testValues
 import kotlin.random.Random
 
 private const val MAX_EXTRA_ADD_ATTEMPT = 1000
@@ -26,6 +27,13 @@ private class ListGenerator<T>(
     private val minSize: Int,
     private val maxSize: Int
 ) : Generator<List<T>> {
+    override val samples: Set<List<T>> = mutableSetOf<List<T>>().apply {
+        if (minSize == 0) add(emptyList())
+
+        if (minSize <= 1 && maxSize >= 1) {
+            elementGen.samples.forEach { add(listOf(it)) }
+        }
+    }
 
     init {
         require(minSize >= 0) { "Invalid size: $minSize" }
@@ -65,6 +73,14 @@ private class SetGenerator<T>(
     private val minSize: Int,
     private val maxSize: Int
 ) : Generator<Set<T>> {
+
+    override val samples: Set<Set<T>> = mutableSetOf<Set<T>>().apply {
+        if (minSize == 0) add(emptySet())
+
+        if (minSize <= 1 && maxSize >= 1) {
+            elementGen.samples.forEach { add(setOf(it)) }
+        }
+    }
 
     init {
         require(minSize >= 0) { "Invalid size: $minSize" }
@@ -123,6 +139,17 @@ private class MapGenerator<K, V>(
     private val minSize: Int,
     private val maxSize: Int
 ) : Generator<Map<K, V>> {
+
+    override val samples: Set<Map<K, V>> = mutableSetOf<Map<K, V>>().apply {
+        if (minSize == 0) add(emptyMap())
+
+        if (minSize <= 1 && maxSize >= 1) {
+            val values = valueGen.testValues(0).iterator()
+            keyGen.samples.forEach {
+                mapOf(it to values.next())
+            }
+        }
+    }
 
     init {
         require(minSize >= 0) { "Invalid size: $minSize" }

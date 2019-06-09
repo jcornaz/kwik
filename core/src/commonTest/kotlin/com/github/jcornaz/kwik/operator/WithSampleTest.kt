@@ -27,17 +27,6 @@ class WithSampleTest : AbstractGeneratorTest() {
     }
 
     @Test
-    fun respectsGivenRatio() {
-        val sampleOccurrenceCount = Generator.create { it.nextInt(5, Int.MAX_VALUE) }
-            .withSamples(1, 2, 3, ratio = 0.4)
-            .randoms(42)
-            .take(100)
-            .count { it in 1..3 }
-
-        assertEquals(40, sampleOccurrenceCount)
-    }
-
-    @Test
     fun emptyListOfSamplesReturnOriginalGenerator() {
         val gen = Generator.create { it.nextInt() }
         assertSame(gen, gen.withSamples())
@@ -53,12 +42,5 @@ class WithNullTest : AbstractGeneratorTest() {
     @Test
     fun startsWithNull() {
         assertNull(Generator.create { Any() }.withNull().randoms(42).first())
-    }
-
-    @Test
-    fun respectGivenRatio() {
-        val values: Sequence<Any?> = Generator.create { Any() }.withNull(ratio = 0.4).randoms(12).take(100)
-
-        assertEquals(40, values.count { it == null })
     }
 }

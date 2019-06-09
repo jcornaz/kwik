@@ -4,7 +4,7 @@ import com.github.jcornaz.kwik.generator.default
 import kotlin.random.Random
 
 /**
- * Default number of iterations for [forAll] and [checkForAll]
+ * Default number of iterations for [forAll]
  */
 const val FORALL_DEFAULT_ITERATIONS: Int = 200
 
@@ -29,7 +29,7 @@ inline fun <reified A> forAll(
     println("Iterations: $iterations")
     println("Seed: $seed")
 
-    generator.randoms(seed)
+    generator.testValues(seed)
         .take(iterations)
         .forEach {
             if (!property(it)) throw AssertionError("Property falsified with: $it")
