@@ -16,13 +16,17 @@ Added
 .....
 
 * ``filter`` operator for generators
-* **(Breaking)** ``samples`` property to ``Generator`` interface
+* **(Breaking)** ``samples`` property in the ``Generator`` interface to improve management of the value samples (edge-cases)
+* ``forAll`` non-inline function, allowing to hide implementation details.
 
 Changed
 .......
 
-* Renamed arguments ``from`` and ``until`` of ``floats`` and ``doubles`` generators
+* **(Breaking)** Renamed arguments ``from`` and ``until`` of ``floats`` and ``doubles`` generators
   for more consistency with the int and long generators
+* **(Breaking)** Make the lambda of ``forAll`` crossinline, to allow usage of a non-inline function and hide implementation details.
+* Now the size probability for strings an collections generators is similar for all sizes.
+  instead they have empty and singletons instances as samples
 
 Removed
 .......
