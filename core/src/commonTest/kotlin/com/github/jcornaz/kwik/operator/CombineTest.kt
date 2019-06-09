@@ -1,6 +1,8 @@
 package com.github.jcornaz.kwik.operator
 
 import com.github.jcornaz.kwik.*
+import com.github.jcornaz.kwik.generator.doubles
+import com.github.jcornaz.kwik.generator.ints
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -35,6 +37,16 @@ class CombineTest : AbstractGeneratorTest() {
         )
 
         assertEquals(setOf(1 to "one", 1 to "two", 2 to "one", 2 to "two"), gen.samples)
+    }
+
+    @Test
+    fun randomValuesContainsSamples() {
+        val gen = Generator.combine(
+            Generator.ints(min = 3).withSamples(1, 2),
+            Generator.doubles(min = 3.0).withSamples(1.0, 2.0)
+        )
+
+
     }
 }
 

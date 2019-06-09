@@ -24,11 +24,11 @@ class DoubleGeneratorTest : AbstractGeneratorTest() {
 
     @Test
     fun providesSamples() {
-        assertEquals(setOf(0.0, -1.0, 1.0), Generator.doubles().samples)
+        assertEquals(setOf(0.0, -1.0, 1.0, -Double.MAX_VALUE, Double.MAX_VALUE), Generator.doubles().samples)
     }
 
     @Test
     fun samplesAreInRange() {
-        assertEquals(setOf(1.0), Generator.doubles(from = 1.0).samples)
+        assertEquals(setOf(1.0, Double.MAX_VALUE), Generator.doubles(min = 1.0).samples)
     }
 }

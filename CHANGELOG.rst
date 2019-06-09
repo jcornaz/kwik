@@ -16,6 +16,18 @@ Added
 .....
 
 * ``filter`` operator for generators
+* **(Breaking)** ``samples`` property to ``Generator`` interface
+
+Changed
+.......
+
+* Renamed arguments ``from`` and ``until`` of ``floats`` and ``doubles`` generators
+  for more consistency with the int and long generators
+
+Removed
+.......
+
+* **(Breaking)** ``ratio`` argument from the ``withSamples`` and ``withNull`` operators
 
 0.1.0-alpha.3_ - 2019-06-08
 ---------------------------

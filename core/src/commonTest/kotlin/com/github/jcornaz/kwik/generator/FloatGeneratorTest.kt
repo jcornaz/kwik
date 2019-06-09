@@ -2,7 +2,6 @@ package com.github.jcornaz.kwik.generator
 
 import com.github.jcornaz.kwik.AbstractGeneratorTest
 import com.github.jcornaz.kwik.Generator
-import com.github.jcornaz.kwik.testValues
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -25,11 +24,11 @@ class FloatGeneratorTest : AbstractGeneratorTest() {
 
     @Test
     fun providesSamples() {
-        assertEquals(setOf(0f, -1f, 1f), Generator.floats().samples)
+        assertEquals(setOf(0f, -1f, 1f, -Float.MAX_VALUE, Float.MAX_VALUE), Generator.floats().samples)
     }
 
     @Test
     fun samplesAreInRange() {
-        assertEquals(setOf(1f), Generator.floats(from = 1f).samples)
+        assertEquals(setOf(1f, Float.MAX_VALUE), Generator.floats(min = 1f).samples)
     }
 }
