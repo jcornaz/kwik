@@ -58,6 +58,26 @@ private class MapGenerator<T, R>(private val source: Generator<T>, private val t
 }
 
 /**
+ * Returns a generator containing only elements matching the given predicate.
+ *
+ * **Usage of this operator slows down the property tests**
+ * Use it with caution and always favor customizing or creating generators if possible.
+ */
+fun <T> Generator<T>.filter(predicate: (T) -> Boolean): Generator<T> = FilterGenerator(this, predicate)
+
+/**
+ * Returns a generator containing all elements except the ones matching the given predicate.
+ *
+ * **Usage of this operator slows down the property tests**
+ * Use it with caution and always favor customizing or creating generators if possible.
+ */
+fun <T> Generator<T>.filterNot(predicate: (T) -> Boolean): Generator<T> = FilterGenerator(this) { !predicate(it) }
+
+private class FilterGenerator<T>(private val source: Generator<T>, private val predicate: (T) -> Boolean) : Generator<T> {
+    override fun randoms(seed: Long): Sequence<T> = source.randoms(seed).filter(predicate)
+}
+
+/**
  * Returns a new generator adding the given [samples] into generated random values.
  *
  * The "random" values always start by the given [samples] so that they always appear at least once.
