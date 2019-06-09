@@ -8,5 +8,6 @@ Welcome to Kwik's documentation!
     setup
     write-tests
     built-in-generators
+    operators
     Github <https://github.com/jcornaz/kwik>
     changelog

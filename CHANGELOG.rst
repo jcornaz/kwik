@@ -12,6 +12,11 @@ and this project adheres to `Semantic Versioning`_.
 Unreleased_
 -----------
 
+Added
+.....
+
+* ``filter`` operator for generators
+
 0.1.0-alpha.3_ - 2019-06-08
 ---------------------------
 
