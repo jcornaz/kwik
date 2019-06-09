@@ -23,9 +23,9 @@ class IntGeneratorTest : AbstractGeneratorTest() {
     }
 
     @Test
-    fun startsWithEdgeCases() {
-        val edgeCases = Generator.ints().randoms(42).take(5).toSet()
+    fun startsWithSamples() {
+        val samples = Generator.ints().randoms(42).take(5).toSet()
 
-        assertEquals(setOf(Int.MIN_VALUE, Int.MAX_VALUE, -1, 0, 1), edgeCases)
+        assertEquals(setOf(Int.MIN_VALUE, Int.MAX_VALUE, -1, 0, 1), samples)
     }
 }

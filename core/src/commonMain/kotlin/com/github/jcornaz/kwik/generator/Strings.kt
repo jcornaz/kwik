@@ -27,7 +27,7 @@ fun Generator.Companion.strings(
         String(CharArray(rng.nextSize(minLength, maxLength)) { characters.random(rng) })
     }
 
-    val edgeCases = if (' ' in characters && minLength <= 1 && maxLength >= 1) listOf(" ") else emptyList()
+    val samples = if (' ' in characters && minLength <= 1 && maxLength >= 1) listOf(" ") else emptyList()
 
-    return generator.withSamples(edgeCases)
+    return generator.withSamples(samples)
 }

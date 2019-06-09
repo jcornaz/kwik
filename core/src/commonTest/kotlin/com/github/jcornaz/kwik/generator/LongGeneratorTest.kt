@@ -23,9 +23,9 @@ class LongGeneratorTest : AbstractGeneratorTest() {
     }
 
     @Test
-    fun startsWithEdgeCases() {
-        val edgeCases = Generator.longs().randoms(42).take(5).toSet()
+    fun startsWithSamples() {
+        val samples = Generator.longs().randoms(42).take(5).toSet()
 
-        assertEquals(setOf(Long.MIN_VALUE, Long.MAX_VALUE, -1, 0, 1), edgeCases)
+        assertEquals(setOf(Long.MIN_VALUE, Long.MAX_VALUE, -1, 0, 1), samples)
     }
 }

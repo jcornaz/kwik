@@ -23,9 +23,9 @@ class DoubleGeneratorTest : AbstractGeneratorTest() {
     }
 
     @Test
-    fun startsWithEdgeCases() {
-        val edgeCases = Generator.doubles().randoms(42).take(3).toSet()
+    fun startsWithSamples() {
+        val samples = Generator.doubles().randoms(42).take(3).toSet()
 
-        assertEquals(setOf(0.0, -1.0, 1.0), edgeCases)
+        assertEquals(setOf(0.0, -1.0, 1.0), samples)
     }
 }

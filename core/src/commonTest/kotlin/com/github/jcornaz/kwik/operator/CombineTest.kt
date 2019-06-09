@@ -1,10 +1,8 @@
 package com.github.jcornaz.kwik.operator
 
-import com.github.jcornaz.kwik.AbstractGeneratorTest
-import com.github.jcornaz.kwik.Generator
-import com.github.jcornaz.kwik.combine
-import com.github.jcornaz.kwik.combineWith
+import com.github.jcornaz.kwik.*
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class CombineTest : AbstractGeneratorTest() {
@@ -28,6 +26,16 @@ class CombineTest : AbstractGeneratorTest() {
 
         assertTrue(gen.randoms(123).take(200).count { (a, b) -> a != b } > 150)
     }
+
+    @Test
+    fun combineSamples() {
+        val gen = Generator.combine(
+            Generator.create { it.nextInt() }.withSamples(1, 2),
+            Generator.create { it.nextInt().toString() }.withSamples("one", "two")
+        )
+
+        assertEquals(setOf(1 to "one", 1 to "two", 2 to "one", 2 to "two"), gen.samples)
+    }
 }
 
 class CombineWithTransformTest : AbstractGeneratorTest() {
@@ -47,10 +55,27 @@ class CombineWithTransformTest : AbstractGeneratorTest() {
     fun combineDifferentValues() {
         val gen = Generator.combine(
             Generator.create { it.nextInt() },
-            Generator.create { it.nextInt() }
-        ) { a, b -> a to b }
+            Generator.create { it.nextDouble() }
+        ) { a, b -> CombinedValues(a, b) }
 
-        assertTrue(gen.randoms(123).take(200).count { (a, b) -> a != b } > 150)
+        assertTrue(gen.randoms(0).take(200).count { (a, b) -> a != b.toInt() } > 150)
+    }
+
+    @Test
+    fun combineSamples() {
+        val gen = Generator.combine(
+            Generator.create { it.nextInt() },
+            Generator.create { it.nextDouble() }
+        ) { a, b -> CombinedValues(a, b) }
+
+        assertEquals(
+            setOf(
+                CombinedValues(1, 3.0),
+                CombinedValues(1, 4.0),
+                CombinedValues(2, 3.0),
+                CombinedValues(2, 4.0)
+            ), gen.samples
+        )
     }
 
     private data class CombinedValues(val x: Int, val y: Double)
@@ -72,6 +97,14 @@ class CombineWithTest : AbstractGeneratorTest() {
 
         assertTrue(gen.randoms(123).take(200).count { (a, b) -> a != b } > 150)
     }
+
+    @Test
+    fun combineSamples() {
+        val gen = Generator.create { it.nextInt() }.withSamples(1, 2)
+            .combineWith(Generator.create { it.nextInt().toString() }.withSamples("one", "two"))
+
+        assertEquals(setOf(1 to "one", 1 to "two", 2 to "one", 2 to "two"), gen.samples)
+    }
 }
 
 class ZipWithTransformTest : AbstractGeneratorTest() {
@@ -91,6 +124,23 @@ class ZipWithTransformTest : AbstractGeneratorTest() {
             .combineWith(Generator.create { it.nextInt() }) { a, b -> a to b }
 
         assertTrue(gen.randoms(123).take(200).count { (a, b) -> a != b } > 150)
+    }
+
+    @Test
+    fun combineSamples() {
+        val gen = Generator.create { it.nextInt() }
+            .combineWith(Generator.create { it.nextDouble() }) { a, b ->
+                CombinedValues(a, b)
+            }
+
+        assertEquals(
+            setOf(
+                CombinedValues(1, 3.0),
+                CombinedValues(1, 4.0),
+                CombinedValues(2, 3.0),
+                CombinedValues(2, 4.0)
+            ), gen.samples
+        )
     }
 
     private data class CombinedValues(val x: Int, val y: Double)

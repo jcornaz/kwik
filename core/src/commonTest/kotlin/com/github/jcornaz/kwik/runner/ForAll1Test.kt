@@ -2,6 +2,7 @@ package com.github.jcornaz.kwik.runner
 
 import com.github.jcornaz.kwik.Generator
 import com.github.jcornaz.kwik.forAll
+import com.github.jcornaz.kwik.withSamples
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -12,6 +13,21 @@ class ForAll1Test : AbstractRunnerTest() {
 
     override fun evaluate(iterations: Int, seed: Long, invocation: () -> Boolean) {
         forAll(testGenerator, iterations, seed) { invocation() }
+    }
+
+    @Test
+    fun evaluateSamples() {
+        val values = mutableSetOf<Int>()
+
+        val gen = Generator.create { it.nextInt(0, 10) }.withSamples(42, 100)
+        
+        forAll<Int>(gen) {
+            values += it
+            true
+        }
+
+        assertTrue(42 in values)
+        assertTrue(100 in values)
     }
 
     @Test

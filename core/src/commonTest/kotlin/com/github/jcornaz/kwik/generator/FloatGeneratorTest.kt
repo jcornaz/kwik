@@ -23,9 +23,9 @@ class FloatGeneratorTest : AbstractGeneratorTest() {
     }
 
     @Test
-    fun startsWithEdgeCases() {
-        val edgeCases = Generator.floats().randoms(42).take(3).toSet()
+    fun startsSamples() {
+        val samples = Generator.floats().randoms(42).take(3).toSet()
 
-        assertEquals(setOf(0f, -1f, 1f), edgeCases)
+        assertEquals(setOf(0f, -1f, 1f), samples)
     }
 }

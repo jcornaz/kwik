@@ -16,14 +16,11 @@ class WithSampleTest : AbstractGeneratorTest() {
             .withSamples(1, 2, 3, 4)
 
     @Test
-    fun startsWithSamples() {
-        val firstValues = Generator.create { it.nextInt(5, Int.MAX_VALUE) }
+    fun hasSamples() {
+        val generator = Generator.create { it.nextInt(5, Int.MAX_VALUE) }
             .withSamples(1, 2, 3, 4)
-            .randoms(42)
-            .take(4)
-            .toList()
 
-        assertEquals(listOf(1, 2, 3, 4), firstValues)
+        assertEquals(setOf(1, 2, 3, 4), generator.samples)
     }
 
     @Test
