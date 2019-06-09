@@ -115,16 +115,15 @@ fun <T> Generator<T>.withSamples(samples: Iterable<T>): Generator<T> {
 fun <T> Generator<T>.withNull(): Generator<T?> =
     NullGenerator(this)
 
-
 private class SampleGenerator<T>(
     private val source: Generator<T>,
-    samples: List<T>
+    samples: Iterable<T>
 ) : Generator<T> {
 
     override val samples: Set<T> = source.samples + samples
 
     init {
-        require(samples.isNotEmpty()) { "No sample provided" }
+        require(this.samples.isNotEmpty()) { "No sample provided" }
     }
 
     override fun randoms(seed: Long): Sequence<T> = source.randoms(seed)

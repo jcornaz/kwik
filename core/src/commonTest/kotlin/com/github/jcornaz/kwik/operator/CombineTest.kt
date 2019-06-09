@@ -107,7 +107,7 @@ class CombineWithTest : AbstractGeneratorTest() {
     }
 }
 
-class ZipWithTransformTest : AbstractGeneratorTest() {
+class CombineWithWithTransformTest : AbstractGeneratorTest() {
 
     override val generator: Generator<*> =
         Generator.create { it.nextInt() }

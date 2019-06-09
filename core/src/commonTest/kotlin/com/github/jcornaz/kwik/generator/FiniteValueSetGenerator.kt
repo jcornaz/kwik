@@ -6,7 +6,7 @@ import kotlin.test.Test
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
-class SampleGeneratorTest : AbstractGeneratorTest() {
+class FiniteValueSetGenerator : AbstractGeneratorTest() {
     override val generator: Generator<Int> = Generator.of(0, 1, 2, 3, 4)
 
     @Test
@@ -28,5 +28,10 @@ class SampleGeneratorTest : AbstractGeneratorTest() {
         }
 
         assertTrue(counts.all { it in 1800..2200 })
+    }
+
+    @Test
+    fun provideNoSamples() {
+        assertTrue(generator.samples.isEmpty())
     }
 }

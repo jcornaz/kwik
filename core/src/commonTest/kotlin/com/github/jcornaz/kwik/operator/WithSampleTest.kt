@@ -37,7 +37,7 @@ class WithNullTest : AbstractGeneratorTest() {
             .withNull()
 
     @Test
-    fun startsWithNull() {
-        assertNull(Generator.create { Any() }.withNull().randoms(42).first())
+    fun samplesContainsNull() {
+        assertNull(Generator.create { Any() }.withNull().samples.any { it == null })
     }
 }

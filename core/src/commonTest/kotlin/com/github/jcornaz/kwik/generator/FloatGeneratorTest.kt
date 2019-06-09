@@ -2,6 +2,7 @@ package com.github.jcornaz.kwik.generator
 
 import com.github.jcornaz.kwik.AbstractGeneratorTest
 import com.github.jcornaz.kwik.Generator
+import com.github.jcornaz.kwik.testValues
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -19,13 +20,16 @@ class FloatGeneratorTest : AbstractGeneratorTest() {
 
     @Test
     fun produceInsideGivenRange() {
-        assertTrue(Generator.floats(-8f, 14f).randoms(42).take(200).all { it >= -8 && it <= 14 })
+        assertTrue(Generator.floats(-8f, 14f).randoms(0).take(1000).all { it >= -8 && it <= 14 })
     }
 
     @Test
-    fun startsSamples() {
-        val samples = Generator.floats().randoms(42).take(3).toSet()
+    fun providesSamples() {
+        assertEquals(setOf(0f, -1f, 1f), Generator.floats().samples)
+    }
 
-        assertEquals(setOf(0f, -1f, 1f), samples)
+    @Test
+    fun samplesAreInRange() {
+        assertEquals(setOf(1f), Generator.floats(from = 1f).samples)
     }
 }

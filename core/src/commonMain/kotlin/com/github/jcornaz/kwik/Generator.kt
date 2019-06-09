@@ -42,11 +42,7 @@ interface Generator<T> {
         fun <T> of(vararg samples: T): Generator<T> {
             require(samples.isNotEmpty()) { "No given sample " }
 
-            return object : Generator<T> {
-                override val samples: Set<T> = samples.toSet()
-
-                override fun randoms(seed: Long): Sequence<T> = randomSequence(seed) { samples.random(it) }
-            }
+            return create { samples.random(it) }
         }
     }
 }
@@ -56,7 +52,7 @@ interface Generator<T> {
  *
  * Start by the [Generator.samples] before emitting the [Generator.randoms]
  */
-fun <T> Generator<T>.testValues(seed: Long): Sequence<T> =
+internal fun <T> Generator<T>.testValues(seed: Long): Sequence<T> =
     samples.asSequence() + randoms(seed)
 
 /**

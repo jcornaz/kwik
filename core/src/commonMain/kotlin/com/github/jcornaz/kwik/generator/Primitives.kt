@@ -1,6 +1,7 @@
 package com.github.jcornaz.kwik.generator
 
 import com.github.jcornaz.kwik.Generator
+import com.github.jcornaz.kwik.map
 import com.github.jcornaz.kwik.withSamples
 import kotlin.random.nextInt
 import kotlin.random.nextLong
@@ -37,30 +38,27 @@ fun Generator.Companion.longs(min: Long = Long.MIN_VALUE, max: Long = Long.MAX_V
  * Returns a generator of floats, all values being generated between [from] and [until] (exclusive)
  *
  * Few edge cases (namely, -1, 0, 1) are generated more often than the other values
+ *
+ * [from] and [until] must be finite.
  */
 fun Generator.Companion.floats(
-    from: Float = Float.NEGATIVE_INFINITY,
-    until: Float = Float.POSITIVE_INFINITY
-): Generator<Float> {
-    require(until > from) { "Until must be greater than from but from was $from and until was $until" }
-
-    val range = from..until
-    val samples = listOf(0f, 1f, -1f).filter { it in range }
-    val generate = create { it.nextFloat() * (until - from) + from }
-
-    return generate.withSamples(samples)
-}
+    from: Float = -Float.MAX_VALUE,
+    until: Float = Float.MAX_VALUE
+): Generator<Float> = doubles(from.toDouble(), until.toDouble()).map { it.toFloat() }
 
 /**
  * Returns a generator of floats, all values being generated between [from] and [until] (exclusive)
  *
  * Few edge cases (namely, -1, 0, 1) are generated more often than the other values
+ *
+ * [from] and [until] must be finite.
  */
 fun Generator.Companion.doubles(
-    from: Double = Double.NEGATIVE_INFINITY,
-    until: Double = Double.POSITIVE_INFINITY
+    from: Double = -Double.MAX_VALUE,
+    until: Double = Double.MAX_VALUE
 ): Generator<Double> {
     require(until > from) { "Until must be greater than from but from was $from and until was $until" }
+    require(from.isFinite() && until.isFinite()) { "from or until was not finite" }
 
     val range = from..until
     val samples = listOf(0.0, 1.0, -1.0).filter { it in range }

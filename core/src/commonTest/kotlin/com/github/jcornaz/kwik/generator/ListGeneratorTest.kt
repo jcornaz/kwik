@@ -18,13 +18,23 @@ class ListGeneratorTest : AbstractGeneratorTest() {
     }
 
     @Test
-    fun emitsEmptyLists() {
-        assertTrue(Generator.lists<Int>().randoms(0).take(200).any { it.isEmpty() })
+    fun samplesContainsEmpty() {
+        assertTrue(Generator.lists<Int>().samples.any { it.isEmpty() })
     }
 
     @Test
-    fun emitsSingletonsLists() {
-        assertTrue(Generator.lists<Int>().randoms(0).take(200).any { it.size == 1 })
+    fun samplesContainsSingletons() {
+        assertTrue(Generator.lists<Int>().samples.any { it.size == 1 })
+    }
+
+    @Test
+    fun noEmptySampleWhenMinSizeIsGreaterThan0() {
+        assertTrue(Generator.lists(Generator.ints(), minSize = 1).samples.none { it.isEmpty() })
+    }
+
+    @Test
+    fun noSingletonSampleWhenMinSizeIsGreaterThan1() {
+        assertTrue(Generator.lists(Generator.ints(), minSize = 2).samples.none { it.size <= 1 })
     }
 
     @Test
