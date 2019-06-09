@@ -43,7 +43,7 @@ class FilterNotTest : AbstractGeneratorTest() {
     fun filterSamples() {
         val generator = Generator.create { it.nextInt() }
             .withSamples(42, 77)
-            .filter { it < 50 }
+            .filterNot { it < 50 }
 
         assertEquals(setOf(77), generator.samples)
     }

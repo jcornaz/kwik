@@ -6,12 +6,12 @@ import com.github.jcornaz.kwik.withNull
 import com.github.jcornaz.kwik.withSamples
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertNull
 import kotlin.test.assertSame
+import kotlin.test.assertTrue
 
 class WithSampleTest : AbstractGeneratorTest() {
 
-    override val generator: Generator<*> =
+    override val generator: Generator<Int> =
         Generator.create { it.nextInt(5, Int.MAX_VALUE) }
             .withSamples(1, 2, 3, 4)
 
@@ -32,12 +32,11 @@ class WithSampleTest : AbstractGeneratorTest() {
 
 class WithNullTest : AbstractGeneratorTest() {
 
-    override val generator: Generator<*> =
-        Generator.create { it.nextInt(5, Int.MAX_VALUE) }
-            .withNull()
+    override val generator: Generator<Int?> =
+        Generator.create { it.nextInt(5, Int.MAX_VALUE) }.withNull()
 
     @Test
     fun samplesContainsNull() {
-        assertNull(Generator.create { Any() }.withNull().samples.any { it == null })
+        assertTrue(Generator.create { Any() }.withNull().samples.any { it == null })
     }
 }

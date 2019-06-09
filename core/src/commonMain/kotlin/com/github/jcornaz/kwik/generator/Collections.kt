@@ -45,7 +45,7 @@ private class ListGenerator<T>(
         val rng = Random(seed)
 
         while (true) {
-            yield(List(rng.nextSize(minSize, maxSize)) { elements.next() })
+            yield(List(rng.nextInt(minSize, maxSize + 1)) { elements.next() })
         }
     }
 }
@@ -92,7 +92,7 @@ private class SetGenerator<T>(
         val rng = Random(seed)
 
         while (true) {
-            val size = rng.nextSize(minSize, maxSize)
+            val size = rng.nextInt(minSize, maxSize + 1)
             val set = HashSet<T>(size)
 
             repeat(size) {
@@ -146,7 +146,7 @@ private class MapGenerator<K, V>(
         if (minSize <= 1 && maxSize >= 1) {
             val values = valueGen.testValues(0).iterator()
             keyGen.samples.forEach {
-                mapOf(it to values.next())
+                add(mapOf(it to values.next()))
             }
         }
     }
@@ -162,7 +162,7 @@ private class MapGenerator<K, V>(
         val rng = Random(seed)
 
         while (true) {
-            val size = rng.nextSize(minSize, maxSize)
+            val size = rng.nextInt(minSize, maxSize + 1)
             val map = HashMap<K, V>(size)
 
             repeat(size) {

@@ -32,10 +32,11 @@ class ForAll4Test : AbstractRunnerTest() {
         val gen3 = Generator.create { it.nextLong(0L, 10L) }.withSamples(-42L)
         val gen4 = Generator.create { it.nextDouble(0.0, 10.0).toFloat() }.withSamples(-6f, 18f)
 
-        forAll(gen1, gen2, gen3) { i, d, l ->
+        forAll(gen1, gen2, gen3, gen4) { i, d, l, f ->
             ints += i
             doubles += d
             longs += l
+            floats += f
             true
         }
 

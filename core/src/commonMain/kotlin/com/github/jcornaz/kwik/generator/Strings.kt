@@ -24,10 +24,16 @@ fun Generator.Companion.strings(
     val characters = (charset - exclude).toList()
 
     val generator = create { rng ->
-        String(CharArray(rng.nextSize(minLength, maxLength)) { characters.random(rng) })
+        String(CharArray(rng.nextInt(minLength, maxLength + 1)) { characters.random(rng) })
     }
 
-    val samples = if (' ' in characters && minLength <= 1 && maxLength >= 1) listOf(" ") else emptyList()
+    val samples = mutableListOf<String>()
+
+    if (minLength == 0)
+        samples += ""
+
+    if (' ' in characters && minLength <= 1 && maxLength >= 1)
+        samples += " "
 
     return generator.withSamples(samples)
 }
