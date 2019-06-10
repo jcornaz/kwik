@@ -107,3 +107,17 @@ The generation will always start by emitting the given samples.
     All built-in generators already have some samples included.
 
     For instance ``Generator.ints()`` will make sure to test ``0``, ``1``, ``-1``, ``Int.MAX_VALUE`` and ``Int.MIN_VALUE``
+
+Skip an evaluation
+------------------
+
+Sometime we want to exclude some specific set of input. For that, we can call ``skipIf`` in the property evaluation block.
+
+.. literalinclude:: ../core/src/commonTest/kotlin/com/github/jcornaz/kwik/example/PlusOperatorTest.kt
+    :language: kotlin
+    :dedent: 4
+    :start-after: //region Skip evaluation
+    :end-before: //endregion
+
+Be careful to not overuse it though as it may slow down the tests.
+Always prefer creating or configuring custom generators if you can.

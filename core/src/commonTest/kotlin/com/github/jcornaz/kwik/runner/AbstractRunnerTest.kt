@@ -1,9 +1,13 @@
 package com.github.jcornaz.kwik.runner
 
+import com.github.jcornaz.kwik.Generator
+import com.github.jcornaz.kwik.forAll
+import com.github.jcornaz.kwik.generator.ints
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertTrue
 
 abstract class AbstractRunnerTest {
 
@@ -65,5 +69,23 @@ abstract class AbstractRunnerTest {
         }
 
         assertEquals(1, invocations)
+    }
+
+    @Test
+    fun canSkipEvaluation() {
+        Generator.create { it.nextInt() }
+
+        val values = mutableSetOf<Int>()
+        var invocations = 0
+        forAll(iterations = 321) { value: Int ->
+            skipIf(value % 2 == 0)
+
+            ++invocations
+            values += value
+            true
+        }
+
+        assertTrue(values.none { it % 2 == 0 })
+        assertEquals(321, invocations)
     }
 }

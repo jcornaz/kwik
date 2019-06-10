@@ -22,21 +22,38 @@ fun <T> forAll(
     generator: Generator<T>,
     iterations: Int = KWIK_DEFAULT_ITERATIONS,
     seed: Long = Random.nextLong(),
-    property: (T) -> Boolean
+    property: PropertyEvaluationContext.(T) -> Boolean
 ) {
     require(iterations > 0) { "Iterations must be > 0, but was: $iterations" }
 
+    val context = PropertyEvaluationContextImpl()
+
     var attempts = 0
-    generator.testValues(seed)
-        .take(iterations)
-        .forEach { argument ->
-            ++attempts
-            if (!property(argument))
-                throw FalsifiedPropertyError(attempts, iterations, seed, extractArgumentList(argument))
+    val iterator = generator.testValues(seed).iterator()
+
+    while (attempts < iterations) {
+        val argument = iterator.next()
+
+        val isSatisfied = try {
+            context.property(argument).also { ++attempts }
+        } catch (skip: SkipEvaluation) {
+            true
         }
+
+        if (!isSatisfied)
+            throw FalsifiedPropertyError(attempts, iterations, seed, extractArgumentList(argument))
+    }
 
     println("OK, passed $attempts tests. (seed: $seed)")
 }
+
+private class PropertyEvaluationContextImpl : PropertyEvaluationContext {
+    override fun skipIf(condition: Boolean) {
+        if (condition) throw SkipEvaluation()
+    }
+}
+
+private class SkipEvaluation : Throwable()
 
 private fun extractArgumentList(argument: Any?): List<Any?> {
     return if (argument is ArgumentPair<*, *>) {
@@ -59,7 +76,7 @@ private fun extractArgumentList(argument: Any?): List<Any?> {
 inline fun <reified T> forAll(
     iterations: Int = KWIK_DEFAULT_ITERATIONS,
     seed: Long = Random.nextLong(),
-    crossinline property: (T) -> Boolean
+    crossinline property: PropertyEvaluationContext.(T) -> Boolean
 ): Unit = forAll<T>(Generator.default(), iterations, seed) { property(it) }
 
 /**
@@ -77,7 +94,7 @@ inline fun <reified A, reified B> forAll(
     generatorB: Generator<B> = Generator.default(),
     iterations: Int = KWIK_DEFAULT_ITERATIONS,
     seed: Long = Random.nextLong(),
-    crossinline property: (A, B) -> Boolean
+    crossinline property: PropertyEvaluationContext.(A, B) -> Boolean
 ) {
     forAll(generatorA.combineWith(generatorB, ::ArgumentPair), iterations, seed) { (a, b) ->
         property(a, b)
@@ -101,7 +118,7 @@ inline fun <reified A, reified B, reified C> forAll(
     generatorC: Generator<C> = Generator.default(),
     iterations: Int = KWIK_DEFAULT_ITERATIONS,
     seed: Long = Random.nextLong(),
-    crossinline property: (A, B, C) -> Boolean
+    crossinline property: PropertyEvaluationContext.(A, B, C) -> Boolean
 ): Unit = forAll(generatorA.combineWith(generatorB, ::ArgumentPair), generatorC, iterations, seed) { (a, b), c ->
     property(a, b, c)
 }
@@ -124,7 +141,7 @@ inline fun <reified A, reified B, reified C, reified D> forAll(
     generatorD: Generator<D> = Generator.default(),
     iterations: Int = KWIK_DEFAULT_ITERATIONS,
     seed: Long = Random.nextLong(),
-    crossinline property: (A, B, C, D) -> Boolean
+    crossinline property: PropertyEvaluationContext.(A, B, C, D) -> Boolean
 ): Unit = forAll(
     generatorA = generatorA.combineWith(generatorB, ::ArgumentPair),
     generatorB = generatorC.combineWith(generatorD, ::ArgumentPair),
@@ -137,6 +154,9 @@ inline fun <reified A, reified B, reified C, reified D> forAll(
  */
 data class ArgumentPair<A, B>(val first: A, val second: B)
 
+/**
+ * Exception thrown when a property is falsified
+ */
 data class FalsifiedPropertyError(
     val attempts: Int,
     val iterations: Int,

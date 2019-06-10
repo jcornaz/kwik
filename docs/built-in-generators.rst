@@ -6,6 +6,7 @@ Kwik provide a collection of generators to satisfy a wide variety of uses-cases.
 They are all available as extension functions on ``Generator.Companion`` so that we can find them easily and invoke them like this:
 
 .. code-block:: kotlin
+
     val generator = Generator.ints()
 
 Primitives

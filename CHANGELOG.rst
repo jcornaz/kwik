@@ -12,6 +12,12 @@ and this project adheres to `Semantic Versioning`_.
 Unreleased_
 -----------
 
+Added
+.....
+
+* **(Breaking)** ``PropertyEvaluationContext`` available as a type-receiver in property evaluation
+* ``skipIf`` function on ``PropertyEvaluationContext`` allowing to skip a property evaluation for some specific set of input
+
 Changed
 .......
 
