@@ -3,6 +3,7 @@ package com.github.jcornaz.kwik
 import kotlin.random.Random
 
 private const val SAMPLE_PROBABILITY = 0.15
+private const val NUMBER_OF_SAMPLES_FOR_COMBINATION = 5
 
 /**
  * Returns a generator of values built from the elements of `this` generator and the [other] generator
@@ -43,9 +44,9 @@ private class CombinedGenerators<A, B, R>(
     private val generator2: Generator<B>,
     private val transform: (A, B) -> R
 ) : Generator<R> {
-    override val samples: Set<R> = generator1.samples.take(5)
+    override val samples: Set<R> = generator1.samples.take(NUMBER_OF_SAMPLES_FOR_COMBINATION)
         .flatMapTo(mutableSetOf()) { a ->
-            generator2.samples.take(5).map { b -> transform(a, b) }
+            generator2.samples.take(NUMBER_OF_SAMPLES_FOR_COMBINATION).map { b -> transform(a, b) }
         }
 
     override fun randoms(seed: Long): Sequence<R> =
