@@ -93,7 +93,7 @@ Testing against random value is great. But often some value have more interest t
 
 These edge-cases can be added to a generator with the function ``withSamples``.
 
-And since ``null`` and `NaN` are two quite common edge-case, there are a dedicated ``withNull`` and ``withNaN`` operators.
+And since ``null`` and ``NaN`` are two quite common edge-case, there are dedicated ``withNull`` and ``withNaN`` operators.
 
 .. literalinclude:: ../core/src/commonTest/kotlin/com/github/jcornaz/kwik/example/PlusOperatorTest.kt
     :language: kotlin
