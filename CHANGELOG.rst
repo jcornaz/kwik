@@ -9,6 +9,32 @@ and this project adheres to `Semantic Versioning`_.
 .. _Keep a Changelog: https://keepachangelog.com/en/1.0.0
 .. _Semantic Versioning: https://semver.org/spec/v2.0.0.html
 
+Unreleased_
+-----------
+
+Added
+.....
+
+* ``filter`` operator for generators
+* **(Breaking)** ``samples`` property in the ``Generator`` interface to improve management of the value samples (edge-cases)
+* ``forAll`` non-inline function, allowing to hide implementation details.
+* ``+`` operator for generator, allowing to merge 2 operators. Example: ``nonZeroInts() = ints(max = -1) + ints(min = 1)``
+
+Changed
+.......
+
+* **(Breaking)** Renamed arguments ``from`` and ``until`` of ``floats`` and ``doubles`` generators
+  for more consistency with the int and long generators
+* **(Breaking)** Make the lambda of ``forAll`` crossinline, to allow usage of a non-inline function and hide implementation details.
+* Now the size probability for strings an collections generators is similar for all sizes.
+  instead they have empty and singletons instances as samples
+* ``combine`` and ``combineWith`` now start by a combination of the source generators and will randomly add samples in the random generations.
+* Prevent error when passing a big min size/length without a max size/length for collection and strings generators
+
+Removed
+.......
+
+* **(Breaking)** ``ratio`` argument from the ``withSamples`` and ``withNull`` operators
 
 0.1.0-alpha.3_ - 2019-06-08
 ---------------------------

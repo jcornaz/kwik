@@ -1,6 +1,7 @@
 package com.github.jcornaz.kwik.generator
 
 import com.github.jcornaz.kwik.Generator
+import com.github.jcornaz.kwik.testValues
 import kotlin.random.Random
 
 private const val MAX_EXTRA_ADD_ATTEMPT = 1000
@@ -13,7 +14,7 @@ private const val MAX_EXTRA_ADD_ATTEMPT = 1000
 fun <T> Generator.Companion.lists(
     elementGen: Generator<T>,
     minSize: Int = DEFAULT_MIN_SIZE,
-    maxSize: Int = DEFAULT_MAX_SIZE
+    maxSize: Int = maxOf(minSize, DEFAULT_MAX_SIZE)
 ): Generator<List<T>> = ListGenerator(elementGen, minSize, maxSize)
 
 /**
@@ -26,6 +27,13 @@ private class ListGenerator<T>(
     private val minSize: Int,
     private val maxSize: Int
 ) : Generator<List<T>> {
+    override val samples: Set<List<T>> = mutableSetOf<List<T>>().apply {
+        if (minSize == 0) add(emptyList())
+
+        if (minSize <= 1 && maxSize >= 1) {
+            elementGen.samples.forEach { add(listOf(it)) }
+        }
+    }
 
     init {
         require(minSize >= 0) { "Invalid size: $minSize" }
@@ -37,7 +45,7 @@ private class ListGenerator<T>(
         val rng = Random(seed)
 
         while (true) {
-            yield(List(rng.nextSize(minSize, maxSize)) { elements.next() })
+            yield(List(rng.nextInt(minSize, maxSize + 1)) { elements.next() })
         }
     }
 }
@@ -52,7 +60,7 @@ private class ListGenerator<T>(
 fun <T> Generator.Companion.sets(
     elementGen: Generator<T>,
     minSize: Int = DEFAULT_MIN_SIZE,
-    maxSize: Int = DEFAULT_MAX_SIZE
+    maxSize: Int = maxOf(minSize, DEFAULT_MAX_SIZE)
 ): Generator<Set<T>> = SetGenerator(elementGen, minSize, maxSize)
 
 /**
@@ -66,6 +74,14 @@ private class SetGenerator<T>(
     private val maxSize: Int
 ) : Generator<Set<T>> {
 
+    override val samples: Set<Set<T>> = mutableSetOf<Set<T>>().apply {
+        if (minSize == 0) add(emptySet())
+
+        if (minSize <= 1 && maxSize >= 1) {
+            elementGen.samples.forEach { add(setOf(it)) }
+        }
+    }
+
     init {
         require(minSize >= 0) { "Invalid size: $minSize" }
         require(maxSize >= minSize) { "Invalid max size: $minSize" }
@@ -76,7 +92,7 @@ private class SetGenerator<T>(
         val rng = Random(seed)
 
         while (true) {
-            val size = rng.nextSize(minSize, maxSize)
+            val size = rng.nextInt(minSize, maxSize + 1)
             val set = HashSet<T>(size)
 
             repeat(size) {
@@ -108,7 +124,7 @@ fun <K, V> Generator.Companion.maps(
     keyGen: Generator<K>,
     valueGen: Generator<V>,
     minSize: Int = DEFAULT_MIN_SIZE,
-    maxSize: Int = DEFAULT_MAX_SIZE
+    maxSize: Int = maxOf(minSize, DEFAULT_MAX_SIZE)
 ): Generator<Map<K, V>> = MapGenerator(keyGen, valueGen, minSize, maxSize)
 
 /**
@@ -124,6 +140,17 @@ private class MapGenerator<K, V>(
     private val maxSize: Int
 ) : Generator<Map<K, V>> {
 
+    override val samples: Set<Map<K, V>> = mutableSetOf<Map<K, V>>().apply {
+        if (minSize == 0) add(emptyMap())
+
+        if (minSize <= 1 && maxSize >= 1) {
+            val values = valueGen.testValues(0).iterator()
+            keyGen.samples.forEach {
+                add(mapOf(it to values.next()))
+            }
+        }
+    }
+
     init {
         require(minSize >= 0) { "Invalid size: $minSize" }
         require(maxSize >= minSize) { "Invalid max size: $minSize" }
@@ -135,7 +162,7 @@ private class MapGenerator<K, V>(
         val rng = Random(seed)
 
         while (true) {
-            val size = rng.nextSize(minSize, maxSize)
+            val size = rng.nextInt(minSize, maxSize + 1)
             val map = HashMap<K, V>(size)
 
             repeat(size) {

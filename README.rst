@@ -16,10 +16,6 @@ Kwik
 .. image:: https://img.shields.io/badge/dynamic/json.svg?color=blue&label=preview&query=name&url=https%3A%2F%2Fapi.bintray.com%2Fpackages%2Fkwik%2Fpreview%2Fkwik%2Fversions%2F_latest
     :target: https://bintray.com/kwik/preview/kwik/_latestVersion
 
-.. image:: https://img.shields.io/badge/dynamic/json.svg?color=blue&label=dev&query=name&url=https%3A%2F%2Fapi.bintray.com%2Fpackages%2Fkwik%2Fdev%2Fkwik%2Fversions%2F_latest
-    :target: https://bintray.com/kwik/dev/kwik/_latestVersion
-
-
 Property-based testing library for Kotlin.
 
 **Main features:**
@@ -94,7 +90,7 @@ none of them fully fit my needs.
 The existing alternatives often:
 
 * Are bound to a specific test-engine
-* Can only be used in Java module (not in Kotlin multiplatform modules)
+* Can only be used in Java module (not in Kotlin multi-platform modules)
 * Relies on reflection, making them slower than it could be and make some errors detectable only at runtime
 * Some of them also force the user to add unwanted dependencies in the classpath
 

@@ -2,6 +2,7 @@ package com.github.jcornaz.kwik.runner
 
 import com.github.jcornaz.kwik.Generator
 import com.github.jcornaz.kwik.forAll
+import com.github.jcornaz.kwik.withSamples
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -17,6 +18,35 @@ class ForAll4Test : AbstractRunnerTest() {
         forAll(testGenerator1, testGenerator2, testGenerator3, testGenerator4, iterations, seed) { _, _, _, _ ->
             invocation()
         }
+    }
+
+    @Test
+    fun evaluateSamples() {
+        val ints = mutableSetOf<Int>()
+        val doubles = mutableSetOf<Double>()
+        val longs = mutableSetOf<Long>()
+        val floats = mutableSetOf<Float>()
+
+        val gen1 = Generator.create { it.nextInt(0, 10) }.withSamples(42, 100)
+        val gen2 = Generator.create { it.nextDouble(0.0, 10.0) }.withSamples(123.0, 678.0)
+        val gen3 = Generator.create { it.nextLong(0L, 10L) }.withSamples(-42L)
+        val gen4 = Generator.create { it.nextDouble(0.0, 10.0).toFloat() }.withSamples(-6f, 18f)
+
+        forAll(gen1, gen2, gen3, gen4) { i, d, l, f ->
+            ints += i
+            doubles += d
+            longs += l
+            floats += f
+            true
+        }
+
+        assertTrue(42 in ints)
+        assertTrue(100 in ints)
+        assertTrue(123.0 in doubles)
+        assertTrue(123.0 in doubles)
+        assertTrue(-42L in longs)
+        assertTrue(-6f in floats)
+        assertTrue(18f in floats)
     }
 
     @Test

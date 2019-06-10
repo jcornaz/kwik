@@ -6,35 +6,21 @@ import com.github.jcornaz.kwik.withNull
 import com.github.jcornaz.kwik.withSamples
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertNull
 import kotlin.test.assertSame
+import kotlin.test.assertTrue
 
 class WithSampleTest : AbstractGeneratorTest() {
 
-    override val generator: Generator<*> =
+    override val generator: Generator<Int> =
         Generator.create { it.nextInt(5, Int.MAX_VALUE) }
             .withSamples(1, 2, 3, 4)
 
     @Test
-    fun startsWithSamples() {
-        val firstValues = Generator.create { it.nextInt(5, Int.MAX_VALUE) }
+    fun hasSamples() {
+        val generator = Generator.create { it.nextInt(5, Int.MAX_VALUE) }
             .withSamples(1, 2, 3, 4)
-            .randoms(42)
-            .take(4)
-            .toList()
 
-        assertEquals(listOf(1, 2, 3, 4), firstValues)
-    }
-
-    @Test
-    fun respectsGivenRatio() {
-        val sampleOccurrenceCount = Generator.create { it.nextInt(5, Int.MAX_VALUE) }
-            .withSamples(1, 2, 3, ratio = 0.4)
-            .randoms(42)
-            .take(100)
-            .count { it in 1..3 }
-
-        assertEquals(40, sampleOccurrenceCount)
+        assertEquals(setOf(1, 2, 3, 4), generator.samples)
     }
 
     @Test
@@ -46,19 +32,11 @@ class WithSampleTest : AbstractGeneratorTest() {
 
 class WithNullTest : AbstractGeneratorTest() {
 
-    override val generator: Generator<*> =
-        Generator.create { it.nextInt(5, Int.MAX_VALUE) }
-            .withNull()
+    override val generator: Generator<Int?> =
+        Generator.create { it.nextInt(5, Int.MAX_VALUE) }.withNull()
 
     @Test
-    fun startsWithNull() {
-        assertNull(Generator.create { Any() }.withNull().randoms(42).first())
-    }
-
-    @Test
-    fun respectGivenRatio() {
-        val values: Sequence<Any?> = Generator.create { Any() }.withNull(ratio = 0.4).randoms(12).take(100)
-
-        assertEquals(40, values.count { it == null })
+    fun samplesContainsNull() {
+        assertTrue(Generator.create { Any() }.withNull().samples.any { it == null })
     }
 }

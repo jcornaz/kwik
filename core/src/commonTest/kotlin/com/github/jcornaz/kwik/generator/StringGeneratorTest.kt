@@ -3,6 +3,7 @@ package com.github.jcornaz.kwik.generator
 import com.github.jcornaz.kwik.AbstractGeneratorTest
 import com.github.jcornaz.kwik.Generator
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class StringGeneratorTest : AbstractGeneratorTest() {
@@ -16,13 +17,23 @@ class StringGeneratorTest : AbstractGeneratorTest() {
     }
 
     @Test
-    fun generateEmpty() {
-        assertTrue(Generator.strings().randoms(0).take(200).any { it.isEmpty() })
+    fun samplesContainsEmpty() {
+        assertTrue(Generator.strings().samples.any { it.isEmpty() })
     }
 
     @Test
-    fun generateBlank() {
-        assertTrue(Generator.strings().randoms(0).take(200).any { it.isNotEmpty() && it.isBlank() })
+    fun samplesContainsBlank() {
+        assertTrue(Generator.strings().samples.any { it.isNotEmpty() && it.isBlank() })
+    }
+
+    @Test
+    fun noEmptySampleWhenMinLengthIsGreaterThan0() {
+        assertTrue(Generator.strings(minLength= 1).samples.none { it.isEmpty() })
+    }
+
+    @Test
+    fun sampleSizeIsBiggerThanMinLength() {
+        assertTrue(Generator.strings(minLength = 2).samples.none { it.length <= 1 })
     }
 
     @Test
@@ -30,6 +41,13 @@ class StringGeneratorTest : AbstractGeneratorTest() {
         val values = Generator.strings(exclude = setOf('a', 'b', 'c')).randoms(0).take(1000)
 
         assertTrue(values.none { string -> string.any { it == 'a' || it == 'b' || it == 'c' } })
+    }
+
+    @Test
+    fun bigMinLengthIsPossible() {
+        val generator = Generator.strings(minLength = 1000)
+
+        assertEquals(1000, generator.randoms(1).first().length)
     }
 
     @Test

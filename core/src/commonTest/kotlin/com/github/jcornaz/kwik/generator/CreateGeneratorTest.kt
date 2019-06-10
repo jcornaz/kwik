@@ -1,7 +1,9 @@
-package com.github.jcornaz.kwik
+package com.github.jcornaz.kwik.generator
 
+import com.github.jcornaz.kwik.Generator
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class CreateGeneratorTest {
 
@@ -23,5 +25,10 @@ class CreateGeneratorTest {
         val generation = Generator.create { iterator.next() }.randoms(0).take(200).toList()
 
         assertEquals(sequence.take(200).toList(), generation)
+    }
+
+    @Test
+    fun hasNoSample() {
+        assertTrue(Generator.create { it.nextDouble() }.samples.isEmpty())
     }
 }

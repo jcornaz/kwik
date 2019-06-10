@@ -8,7 +8,7 @@ import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
 class DoubleGeneratorTest : AbstractGeneratorTest() {
-    override val generator: Generator<*> = Generator.doubles()
+    override val generator: Generator<Double> = Generator.doubles()
 
     @Test
     fun failForInvalidRange() {
@@ -19,13 +19,21 @@ class DoubleGeneratorTest : AbstractGeneratorTest() {
 
     @Test
     fun produceInsideGivenRange() {
-        assertTrue(Generator.doubles(-8.0, 14.0).randoms(42).take(200).all { it >= -8 && it <= 14 })
+        assertTrue(Generator.doubles(-8.0, 14.0).randoms(0).take(1000).all { it >= -8 && it <= 14 })
     }
 
     @Test
-    fun startsWithEdgeCases() {
-        val edgeCases = Generator.doubles().randoms(42).take(3).toSet()
+    fun providesSamples() {
+        assertEquals(setOf(0.0, -1.0, 1.0, -Double.MAX_VALUE, Double.MAX_VALUE), Generator.doubles().samples)
+    }
 
-        assertEquals(setOf(0.0, -1.0, 1.0), edgeCases)
+    @Test
+    fun samplesAreInRange() {
+        assertEquals(setOf(1.0, Double.MAX_VALUE), Generator.doubles(min = 1.0).samples)
+    }
+
+    @Test
+    fun withNaNIncludesNaNInSamples() {
+        assertTrue(Generator.doubles().withNaN().samples.any { it.isNaN()})
     }
 }

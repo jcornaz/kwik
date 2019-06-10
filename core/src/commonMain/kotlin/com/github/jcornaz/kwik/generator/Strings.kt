@@ -14,7 +14,7 @@ private val PRINTABLE_CHARACTERS = (32..127).map { it.toChar() }.toSet()
  */
 fun Generator.Companion.strings(
     minLength: Int = DEFAULT_MIN_SIZE,
-    maxLength: Int = DEFAULT_MAX_SIZE,
+    maxLength: Int = maxOf(minLength, DEFAULT_MAX_SIZE),
     charset: Set<Char> = PRINTABLE_CHARACTERS,
     exclude: Set<Char> = emptySet()
 ): Generator<String> {
@@ -24,10 +24,16 @@ fun Generator.Companion.strings(
     val characters = (charset - exclude).toList()
 
     val generator = create { rng ->
-        String(CharArray(rng.nextSize(minLength, maxLength)) { characters.random(rng) })
+        String(CharArray(rng.nextInt(minLength, maxLength + 1)) { characters.random(rng) })
     }
 
-    val edgeCases = if (' ' in characters && minLength <= 1 && maxLength >= 1) listOf(" ") else emptyList()
+    val samples = mutableListOf<String>()
 
-    return generator.withSamples(edgeCases)
+    if (minLength == 0)
+        samples += ""
+
+    if (' ' in characters && minLength <= 1 && maxLength >= 1)
+        samples += " "
+
+    return generator.withSamples(samples)
 }
