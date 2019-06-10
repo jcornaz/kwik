@@ -18,6 +18,7 @@ Added
 * ``filter`` operator for generators
 * **(Breaking)** ``samples`` property in the ``Generator`` interface to improve management of the value samples (edge-cases)
 * ``forAll`` non-inline function, allowing to hide implementation details.
+* ``+`` operator for generator, allowing to merge 2 operators. Example: ``nonZeroInts() = ints(max = -1) + ints(min = 1)``
 
 Changed
 .......

@@ -39,3 +39,6 @@ Few operators are available as extension function on ``Generator`` to easily der
     Then samples of each generator have a higher probability to appear than other random values.
 
     Not specifying the transform, will combine the value in pairs.
+
+``plus(other: Generator<T>)`` (can be used as ``+``)
+    Merge the generated values of both operators.
