@@ -97,6 +97,8 @@ subprojects {
         key = System.getenv("BINTRAY_KEY")
         publish = true
 
+        override = '+' in project.version.toString()
+
         with(pkg) {
             userOrg = "kwik"
             name = "kwik"
