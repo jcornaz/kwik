@@ -9,6 +9,9 @@ branches:
     - master
     - develop
 
+git:
+  depth: false
+
 jdk:
   - oraclejdk11
 
