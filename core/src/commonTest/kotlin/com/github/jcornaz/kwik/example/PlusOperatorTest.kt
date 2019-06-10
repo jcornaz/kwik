@@ -1,3 +1,5 @@
+package com.github.jcornaz.kwik.example
+
 import com.github.jcornaz.kwik.*
 import com.github.jcornaz.kwik.generator.doubles
 import com.github.jcornaz.kwik.generator.enum
