@@ -1,5 +1,9 @@
 package com.github.jcornaz.kwik
 
+import kotlin.random.Random
+
+private const val SAMPLE_PROBABILITY = 0.15
+
 /**
  * Returns a generator of values built from the elements of `this` generator and the [other] generator
  * using the provided [transform] function applied to each pair of elements.
@@ -45,7 +49,21 @@ private class CombinedGenerators<A, B, R>(
         }
 
     override fun randoms(seed: Long): Sequence<R> =
-        generator1.randoms(seed).zip(generator2.randoms(seed + 1), transform)
+        generator1.randomWithSamples(seed)
+            .zip(generator2.randomWithSamples(seed + 1), transform)
+
+    private fun <T> Generator<T>.randomWithSamples(seed: Long): Sequence<T> {
+        if (samples.isEmpty()) return randoms(seed)
+
+        return sequence {
+            val rng = Random(seed)
+            val values = randoms(seed).iterator()
+
+            while (true) {
+                yield(if (rng.nextDouble() < SAMPLE_PROBABILITY) samples.random(rng) else values.next())
+            }
+        }
+    }
 }
 
 /**

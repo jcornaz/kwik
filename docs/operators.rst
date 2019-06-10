@@ -30,4 +30,7 @@ Few operators are available as extension function on ``Generator`` to easily der
 ``combineWith(other: Generator<B>, transform: (A, B) -> R)``
     Combine the generated values of both generators.
 
+    Generated values will start by a combination of the 5 first samples of both generators.
+    Then samples of each generator have a higher probability to appear than other random values.
+
     Not specifying the transform, will combine the value in pairs.

@@ -46,7 +46,8 @@ class CombineTest : AbstractGeneratorTest() {
             Generator.doubles(min = 3.0).withSamples(1.0, 2.0)
         )
 
-
+        assertTrue(gen.randoms(0).take(100).any { (x, y) -> x < 3 && y >= 3 })
+        assertTrue(gen.randoms(0).take(100).any { (x, y) -> y < 3 && x >= 3 })
     }
 }
 
@@ -90,6 +91,17 @@ class CombineWithTransformTest : AbstractGeneratorTest() {
         )
     }
 
+    @Test
+    fun randomValuesContainsSamples() {
+        val gen = Generator.combine(
+            Generator.ints(min = 3).withSamples(1, 2),
+            Generator.doubles(min = 3.0).withSamples(1.0, 2.0)
+        ) { a, b -> CombinedValues(a, b) }
+
+        assertTrue(gen.randoms(0).take(100).any { (x, y) -> x < 3 && y >= 3 })
+        assertTrue(gen.randoms(0).take(100).any { (x, y) -> y < 3 && x >= 3 })
+    }
+
     private data class CombinedValues(val x: Int, val y: Double)
 }
 
@@ -116,6 +128,15 @@ class CombineWithTest : AbstractGeneratorTest() {
             .combineWith(Generator.create { it.nextInt().toString() }.withSamples("one", "two"))
 
         assertEquals(setOf(1 to "one", 1 to "two", 2 to "one", 2 to "two"), gen.samples)
+    }
+
+    @Test
+    fun randomValuesContainsSamples() {
+        val gen = Generator.ints(min = 3).withSamples(1, 2)
+            .combineWith(Generator.create { it.nextInt().toString() }.withSamples("one", "two"))
+
+        assertTrue(gen.randoms(0).take(100).any { (x, y) -> x < 3 && y !in setOf("one", "two") })
+        assertTrue(gen.randoms(0).take(100).any { (x, y) -> y in setOf("one", "two") && x >= 3 })
     }
 }
 
@@ -153,6 +174,17 @@ class CombineWithWithTransformTest : AbstractGeneratorTest() {
                 CombinedValues(2, 4.0)
             ), gen.samples
         )
+    }
+
+    @Test
+    fun randomValuesContainsSamples() {
+        val gen = Generator.ints(min = 3).withSamples(1, 2)
+            .combineWith(Generator.doubles(min = 3.0).withSamples(-1.0, -2.0)) { a, b ->
+                CombinedValues(a, b)
+            }
+
+        assertTrue(gen.randoms(0).take(100).any { (x, y) -> x < 3 && y >= 3 })
+        assertTrue(gen.randoms(0).take(100).any { (x, y) -> y < 3 && x >= 3 })
     }
 
     private data class CombinedValues(val x: Int, val y: Double)

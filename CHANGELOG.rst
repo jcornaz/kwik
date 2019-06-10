@@ -27,6 +27,7 @@ Changed
 * **(Breaking)** Make the lambda of ``forAll`` crossinline, to allow usage of a non-inline function and hide implementation details.
 * Now the size probability for strings an collections generators is similar for all sizes.
   instead they have empty and singletons instances as samples
+* ``combine`` and ``combineWith`` now start by a combination of the source generators and will randomly add samples in the random generations.
 
 Removed
 .......
