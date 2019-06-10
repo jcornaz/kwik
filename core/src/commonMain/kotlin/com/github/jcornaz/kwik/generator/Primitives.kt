@@ -78,8 +78,3 @@ fun Generator.Companion.booleans(): Generator<Boolean> = create { it.nextBoolean
  * Returns a generator including [Double.NaN] in the samples
  */
 fun Generator<Double>.withNaN(): Generator<Double> = withSamples(Double.NaN)
-
-/**
- * Returns a generator including [Float.NaN] in the samples
- */
-fun Generator<Float>.withNaN(): Generator<Float> = withSamples(Float.NaN)

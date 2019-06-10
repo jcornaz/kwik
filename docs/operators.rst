@@ -13,7 +13,7 @@ Few operators are available as extension function on ``Generator`` to easily der
 ``withNaN()``
     add ``NaN`` into the generated values, making sure is is always tested
 
-    (for double and float generators only)
+    (for double generators only)
 
 ``map(transform: (T) -> R)``
     apply a transformation to all elements emitted by the source generator

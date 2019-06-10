@@ -31,9 +31,4 @@ class FloatGeneratorTest : AbstractGeneratorTest() {
     fun samplesAreInRange() {
         assertEquals(setOf(1f, Float.MAX_VALUE), Generator.floats(min = 1f).samples)
     }
-
-    @Test
-    fun withNaNIncludesNaNInSamples() {
-        assertTrue(Generator.floats().withNaN().samples.any { it == Float.NaN })
-    }
 }

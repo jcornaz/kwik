@@ -34,6 +34,6 @@ class DoubleGeneratorTest : AbstractGeneratorTest() {
 
     @Test
     fun withNaNIncludesNaNInSamples() {
-        assertTrue(Generator.doubles().withNaN().samples.any { it == Double.NaN })
+        assertTrue(Generator.doubles().withNaN().samples.any { it.isNaN()})
     }
 }
