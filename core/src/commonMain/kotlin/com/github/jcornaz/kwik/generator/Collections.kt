@@ -14,7 +14,7 @@ private const val MAX_EXTRA_ADD_ATTEMPT = 1000
 fun <T> Generator.Companion.lists(
     elementGen: Generator<T>,
     minSize: Int = DEFAULT_MIN_SIZE,
-    maxSize: Int = DEFAULT_MAX_SIZE
+    maxSize: Int = maxOf(minSize, DEFAULT_MAX_SIZE)
 ): Generator<List<T>> = ListGenerator(elementGen, minSize, maxSize)
 
 /**
@@ -60,7 +60,7 @@ private class ListGenerator<T>(
 fun <T> Generator.Companion.sets(
     elementGen: Generator<T>,
     minSize: Int = DEFAULT_MIN_SIZE,
-    maxSize: Int = DEFAULT_MAX_SIZE
+    maxSize: Int = maxOf(minSize, DEFAULT_MAX_SIZE)
 ): Generator<Set<T>> = SetGenerator(elementGen, minSize, maxSize)
 
 /**
@@ -124,7 +124,7 @@ fun <K, V> Generator.Companion.maps(
     keyGen: Generator<K>,
     valueGen: Generator<V>,
     minSize: Int = DEFAULT_MIN_SIZE,
-    maxSize: Int = DEFAULT_MAX_SIZE
+    maxSize: Int = maxOf(minSize, DEFAULT_MAX_SIZE)
 ): Generator<Map<K, V>> = MapGenerator(keyGen, valueGen, minSize, maxSize)
 
 /**

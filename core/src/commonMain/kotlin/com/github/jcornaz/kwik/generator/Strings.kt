@@ -14,7 +14,7 @@ private val PRINTABLE_CHARACTERS = (32..127).map { it.toChar() }.toSet()
  */
 fun Generator.Companion.strings(
     minLength: Int = DEFAULT_MIN_SIZE,
-    maxLength: Int = DEFAULT_MAX_SIZE,
+    maxLength: Int = maxOf(minLength, DEFAULT_MAX_SIZE),
     charset: Set<Char> = PRINTABLE_CHARACTERS,
     exclude: Set<Char> = emptySet()
 ): Generator<String> {

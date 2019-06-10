@@ -3,6 +3,7 @@ package com.github.jcornaz.kwik.generator
 import com.github.jcornaz.kwik.AbstractGeneratorTest
 import com.github.jcornaz.kwik.Generator
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class ListGeneratorTest : AbstractGeneratorTest() {
@@ -35,6 +36,11 @@ class ListGeneratorTest : AbstractGeneratorTest() {
     @Test
     fun noSingletonSampleWhenMinSizeIsGreaterThan1() {
         assertTrue(Generator.lists(Generator.ints(), minSize = 2).samples.none { it.size <= 1 })
+    }
+
+    @Test
+    fun bigMinSizeIsPossible() {
+        assertEquals(1000, Generator.lists(Generator.ints(), minSize = 1000).randoms(1).first().size)
     }
 
     @Test

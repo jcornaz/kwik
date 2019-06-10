@@ -3,6 +3,7 @@ package com.github.jcornaz.kwik.generator
 import com.github.jcornaz.kwik.AbstractGeneratorTest
 import com.github.jcornaz.kwik.Generator
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class StringGeneratorTest : AbstractGeneratorTest() {
@@ -40,6 +41,13 @@ class StringGeneratorTest : AbstractGeneratorTest() {
         val values = Generator.strings(exclude = setOf('a', 'b', 'c')).randoms(0).take(1000)
 
         assertTrue(values.none { string -> string.any { it == 'a' || it == 'b' || it == 'c' } })
+    }
+
+    @Test
+    fun bigMinLengthIsPossible() {
+        val generator = Generator.strings(minLength = 1000)
+
+        assertEquals(1000, generator.randoms(1).first().length)
     }
 
     @Test

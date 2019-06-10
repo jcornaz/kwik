@@ -3,6 +3,7 @@ package com.github.jcornaz.kwik.generator
 import com.github.jcornaz.kwik.AbstractGeneratorTest
 import com.github.jcornaz.kwik.Generator
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertFails
 import kotlin.test.assertTrue
 
@@ -36,6 +37,13 @@ class MapGeneratorTest : AbstractGeneratorTest() {
     @Test
     fun noSingletonSampleWhenMinSizeIsGreaterThan1() {
         assertTrue(Generator.maps(Generator.ints(), Generator.doubles(), minSize = 2).samples.none { it.size <= 1 })
+    }
+
+    @Test
+    fun bigMinSizeIsPossible() {
+        val generator = Generator.maps(Generator.ints(), Generator.ints(), minSize = 1000)
+
+        assertEquals(1000, generator.randoms(1).first().size)
     }
 
     @Test
