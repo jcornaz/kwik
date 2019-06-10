@@ -1,6 +1,8 @@
 import com.github.jcornaz.kwik.*
+import com.github.jcornaz.kwik.generator.doubles
 import com.github.jcornaz.kwik.generator.enum
 import com.github.jcornaz.kwik.generator.ints
+import com.github.jcornaz.kwik.generator.withNaN
 import kotlin.test.Test
 
 class PlusOperatorTest {
@@ -57,6 +59,7 @@ class PlusOperatorTest {
     val generator = Generator.ints().withSamples(13, 42)
 
     val generatorWithNull = Generator.ints().withNull()
+    val generatorWithNaN = Generator.doubles().withNaN()
     //endregion
 }
 

@@ -21,17 +21,17 @@ Primitives
     Generate longs. Includes the samples: ``0.0``, ``1.0``, ``-1.0``, ``min`` and ``max``.
 
     Note that ``NaN``, ``POSITIVE_INFINITY`` and ``POSITIVE_INFINITY`` are not generated.
-    To test theses, we can use ``withSamples()``
+    To test theses, we can use ``withSamples()`` or ``withNaN()``
 
-    Example: ``Generator.floats().withSamples(Double.NaN)``
+    Example: ``Generator.floats().withNaN().withSamples(Float.POSITIVE_INFINITY)``
 
 ``Generator.doubles(min = -Double.MAX_VALUE, max = Double.MAX_VALUE)``
     Generate doubles. Includes the samples: ``0.0``, ``1.0``, ``-1.0``, ``min`` and ``max``.
 
     Note that ``NaN``, ``POSITIVE_INFINITY`` and ``POSITIVE_INFINITY`` are not generated.
-    To test theses, we can use ``withSamples()``
+    To test theses, we can use ``withSamples()`` or ``withNaN()``
 
-    Example: ``Generator.doubles().withSamples(Float.NaN)``
+    Example: ``Generator.doubles().withNaN().withSamples(Double.POSITIVE_INFINITY)``
 
 ``Generator.booleans()``
     Generate booleans
@@ -43,11 +43,7 @@ Strings
 ``Generator.strings(minLength = 0, maxLength = 200, charset = PRINTABLE_CHARACTERS, exclude = emptySet())``
     Generate strings. Use the parameter ``charset`` and ``exclude`` to customize the characters which can be used.
 
-    Generation include empty ("") and blank (" ") strings.
-
-    Strings will be generated of any size between ``minLength`` and ``maxLength``,
-    but there is higher probability of generation for the smallest sizes.
-
+    Generation include empty ("") and blank (" ") strings as samples.
 
 Collections
 -----------
@@ -55,18 +51,12 @@ Collections
 ``Generator.lists(elementGen = Generator.default(), minSize = 0, maxSize = 200)``
     Generate lists. ``elementGen`` can be used to define the generator of the elements.
 
-    Generation include empty lists
-
-    Lists will be generated of any size between ``minSize`` and ``maxSize``,
-    but there is higher probability of generation for the smallest sizes.
+    Generation include empty and singleton lists as samples
 
 ``Generator.sets(elementGen = Generator.default(), minSize = 0, maxSize = 200)``
     Generate sets. ``elementGen`` can be used to define the generator of the elements.
 
-    Generation include empty sets
-
-    Sets will be generated of any size between ``minSize`` and ``maxSize``,
-    but there is higher probability of generation for the smallest sizes.
+    Generation include empty and singleton sets as samples
 
     Will fail in it takes too much iteration to reach the ``minSize``
     (so make sure the element generator can generate enough different values)
@@ -74,10 +64,7 @@ Collections
 ``Generator.maps(keyGen = Generator.default(), valueGen = Generator.default(), minSize = 0, maxSize = 200)``
     Generate sets. ``keyGen`` can be used to define the generator of the elements.
 
-    Generation include empty maps
-
-    Maps will be generated of any size between ``minSize`` and ``maxSize``,
-    but there is higher probability of generation for the smallest sizes.
+    Generation include empty and singleton maps as samples
 
     Will fail in it takes too much iteration to reach the ``minSize``
     (so make sure the element generator can generate enough different values)

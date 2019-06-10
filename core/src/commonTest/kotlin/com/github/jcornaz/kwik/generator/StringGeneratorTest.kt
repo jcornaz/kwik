@@ -16,13 +16,23 @@ class StringGeneratorTest : AbstractGeneratorTest() {
     }
 
     @Test
-    fun generateEmpty() {
-        assertTrue(Generator.strings().randoms(0).take(200).any { it.isEmpty() })
+    fun samplesContainsEmpty() {
+        assertTrue(Generator.strings().samples.any { it.isEmpty() })
     }
 
     @Test
-    fun generateBlank() {
-        assertTrue(Generator.strings().randoms(0).take(200).any { it.isNotEmpty() && it.isBlank() })
+    fun samplesContainsBlank() {
+        assertTrue(Generator.strings().samples.any { it.isNotEmpty() && it.isBlank() })
+    }
+
+    @Test
+    fun noEmptySampleWhenMinLengthIsGreaterThan0() {
+        assertTrue(Generator.strings(minLength= 1).samples.none { it.isEmpty() })
+    }
+
+    @Test
+    fun sampleSizeIsBiggerThanMinLength() {
+        assertTrue(Generator.strings(minLength = 2).samples.none { it.length <= 1 })
     }
 
     @Test

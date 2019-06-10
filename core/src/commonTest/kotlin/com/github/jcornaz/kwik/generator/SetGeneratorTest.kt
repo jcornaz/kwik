@@ -4,7 +4,6 @@ import com.github.jcornaz.kwik.AbstractGeneratorTest
 import com.github.jcornaz.kwik.Generator
 import kotlin.test.Test
 import kotlin.test.assertFails
-import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
 class SetGeneratorTest : AbstractGeneratorTest() {
@@ -20,13 +19,23 @@ class SetGeneratorTest : AbstractGeneratorTest() {
     }
 
     @Test
-    fun emitsEmptyLists() {
-        assertTrue(Generator.sets<Int>().randoms(0).take(200).any { it.isEmpty() })
+    fun samplesContainsEmpty() {
+        assertTrue(Generator.sets<Int>().samples.any { it.isEmpty() })
     }
 
     @Test
-    fun emitsSingletonsLists() {
-        assertTrue(Generator.sets<Int>().randoms(0).take(200).any { it.size == 1 })
+    fun samplesContainsSingletons() {
+        assertTrue(Generator.sets<Int>().samples.any { it.size == 1 })
+    }
+
+    @Test
+    fun noEmptySampleWhenMinSizeIsGreaterThan0() {
+        assertTrue(Generator.sets(Generator.ints(), minSize = 1).samples.none { it.isEmpty() })
+    }
+
+    @Test
+    fun noSingletonSampleWhenMinSizeIsGreaterThan1() {
+        assertTrue(Generator.sets(Generator.ints(), minSize = 2).samples.none { it.size <= 1 })
     }
 
     @Test

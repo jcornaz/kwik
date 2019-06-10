@@ -2,7 +2,8 @@ package com.github.jcornaz.kwik
 
 import kotlin.random.Random
 
-private const val DEFAULT_SAMPLE_RATIO = 0.2
+private const val SAMPLE_PROBABILITY = 0.15
+private const val NUMBER_OF_SAMPLES_FOR_COMBINATION = 5
 
 /**
  * Returns a generator of values built from the elements of `this` generator and the [other] generator
@@ -11,14 +12,14 @@ private const val DEFAULT_SAMPLE_RATIO = 0.2
 fun <A, B, R> Generator<A>.combineWith(
     other: Generator<B>,
     transform: (A, B) -> R
-): Generator<R> = MergingGenerator(this, other, transform)
+): Generator<R> = CombinedGenerators(this, other, transform)
 
 /**
  * Returns a generator of values built from the elements of `this` generator and the [other] generator
  */
 fun <A, B> Generator<A>.combineWith(
     other: Generator<B>
-): Generator<Pair<A, B>> = MergingGenerator(this, other, ::Pair)
+): Generator<Pair<A, B>> = CombinedGenerators(this, other, ::Pair)
 
 /**
  * Returns a generator of values built from the elements of [generator1] and [generator2]
@@ -28,7 +29,7 @@ fun <A, B, R> Generator.Companion.combine(
     generator1: Generator<A>,
     generator2: Generator<B>,
     transform: (A, B) -> R
-): Generator<R> = MergingGenerator(generator1, generator2, transform)
+): Generator<R> = CombinedGenerators(generator1, generator2, transform)
 
 /**
  * Returns a generator of values built from the elements of [generator1] and [generator2]
@@ -36,15 +37,34 @@ fun <A, B, R> Generator.Companion.combine(
 fun <A, B> Generator.Companion.combine(
     generator1: Generator<A>,
     generator2: Generator<B>
-): Generator<Pair<A, B>> = MergingGenerator(generator1, generator2, ::Pair)
+): Generator<Pair<A, B>> = CombinedGenerators(generator1, generator2, ::Pair)
 
-private class MergingGenerator<A, B, R>(
+private class CombinedGenerators<A, B, R>(
     private val generator1: Generator<A>,
     private val generator2: Generator<B>,
     private val transform: (A, B) -> R
 ) : Generator<R> {
+    override val samples: Set<R> = generator1.samples.take(NUMBER_OF_SAMPLES_FOR_COMBINATION)
+        .flatMapTo(mutableSetOf()) { a ->
+            generator2.samples.take(NUMBER_OF_SAMPLES_FOR_COMBINATION).map { b -> transform(a, b) }
+        }
+
     override fun randoms(seed: Long): Sequence<R> =
-        generator1.randoms(seed).zip(generator2.randoms(seed + 1), transform)
+        generator1.randomWithSamples(seed)
+            .zip(generator2.randomWithSamples(seed + 1), transform)
+
+    private fun <T> Generator<T>.randomWithSamples(seed: Long): Sequence<T> {
+        if (samples.isEmpty()) return randoms(seed)
+
+        return sequence {
+            val rng = Random(seed)
+            val values = randoms(seed).iterator()
+
+            while (true) {
+                yield(if (rng.nextDouble() < SAMPLE_PROBABILITY) samples.random(rng) else values.next())
+            }
+        }
+    }
 }
 
 /**
@@ -54,6 +74,8 @@ private class MergingGenerator<A, B, R>(
 fun <T, R> Generator<T>.map(transform: (T) -> R): Generator<R> = MapGenerator(this, transform)
 
 private class MapGenerator<T, R>(private val source: Generator<T>, private val transform: (T) -> R) : Generator<R> {
+    override val samples: Set<R> = source.samples.mapTo(mutableSetOf(), transform)
+
     override fun randoms(seed: Long): Sequence<R> = source.randoms(seed).map(transform)
 }
 
@@ -63,7 +85,8 @@ private class MapGenerator<T, R>(private val source: Generator<T>, private val t
  * **Usage of this operator slows down the property tests**
  * Use it with caution and always favor customizing or creating generators if possible.
  */
-fun <T> Generator<T>.filter(predicate: (T) -> Boolean): Generator<T> = FilterGenerator(this, predicate)
+fun <T> Generator<T>.filter(predicate: (T) -> Boolean): Generator<T> =
+    FilterGenerator(this, predicate)
 
 /**
  * Returns a generator containing all elements except the ones matching the given predicate.
@@ -71,9 +94,15 @@ fun <T> Generator<T>.filter(predicate: (T) -> Boolean): Generator<T> = FilterGen
  * **Usage of this operator slows down the property tests**
  * Use it with caution and always favor customizing or creating generators if possible.
  */
-fun <T> Generator<T>.filterNot(predicate: (T) -> Boolean): Generator<T> = FilterGenerator(this) { !predicate(it) }
+fun <T> Generator<T>.filterNot(predicate: (T) -> Boolean): Generator<T> =
+    FilterGenerator(this) { !predicate(it) }
 
-private class FilterGenerator<T>(private val source: Generator<T>, private val predicate: (T) -> Boolean) : Generator<T> {
+private class FilterGenerator<T>(
+    private val source: Generator<T>,
+    private val predicate: (T) -> Boolean
+) : Generator<T> {
+    override val samples: Set<T> = source.samples.filterTo(mutableSetOf(), predicate)
+
     override fun randoms(seed: Long): Sequence<T> = source.randoms(seed).filter(predicate)
 }
 
@@ -81,75 +110,46 @@ private class FilterGenerator<T>(private val source: Generator<T>, private val p
  * Returns a new generator adding the given [samples] into generated random values.
  *
  * The "random" values always start by the given [samples] so that they always appear at least once.
- *
- * @param ratio Ratio of random values which should be picked from the [samples].
  */
-fun <T> Generator<T>.withSamples(vararg samples: T, ratio: Double = DEFAULT_SAMPLE_RATIO): Generator<T> =
-    withSamples(samples.asList(), ratio)
+fun <T> Generator<T>.withSamples(vararg samples: T): Generator<T> =
+    withSamples(samples.asList())
 
 /**
  * Returns a new generator adding the given [samples] into generated random values.
  *
  * The "random" values always start by the given [samples] so that they always appear at least once.
- *
- * @param ratio Ratio of random values which should be picked from the [samples].
  */
-fun <T> Generator<T>.withSamples(samples: Iterable<T>, ratio: Double = DEFAULT_SAMPLE_RATIO): Generator<T> {
+fun <T> Generator<T>.withSamples(samples: Iterable<T>): Generator<T> {
     val sampleList = (samples as? List<T>) ?: samples.toList()
     if (sampleList.isEmpty()) return this
 
-    return SampleGenerator(this, sampleList, ratio)
+    return SampleGenerator(this, sampleList)
 }
 
 /**
  * Returns a new generator adding `null` into generated random values.
  *
  * The "random" values always start by `null` so that it always appear at least once.
- *
- * @param ratio Ratio of random values which should be `null`.
  */
-fun <T> Generator<T>.withNull(ratio: Double = DEFAULT_SAMPLE_RATIO): Generator<T?> =
-    NullGenerator(this, ratio)
-
+fun <T> Generator<T>.withNull(): Generator<T?> =
+    NullGenerator(this)
 
 private class SampleGenerator<T>(
     private val source: Generator<T>,
-    private val samples: List<T>,
-    private val ratio: Double
+    samples: Iterable<T>
 ) : Generator<T> {
 
+    override val samples: Set<T> = source.samples + samples
+
     init {
-        require(samples.isNotEmpty()) { "No sample provided" }
-        require(ratio in 0.0..1.0) { "Invalid ratio: $ratio" }
+        require(this.samples.isNotEmpty()) { "No sample provided" }
     }
 
-    override fun randoms(seed: Long): Sequence<T> = source.randoms(seed).withSamples(samples, ratio, seed)
+    override fun randoms(seed: Long): Sequence<T> = source.randoms(seed)
 }
 
-private class NullGenerator<T>(private val source: Generator<T>, private val ratio: Double) : Generator<T?> {
-    init {
-        require(ratio in 0.0..1.0) { "Invalid ratio: $ratio" }
-    }
+private class NullGenerator<T>(private val source: Generator<T>) : Generator<T?> {
+    override val samples: Set<T?> = source.samples.plus<T?>(null)
 
-    override fun randoms(seed: Long): Sequence<T?> = source.randoms(seed).withSamples(listOf(null), ratio, seed)
-}
-
-private fun <T> Sequence<T>.withSamples(samples: List<T>, ratio: Double, seed: Long): Sequence<T> {
-    return samples.asSequence() + sequence {
-        val sourceValues = iterator()
-        val rng = Random(seed)
-
-        var sampleEmitted = samples.size
-        var valuesEmitted = sampleEmitted
-
-        while (true) {
-            if (sampleEmitted < valuesEmitted * ratio) {
-                yield(samples.random(rng))
-                sampleEmitted++
-            } else {
-                yield(sourceValues.next())
-            }
-            valuesEmitted++
-        }
-    }
+    override fun randoms(seed: Long): Sequence<T?> = source.randoms(seed)
 }

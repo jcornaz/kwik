@@ -18,5 +18,6 @@ inline fun <reified T> Generator.Companion.default(): Generator<T> = when (T::cl
     Double::class -> doubles() as Generator<T>
     Boolean::class -> booleans() as Generator<T>
     String::class -> strings() as Generator<T>
+    Any::class -> create { Any() } as Generator<T>
     else -> throw IllegalArgumentException("No default generator for ${T::class}")
 }

@@ -8,6 +8,11 @@ import kotlin.random.Random
 interface Generator<T> {
 
     /**
+     * Samples of values that should always be tested
+     */
+    val samples: Set<T>
+
+    /**
      * Returns a sequence of random value.
      *
      * **Must be pure**: It must always return the same value sequence for the same given [seed]
@@ -26,6 +31,8 @@ interface Generator<T> {
          *             The function should use the given [Random] generator to ensure predictability of the values
          */
         fun <T> create(next: (Random) -> T): Generator<T> = object : Generator<T> {
+            override val samples: Set<T> get() = emptySet()
+
             override fun randoms(seed: Long): Sequence<T> = randomSequence(seed, next)
         }
 
@@ -35,12 +42,18 @@ interface Generator<T> {
         fun <T> of(vararg samples: T): Generator<T> {
             require(samples.isNotEmpty()) { "No given sample " }
 
-            return object : Generator<T> {
-                override fun randoms(seed: Long): Sequence<T> = randomSequence(seed) { samples.random(it) }
-            }
+            return create { samples.random(it) }
         }
     }
 }
+
+/**
+ * Return the values to test for the given [seed].
+ *
+ * Start by the [Generator.samples] before emitting the [Generator.randoms]
+ */
+internal fun <T> Generator<T>.testValues(seed: Long): Sequence<T> =
+    samples.asSequence() + randoms(seed)
 
 /**
  * Returns a random sequence.

@@ -4,17 +4,16 @@ Generator operators
 Few operators are available as extension function on ``Generator`` to easily derive existing generators.
 
 
-``withSamples(vararg samples: T, ratio: Int = 0.2)``
-    add the given samples into the generated values
+``withSamples(vararg samples: T)``
+    add the given samples into the generated values, making sure the samples are always tested
 
-    the generated values will start by the samples, and then it will make sure that the ratio of samples/random values
-    stay >= to the given ratio
+``withNull()``
+    add ``null`` into the generated values, making sure is is always tested
 
-``withNull(ratio: Int = 0.2)``
-    add ``null`` into the generated values
+``withNaN()``
+    add ``NaN`` into the generated values, making sure is is always tested
 
-    the generated values will start by ``null``, and then it will make sure that the ratio of ``null``/random values
-    stay >= to the given ratio
+    (for double generators only)
 
 ``map(transform: (T) -> R)``
     apply a transformation to all elements emitted by the source generator
@@ -35,5 +34,8 @@ Few operators are available as extension function on ``Generator`` to easily der
 
 ``combineWith(other: Generator<B>, transform: (A, B) -> R)``
     Combine the generated values of both generators.
+
+    Generated values will start by a combination of the 5 first samples of both generators.
+    Then samples of each generator have a higher probability to appear than other random values.
 
     Not specifying the transform, will combine the value in pairs.

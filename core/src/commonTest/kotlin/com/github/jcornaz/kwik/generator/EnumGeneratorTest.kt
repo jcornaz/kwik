@@ -27,4 +27,9 @@ class EnumGeneratorTest : AbstractGeneratorTest() {
 
         assertTrue(counts.all { it in 1800..2200 })
     }
+
+    @Test
+    fun provideNoSamples() {
+        assertTrue(generator.samples.isEmpty())
+    }
 }

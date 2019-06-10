@@ -19,13 +19,16 @@ class IntGeneratorTest : AbstractGeneratorTest() {
 
     @Test
     fun produceInsideGivenRange() {
-        assertTrue(Generator.ints(-8, 14).randoms(42).take(200).all { it >= -8 && it <= 14 })
+        assertTrue(Generator.ints(-8, 14).randoms(0).take(1000).all { it >= -8 && it <= 14 })
     }
 
     @Test
-    fun startsWithEdgeCases() {
-        val edgeCases = Generator.ints().randoms(42).take(5).toSet()
+    fun provideSamples() {
+        assertEquals(setOf(Int.MIN_VALUE, Int.MAX_VALUE, -1, 0, 1), Generator.ints().samples)
+    }
 
-        assertEquals(setOf(Int.MIN_VALUE, Int.MAX_VALUE, -1, 0, 1), edgeCases)
+    @Test
+    fun samplesAreInRange() {
+        assertEquals(setOf(42, Int.MAX_VALUE), Generator.ints(min = 42).samples)
     }
 }
