@@ -1,10 +1,12 @@
 package com.github.jcornaz.kwik.runner
 
+import com.github.jcornaz.kwik.FalsifiedPropertyError
 import com.github.jcornaz.kwik.Generator
 import com.github.jcornaz.kwik.forAll
 import com.github.jcornaz.kwik.withSamples
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
 class ForAll3Test : AbstractRunnerTest() {
@@ -39,6 +41,30 @@ class ForAll3Test : AbstractRunnerTest() {
         assertTrue(123.0 in doubles)
         assertTrue(123.0 in doubles)
         assertTrue(-42L in longs)
+    }
+
+    @Test
+    fun falsificationDisplayHelpfulMessage() {
+        val exception = assertFailsWith<FalsifiedPropertyError> {
+            var i = 0
+            forAll(
+                Generator.create { 42 },
+                Generator.create { -4.1 },
+                Generator.create { 100L },
+                iterations = 123, seed = 78
+            ) { _, _, _ -> ++i < 12 }
+        }
+
+        assertEquals(
+            """
+                Property falsified after 12 tests (out of 123)
+                Argument 1: 42
+                Argument 2: -4.1
+                Argument 3: 100
+                Generation seed: 78
+            """.trimIndent(),
+            exception.message
+        )
     }
 
     @Test

@@ -26,14 +26,24 @@ fun <T> forAll(
 ) {
     require(iterations > 0) { "Iterations must be > 0, but was: $iterations" }
 
-    println("Iterations: $iterations")
-    println("Seed: $seed")
-
+    var attempts = 0
     generator.testValues(seed)
         .take(iterations)
-        .forEach {
-            if (!property(it)) throw AssertionError("Property falsified with: $it")
+        .forEach { argument ->
+            ++attempts
+            if (!property(argument))
+                throw FalsifiedPropertyError(attempts, iterations, seed, extractArgumentList(argument))
         }
+
+    println("OK, passed $attempts tests. (seed: $seed)")
+}
+
+private fun extractArgumentList(argument: Any?): List<Any?> {
+    return if (argument is ArgumentPair<*, *>) {
+        extractArgumentList(argument.first) + extractArgumentList(argument.second)
+    } else {
+        listOf(argument)
+    }
 }
 
 /**
@@ -68,8 +78,10 @@ inline fun <reified A, reified B> forAll(
     iterations: Int = KWIK_DEFAULT_ITERATIONS,
     seed: Long = Random.nextLong(),
     crossinline property: (A, B) -> Boolean
-): Unit = forAll(generatorA.combineWith(generatorB), iterations, seed) { (a, b) ->
-    property(a, b)
+) {
+    forAll(generatorA.combineWith(generatorB, ::ArgumentPair), iterations, seed) { (a, b) ->
+        property(a, b)
+    }
 }
 
 /**
@@ -90,7 +102,7 @@ inline fun <reified A, reified B, reified C> forAll(
     iterations: Int = KWIK_DEFAULT_ITERATIONS,
     seed: Long = Random.nextLong(),
     crossinline property: (A, B, C) -> Boolean
-): Unit = forAll(generatorA.combineWith(generatorB), generatorC, iterations, seed) { (a, b), c ->
+): Unit = forAll(generatorA.combineWith(generatorB, ::ArgumentPair), generatorC, iterations, seed) { (a, b), c ->
     property(a, b, c)
 }
 
@@ -114,8 +126,28 @@ inline fun <reified A, reified B, reified C, reified D> forAll(
     seed: Long = Random.nextLong(),
     crossinline property: (A, B, C, D) -> Boolean
 ): Unit = forAll(
-    generatorA = generatorA.combineWith(generatorB),
-    generatorB = generatorC.combineWith(generatorD),
+    generatorA = generatorA.combineWith(generatorB, ::ArgumentPair),
+    generatorB = generatorC.combineWith(generatorD, ::ArgumentPair),
     iterations = iterations,
     seed = seed
 ) { (a, b), (c, d) -> property(a, b, c, d) }
+
+/**
+ * Pair of argument. Used by [forAll] of higher arity to let the [forAll] of argument being able to display the argument list.
+ */
+data class ArgumentPair<A, B>(val first: A, val second: B)
+
+data class FalsifiedPropertyError(
+    val attempts: Int,
+    val iterations: Int,
+    val seed: Long,
+    val arguments: List<Any?>
+) : AssertionError(buildString {
+    append("Property falsified after $attempts tests (out of $iterations)\n")
+
+    arguments.forEachIndexed { index, arg ->
+        append("Argument ${index + 1}: $arg\n")
+    }
+
+    append("Generation seed: $seed")
+})
