@@ -5,7 +5,6 @@ import com.jfrog.bintray.gradle.BintrayPlugin
 import io.gitlab.arturbosch.detekt.DetektPlugin
 import io.gitlab.arturbosch.detekt.detekt
 import kr.motd.gradle.sphinx.gradle.SphinxTask
-import org.sonarqube.gradle.SonarQubeTask
 import java.util.*
 
 plugins {
@@ -14,7 +13,6 @@ plugins {
     id("org.ajoberstar.reckon") version "0.10.0"
     id("com.github.ben-manes.versions") version "0.21.0"
     id("io.gitlab.arturbosch.detekt") version "1.0.0-RC14" apply false
-    id("org.sonarqube") version "2.7"
     id("com.jfrog.bintray") version "1.8.4" apply false
     id("kr.motd.sphinx") version "2.4.0"
 }
@@ -130,21 +128,6 @@ subprojects {
     }
 }
 
-sonarqube {
-    properties {
-        property("sonar.host.url", "https://sonarcloud.io")
-        property("sonar.organization", "jcornaz-github")
-        property("sonar.projectKey", "jcornaz_kwik")
-
-        property("sonar.projectVersion", project.version.toString().let {
-            if ('+' in it) it.substringBeforeLast('.') else it
-        })
-
-        property("sonar.kotlin.detekt.reportPaths", "build/reports/detekt/detekt.xml")
-        property("sonar.coverage.exclusions", "**/commonMain/**")
-    }
-}
-
 tasks {
     register("version") {
         doLast {
@@ -155,12 +138,6 @@ tasks {
     val sphinx by existing {
         inputs.file("$rootDir/CHANGELOG.rst")
         inputs.file("$rootDir/README.rst")
-    }
-
-    withType<SonarQubeTask> {
-        subprojects.forEach {
-            dependsOn("${it.path}:detekt")
-        }
     }
 
     withType<SphinxTask> {

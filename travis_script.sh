@@ -3,10 +3,7 @@
 
 if [ "$TRAVIS_PULL_REQUEST" = "false" ]
 then
-    ./gradlew check bintrayUpload sonarqube --no-daemon --no-build-cache
-elif [ -z "$SONAR_TOKEN" ]
-then
-    ./gradlew check
+    ./gradlew check bintrayUpload --no-daemon --no-build-cache
 else
-    ./gradlew check sonarqube
+    ./gradlew check
 fi

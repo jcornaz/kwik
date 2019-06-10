@@ -1,9 +1,5 @@
 language: java
 
-addons:
-  sonarcloud:
-    organization: "jcornaz-github"
-
 branches:
   only:
     - master
