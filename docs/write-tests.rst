@@ -115,7 +115,7 @@ Sometime we want to exclude some specific set of input. For that, we can call ``
 
 .. literalinclude:: ../core/src/commonTest/kotlin/com/github/jcornaz/kwik/example/PlusOperatorTest.kt
     :language: kotlin
-    :dedent: 4
+    :dedent: 8
     :start-after: //region Skip evaluation
     :end-before: //endregion
 
