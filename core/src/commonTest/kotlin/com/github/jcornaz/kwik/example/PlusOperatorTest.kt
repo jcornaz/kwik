@@ -43,6 +43,17 @@ class PlusOperatorTest {
         //endregion
     }
 
+    @Test
+    fun skipEvaluation() {
+        //region Skip evaluation
+        forAll { x: Int, y: Int ->
+            skipIf(x == y)
+
+            x != y
+        }
+        //endregion
+    }
+
     //region Create a custom generator
     val customGenerator1 = Generator.create { rng -> CustomClass(rng.nextInt(), rng.nextInt()) }
     //endregion
