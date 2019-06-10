@@ -10,6 +10,11 @@ Few operators are available as extension function on ``Generator`` to easily der
 ``withNull()``
     add ``null`` into the generated values, making sure is is always tested
 
+``withNaN()``
+    add ``NaN`` into the generated values, making sure is is always tested
+
+    (for double and float generators only)
+
 ``map(transform: (T) -> R)``
     apply a transformation to all elements emitted by the source generator
 

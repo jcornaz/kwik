@@ -21,17 +21,17 @@ Primitives
     Generate longs. Includes the samples: ``0.0``, ``1.0``, ``-1.0``, ``min`` and ``max``.
 
     Note that ``NaN``, ``POSITIVE_INFINITY`` and ``POSITIVE_INFINITY`` are not generated.
-    To test theses, we can use ``withSamples()``
+    To test theses, we can use ``withSamples()`` or ``withNaN()``
 
-    Example: ``Generator.floats().withSamples(Double.NaN)``
+    Example: ``Generator.floats().withNaN().withSamples(Float.POSITIVE_INFINITY)``
 
 ``Generator.doubles(min = -Double.MAX_VALUE, max = Double.MAX_VALUE)``
     Generate doubles. Includes the samples: ``0.0``, ``1.0``, ``-1.0``, ``min`` and ``max``.
 
     Note that ``NaN``, ``POSITIVE_INFINITY`` and ``POSITIVE_INFINITY`` are not generated.
-    To test theses, we can use ``withSamples()``
+    To test theses, we can use ``withSamples()`` or ``withNaN()``
 
-    Example: ``Generator.doubles().withSamples(Float.NaN)``
+    Example: ``Generator.doubles().withNaN().withSamples(Double.POSITIVE_INFINITY)``
 
 ``Generator.booleans()``
     Generate booleans

@@ -31,4 +31,9 @@ class DoubleGeneratorTest : AbstractGeneratorTest() {
     fun samplesAreInRange() {
         assertEquals(setOf(1.0, Double.MAX_VALUE), Generator.doubles(min = 1.0).samples)
     }
+
+    @Test
+    fun withNaNIncludesNaNInSamples() {
+        assertTrue(Generator.doubles().withNaN().samples.any { it == Double.NaN })
+    }
 }
