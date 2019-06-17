@@ -1,6 +1,7 @@
 package com.github.jcornaz.kwik.generator
 
 import com.github.jcornaz.kwik.Generator
+import com.github.jcornaz.kwik.filterNot
 import com.github.jcornaz.kwik.withSamples
 
 @Suppress("MagicNumber", "TopLevelPropertyNaming")
@@ -37,3 +38,15 @@ fun Generator.Companion.strings(
 
     return generator.withSamples(samples)
 }
+
+fun Generator.Companion.nonEmptyStrings(
+    maxLength: Int = DEFAULT_MAX_SIZE,
+    charset: Set<Char> = PRINTABLE_CHARACTERS,
+    exclude: Set<Char> = emptySet()
+): Generator<String> = strings(1, maxLength, charset, exclude)
+
+fun Generator.Companion.nonBlankStrings(
+    maxLength: Int = DEFAULT_MAX_SIZE,
+    charset: Set<Char> = PRINTABLE_CHARACTERS,
+    exclude: Set<Char> = emptySet()
+): Generator<String> = nonEmptyStrings(maxLength, charset, exclude).filterNot { it.isBlank() }
