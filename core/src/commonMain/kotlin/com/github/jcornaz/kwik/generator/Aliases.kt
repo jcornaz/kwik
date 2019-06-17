@@ -16,3 +16,24 @@ fun Generator.Companion.naturalLongs(max: Long = Long.MAX_VALUE): Generator<Long
 
 fun Generator.Companion.nonZeroLongs(min: Long = Long.MIN_VALUE, max: Long = Long.MAX_VALUE): Generator<Long> =
     negativeLongs(min) + naturalLongs(max)
+
+fun Generator.Companion.positiveDoubles(max: Double = Double.MAX_VALUE): Generator<Double> =
+    doubles(0.0, max)
+
+fun Generator.Companion.negativeDoubles(min: Double = -Double.MAX_VALUE): Generator<Double> =
+    doubles(min, -Double.MIN_VALUE)
+
+fun Generator.Companion.nonZeroDoubles(
+    min: Double = -Double.MAX_VALUE,
+    max: Double = Double.MAX_VALUE
+): Generator<Double> =
+    negativeDoubles(min) + doubles(Double.MIN_VALUE, max)
+
+fun Generator.Companion.positiveFloats(max: Float = Float.MAX_VALUE): Generator<Float> =
+    floats(0f, max)
+
+fun Generator.Companion.negativeFloats(min: Float = -Float.MAX_VALUE): Generator<Float> =
+    floats(min, -Float.MIN_VALUE)
+
+fun Generator.Companion.nonZeroFloats(min: Float = -Float.MAX_VALUE, max: Float = Float.MAX_VALUE): Generator<Float> =
+    negativeFloats(min) + floats(Float.MIN_VALUE, max)
