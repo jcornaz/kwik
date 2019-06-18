@@ -14,8 +14,8 @@ private val PRINTABLE_CHARACTERS = (32..127).map { it.toChar() }.toSet()
  * @param exclude Characters to exclude from generated strings
  */
 fun Generator.Companion.strings(
-    minLength: Int = DEFAULT_MIN_SIZE,
-    maxLength: Int = maxOf(minLength, DEFAULT_MAX_SIZE),
+    minLength: Int = 0,
+    maxLength: Int = maxOf(minLength, KWIK_DEFAULT_MAX_SIZE),
     charset: Set<Char> = PRINTABLE_CHARACTERS,
     exclude: Set<Char> = emptySet()
 ): Generator<String> {
@@ -40,13 +40,13 @@ fun Generator.Companion.strings(
 }
 
 fun Generator.Companion.nonEmptyStrings(
-    maxLength: Int = DEFAULT_MAX_SIZE,
+    maxLength: Int = KWIK_DEFAULT_MAX_SIZE,
     charset: Set<Char> = PRINTABLE_CHARACTERS,
     exclude: Set<Char> = emptySet()
 ): Generator<String> = strings(1, maxLength, charset, exclude)
 
 fun Generator.Companion.nonBlankStrings(
-    maxLength: Int = DEFAULT_MAX_SIZE,
+    maxLength: Int = KWIK_DEFAULT_MAX_SIZE,
     charset: Set<Char> = PRINTABLE_CHARACTERS,
     exclude: Set<Char> = emptySet()
 ): Generator<String> = nonEmptyStrings(maxLength, charset, exclude).filterNot { it.isBlank() }
