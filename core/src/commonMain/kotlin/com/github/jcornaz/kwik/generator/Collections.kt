@@ -17,6 +17,11 @@ fun <T> Generator.Companion.lists(
     maxSize: Int = maxOf(minSize, KWIK_DEFAULT_MAX_SIZE)
 ): Generator<List<T>> = ListGenerator(elementGen, minSize, maxSize)
 
+/**
+ * Returns a generator of non-empty [List] where sizes are all between 1 and [maxSize] (inclusive)
+ *
+ * @param elementGen Generator to use for elements in the list
+ */
 fun <T> Generator.Companion.nonEmptyLists(
     elementGen: Generator<T>,
     maxSize: Int = KWIK_DEFAULT_MAX_SIZE
@@ -32,6 +37,9 @@ inline fun <reified T> Generator.Companion.lists(
 ): Generator<List<T>> =
     lists(Generator.default(), minSize, maxSize)
 
+/**
+ * Returns a generator of non-empty [List] using a default generator for the elements
+ */
 inline fun <reified T> Generator.Companion.nonEmptyLists(maxSize: Int = KWIK_DEFAULT_MAX_SIZE): Generator<List<T>> =
     lists(Generator.default(), 1, maxSize)
 
@@ -76,6 +84,11 @@ fun <T> Generator.Companion.sets(
     maxSize: Int = maxOf(minSize, KWIK_DEFAULT_MAX_SIZE)
 ): Generator<Set<T>> = SetGenerator(elementGen, minSize, maxSize)
 
+/**
+ * Returns a generator of non-empty [Set] where sizes are all between 1 and [maxSize] (inclusive)
+ *
+ * @param elementGen Generator to use for elements in the set
+ */
 fun <T> Generator.Companion.nonEmptySets(
     elementGen: Generator<T>,
     maxSize: Int = KWIK_DEFAULT_MAX_SIZE
@@ -90,6 +103,9 @@ inline fun <reified T> Generator.Companion.sets(
 ): Generator<Set<T>> =
     sets(Generator.default(), minSize, maxSize)
 
+/**
+ * Returns a generator of non-empty [Set] using a default generator for the elements
+ */
 inline fun <reified T> Generator.Companion.nonEmptySets(maxSize: Int = KWIK_DEFAULT_MAX_SIZE): Generator<Set<T>> =
     sets(Generator.default(), 1, maxSize)
 
@@ -152,6 +168,12 @@ fun <K, V> Generator.Companion.maps(
     maxSize: Int = maxOf(minSize, KWIK_DEFAULT_MAX_SIZE)
 ): Generator<Map<K, V>> = MapGenerator(keyGen, valueGen, minSize, maxSize)
 
+/**
+ * Returns a generator of non-empty [Map] where sizes are all between 1 and [maxSize] (inclusive)
+ *
+ * @param keyGen Generator to use for keys in the map
+ * @param valueGen Generator to use for values in the map
+ */
 fun <K, V> Generator.Companion.nonEmptyMaps(
     keyGen: Generator<K>,
     valueGen: Generator<V>,
@@ -167,11 +189,13 @@ inline fun <reified K, reified V> Generator.Companion.maps(
 ): Generator<Map<K, V>> =
     maps(Generator.default(), Generator.default(), minSize, maxSize)
 
+/**
+ * Returns a generator of non-empty [Map] using a default generator for the elements
+ */
 inline fun <reified K, reified V> Generator.Companion.nonEmptyMaps(
     maxSize: Int = KWIK_DEFAULT_MAX_SIZE
 ): Generator<Map<K, V>> =
     maps(Generator.default(), Generator.default(), 1, maxSize)
-
 
 private class MapGenerator<K, V>(
     private val keyGen: Generator<K>,

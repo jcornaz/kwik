@@ -39,12 +39,24 @@ fun Generator.Companion.strings(
     return generator.withSamples(samples)
 }
 
+/**
+ * Returns a generator of String of length between 1 and [maxLength] (inclusive)
+ *
+ * @param charset Set of character to be used in generated strings
+ * @param exclude Characters to exclude from generated strings
+ */
 fun Generator.Companion.nonEmptyStrings(
     maxLength: Int = KWIK_DEFAULT_MAX_SIZE,
     charset: Set<Char> = PRINTABLE_CHARACTERS,
     exclude: Set<Char> = emptySet()
 ): Generator<String> = strings(1, maxLength, charset, exclude)
 
+/**
+ * Returns a generator of non-blank String of length between 1 and [maxLength] (inclusive)
+ *
+ * @param charset Set of character to be used in generated strings
+ * @param exclude Characters to exclude from generated strings
+ */
 fun Generator.Companion.nonBlankStrings(
     maxLength: Int = KWIK_DEFAULT_MAX_SIZE,
     charset: Set<Char> = PRINTABLE_CHARACTERS,
