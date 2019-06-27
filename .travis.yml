@@ -9,7 +9,7 @@ git:
   depth: false
 
 jdk:
-  - oraclejdk11
+  - openjdk11
 
 script:
   - ./travis_script.sh
