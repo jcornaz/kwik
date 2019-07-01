@@ -34,6 +34,7 @@ fun <T> forAll(
     while (attempts < iterations) {
         val argument = iterator.next()
 
+        @Suppress("SwallowedException") // SkipEvaluation is used to silently skip an evaluation
         val isSatisfied = try {
             context.property(argument).also { ++attempts }
         } catch (skip: SkipEvaluation) {

@@ -57,8 +57,7 @@ private class ListGenerator<T>(
     }
 
     init {
-        require(minSize >= 0) { "Invalid size: $minSize" }
-        require(maxSize >= minSize) { "Invalid max size: $minSize" }
+        requireValidSizes(minSize, maxSize)
     }
 
     override fun randoms(seed: Long): Sequence<List<T>> = sequence {
@@ -124,8 +123,7 @@ private class SetGenerator<T>(
     }
 
     init {
-        require(minSize >= 0) { "Invalid size: $minSize" }
-        require(maxSize >= minSize) { "Invalid max size: $minSize" }
+        requireValidSizes(minSize, maxSize)
     }
 
     override fun randoms(seed: Long): Sequence<Set<T>> = sequence {
@@ -146,7 +144,8 @@ private class SetGenerator<T>(
                 ++extraAttempt
             }
 
-            if (set.size < minSize) throw Exception("Failed to create a set with the requested minimum of element")
+            if (set.size < minSize)
+                error("Failed to create a set with the requested minimum of element")
 
             yield(set)
         }
@@ -216,8 +215,7 @@ private class MapGenerator<K, V>(
     }
 
     init {
-        require(minSize >= 0) { "Invalid size: $minSize" }
-        require(maxSize >= minSize) { "Invalid max size: $minSize" }
+        requireValidSizes(minSize, maxSize)
     }
 
     override fun randoms(seed: Long): Sequence<Map<K, V>> = sequence {
@@ -239,9 +237,15 @@ private class MapGenerator<K, V>(
                 ++extraAttempt
             }
 
-            if (map.size < minSize) throw Exception("Failed to create a set with the requested minimum of element")
+            if (map.size < minSize)
+                error("Failed to create a set with the requested minimum of element")
 
             yield(map)
         }
     }
+}
+
+private fun requireValidSizes(minSize: Int, maxSize: Int) {
+    require(minSize >= 0) { "Invalid min size: $minSize" }
+    require(maxSize >= minSize) { "Invalid max size: $minSize" }
 }
