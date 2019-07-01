@@ -81,3 +81,51 @@ class MapGeneratorTest : AbstractGeneratorTest() {
         }
     }
 }
+
+class NonEmptyMapGeneratorTest : AbstractGeneratorTest() {
+    override val generator: Generator<Map<Int, Double>> = Generator.nonEmptyMaps()
+
+    @Test
+    fun generateInGivenSizeRange() {
+        val values = Generator.nonEmptyMaps(Generator.ints(), Generator.doubles(), maxSize = 12)
+            .randoms(0)
+            .take(200)
+
+        assertTrue(values.all { it.size in 1..12 })
+    }
+
+    @Test
+    fun samplesDoesNotContainsEmpty() {
+        assertTrue(Generator.nonEmptyMaps<Int, Double>().samples.none { it.isEmpty() })
+    }
+
+    @Test
+    fun samplesContainsSingletons() {
+        assertTrue(Generator.nonEmptyMaps<Int, Double>().samples.any { it.size == 1 })
+    }
+
+    @Test
+    fun generateOfManySize() {
+        val sizes = mutableSetOf<Int>()
+
+        Generator.nonEmptyMaps(Generator.ints(), Generator.doubles())
+            .randoms(0)
+            .take(200)
+            .forEach {
+                sizes += it.size
+            }
+
+        assertTrue(sizes.size > 60)
+    }
+
+    @Test
+    fun generateDifferentValues() {
+        val values = mutableSetOf<Map<Int, Double>>()
+
+        Generator.nonEmptyMaps<Int, Double>().randoms(0).take(200).forEach {
+            values += it
+        }
+
+        assertTrue(values.size > 100)
+    }
+}

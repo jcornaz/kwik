@@ -78,3 +78,51 @@ class SetGeneratorTest : AbstractGeneratorTest() {
         }
     }
 }
+
+class NonEmptySetGeneratorTest : AbstractGeneratorTest() {
+    override val generator: Generator<Set<Int>> = Generator.nonEmptySets()
+
+    @Test
+    fun generateInGivenSizeRange() {
+        val values = Generator.nonEmptySets(Generator.ints(), maxSize = 12)
+            .randoms(0)
+            .take(200)
+
+        assertTrue(values.all { it.size in 1..12 })
+    }
+
+    @Test
+    fun samplesDoesNotContainsEmpty() {
+        assertTrue(Generator.nonEmptySets<Int>().samples.none { it.isEmpty() })
+    }
+
+    @Test
+    fun samplesContainsSingletons() {
+        assertTrue(Generator.nonEmptySets<Int>().samples.any { it.size == 1 })
+    }
+
+    @Test
+    fun generateOfManySize() {
+        val sizes = mutableSetOf<Int>()
+
+        Generator.nonEmptySets(Generator.ints())
+            .randoms(0)
+            .take(200)
+            .forEach {
+                sizes += it.size
+            }
+
+        assertTrue(sizes.size > 60)
+    }
+
+    @Test
+    fun generateDifferentValues() {
+        val values = mutableSetOf<Set<Int>>()
+
+        Generator.nonEmptySets<Int>().randoms(0).take(200).forEach {
+            values += it
+        }
+
+        assertTrue(values.size > 100)
+    }
+}

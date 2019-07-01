@@ -17,6 +17,13 @@ Added
 
 * **(Breaking)** ``PropertyEvaluationContext`` available as a type-receiver in property evaluation
 * ``skipIf`` function on ``PropertyEvaluationContext`` allowing to skip a property evaluation for some specific set of input
+* Few aliases to get common generators:
+    * ``positiveInts``, ``naturalInts``, ``negativeInts`` and ``nonZeroInts``
+    * ``positiveLongs``, ``naturalLongs``, ``negativeLongs`` and ``nonZeroLongs``
+    * ``positiveFloats``, ``negativeFloats`` and ``nonZeroFloats``
+    * ``positiveDoubles``, ``negativeDoubles`` and ``nonZeroDoubles``
+    * ``nonEmptyStrings`` and ``nonBlankStrings``
+    * ``nonEmptyLists``, ``nonEmptySets`` and ``nonEmptyMaps``
 
 Changed
 .......

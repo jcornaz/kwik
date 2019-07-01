@@ -15,8 +15,12 @@ Primitives
 ``Generator.ints(min = Int.MIN_VALUE, max = Int.MAX_VALUE)``
     Generate integers. Includes the samples: ``0``, ``1``, ``-1``, ``min`` and ``max``.
 
+    Note that there are also ``positiveInts``, ``naturalInts``, ``negativeInts`` and ``nonZeroInts`` alternatives
+
 ``Generator.longs(min = Long.MIN_VALUE, max = Long.MAX_VALUE)``
     Generate longs. Includes the samples: ``0``, ``1``, ``-1``, ``min`` and ``max``.
+
+    Note that there are also ``positiveLongs``, ``naturalLongs``, ``negativeLongs`` and ``nonZeroLongs`` alternatives
 
 ``Generator.floats(min = -Float.MAX_VALUE, max = Float.MAX_VALUE)``
     Generate longs. Includes the samples: ``0.0``, ``1.0``, ``-1.0``, ``min`` and ``max``.
@@ -26,6 +30,8 @@ Primitives
 
     Example: ``Generator.floats().withNaN().withSamples(Float.POSITIVE_INFINITY)``
 
+    Note that there are also ``positiveFloats``, ``negativeFloats`` and ``nonZeroFloats`` alternatives
+
 ``Generator.doubles(min = -Double.MAX_VALUE, max = Double.MAX_VALUE)``
     Generate doubles. Includes the samples: ``0.0``, ``1.0``, ``-1.0``, ``min`` and ``max``.
 
@@ -33,6 +39,8 @@ Primitives
     To test theses, we can use ``withSamples()`` or ``withNaN()``
 
     Example: ``Generator.doubles().withNaN().withSamples(Double.POSITIVE_INFINITY)``
+
+    Note that there are also ``positiveDoubles``, ``negativeDoubles`` and ``nonZeroDoubles`` alternatives
 
 ``Generator.booleans()``
     Generate booleans
