@@ -32,17 +32,14 @@ Property-based testing library for Kotlin.
 
 .. startReferenceToDoc
 
-Find more information about setup_ and usage_ on https://kwik.readthedocs.io
-
-.. _setup: https://kwik.readthedocs.io/en/latest/setup.html
-.. _usage: https://kwik.readthedocs.io/en/latest/write-tests.html
+Find more information on https://kwik.readthedocs.io
 
 .. endReferenceToDoc
 
 Status
 ------
 
-The project is incubating and the API may evolve in the future.
+The project is incubating and its API is subject to changes.
 
 Please give it a try and write a feed back in the issues_ or discuss on gitter_
 
@@ -77,6 +74,7 @@ How it looks like
 For more information read the usage_ and look at the available generators_
 
 .. _generators: https://kwik.readthedocs.io/en/latest/built-in-generators.html
+.. _usage: https://kwik.readthedocs.io/en/latest/write-tests.html
 
 .. endUsageReference
 
@@ -114,5 +112,7 @@ Example of setup using gradle.
 .. startReferenceToSetup
 
 Find more detailed information, read the setup_ instructions.
+
+.. _setup: https://kwik.readthedocs.io/en/latest/setup.html
 
 .. endReferenceToSetup

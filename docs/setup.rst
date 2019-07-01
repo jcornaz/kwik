@@ -10,7 +10,7 @@ So before being able to use Kwik you have to setup a test-engine for your projec
 If the project is for the JVM (Java), you probably want to use Junit_ or Spek_.
 
 .. note::
-    kotlintest_ provide a similar API than Kwik.
+    If you choose to use kotlintest_ as a test-engine, be aware that it includes a similar property-based testing API.
 
     In order to don't get confused by mixing the two libraries you may exclude the ``kotlintest-assertions`` artifact
     or introduce some rules in your IDE and/or linter to prevent usages of the package `io.kotlintest.properties`.
