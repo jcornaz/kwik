@@ -9,8 +9,15 @@ and this project adheres to `Semantic Versioning`_.
 .. _Keep a Changelog: https://keepachangelog.com/en/1.0.0
 .. _Semantic Versioning: https://semver.org/spec/v2.0.0.html
 
+.. startUnreleasedBlock
+
 Unreleased_
 -----------
+
+.. endUnreleasedBlock
+
+0.1.0-beta.1_ - 2019-07-01
+--------------------------
 
 Added
 .....
@@ -111,7 +118,8 @@ Added
 * ``withSample`` and ``withNull`` to inject constants values to be always tested
 * ``zip`` operator to combine two given generators
 
-.. _Unreleased: https://github.com/jcornaz/kwik/compare/0.1.0-alpha.4...develop
+.. _Unreleased: https://github.com/jcornaz/kwik/compare/0.1.0-beta.1...develop
+.. _0.1.0-beta.1: https://github.com/jcornaz/kwik/compare/0.1.0-alpha.4...0.1.0-beta.1
 .. _0.1.0-alpha.4: https://github.com/jcornaz/kwik/compare/0.1.0-alpha.3...0.1.0-alpha.4
 .. _0.1.0-alpha.3: https://github.com/jcornaz/kwik/compare/0.1.0-alpha.2...0.1.0-alpha.3
 .. _0.1.0-alpha.2: https://github.com/jcornaz/kwik/compare/0.1.0-alpha.1...0.1.0-alpha.2
