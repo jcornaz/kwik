@@ -31,6 +31,11 @@ Changed
 * Show test details in console only in case of success
 * Improved exception message in case of falsified property (and introduce typed exception ``FalsifiedPropertyError``
 
+Dependencies Updated
+....................
+
+* Kotlin (from ``1.3.31`` to ``1.3.40``)
+
 0.1.0-alpha.4_ - 2019-06-10
 ---------------------------
 
