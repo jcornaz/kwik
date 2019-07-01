@@ -111,7 +111,6 @@ inline fun <reified A, reified B> forAll(
  * @param property Function invoked multiple times with random inputs to assess a property of the System under test.
  *                 Must return a boolean (true = satisfied, false = falsified)
  */
-@Suppress("LongParameterList")
 inline fun <reified A, reified B, reified C> forAll(
     generatorA: Generator<A> = Generator.default(),
     generatorB: Generator<B> = Generator.default(),
@@ -133,7 +132,6 @@ inline fun <reified A, reified B, reified C> forAll(
  * @param property Function invoked multiple times with random inputs to assess a property of the System under test.
  *                 Must return a boolean (true = satisfied, false = falsified)
  */
-@Suppress("LongParameterList")
 inline fun <reified A, reified B, reified C, reified D> forAll(
     generatorA: Generator<A> = Generator.default(),
     generatorB: Generator<B> = Generator.default(),

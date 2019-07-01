@@ -4,7 +4,7 @@ import com.github.jcornaz.kwik.Generator
 import com.github.jcornaz.kwik.filterNot
 import com.github.jcornaz.kwik.withSamples
 
-@Suppress("MagicNumber", "TopLevelPropertyNaming")
+@Suppress("MagicNumber")
 private val PRINTABLE_CHARACTERS = (32..127).map { it.toChar() }.toSet()
 
 /**
