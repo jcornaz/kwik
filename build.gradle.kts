@@ -5,6 +5,7 @@ import com.jfrog.bintray.gradle.BintrayPlugin
 import io.gitlab.arturbosch.detekt.DetektPlugin
 import io.gitlab.arturbosch.detekt.detekt
 import kr.motd.gradle.sphinx.gradle.SphinxTask
+import org.jetbrains.kotlin.backend.common.onlyIf
 import java.util.*
 
 plugins {
@@ -95,7 +96,7 @@ subprojects {
         key = System.getenv("BINTRAY_KEY")
         publish = true
 
-        override = '+' in project.version.toString()
+        override = true
 
         with(pkg) {
             userOrg = "kwik"
