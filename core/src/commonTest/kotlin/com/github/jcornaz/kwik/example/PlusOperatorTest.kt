@@ -1,10 +1,7 @@
 package com.github.jcornaz.kwik.example
 
 import com.github.jcornaz.kwik.*
-import com.github.jcornaz.kwik.generator.doubles
-import com.github.jcornaz.kwik.generator.enum
-import com.github.jcornaz.kwik.generator.ints
-import com.github.jcornaz.kwik.generator.withNaN
+import com.github.jcornaz.kwik.generator.*
 import kotlin.test.Test
 
 class PlusOperatorTest {

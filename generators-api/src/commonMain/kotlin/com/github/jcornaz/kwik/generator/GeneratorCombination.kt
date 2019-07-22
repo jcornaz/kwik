@@ -1,5 +1,6 @@
 package com.github.jcornaz.kwik
 
+import com.github.jcornaz.kwik.generator.Generator
 import kotlin.random.Random
 
 private const val SAMPLE_PROBABILITY = 0.15

@@ -1,6 +1,5 @@
 package com.github.jcornaz.kwik.generator
 
-import com.github.jcornaz.kwik.Generator
 import kotlin.test.Test
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue

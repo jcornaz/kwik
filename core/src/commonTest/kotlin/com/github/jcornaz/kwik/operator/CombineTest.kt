@@ -1,6 +1,7 @@
 package com.github.jcornaz.kwik.operator
 
 import com.github.jcornaz.kwik.*
+import com.github.jcornaz.kwik.generator.Generator
 import com.github.jcornaz.kwik.generator.doubles
 import com.github.jcornaz.kwik.generator.ints
 import kotlin.test.Test

@@ -1,5 +1,6 @@
 package com.github.jcornaz.kwik
 
+import com.github.jcornaz.kwik.generator.Generator
 import com.github.jcornaz.kwik.generator.default
 import kotlin.random.Random
 
@@ -170,3 +171,11 @@ data class FalsifiedPropertyError(
 
     append("Generation seed: $seed")
 })
+
+/**
+ * Return the values to test for the given [seed].
+ *
+ * Start by the [Generator.samples] before emitting the [Generator.randoms]
+ */
+internal fun <T> Generator<T>.testValues(seed: Long): Sequence<T> =
+    samples.asSequence() + randoms(seed)

@@ -1,7 +1,7 @@
 package com.github.jcornaz.kwik.runner
 
 import com.github.jcornaz.kwik.FalsifiedPropertyError
-import com.github.jcornaz.kwik.Generator
+import com.github.jcornaz.kwik.generator.Generator
 import com.github.jcornaz.kwik.forAll
 import com.github.jcornaz.kwik.withSamples
 import kotlin.test.Test
@@ -22,7 +22,7 @@ class ForAll1Test : AbstractRunnerTest() {
         val values = mutableSetOf<Int>()
 
         val gen = Generator.create { it.nextInt(0, 10) }.withSamples(42, 100)
-        
+
         forAll<Int>(gen) {
             values += it
             true

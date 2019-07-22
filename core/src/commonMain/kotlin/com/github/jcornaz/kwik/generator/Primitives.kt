@@ -1,6 +1,5 @@
 package com.github.jcornaz.kwik.generator
 
-import com.github.jcornaz.kwik.Generator
 import com.github.jcornaz.kwik.map
 import com.github.jcornaz.kwik.plus
 import com.github.jcornaz.kwik.withSamples

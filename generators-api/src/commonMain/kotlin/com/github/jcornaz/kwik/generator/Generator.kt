@@ -1,4 +1,4 @@
-package com.github.jcornaz.kwik
+package com.github.jcornaz.kwik.generator
 
 import kotlin.random.Random
 
@@ -46,14 +46,6 @@ interface Generator<T> {
         }
     }
 }
-
-/**
- * Return the values to test for the given [seed].
- *
- * Start by the [Generator.samples] before emitting the [Generator.randoms]
- */
-internal fun <T> Generator<T>.testValues(seed: Long): Sequence<T> =
-    samples.asSequence() + randoms(seed)
 
 /**
  * Returns a random sequence.

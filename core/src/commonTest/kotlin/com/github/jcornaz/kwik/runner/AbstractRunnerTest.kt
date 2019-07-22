@@ -1,8 +1,7 @@
 package com.github.jcornaz.kwik.runner
 
-import com.github.jcornaz.kwik.Generator
+import com.github.jcornaz.kwik.generator.Generator
 import com.github.jcornaz.kwik.forAll
-import com.github.jcornaz.kwik.generator.ints
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
