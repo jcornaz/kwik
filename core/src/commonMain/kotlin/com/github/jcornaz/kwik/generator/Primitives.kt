@@ -1,7 +1,6 @@
 package com.github.jcornaz.kwik.generator
 
 import com.github.jcornaz.kwik.map
-import com.github.jcornaz.kwik.plus
 import com.github.jcornaz.kwik.withSamples
 import kotlin.random.nextInt
 import kotlin.random.nextLong

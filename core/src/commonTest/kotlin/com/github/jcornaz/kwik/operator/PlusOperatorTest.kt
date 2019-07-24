@@ -2,7 +2,7 @@ package com.github.jcornaz.kwik.operator
 
 import com.github.jcornaz.kwik.AbstractGeneratorTest
 import com.github.jcornaz.kwik.generator.Generator
-import com.github.jcornaz.kwik.plus
+import com.github.jcornaz.kwik.generator.plus
 import com.github.jcornaz.kwik.withSamples
 import kotlin.test.Test
 import kotlin.test.assertEquals
