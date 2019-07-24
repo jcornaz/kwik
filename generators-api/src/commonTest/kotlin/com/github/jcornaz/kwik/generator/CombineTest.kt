@@ -1,8 +1,7 @@
-package com.github.jcornaz.kwik.operator
+package com.github.jcornaz.kwik.generator
 
-import com.github.jcornaz.kwik.*
-import com.github.jcornaz.kwik.generator.*
 import com.github.jcornaz.kwik.generator.test.AbstractGeneratorTest
+import com.github.jcornaz.kwik.withSamples
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -42,8 +41,8 @@ class CombineTest : AbstractGeneratorTest() {
     @Test
     fun randomValuesContainsSamples() {
         val gen = Generator.combine(
-            Generator.ints(min = 3).withSamples(1, 2),
-            Generator.doubles(min = 3.0).withSamples(1.0, 2.0)
+            Generator.create { it.nextInt() + 3 }.withSamples(1, 2),
+            Generator.create { it.nextDouble() + 3.0 }.withSamples(1.0, 2.0)
         )
 
         assertTrue(gen.randoms(0).take(100).any { (x, y) -> x < 3 && y >= 3 })
@@ -94,8 +93,8 @@ class CombineWithTransformTest : AbstractGeneratorTest() {
     @Test
     fun randomValuesContainsSamples() {
         val gen = Generator.combine(
-            Generator.ints(min = 3).withSamples(1, 2),
-            Generator.doubles(min = 3.0).withSamples(1.0, 2.0)
+            Generator.create { it.nextInt() + 3 }.withSamples(1, 2),
+            Generator.create { it.nextDouble() + 3.0 }.withSamples(1.0, 2.0)
         ) { a, b -> CombinedValues(a, b) }
 
         assertTrue(gen.randoms(0).take(100).any { (x, y) -> x < 3 && y >= 3 })
@@ -132,7 +131,7 @@ class CombineWithTest : AbstractGeneratorTest() {
 
     @Test
     fun randomValuesContainsSamples() {
-        val gen = Generator.ints(min = 3).withSamples(1, 2)
+        val gen = Generator.create { it.nextInt() + 3 }.withSamples(1, 2)
             .combineWith(Generator.create { it.nextInt().toString() }.withSamples("one", "two"))
 
         assertTrue(gen.randoms(0).take(100).any { (x, y) -> x < 3 && y !in setOf("one", "two") })
@@ -178,8 +177,8 @@ class CombineWithWithTransformTest : AbstractGeneratorTest() {
 
     @Test
     fun randomValuesContainsSamples() {
-        val gen = Generator.ints(min = 3).withSamples(1, 2)
-            .combineWith(Generator.doubles(min = 3.0).withSamples(-1.0, -2.0)) { a, b ->
+        val gen = Generator.create { it.nextInt() + 3 }.withSamples(1, 2)
+            .combineWith(Generator.create { it.nextDouble() + 3.0 }.withSamples(-1.0, -2.0)) { a, b ->
                 CombinedValues(a, b)
             }
 
