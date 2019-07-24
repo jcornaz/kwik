@@ -1,21 +1,20 @@
-package com.github.jcornaz.kwik.generator
+package com.github.jcornaz.kwik.generator.stdlib
 
+import com.github.jcornaz.kwik.generator.Generator
 import com.github.jcornaz.kwik.generator.test.AbstractGeneratorTest
 import kotlin.test.Test
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
-class FiniteValueSetGenerator : AbstractGeneratorTest() {
-    override val generator: Generator<Int> = Generator.of(0, 1, 2, 3, 4)
+class EnumGeneratorTest : AbstractGeneratorTest() {
+    enum class ExampleEnum { A, B, C, D, E }
+    enum class EmptyEnum
+
+    override val generator: Generator<ExampleEnum> = Generator.enum()
 
     @Test
     fun failsIfNoGivenSample() {
-        assertFailsWith<IllegalArgumentException> { Generator.of<Int>() }
-    }
-
-    @Test
-    fun generateOnlyGivenSamples() {
-        assertTrue(generator.randoms(-78).take(200).all { it in 0..4 })
+        assertFailsWith<IllegalArgumentException> { Generator.enum<EmptyEnum>() }
     }
 
     @Test
@@ -23,7 +22,7 @@ class FiniteValueSetGenerator : AbstractGeneratorTest() {
         val counts = IntArray(5)
 
         generator.randoms(-37).take(10_000).forEach {
-            counts[it]++
+            counts[it.ordinal]++
         }
 
         assertTrue(counts.all { it in 1800..2200 })

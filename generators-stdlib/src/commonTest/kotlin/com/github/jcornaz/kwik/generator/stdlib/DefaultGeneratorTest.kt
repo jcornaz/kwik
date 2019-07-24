@@ -1,6 +1,6 @@
-package com.github.jcornaz.kwik.generator
+package com.github.jcornaz.kwik.generator.stdlib
 
-import com.github.jcornaz.kwik.generator.stdlib.default
+import com.github.jcornaz.kwik.generator.Generator
 import kotlin.test.Test
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
