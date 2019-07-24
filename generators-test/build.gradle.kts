@@ -5,11 +5,5 @@ kotlin {
                 api(project(":generators-api"))
             }
         }
-
-        commonTest {
-            dependencies {
-                implementation(project(":generators-test"))
-            }
-        }
     }
 }

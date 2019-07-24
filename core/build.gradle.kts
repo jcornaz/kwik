@@ -7,5 +7,11 @@ kotlin {
                 api(project(":generators-stdlib"))
             }
         }
+
+        commonTest {
+            dependencies {
+                implementation(project(":generators-test"))
+            }
+        }
     }
 }
