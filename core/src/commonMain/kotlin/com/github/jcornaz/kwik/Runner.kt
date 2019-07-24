@@ -28,7 +28,7 @@ fun <T> forAll(
 ) {
     require(iterations > 0) { "Iterations must be > 0, but was: $iterations" }
 
-    val context = PropertyEvaluationContextImpl()
+    val context = PropertyEvaluationContextImpl
 
     var attempts = 0
     val iterator = generator.testValues(seed).iterator()
@@ -50,7 +50,7 @@ fun <T> forAll(
     println("OK, passed $attempts tests. (seed: $seed)")
 }
 
-private class PropertyEvaluationContextImpl : PropertyEvaluationContext {
+private object PropertyEvaluationContextImpl : PropertyEvaluationContext {
     override fun skipIf(condition: Boolean) {
         if (condition) throw SkipEvaluation()
     }
