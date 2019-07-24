@@ -1,5 +1,9 @@
 package com.github.jcornaz.kwik.generator
 
+import com.github.jcornaz.kwik.generator.stdlib.floats
+import com.github.jcornaz.kwik.generator.stdlib.negativeFloats
+import com.github.jcornaz.kwik.generator.stdlib.nonZeroFloats
+import com.github.jcornaz.kwik.generator.stdlib.positiveFloats
 import com.github.jcornaz.kwik.generator.test.AbstractGeneratorTest
 import kotlin.test.Test
 import kotlin.test.assertEquals

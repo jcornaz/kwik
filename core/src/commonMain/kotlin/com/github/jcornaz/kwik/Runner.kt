@@ -2,7 +2,7 @@ package com.github.jcornaz.kwik
 
 import com.github.jcornaz.kwik.generator.Generator
 import com.github.jcornaz.kwik.generator.combineWith
-import com.github.jcornaz.kwik.generator.default
+import com.github.jcornaz.kwik.generator.stdlib.default
 import kotlin.random.Random
 
 /**

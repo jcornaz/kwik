@@ -1,5 +1,8 @@
 package com.github.jcornaz.kwik.generator
 
+import com.github.jcornaz.kwik.generator.stdlib.ints
+import com.github.jcornaz.kwik.generator.stdlib.nonEmptySets
+import com.github.jcornaz.kwik.generator.stdlib.sets
 import com.github.jcornaz.kwik.generator.test.AbstractGeneratorTest
 import kotlin.test.Test
 import kotlin.test.assertEquals

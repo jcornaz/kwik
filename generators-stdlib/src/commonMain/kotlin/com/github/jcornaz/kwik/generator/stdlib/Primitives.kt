@@ -1,5 +1,7 @@
-package com.github.jcornaz.kwik.generator
+package com.github.jcornaz.kwik.generator.stdlib
 
+import com.github.jcornaz.kwik.generator.Generator
+import com.github.jcornaz.kwik.generator.plus
 import com.github.jcornaz.kwik.map
 import com.github.jcornaz.kwik.withSamples
 import kotlin.random.nextInt

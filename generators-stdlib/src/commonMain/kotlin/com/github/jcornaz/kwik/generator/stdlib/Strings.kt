@@ -1,6 +1,7 @@
-package com.github.jcornaz.kwik.generator
+package com.github.jcornaz.kwik.generator.stdlib
 
 import com.github.jcornaz.kwik.filterNot
+import com.github.jcornaz.kwik.generator.Generator
 import com.github.jcornaz.kwik.withSamples
 
 @Suppress("MagicNumber")

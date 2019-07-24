@@ -1,5 +1,9 @@
 package com.github.jcornaz.kwik.generator
 
+import com.github.jcornaz.kwik.generator.stdlib.doubles
+import com.github.jcornaz.kwik.generator.stdlib.ints
+import com.github.jcornaz.kwik.generator.stdlib.maps
+import com.github.jcornaz.kwik.generator.stdlib.nonEmptyMaps
 import com.github.jcornaz.kwik.generator.test.AbstractGeneratorTest
 import kotlin.test.Test
 import kotlin.test.assertEquals

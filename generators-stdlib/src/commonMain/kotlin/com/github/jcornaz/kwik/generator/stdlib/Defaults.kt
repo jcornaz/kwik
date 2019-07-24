@@ -1,5 +1,6 @@
-package com.github.jcornaz.kwik.generator
+package com.github.jcornaz.kwik.generator.stdlib
 
+import com.github.jcornaz.kwik.generator.*
 import com.github.jcornaz.kwik.withNull
 
 /**
