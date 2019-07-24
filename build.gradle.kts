@@ -5,7 +5,6 @@ import com.jfrog.bintray.gradle.BintrayPlugin
 import io.gitlab.arturbosch.detekt.DetektPlugin
 import io.gitlab.arturbosch.detekt.detekt
 import kr.motd.gradle.sphinx.gradle.SphinxTask
-import org.jetbrains.kotlin.backend.common.onlyIf
 import java.util.*
 
 plugins {
@@ -124,8 +123,14 @@ subprojects {
         setPublications("metadata", "jvm")
     }
 
-    tasks.named("bintrayUpload") {
-        dependsOn("check")
+    tasks {
+        val bintrayUpload by existing {
+            dependsOn("check")
+        }
+
+        val test by registering {
+            dependsOn("jvmTest")
+        }
     }
 }
 
