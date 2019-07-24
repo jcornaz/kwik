@@ -3,6 +3,15 @@ kotlin {
         commonMain {
             dependencies {
                 api(project(":generators-api"))
+                implementation(kotlin("test-common"))
+                implementation(kotlin("test-annotations-common"))
+            }
+        }
+
+        val jvmMain by existing {
+            dependencies {
+                implementation(kotlin("test"))
+                implementation(kotlin("test-junit"))
             }
         }
     }

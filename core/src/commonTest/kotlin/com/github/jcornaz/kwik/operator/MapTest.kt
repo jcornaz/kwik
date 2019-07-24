@@ -1,6 +1,6 @@
 package com.github.jcornaz.kwik.operator
 
-import com.github.jcornaz.kwik.AbstractGeneratorTest
+import com.github.jcornaz.kwik.generator.test.AbstractGeneratorTest
 import com.github.jcornaz.kwik.generator.Generator
 import com.github.jcornaz.kwik.map
 import com.github.jcornaz.kwik.withSamples
