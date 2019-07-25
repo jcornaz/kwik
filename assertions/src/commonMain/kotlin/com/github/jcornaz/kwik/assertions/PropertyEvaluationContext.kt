@@ -1,4 +1,4 @@
-package com.github.jcornaz.kwik
+package com.github.jcornaz.kwik.assertions
 
 /**
  * Context in which property are evaluated

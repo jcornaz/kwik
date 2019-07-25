@@ -1,4 +1,4 @@
-package com.github.jcornaz.kwik
+package com.github.jcornaz.kwik.assertions
 
 import com.github.jcornaz.kwik.generator.Generator
 import com.github.jcornaz.kwik.generator.combineWith
@@ -44,7 +44,12 @@ fun <T> forAll(
         }
 
         if (!isSatisfied)
-            throw FalsifiedPropertyError(attempts, iterations, seed, extractArgumentList(argument))
+            throw FalsifiedPropertyError(
+                attempts,
+                iterations,
+                seed,
+                extractArgumentList(argument)
+            )
     }
 
     println("OK, passed $attempts tests. (seed: $seed)")
@@ -60,7 +65,9 @@ private class SkipEvaluation : Throwable()
 
 private fun extractArgumentList(argument: Any?): List<Any?> {
     return if (argument is ArgumentPair<*, *>) {
-        extractArgumentList(argument.first) + extractArgumentList(argument.second)
+        extractArgumentList(argument.first) + extractArgumentList(
+            argument.second
+        )
     } else {
         listOf(argument)
     }
@@ -99,7 +106,11 @@ inline fun <reified A, reified B> forAll(
     seed: Long = Random.nextLong(),
     crossinline property: PropertyEvaluationContext.(A, B) -> Boolean
 ) {
-    forAll(generatorA.combineWith(generatorB, ::ArgumentPair), iterations, seed) { (a, b) ->
+    forAll(
+        generatorA.combineWith(generatorB, ::ArgumentPair),
+        iterations,
+        seed
+    ) { (a, b) ->
         property(a, b)
     }
 }
@@ -121,7 +132,12 @@ inline fun <reified A, reified B, reified C> forAll(
     iterations: Int = KWIK_DEFAULT_ITERATIONS,
     seed: Long = Random.nextLong(),
     crossinline property: PropertyEvaluationContext.(A, B, C) -> Boolean
-): Unit = forAll(generatorA.combineWith(generatorB, ::ArgumentPair), generatorC, iterations, seed) { (a, b), c ->
+): Unit = forAll(
+    generatorA.combineWith(generatorB, ::ArgumentPair),
+    generatorC,
+    iterations,
+    seed
+) { (a, b), c ->
     property(a, b, c)
 }
 

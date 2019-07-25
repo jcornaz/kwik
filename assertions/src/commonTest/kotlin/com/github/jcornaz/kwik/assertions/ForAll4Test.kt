@@ -1,8 +1,6 @@
-package com.github.jcornaz.kwik.runner
+package com.github.jcornaz.kwik.assertions
 
-import com.github.jcornaz.kwik.FalsifiedPropertyError
 import com.github.jcornaz.kwik.generator.Generator
-import com.github.jcornaz.kwik.forAll
 import com.github.jcornaz.kwik.withSamples
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -17,7 +15,14 @@ class ForAll4Test : AbstractRunnerTest() {
     private val testGenerator4 = Generator.create { it.nextFloat() }
 
     override fun evaluate(iterations: Int, seed: Long, invocation: () -> Boolean) {
-        forAll(testGenerator1, testGenerator2, testGenerator3, testGenerator4, iterations, seed) { _, _, _, _ ->
+        forAll(
+            testGenerator1,
+            testGenerator2,
+            testGenerator3,
+            testGenerator4,
+            iterations,
+            seed
+        ) { _, _, _, _ ->
             invocation()
         }
     }
@@ -84,7 +89,13 @@ class ForAll4Test : AbstractRunnerTest() {
         val valuesC = mutableSetOf<Long>()
         val valuesD = mutableSetOf<Float>()
 
-        forAll(testGenerator1, testGenerator2, testGenerator3, testGenerator4, seed = 0L) { a, b, c, d ->
+        forAll(
+            testGenerator1,
+            testGenerator2,
+            testGenerator3,
+            testGenerator4,
+            seed = 0L
+        ) { a, b, c, d ->
             valuesA += a
             valuesB += b
             valuesC += c
@@ -102,12 +113,24 @@ class ForAll4Test : AbstractRunnerTest() {
 
         val seed = 123564L
 
-        forAll(testGenerator1, testGenerator2, testGenerator3, testGenerator4, seed = seed) { a, b, c, d ->
+        forAll(
+            testGenerator1,
+            testGenerator2,
+            testGenerator3,
+            testGenerator4,
+            seed = seed
+        ) { a, b, c, d ->
             pass1 += Input(a, b, c, d)
             true
         }
 
-        forAll(testGenerator1, testGenerator2, testGenerator3, testGenerator4, seed = seed) { a, b, c, d ->
+        forAll(
+            testGenerator1,
+            testGenerator2,
+            testGenerator3,
+            testGenerator4,
+            seed = seed
+        ) { a, b, c, d ->
             pass2 += Input(a, b, c, d)
             true
         }
