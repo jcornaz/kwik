@@ -1,4 +1,4 @@
-package com.github.jcornaz.kwik.generator
+package com.github.jcornaz.kwik.generator.api
 
 import com.github.jcornaz.kwik.generator.test.AbstractGeneratorTest
 import kotlin.test.Test
@@ -142,7 +142,12 @@ class CombineWithWithTransformTest : AbstractGeneratorTest() {
 
     override val generator: Generator<*> =
         Generator.create { it.nextInt() }
-            .combineWith(Generator.create { it.nextDouble() }) { x, y -> CombinedValues(x, y) }
+            .combineWith(Generator.create { it.nextDouble() }) { x, y ->
+                CombinedValues(
+                    x,
+                    y
+                )
+            }
 
     @Test
     fun combineTheValues() {

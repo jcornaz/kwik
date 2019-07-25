@@ -1,4 +1,4 @@
-package com.github.jcornaz.kwik.generator
+package com.github.jcornaz.kwik.generator.api
 
 import kotlin.random.Random
 
@@ -12,14 +12,16 @@ private const val NUMBER_OF_SAMPLES_FOR_COMBINATION = 5
 fun <A, B, R> Generator<A>.combineWith(
     other: Generator<B>,
     transform: (A, B) -> R
-): Generator<R> = CombinedGenerators(this, other, transform)
+): Generator<R> =
+    CombinedGenerators(this, other, transform)
 
 /**
  * Returns a generator of values built from the elements of `this` generator and the [other] generator
  */
 fun <A, B> Generator<A>.combineWith(
     other: Generator<B>
-): Generator<Pair<A, B>> = CombinedGenerators(this, other, ::Pair)
+): Generator<Pair<A, B>> =
+    CombinedGenerators(this, other, ::Pair)
 
 /**
  * Returns a generator of combining the elements of [generator1] and [generator2]
@@ -29,7 +31,8 @@ fun <A, B, R> Generator.Companion.combine(
     generator1: Generator<A>,
     generator2: Generator<B>,
     transform: (A, B) -> R
-): Generator<R> = CombinedGenerators(generator1, generator2, transform)
+): Generator<R> =
+    CombinedGenerators(generator1, generator2, transform)
 
 /**
  * Returns a generator of combining the elements of [generator1] and [generator2]
@@ -37,7 +40,8 @@ fun <A, B, R> Generator.Companion.combine(
 fun <A, B> Generator.Companion.combine(
     generator1: Generator<A>,
     generator2: Generator<B>
-): Generator<Pair<A, B>> = CombinedGenerators(generator1, generator2, ::Pair)
+): Generator<Pair<A, B>> =
+    CombinedGenerators(generator1, generator2, ::Pair)
 
 private class CombinedGenerators<A, B, R>(
     private val generator1: Generator<A>,
@@ -70,7 +74,8 @@ private class CombinedGenerators<A, B, R>(
 /**
  * Returns a generator merging values of with the [other] generator
  */
-operator fun <T> Generator<T>.plus(other: Generator<T>): Generator<T> = MergedGenerators(this, other)
+operator fun <T> Generator<T>.plus(other: Generator<T>): Generator<T> =
+    MergedGenerators(this, other)
 
 private class MergedGenerators<T>(
     private val generator1: Generator<T>,

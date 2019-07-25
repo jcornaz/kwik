@@ -1,4 +1,4 @@
-package com.github.jcornaz.kwik.generator
+package com.github.jcornaz.kwik.generator.api
 
 import kotlin.test.Test
 import kotlin.test.assertEquals

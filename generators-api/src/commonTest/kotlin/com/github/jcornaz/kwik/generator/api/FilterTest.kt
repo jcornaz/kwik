@@ -1,4 +1,4 @@
-package com.github.jcornaz.kwik.generator
+package com.github.jcornaz.kwik.generator.api
 
 import com.github.jcornaz.kwik.generator.test.AbstractGeneratorTest
 import kotlin.test.Test

@@ -1,6 +1,6 @@
 package com.github.jcornaz.kwik.assertions
 
-import com.github.jcornaz.kwik.generator.Generator
+import com.github.jcornaz.kwik.generator.api.Generator
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals

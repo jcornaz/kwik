@@ -1,7 +1,7 @@
 package com.github.jcornaz.kwik.assertions
 
-import com.github.jcornaz.kwik.generator.Generator
-import com.github.jcornaz.kwik.generator.combineWith
+import com.github.jcornaz.kwik.generator.api.Generator
+import com.github.jcornaz.kwik.generator.api.combineWith
 import com.github.jcornaz.kwik.generator.stdlib.default
 import kotlin.random.Random
 

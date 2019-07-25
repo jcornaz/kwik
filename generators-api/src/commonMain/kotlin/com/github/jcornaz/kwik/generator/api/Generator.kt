@@ -1,4 +1,4 @@
-package com.github.jcornaz.kwik.generator
+package com.github.jcornaz.kwik.generator.api
 
 import kotlin.random.Random
 
@@ -30,10 +30,12 @@ interface Generator<T> {
          * @param next Function that will be invoked to get a new random parameter.
          *             The function should use the given [Random] generator to ensure predictability of the values
          */
-        fun <T> create(next: (Random) -> T): Generator<T> = object : Generator<T> {
+        fun <T> create(next: (Random) -> T): Generator<T> = object :
+            Generator<T> {
             override val samples: Set<T> get() = emptySet()
 
-            override fun randoms(seed: Long): Sequence<T> = randomSequence(seed, next)
+            override fun randoms(seed: Long): Sequence<T> =
+                randomSequence(seed, next)
         }
 
         /**

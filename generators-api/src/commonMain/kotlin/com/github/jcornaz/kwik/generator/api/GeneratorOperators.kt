@@ -1,12 +1,14 @@
-package com.github.jcornaz.kwik.generator
+package com.github.jcornaz.kwik.generator.api
 
 /**
  * Returns a generator containing the results of applying the given transform function to each element emitted by
  * the original generator.
  */
-fun <T, R> Generator<T>.map(transform: (T) -> R): Generator<R> = MapGenerator(this, transform)
+fun <T, R> Generator<T>.map(transform: (T) -> R): Generator<R> =
+    MapGenerator(this, transform)
 
-private class MapGenerator<T, R>(private val source: Generator<T>, private val transform: (T) -> R) : Generator<R> {
+private class MapGenerator<T, R>(private val source: Generator<T>, private val transform: (T) -> R) :
+    Generator<R> {
     override val samples: Set<R> = source.samples.mapTo(mutableSetOf(), transform)
 
     override fun randoms(seed: Long): Sequence<R> = source.randoms(seed).map(transform)
@@ -81,7 +83,8 @@ private class SampleGenerator<T>(
     override fun randoms(seed: Long): Sequence<T> = source.randoms(seed)
 }
 
-private class NullGenerator<T>(private val source: Generator<T>) : Generator<T?> {
+private class NullGenerator<T>(private val source: Generator<T>) :
+    Generator<T?> {
     override val samples: Set<T?> = source.samples.plus<T?>(null)
 
     override fun randoms(seed: Long): Sequence<T?> = source.randoms(seed)

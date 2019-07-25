@@ -1,7 +1,10 @@
 package com.github.jcornaz.kwik.example
 
 import com.github.jcornaz.kwik.assertions.forAll
-import com.github.jcornaz.kwik.generator.*
+import com.github.jcornaz.kwik.generator.api.Generator
+import com.github.jcornaz.kwik.generator.api.combineWith
+import com.github.jcornaz.kwik.generator.api.withNull
+import com.github.jcornaz.kwik.generator.api.withSamples
 import com.github.jcornaz.kwik.generator.stdlib.doubles
 import com.github.jcornaz.kwik.generator.stdlib.enum
 import com.github.jcornaz.kwik.generator.stdlib.ints
