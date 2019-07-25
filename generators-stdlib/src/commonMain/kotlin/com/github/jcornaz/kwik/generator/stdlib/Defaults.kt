@@ -1,7 +1,7 @@
 package com.github.jcornaz.kwik.generator.stdlib
 
 import com.github.jcornaz.kwik.generator.*
-import com.github.jcornaz.kwik.withNull
+import com.github.jcornaz.kwik.generator.withNull
 
 /**
  * Returns default [Generator] for the type [T].

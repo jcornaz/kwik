@@ -1,6 +1,4 @@
-package com.github.jcornaz.kwik
-
-import com.github.jcornaz.kwik.generator.Generator
+package com.github.jcornaz.kwik.generator
 
 /**
  * Returns a generator containing the results of applying the given transform function to each element emitted by

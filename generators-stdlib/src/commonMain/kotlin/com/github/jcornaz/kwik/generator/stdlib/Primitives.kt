@@ -2,8 +2,8 @@ package com.github.jcornaz.kwik.generator.stdlib
 
 import com.github.jcornaz.kwik.generator.Generator
 import com.github.jcornaz.kwik.generator.plus
-import com.github.jcornaz.kwik.map
-import com.github.jcornaz.kwik.withSamples
+import com.github.jcornaz.kwik.generator.map
+import com.github.jcornaz.kwik.generator.withSamples
 import kotlin.random.nextInt
 import kotlin.random.nextLong
 
