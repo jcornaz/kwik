@@ -126,6 +126,9 @@ subprojects {
     tasks {
         val bintrayUpload by existing {
             dependsOn("check")
+
+            if ("test" in project.name)
+                enabled = false
         }
 
         val test by registering {
