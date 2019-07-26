@@ -14,6 +14,26 @@ and this project adheres to `Semantic Versioning`_.
 Unreleased_
 -----------
 
+Module
+.......
+
+* Generator API moved to `generator-api` module
+  (artifacts `generator-api-common` and `generator-api-jvm`)
+* Generators for types of the kotlin standard library is moved to `generator-stdlib` module
+  (artifacts `generator-stdlib-common` and `generator-stdlib-jvm`)
+* The property evaluation is moved to `evaluator`
+  (artifacts `evaluator-common` and `evaluator-jvm`)
+* The module `core` remains as alias adding all the module above transitively
+  So it remains easy to add get started with Kwik by simply adding `core` as a dependency
+
+Package names (Breaking)
+.........................
+
+The packages have been renamed, and classes/files have been moved to reflect their new module (see Module_ changes)
+
+* The content `com.github.jcornaz.kwik.generator` as been moved to `com.github.jcornaz.kwik.generator.stdlib`
+* The content `com.github.jcornaz.kwik` as been splitted into `com.github.jcornaz.kwik.generator.api` and `com.github.jcornaz.kwik.evaluator`
+
 Dependencies Updated
 ....................
 
