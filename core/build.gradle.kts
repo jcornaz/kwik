@@ -2,7 +2,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                api(project(":assertions"))
+                api(project(":evaluator"))
                 api(project(":generator-api"))
                 api(project(":generator-stdlib"))
             }

@@ -1,6 +1,6 @@
 package com.github.jcornaz.kwik.example
 
-import com.github.jcornaz.kwik.assertions.forAll
+import com.github.jcornaz.kwik.evaluator.forAll
 import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.combineWith
 import com.github.jcornaz.kwik.generator.api.withNull

@@ -1,4 +1,4 @@
-package com.github.jcornaz.kwik.assertions
+package com.github.jcornaz.kwik.evaluator
 
 import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.withSamples
@@ -7,24 +7,20 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
-class ForAll4Test : AbstractRunnerTest() {
+class ForAll3Test : AbstractRunnerTest() {
 
     private val testGenerator1 = Generator.create { it.nextInt() }
     private val testGenerator2 = Generator.create { it.nextDouble() }
     private val testGenerator3 = Generator.create { it.nextLong() }
-    private val testGenerator4 = Generator.create { it.nextFloat() }
 
     override fun evaluate(iterations: Int, seed: Long, invocation: () -> Boolean) {
         forAll(
             testGenerator1,
             testGenerator2,
             testGenerator3,
-            testGenerator4,
             iterations,
             seed
-        ) { _, _, _, _ ->
-            invocation()
-        }
+        ) { _, _, _ -> invocation() }
     }
 
     @Test
@@ -32,18 +28,15 @@ class ForAll4Test : AbstractRunnerTest() {
         val ints = mutableSetOf<Int>()
         val doubles = mutableSetOf<Double>()
         val longs = mutableSetOf<Long>()
-        val floats = mutableSetOf<Float>()
 
         val gen1 = Generator.create { it.nextInt(0, 10) }.withSamples(42, 100)
         val gen2 = Generator.create { it.nextDouble(0.0, 10.0) }.withSamples(123.0, 678.0)
         val gen3 = Generator.create { it.nextLong(0L, 10L) }.withSamples(-42L)
-        val gen4 = Generator.create { it.nextDouble(0.0, 10.0).toFloat() }.withSamples(-6f, 18f)
 
-        forAll(gen1, gen2, gen3, gen4) { i, d, l, f ->
+        forAll(gen1, gen2, gen3) { i, d, l ->
             ints += i
             doubles += d
             longs += l
-            floats += f
             true
         }
 
@@ -52,8 +45,6 @@ class ForAll4Test : AbstractRunnerTest() {
         assertTrue(123.0 in doubles)
         assertTrue(123.0 in doubles)
         assertTrue(-42L in longs)
-        assertTrue(-6f in floats)
-        assertTrue(18f in floats)
     }
 
     @Test
@@ -64,9 +55,8 @@ class ForAll4Test : AbstractRunnerTest() {
                 Generator.create { 42 },
                 Generator.create { -4.1 },
                 Generator.create { 100L },
-                Generator.create { "hello world" },
                 iterations = 123, seed = 78
-            ) { _, _, _, _ -> ++i < 12 }
+            ) { _, _, _ -> ++i < 12 }
         }
 
         assertEquals(
@@ -75,7 +65,6 @@ class ForAll4Test : AbstractRunnerTest() {
                 Argument 1: 42
                 Argument 2: -4.1
                 Argument 3: 100
-                Argument 4: hello world
                 Generation seed: 78
             """.trimIndent(),
             exception.message
@@ -87,19 +76,16 @@ class ForAll4Test : AbstractRunnerTest() {
         val valuesA = mutableSetOf<Int>()
         val valuesB = mutableSetOf<Double>()
         val valuesC = mutableSetOf<Long>()
-        val valuesD = mutableSetOf<Float>()
 
         forAll(
             testGenerator1,
             testGenerator2,
             testGenerator3,
-            testGenerator4,
             seed = 0L
-        ) { a, b, c, d ->
+        ) { a, b, c ->
             valuesA += a
             valuesB += b
             valuesC += c
-            valuesD += d
             true
         }
 
@@ -108,8 +94,8 @@ class ForAll4Test : AbstractRunnerTest() {
 
     @Test
     fun isPredictable() {
-        val pass1 = mutableListOf<Input>()
-        val pass2 = mutableListOf<Input>()
+        val pass1 = mutableListOf<Triple<Int, Double, Long>>()
+        val pass2 = mutableListOf<Triple<Int, Double, Long>>()
 
         val seed = 123564L
 
@@ -117,10 +103,9 @@ class ForAll4Test : AbstractRunnerTest() {
             testGenerator1,
             testGenerator2,
             testGenerator3,
-            testGenerator4,
             seed = seed
-        ) { a, b, c, d ->
-            pass1 += Input(a, b, c, d)
+        ) { a, b, c ->
+            pass1 += Triple(a, b, c)
             true
         }
 
@@ -128,10 +113,9 @@ class ForAll4Test : AbstractRunnerTest() {
             testGenerator1,
             testGenerator2,
             testGenerator3,
-            testGenerator4,
             seed = seed
-        ) { a, b, c, d ->
-            pass2 += Input(a, b, c, d)
+        ) { a, b, c ->
+            pass2 += Triple(a, b, c)
             true
         }
 
@@ -141,10 +125,8 @@ class ForAll4Test : AbstractRunnerTest() {
     @Test
     @Suppress("USELESS_IS_CHECK")
     fun canBeCalledWithoutExplicitGenerator() {
-        forAll { a: Int, b: Long, c: Double, d: Float ->
-            a is Int && b is Long && c is Double && d is Float
+        forAll { a: Int, b: Long, c: Double ->
+            a is Int && b is Long && c is Double
         }
     }
-
-    private data class Input(val a: Int, val b: Double, val c: Long, val d: Float)
 }

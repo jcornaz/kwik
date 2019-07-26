@@ -1,4 +1,4 @@
-package com.github.jcornaz.kwik.assertions
+package com.github.jcornaz.kwik.evaluator
 
 import com.github.jcornaz.kwik.generator.api.Generator
 import kotlin.random.Random
