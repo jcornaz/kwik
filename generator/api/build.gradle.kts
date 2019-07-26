@@ -2,7 +2,7 @@ kotlin {
     sourceSets {
         commonTest {
             dependencies {
-                implementation(project(":generators-test"))
+                implementation(project(":generator-test"))
             }
         }
     }

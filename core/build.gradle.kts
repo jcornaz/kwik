@@ -3,14 +3,14 @@ kotlin {
         commonMain {
             dependencies {
                 api(project(":assertions"))
-                api(project(":generators-api"))
-                api(project(":generators-stdlib"))
+                api(project(":generator-api"))
+                api(project(":generator-stdlib"))
             }
         }
 
         commonTest {
             dependencies {
-                implementation(project(":generators-test"))
+                implementation(project(":generator-test"))
             }
         }
     }

@@ -2,13 +2,13 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                api(project(":generators-api"))
+                api(project(":generator-api"))
             }
         }
 
         commonTest {
             dependencies {
-                implementation(project(":generators-test"))
+                implementation(project(":generator-test"))
             }
         }
     }

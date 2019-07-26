@@ -2,8 +2,8 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                api(project(":generators-api"))
-                implementation(project(":generators-stdlib"))
+                api(project(":generator-api"))
+                implementation(project(":generator-stdlib"))
             }
         }
     }

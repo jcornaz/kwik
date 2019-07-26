@@ -2,7 +2,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                api(project(":generators-api"))
+                api(project(":generator-api"))
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
             }
