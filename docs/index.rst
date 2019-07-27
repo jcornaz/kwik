@@ -7,7 +7,7 @@ Have a look at the :doc:`setup <setup>` and :doc:`usage <write-tests>`
     :start-after: .. endReferenceToDoc
     :end-before: .. startUsageReference
 
-For more information, read :doc:`how to write tests <write-tests>` and have a look at the available :doc:`generators <built-in-generators>`
+For more information, read :doc:`how to write tests <write-tests>` and have a look at the available :doc:`generators <generators>`
 
 .. include:: ../README.rst
     :start-after: .. endUsageReference

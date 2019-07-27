@@ -60,14 +60,30 @@ fun Generator.Companion.nonBlankStrings(
     exclude: Set<Char> = emptySet()
 ): Generator<String> = nonEmptyStrings(maxLength, charset, exclude).filterNot { it.isBlank() }
 
+/**
+ * Common set of character to be used with string generators
+ */
 object StringCharSets {
+
+    /** All printable characters */
     val printable: Set<Char> = (32..127).mapTo(HashSet()) { it.toChar() }
 
+    /** Numeric characters (0-9) */
     val numeric: Set<Char> = ('0'..'9').toHashSet()
 
+    /** Lowercase alphabetic characters */
     val alphaLowerCase: Set<Char> = ('a'..'z').toHashSet()
+
+    /** Uppercase alphabetic characters */
     val alphaUpperCase: Set<Char> = ('A'..'Z').toHashSet()
+
+    /** Alphabetic characters (lower and upper cases)*/
     val alpha: Set<Char> = alphaLowerCase + alphaUpperCase
 
+    /**
+     * Alphabetic and numeric characters
+     *
+     * Equivalent of [alpha] + [numeric]
+     */
     val alphaNum: Set<Char> = alpha + numeric
 }

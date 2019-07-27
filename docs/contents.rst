@@ -7,7 +7,7 @@ Welcome to Kwik's documentation!
     Home <index>
     setup
     write-tests
-    built-in-generators
+    generators
     operators
     Github <https://github.com/jcornaz/kwik>
     changelog

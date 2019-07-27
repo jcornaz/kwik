@@ -73,7 +73,7 @@ How it looks like
 
 For more information read the usage_ and look at the available generators_
 
-.. _generators: https://kwik.readthedocs.io/en/latest/built-in-generators.html
+.. _generators: https://kwik.readthedocs.io/en/latest/generators.html
 .. _usage: https://kwik.readthedocs.io/en/latest/write-tests.html
 
 .. endUsageReference
