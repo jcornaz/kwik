@@ -1,7 +1,7 @@
 package com.github.jcornaz.kwik.generator.stdlib
 
-import com.github.jcornaz.kwik.generator.api.filterNot
 import com.github.jcornaz.kwik.generator.api.Generator
+import com.github.jcornaz.kwik.generator.api.filterNot
 import com.github.jcornaz.kwik.generator.api.withSamples
 
 @Suppress("MagicNumber")
@@ -62,3 +62,8 @@ fun Generator.Companion.nonBlankStrings(
     charset: Set<Char> = PRINTABLE_CHARACTERS,
     exclude: Set<Char> = emptySet()
 ): Generator<String> = nonEmptyStrings(maxLength, charset, exclude).filterNot { it.isBlank() }
+
+object StringCharSets {
+    val numeric: Set<Char> = ('0'..'9').toSet()
+    val alphabetic: Set<Char> = ('a'..'z').toSet()
+}
