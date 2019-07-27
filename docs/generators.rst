@@ -49,10 +49,16 @@ Primitives
 Strings
 -------
 
-``Generator.strings(minLength = 0, maxLength = 200, charset = PRINTABLE_CHARACTERS, exclude = emptySet())``
+``Generator.strings(minLength = 0, maxLength = 200, charset = StringCharsets.printable, exclude = emptySet())``
     Generate strings. Use the parameter ``charset`` and ``exclude`` to customize the characters which can be used.
 
     Generation include empty ("") and blank (" ") strings as samples.
+
+    .. note:: ``StringCharsets`` provide few common set of characters such as ``alpha``, ``alphaNumeric`` and others
+
+        It is there to help quickly configure the String generator.
+
+        By default, it will generate any printable characters.
 
 Collections
 -----------
