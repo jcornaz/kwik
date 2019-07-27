@@ -4,9 +4,6 @@ import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.filterNot
 import com.github.jcornaz.kwik.generator.api.withSamples
 
-@Suppress("MagicNumber")
-private val PRINTABLE_CHARACTERS = (32..127).map { it.toChar() }.toSet()
-
 /**
  * Returns a generator of String of length between [minLength] and [maxLength] (inclusive)
  *
@@ -16,7 +13,7 @@ private val PRINTABLE_CHARACTERS = (32..127).map { it.toChar() }.toSet()
 fun Generator.Companion.strings(
     minLength: Int = 0,
     maxLength: Int = maxOf(minLength, KWIK_DEFAULT_MAX_SIZE),
-    charset: Set<Char> = PRINTABLE_CHARACTERS,
+    charset: Set<Char> = StringCharSets.printable,
     exclude: Set<Char> = emptySet()
 ): Generator<String> {
     require(minLength >= 0) { "Invalid minLength: $minLength" }
@@ -47,7 +44,7 @@ fun Generator.Companion.strings(
  */
 fun Generator.Companion.nonEmptyStrings(
     maxLength: Int = KWIK_DEFAULT_MAX_SIZE,
-    charset: Set<Char> = PRINTABLE_CHARACTERS,
+    charset: Set<Char> = StringCharSets.printable,
     exclude: Set<Char> = emptySet()
 ): Generator<String> = strings(1, maxLength, charset, exclude)
 
@@ -59,11 +56,18 @@ fun Generator.Companion.nonEmptyStrings(
  */
 fun Generator.Companion.nonBlankStrings(
     maxLength: Int = KWIK_DEFAULT_MAX_SIZE,
-    charset: Set<Char> = PRINTABLE_CHARACTERS,
+    charset: Set<Char> = StringCharSets.printable,
     exclude: Set<Char> = emptySet()
 ): Generator<String> = nonEmptyStrings(maxLength, charset, exclude).filterNot { it.isBlank() }
 
 object StringCharSets {
-    val numeric: Set<Char> = ('0'..'9').toSet()
-    val alphabetic: Set<Char> = ('a'..'z').toSet()
+    val printable: Set<Char> = (32..127).mapTo(HashSet()) { it.toChar() }
+
+    val numeric: Set<Char> = ('0'..'9').toHashSet()
+
+    val alphaLowerCase: Set<Char> = ('a'..'z').toHashSet()
+    val alphaUpperCase: Set<Char> = ('A'..'Z').toHashSet()
+    val alpha: Set<Char> = alphaLowerCase + alphaUpperCase
+
+    val alphaNum: Set<Char> = alpha + numeric
 }
