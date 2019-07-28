@@ -13,8 +13,8 @@ Kwik
 .. image:: https://badges.gitter.im/kwik-test/community.svg
     :target: https://gitter.im/kwik-test/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badg
 
-.. image:: https://img.shields.io/badge/dynamic/json.svg?color=blue&label=preview&query=name&url=https%3A%2F%2Fapi.bintray.com%2Fpackages%2Fkwik%2Fpreview%2Fkwik%2Fversions%2F_latest
-    :target: https://bintray.com/kwik/preview/kwik/_latestVersion
+.. image:: https://img.shields.io/badge/dynamic/json.svg?color=blue&label=version&query=name&url=https%3A%2F%2Fapi.bintray.com%2Fpackages%2Fkwik%2Fstable%2Fkwik%2Fversions%2F_latest
+    :target: https://bintray.com/kwik/stable/kwik/_latestVersion
 
 Property-based testing library for Kotlin.
 
