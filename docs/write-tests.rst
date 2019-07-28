@@ -19,7 +19,8 @@ So the test pass only if the lambda returns true for 200 random inputs.
 
 .. note::
     Kwik can automatically generate values for ``Int``, ``Double``, ``Boolean`` and ``String``.
-    For other type we have to `Create a custom generator`_
+
+    For other types we have to `Create a custom generator`_
 
 Choose the number of iterations
 -------------------------------
@@ -33,6 +34,23 @@ For instance, the following property will be evaluated 1000 times:
     :dedent: 8
     :start-after: //region With a given number of iterations
     :end-before: //endregion
+
+Customize the default for all tests
+...................................
+
+The default can also be configured globally by setting the system property ``kwik.iterations``.
+
+Here is an example of configuration using gradle:
+
+.. code-block:: Kotlin
+
+    tasks.withType<Test> {
+        systemProperty("kwik.itertions", "1000")
+    }
+
+.. tip:: This can be especially useful to define a different number of iteration on the CI server
+
+.. note:: The number of iteration defined when invoking ``forAll`` has precedence over the system property.
 
 Use a seed to get reproducible results
 --------------------------------------
