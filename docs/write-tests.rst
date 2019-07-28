@@ -19,12 +19,15 @@ So the test pass only if the lambda returns true for 200 random inputs.
 
 .. note::
     Kwik can automatically generate values for ``Int``, ``Double``, ``Boolean`` and ``String``.
-    For other type we have to `Create a custom generator`_
+
+    For other types we have to `Create a custom generator`_
+
+.. _choose-property-iterations:
 
 Choose the number of iterations
 -------------------------------
 
-By default the property is evaluated 200 times. But we can configure it by setting the argument ``iteration``.
+By default the property is evaluated 200 times [1]_. But we can configure it by setting the argument ``iteration``.
 
 For instance, the following property will be evaluated 1000 times:
 
@@ -33,6 +36,8 @@ For instance, the following property will be evaluated 1000 times:
     :dedent: 8
     :start-after: //region With a given number of iterations
     :end-before: //endregion
+
+.. [1] The default number of iterations can be :ref:`configured via system property <configure-default-iterations>`
 
 Use a seed to get reproducible results
 --------------------------------------

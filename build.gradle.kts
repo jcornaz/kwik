@@ -4,6 +4,7 @@ import com.jfrog.bintray.gradle.BintrayExtension
 import com.jfrog.bintray.gradle.BintrayPlugin
 import io.gitlab.arturbosch.detekt.DetektPlugin
 import io.gitlab.arturbosch.detekt.detekt
+import kr.motd.gradle.sphinx.gradle.SphinxPlugin
 import kr.motd.gradle.sphinx.gradle.SphinxTask
 import java.util.*
 
@@ -150,6 +151,8 @@ tasks {
     }
 
     withType<SphinxTask> {
+        warningsAsErrors = true
+
         setSourceDirectory("$rootDir/docs")
     }
 }
