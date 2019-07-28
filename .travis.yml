@@ -12,7 +12,7 @@ jdk:
   - openjdk11
 
 script:
-  - ./travis_script.sh
+  - ./gradlew check
 
 cache:
   directories:

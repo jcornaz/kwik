@@ -101,11 +101,11 @@ Example of setup using gradle.
 .. code-block:: kotlin
 
     repositories {
-        maven { url = uri("https://dl.bintray.com/kwik/preview") }
+        maven { url = uri("https://dl.bintray.com/kwik/stable") }
     }
 
     dependencies {
-        testCompile("com.github.jcornaz.kwik:kwik-core-jvm:0.1.0-beta.1")
+        testCompile("com.github.jcornaz.kwik:kwik-core-jvm:0.1.0")
     }
 .. endGradleSetup
 
