@@ -39,10 +39,10 @@ Add the artifact dependency
 Available artifacts
 ......................................
 
-``kwik-core-jvm`` is probably the best to start write property tests in your project.
+The best to start writing property tests in your project, the best module to use is certainly ``kwik-core-jvm`` (and ``kwik-core-common`` in Kotlin/Common modules).
 
-But to write a module or project thath extends Kwik (like a collection of generator),
-you might want to pick more specific module(s) in this list:
+But to write a module or project that extends Kwik (like a collection of generator),
+you might prefer to pick more specific module(s) in this list:
 
 .. list-table:: List of available modules
     :header-rows: 1
