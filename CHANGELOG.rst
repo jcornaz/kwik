@@ -26,8 +26,8 @@ Added
     Sets of character to easily configure the string generator.
 * ``kwik.iterations`` system property to globally define a default number of iteration.
 
-Modules added
-.............
+Modules extracted from core
+...........................
 
 * Generator API moved to ``generator-api`` module
   (artifacts ``generator-api-common`` and ``generator-api-jvm``)
@@ -36,13 +36,13 @@ Modules added
 * The property evaluation is moved to `evaluator`
   (artifacts ``evaluator-common`` and ``evaluator-jvm``)
 
-.. note:: The module ``core`` remains as alias adding all the module above transitively
-    So it remains easy to add get started with Kwik by simply adding ``core`` as a dependency
+.. note:: The module ``core`` remains as an alias of all the modules above.
+    So it is still easy to get started with Kwik by simply adding ``core`` as a dependency
 
 Package names changed (Breaking)
 .........................
 
-The packages have been renamed, and classes/files have been moved to reflect their new module (see `Modules added`_)
+The packages have been renamed, and classes/files have been moved to reflect their new module (see `Modules extracted from core`_)
 
 * **(Breaking)** The content ``com.github.jcornaz.kwik.generator`` as been moved to ``com.github.jcornaz.kwik.generator.stdlib``
 * **(Breaking)** The content ``com.github.jcornaz.kwik`` as been splitted into ``com.github.jcornaz.kwik.generator.api`` and ``com.github.jcornaz.kwik.evaluator``
