@@ -1,3 +1,5 @@
+@file:Suppress("MatchingDeclarationName")
+
 package com.github.jcornaz.kwik.generator.stdlib
 
 import com.github.jcornaz.kwik.generator.api.Generator
@@ -66,6 +68,7 @@ fun Generator.Companion.nonBlankStrings(
 object StringCharSets {
 
     /** All printable characters */
+    @Suppress("MagicNumber")
     val printable: Set<Char> = (32..127).mapTo(HashSet()) { it.toChar() }
 
     /** Numeric characters (0-9) */
