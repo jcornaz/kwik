@@ -40,15 +40,29 @@ Customize the default for all tests
 
 The default can also be configured globally by setting the system property ``kwik.iterations``.
 
-Here is an example of configuration using gradle:
+This can be especially useful to define a different number of iteration on the CI server
+
+For instance one may write the following gradle setup:
 
 .. code-block:: Kotlin
 
     tasks.withType<Test> {
-        systemProperty("kwik.itertions", "1000")
+        if ("CI" in System.getenv()) {
+
+            // On the CI take more time to try falsifying each property
+            systemProperty("kwik.iterations", "10000")
+        } else {
+
+            // On the local setup allow the developer specify by command line using `-Dkwik.iterations=`
+            systemProperty("kwik.iterations", System.getProperty("kwik.iterations"))
+        }
     }
 
-.. tip:: This can be especially useful to define a different number of iteration on the CI server
+With the setup above each property would be evaluated 10'000 times (with different random inputs) when test are executed
+on the CI server. (to make it work the server needs to have a ``CI`` environment variable)
+
+And any developer may run ``./gradlew test -Dkwik.properties=10`` if he wants a fast feedback loop,
+evaluating each property only 10 times.
 
 .. note:: The number of iteration defined when invoking ``forAll`` has precedence over the system property.
 
