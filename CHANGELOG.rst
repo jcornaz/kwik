@@ -19,6 +19,7 @@ Added
 
 * ``StringCharSets`` object with ``numeric``, ``alphaLowerCase``, ``alphaUpperCase``, ``alpha`` and ``alphaNumeric``.
     Sets of character to easily configure the string generator.
+* ``kwik.iterations`` system property to globally define a default number of iteration.
 
 Modules added
 .............
