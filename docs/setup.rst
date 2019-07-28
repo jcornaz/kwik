@@ -32,10 +32,41 @@ Add the artifact dependency
 ---------------------------
 
 - The group id is ``com.github.jcornaz.kwik``
-- The available artifact ids are:
-    - ``kwik-core-jvm`` for Kotlin/JVM modules
-    - ``kwik-core-common`` for Kotlin/Common modules
-- Checkout a version from: https://github.com/jcornaz/kwik/releases
+- Pick an artifact in the `Available artifacts`_.
+    - For a quick start on the JVM, chose ``kwik-core-jvm``
+- Pick a version from: https://github.com/jcornaz/kwik/releases
+
+Available artifacts
+......................................
+
+``kwik-core-jvm`` is probably the best to start write property tests in your project.
+
+But to write a module or project thath extends Kwik (like a collection of generator),
+you might want to pick more specific module(s) in this list:
+
+.. list-table:: List of available modules
+    :header-rows: 1
+
+    * - Module
+      - Kotlin/Common artifact
+      - Kotlin/JVM artifact
+      - Remarks
+    * - Generator API
+      - ``kwik-generator-api-common``
+      - ``kwik-generator-api-jvm``
+      - API to create new generators
+    * - Standard generators
+      - ``kwik-generator-stdlib-common``
+      - ``kwik-generator-stdlib-jvm``
+      - Generators for types available in the Kotlin standard library
+    * - Property evaluator
+      - ``kwik-property-common``
+      - ``kwik-property-jvm``
+      - Property evaluation
+    * - Core
+      - ``kwik-core-jvm-common``
+      - ``kwik-core-jvm-jvm``
+      - Contains nothing more than transitive dependencies on evaluator and standard generators
 
 Example with gradle
 ...................
