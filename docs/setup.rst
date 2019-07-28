@@ -33,13 +33,51 @@ Add the artifact dependency
 
 - The group id is ``com.github.jcornaz.kwik``
 - The available artifact ids are:
-    - ``kwik-core-jvm`` for Kotlin/JVM modues
+    - ``kwik-core-jvm`` for Kotlin/JVM modules
     - ``kwik-core-common`` for Kotlin/Common modules
 - Checkout a version from: https://github.com/jcornaz/kwik/releases
 
 Example with gradle
--------------------
+...................
 
 .. include:: ../README.rst
     :start-after: .. startGradleSetup
     :end-before: .. endGradleSetup
+
+.. _configure-default-iterations:
+
+Configure the default number of iterations
+------------------------------------------
+
+By default Kwik will evaluate each property 200 times. (each time with different random inputs)
+
+This default can be configured by setting the system property ``kwik.iterations``.
+
+It can be especially useful to define a different number of iteration on the CI server
+
+For instance one may write the following gradle setup:
+
+.. code-block:: Kotlin
+
+    tasks.withType<Test> {
+        if ("CI" in System.getenv()) {
+
+            // On the CI take more time to try falsifying each property
+            systemProperty("kwik.iterations", "10000")
+        } else {
+
+            // On the local setup allow the developer specify by command line using `-Dkwik.iterations=`
+            systemProperty("kwik.iterations", System.getProperty("kwik.iterations"))
+        }
+    }
+
+With the setup above each property would be evaluated 10'000 times (with different random inputs) when test are executed
+on the CI server. (to make it work the server needs to have a ``CI`` environment variable)
+
+And any developer may run ``./gradlew test -Dkwik.properties=10`` if he wants a fast feedback loop,
+evaluating each property only 10 times.
+
+.. note::
+    The number of iteration defined when invoking ``forAll`` has precedence over the system property.
+
+    See :ref:`how to choose number of iterations for specific property <choose-property-iterations>`
