@@ -3,23 +3,29 @@ package com.github.jcornaz.kwik.evaluator
 import com.github.jcornaz.kwik.generator.api.Generator
 
 internal fun <T> Generator<T>.shrink(initialValue: T, property: PropertyEvaluationContext.(T) -> Boolean): T {
-    var result = initialValue
+    var lastSkipped: T? = null
+    var skipped = false
 
-    var smallerValues = shrink(result)
-    var index = smallerValues.indexOfFirst { it falsifies property }
-    while (index >= 0) {
-        result = smallerValues[index]
-        smallerValues = shrink(result)
-        index = smallerValues.indexOfFirst { it falsifies property }
+    shrink(initialValue).forEach { value ->
+        val evaluation = evaluate(value, property)
+        if (evaluation == false) return shrink(value, property)
+
+        if (evaluation == null) {
+            lastSkipped = value
+            skipped = true
+        }
     }
 
-    return result
+    @Suppress("UNCHECKED_CAST")
+    if (skipped) return shrink(lastSkipped as T, property)
+
+    return initialValue
 }
 
-private infix fun <T> T.falsifies(property: PropertyEvaluationContext.(T) -> Boolean): Boolean {
+private fun <T> evaluate(value: T, property: PropertyEvaluationContext.(T) -> Boolean): Boolean? {
     return try {
-        !SkipExceptionContext.property(this)
+        SkipExceptionContext.property(value)
     } catch (skip: SkipEvaluation) {
-        false
+        null
     }
 }
