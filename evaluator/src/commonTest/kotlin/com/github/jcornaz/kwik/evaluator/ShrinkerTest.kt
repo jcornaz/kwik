@@ -56,7 +56,6 @@ class ShrinkerTest {
     @Test
     fun returnsOnlyValuesThatFalsifyTheProperty() {
         val generator = shrinker { value ->
-            println("shrink $value")
             when {
                 value == 0 -> emptyList()
                 value == -1 -> listOf(0)
@@ -72,8 +71,28 @@ class ShrinkerTest {
             while (property(initialValue))
                 initialValue = Random.nextInt()
 
-            val result = generator.shrink(initialValue, property)
+            val result = generator.shrink(initialValue) { property(it) }
             assertFalse(property(result))
+        }
+    }
+
+    @Test
+    fun skipedEvaluationAreIgnored() {
+        val generator = shrinker { value ->
+            when (value) {
+                0 -> emptyList()
+                1 -> listOf(0)
+                else -> listOf(value / 2, value - 1)
+            }
+        }
+
+        repeat(100) {
+            val initialValue = Random.nextInt(2, 1000)
+            val result = generator.shrink(initialValue) {
+                skipIf(it in 5..20)
+                it < 2
+            }
+            assertEquals(2, result)
         }
     }
 }
