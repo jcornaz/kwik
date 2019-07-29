@@ -41,7 +41,7 @@ Status
 
 The project is incubating and its API is subject to changes.
 
-Please give it a try and write a feed back in the issues_ or discuss on gitter_
+Please give it a try and write a feed back in the issues_ or discuss on gitter_.
 
 .. _issues: https://github.com/jcornaz/kwik/issues
 .. _gitter: https://gitter.im/kwik-test/community
@@ -101,7 +101,7 @@ Example of setup using gradle.
 .. code-block:: kotlin
 
     repositories {
-        maven { url = uri("https://dl.bintray.com/kwik/stable") }
+        jcenter()
     }
 
     dependencies {
@@ -111,7 +111,7 @@ Example of setup using gradle.
 
 .. startReferenceToSetup
 
-Find more detailed information, read the setup_ instructions.
+Find more detailed information in the setup_ instructions.
 
 .. _setup: https://kwik.readthedocs.io/en/latest/setup.html
 
