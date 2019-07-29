@@ -22,6 +22,16 @@ interface Generator<T> {
      */
     fun randoms(seed: Long): Sequence<T>
 
+    /**
+     * Returns *smaller* values than [value].
+     *
+     * Used in the process of finding the smallest input falsifying a property.
+     *
+     * Its implementation is optional.
+     * If not implemented, the property evaluator will simply not attempt to shrink the value.
+     */
+    fun shrink(value: T): List<T> = emptyList()
+
     companion object {
 
         /**
