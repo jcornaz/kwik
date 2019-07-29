@@ -1,6 +1,7 @@
 package com.github.jcornaz.kwik.evaluator
 
 import com.github.jcornaz.kwik.generator.api.Generator
+import com.github.jcornaz.kwik.generator.api.randomSequence
 import com.github.jcornaz.kwik.generator.api.withSamples
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -89,5 +90,36 @@ class ForAll1Test : AbstractRunnerTest() {
     @Suppress("USELESS_IS_CHECK")
     fun canBeCalledWithoutExplicitGenerator() {
         forAll { it: Int -> it is Int }
+    }
+
+    @Test
+    fun findsSmallestInputFalsifyingTheProperty() {
+        val generator = object : Generator<Int> {
+            override val samples: Set<Int>
+                get() = emptySet()
+
+            override fun randoms(seed: Long): Sequence<Int> = randomSequence(seed) { it.nextInt() }
+
+            override fun shrink(value: Int): List<Int> = when {
+                value == 0 -> emptyList()
+                value == -1 || value == 1 -> listOf(0)
+                value < 0 -> listOf(value / 2, value + 1)
+                else -> listOf(value / 2, value - 1)
+            }
+        }
+
+        repeat(100) {
+            val exception = assertFailsWith<AssertionError> {
+                forAll(generator) { value -> value < 1234 }
+            }
+
+            assertEquals(
+                expected = "1234",
+                actual = exception.message.orEmpty()
+                    .substringAfter("Argument 1:")
+                    .substringBefore('\n')
+                    .trim()
+            )
+        }
     }
 }

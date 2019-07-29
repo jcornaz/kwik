@@ -43,19 +43,28 @@ fun <T> forAll(
             true
         }
 
-        if (!isSatisfied)
+        if (!isSatisfied) {
+            val shrinkedArgument = generator.shrink(argument) {
+                try {
+                    context.property(it)
+                } catch (skip: SkipEvaluation) {
+                    true
+                }
+            }
+
             throw FalsifiedPropertyError(
                 attempts,
                 iterations,
                 seed,
-                extractArgumentList(argument)
+                extractArgumentList(shrinkedArgument)
             )
+        }
     }
 
     println("OK, passed $attempts tests. (seed: $seed)")
 }
 
-private object PropertyEvaluationContextImpl : PropertyEvaluationContext {
+internal object PropertyEvaluationContextImpl : PropertyEvaluationContext {
     override fun skipIf(condition: Boolean) {
         if (condition) throw SkipEvaluation()
     }
