@@ -5,6 +5,7 @@ import com.github.jcornaz.kwik.generator.api.randomSequence
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.fail
 
 class ShrinkerTest {
@@ -49,6 +50,30 @@ class ShrinkerTest {
             val initialValue = Random.nextInt(2, 1000)
             val result = generator.shrink(initialValue) { it < 2 }
             assertEquals(2, result)
+        }
+    }
+
+    @Test
+    fun returnsOnlyValuesThatFalsifyTheProperty() {
+        val generator = shrinker { value ->
+            println("shrink $value")
+            when {
+                value == 0 -> emptyList()
+                value == -1 -> listOf(0)
+                value == 1 -> listOf(0)
+                value < 0 -> listOf(value / 2, value + 1)
+                else -> listOf(value / 2, value - 1)
+            }
+        }
+
+        repeat(1000) {
+            val property: (Int) -> Boolean = { it % 2 == 0 }
+            var initialValue = Random.nextInt()
+            while (property(initialValue))
+                initialValue = Random.nextInt()
+
+            val result = generator.shrink(initialValue, property)
+            assertFalse(property(result))
         }
     }
 }
