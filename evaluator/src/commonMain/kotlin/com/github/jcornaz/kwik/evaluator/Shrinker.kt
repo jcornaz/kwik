@@ -4,7 +4,7 @@ import com.github.jcornaz.kwik.generator.api.Generator
 
 internal fun <T> Generator<T>.shrink(initialValue: T, property: PropertyEvaluationContext.(T) -> Boolean): T {
     var lastSkipped: T? = null
-    var skipped = false
+    var hasSkippedValue = false
 
     shrink(initialValue).forEach { value ->
         val evaluation = evaluate(value, property)
@@ -12,14 +12,12 @@ internal fun <T> Generator<T>.shrink(initialValue: T, property: PropertyEvaluati
 
         if (evaluation == null) {
             lastSkipped = value
-            skipped = true
+            hasSkippedValue = true
         }
     }
 
     @Suppress("UNCHECKED_CAST")
-    if (skipped) return shrink(lastSkipped as T, property)
-
-    return initialValue
+    return if (hasSkippedValue) shrink(lastSkipped as T, property) else initialValue
 }
 
 private fun <T> evaluate(value: T, property: PropertyEvaluationContext.(T) -> Boolean): Boolean? {

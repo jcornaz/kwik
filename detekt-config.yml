@@ -147,7 +147,7 @@ exceptions:
     active: true
   SwallowedException:
     active: true
-    ignoredExceptionTypes: 'InterruptedException,NumberFormatException,ParseException,MalformedURLException'
+    ignoredExceptionTypes: 'InterruptedException,NumberFormatException,ParseException,MalformedURLException,SkipEvaluation'
   ThrowingExceptionFromFinally:
     active: true
   ThrowingExceptionInMain:

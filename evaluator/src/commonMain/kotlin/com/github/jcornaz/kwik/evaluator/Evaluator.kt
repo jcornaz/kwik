@@ -36,7 +36,6 @@ fun <T> forAll(
     while (attempts < iterations) {
         val argument = iterator.next()
 
-        @Suppress("SwallowedException") // SkipEvaluation is used to silently skip an evaluation
         val isSatisfied = try {
             context.property(argument).also { ++attempts }
         } catch (skip: SkipEvaluation) {
@@ -44,19 +43,11 @@ fun <T> forAll(
         }
 
         if (!isSatisfied) {
-            val shrinkedArgument = generator.shrink(argument) {
-                try {
-                    context.property(it)
-                } catch (skip: SkipEvaluation) {
-                    true
-                }
-            }
-
             throw FalsifiedPropertyError(
                 attempts,
                 iterations,
                 seed,
-                extractArgumentList(shrinkedArgument)
+                extractArgumentList(generator.shrink(argument, property))
             )
         }
     }
