@@ -29,3 +29,15 @@ abstract class AbstractGeneratorTest {
         assertEquals(100_000, generator.randoms(12).take(100_000).count())
     }
 }
+
+infix fun <T> Generator<T>.shouldBeEquivalentTo(other: Generator<T>) {
+    assertEquals(other.samples, samples)
+
+    repeat(5) {
+        assertEquals(other.randoms(it.toLong()).take(100).toList(), randoms(it.toLong()).take(100).toList())
+    }
+
+    other.randoms(0L).take(5).forEach {
+        assertEquals(other.shrink(it), shrink(it))
+    }
+}
