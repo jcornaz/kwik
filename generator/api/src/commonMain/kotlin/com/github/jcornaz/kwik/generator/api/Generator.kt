@@ -10,7 +10,7 @@ interface Generator<T> {
     /**
      * Samples of values that should always be tested
      */
-    val samples: Set<T>
+    val samples: Set<T> get() = emptySet()
 
     /**
      * Returns a sequence of random value.
@@ -30,7 +30,7 @@ interface Generator<T> {
      * Its implementation is optional.
      * If not implemented, the property evaluator will simply not attempt to shrink the value.
      */
-    fun shrink(value: T): List<T> = emptyList()
+    fun shrink(value: T): Collection<T> = emptyList()
 
     companion object {
 

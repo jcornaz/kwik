@@ -47,6 +47,16 @@ class CombineTest : AbstractGeneratorTest() {
         assertTrue(gen.randoms(0).take(100).any { (x, y) -> x < 3 && y >= 3 })
         assertTrue(gen.randoms(0).take(100).any { (x, y) -> y < 3 && x >= 3 })
     }
+
+    @Test
+    fun ifNoneOfTheSourceCanBeShrinkedThenCombinationCannotBeShrinkedEither() {
+        val gen = Generator.combine(
+            Generator.create { it.nextInt() },
+            Generator.create { it.nextDouble() }
+        )
+
+        gen.shrink(10 to 8.0).isEmpty()
+    }
 }
 
 class CombineWithTransformTest : AbstractGeneratorTest() {
@@ -100,7 +110,15 @@ class CombineWithTransformTest : AbstractGeneratorTest() {
         assertTrue(gen.randoms(0).take(100).any { (x, y) -> y < 3 && x >= 3 })
     }
 
-    private data class CombinedValues(val x: Int, val y: Double)
+    @Test
+    fun ifNoneOfTheSourceCanBeShrinkedThenCombinationCannotBeShrinkedEither() {
+        val gen = Generator.combine(
+            Generator.create { it.nextInt() },
+            Generator.create { it.nextDouble() }
+        ) { a, b -> CombinedValues(a, b) }
+
+        gen.shrink(CombinedValues(10, 8.0)).isEmpty()
+    }
 }
 
 class CombineWithTest : AbstractGeneratorTest() {
@@ -135,6 +153,15 @@ class CombineWithTest : AbstractGeneratorTest() {
 
         assertTrue(gen.randoms(0).take(100).any { (x, y) -> x < 3 && y !in setOf("one", "two") })
         assertTrue(gen.randoms(0).take(100).any { (x, y) -> y in setOf("one", "two") && x >= 3 })
+    }
+
+
+    @Test
+    fun ifNoneOfTheSourceCanBeShrinkedThenCombinationCannotBeShrinkedEither() {
+        val gen = Generator.create { it.nextInt() }
+            .combineWith(Generator.create { it.nextDouble() })
+
+        gen.shrink(10 to 8.0).isEmpty()
     }
 }
 
@@ -190,5 +217,15 @@ class CombineWithWithTransformTest : AbstractGeneratorTest() {
         assertTrue(gen.randoms(0).take(100).any { (x, y) -> y < 3 && x >= 3 })
     }
 
-    private data class CombinedValues(val x: Int, val y: Double)
+    @Test
+    fun ifNoneOfTheSourceCanBeShrinkedThenCombinationCannotBeShrinkedEither() {
+        val gen = Generator.create { it.nextInt() }
+            .combineWith(Generator.create { it.nextDouble() }) { a, b ->
+                CombinedValues(a, b)
+            }
+
+        gen.shrink(CombinedValues(10, 8.0)).isEmpty()
+    }
 }
+
+private data class CombinedValues(val x: Int, val y: Double)

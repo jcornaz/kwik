@@ -100,7 +100,7 @@ class ForAll1Test : AbstractRunnerTest() {
 
             override fun randoms(seed: Long): Sequence<Int> = randomSequence(seed) { it.nextInt() }
 
-            override fun shrink(value: Int): List<Int> = when {
+            override fun shrink(value: Int): Collection<Int> = when {
                 value == 0 -> emptyList()
                 value == -1 || value == 1 -> listOf(0)
                 value < 0 -> listOf(value / 2, value + 1)

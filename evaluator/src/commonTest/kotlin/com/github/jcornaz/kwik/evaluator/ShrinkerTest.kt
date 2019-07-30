@@ -77,7 +77,7 @@ class ShrinkerTest {
     }
 
     @Test
-    fun skipedEvaluationAreIgnored() {
+    fun skippedEvaluationAreIgnored() {
         val generator = shrinker { value ->
             when (value) {
                 0 -> emptyList()
