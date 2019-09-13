@@ -3,12 +3,13 @@ name: Check
 on:
   push:
     branches:
-    - develop
     - master
+    tags:
+    - '*'
   
   pull_request:
     branches: 
-    - develop
+    - master
 
 jobs:
   build:
