@@ -7,8 +7,8 @@ Kwik
 .. image:: https://img.shields.io/badge/status-incubating-orange.svg
     :target: https://gist.githubusercontent.com/jcornaz/46736c3d1f21b4c929bd97549b7406b2/raw/ProjectStatusFlow
 
-.. image:: https://travis-ci.com/jcornaz/kwik.svg?branch=master
-    :target: https://travis-ci.com/jcornaz/kwik
+.. image:: https://github.com/jcornaz/kwik/workflows/Check/badge.svg
+    :target: https://github.com/jcornaz/kwik/actions
 
 .. image:: https://badges.gitter.im/kwik-test/community.svg
     :target: https://gitter.im/kwik-test/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badg
@@ -41,7 +41,7 @@ Status
 
 The project is incubating and its API is subject to changes.
 
-Please give it a try and write a feed back in the issues_ or discuss on gitter_
+Please give it a try and write a feed back in the issues_ or discuss on gitter_.
 
 .. _issues: https://github.com/jcornaz/kwik/issues
 .. _gitter: https://gitter.im/kwik-test/community
@@ -101,7 +101,7 @@ Example of setup using gradle.
 .. code-block:: kotlin
 
     repositories {
-        maven { url = uri("https://dl.bintray.com/kwik/stable") }
+        jcenter()
     }
 
     dependencies {
@@ -111,7 +111,7 @@ Example of setup using gradle.
 
 .. startReferenceToSetup
 
-Find more detailed information, read the setup_ instructions.
+Find more detailed information in the setup_ instructions.
 
 .. _setup: https://kwik.readthedocs.io/en/latest/setup.html
 
