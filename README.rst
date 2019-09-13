@@ -7,8 +7,8 @@ Kwik
 .. image:: https://img.shields.io/badge/status-incubating-orange.svg
     :target: https://gist.githubusercontent.com/jcornaz/46736c3d1f21b4c929bd97549b7406b2/raw/ProjectStatusFlow
 
-.. image:: https://travis-ci.com/jcornaz/kwik.svg?branch=master
-    :target: https://travis-ci.com/jcornaz/kwik
+.. image:: https://github.com/jcornaz/kwik/workflows/Check/badge.svg
+    :target: https://github.com/jcornaz/kwik/actions
 
 .. image:: https://badges.gitter.im/kwik-test/community.svg
     :target: https://gitter.im/kwik-test/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badg
