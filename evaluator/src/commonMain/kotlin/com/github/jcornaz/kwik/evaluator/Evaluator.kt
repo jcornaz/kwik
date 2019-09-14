@@ -65,9 +65,7 @@ internal class SkipEvaluation : Throwable()
 
 private fun extractArgumentList(argument: Any?): List<Any?> {
     return if (argument is ArgumentPair<*, *>) {
-        extractArgumentList(argument.first) + extractArgumentList(
-            argument.second
-        )
+        extractArgumentList(argument.first) + extractArgumentList(argument.second)
     } else {
         listOf(argument)
     }
@@ -106,8 +104,15 @@ inline fun <reified A, reified B> forAll(
     seed: Long = Random.nextLong(),
     crossinline property: PropertyEvaluationContext.(A, B) -> Boolean
 ) {
+    val combinedGenerator = generatorA.combineWith(generatorB, ::ArgumentPair)
+
     forAll(
-        generatorA.combineWith(generatorB, ::ArgumentPair),
+        object : Generator<ArgumentPair<A, B>> {
+            override fun randoms(seed: Long): Sequence<ArgumentPair<A, B>> = combinedGenerator.randoms(seed)
+            override fun shrink(value: ArgumentPair<A, B>): Collection<ArgumentPair<A, B>> =
+                generatorA.shrink(value.first).map { ArgumentPair(it, value.second) }
+                    .plus(generatorB.shrink(value.second).map { ArgumentPair(value.first, it) })
+        },
         iterations,
         seed
     ) { (a, b) ->

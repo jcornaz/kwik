@@ -2,10 +2,7 @@ package com.github.jcornaz.kwik.evaluator
 
 import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.withSamples
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
-import kotlin.test.assertTrue
+import kotlin.test.*
 
 class ForAll2Test : AbstractRunnerTest() {
 
@@ -103,5 +100,53 @@ class ForAll2Test : AbstractRunnerTest() {
         forAll { a: Int, b: Long ->
             a is Int && b is Long
         }
+    }
+
+    @Test
+    fun canShrinkFirstArgument() {
+        val intGen = object : Generator<Int> {
+            override fun randoms(seed: Long): Sequence<Int> = sequenceOf(12)
+            override fun shrink(value: Int): Collection<Int> = listOf(value / 2)
+        }
+
+        val exception = assertFailsWith<FalsifiedPropertyError> {
+            forAll(intGen) { a: Int, _: Long -> a < 3 }
+        }
+
+        assertEquals(3, exception.arguments.first())
+    }
+
+    @Test
+    fun canShrinkSecondArgument() {
+        val intGen = object : Generator<Int> {
+            override fun randoms(seed: Long): Sequence<Int> = sequenceOf(12)
+            override fun shrink(value: Int): Collection<Int> = listOf(value / 2)
+        }
+
+        val exception = assertFailsWith<FalsifiedPropertyError> {
+            forAll(Generator.create { it.nextLong() }, intGen) { _: Long, b: Int -> b < 3 }
+        }
+
+        assertEquals(3, exception.arguments[1])
+    }
+
+    @Test
+    @Ignore
+    fun canShrinkBothArguments() {
+        val intGen = object : Generator<Int> {
+            override fun randoms(seed: Long): Sequence<Int> = sequenceOf(12)
+            override fun shrink(value: Int): Collection<Int> = listOf(value / 2)
+        }
+        val longGen = object : Generator<Long> {
+            override fun randoms(seed: Long): Sequence<Long> = sequenceOf(11)
+            override fun shrink(value: Long): Collection<Long> = listOf(value / 2)
+        }
+
+        val exception = assertFailsWith<FalsifiedPropertyError> {
+            forAll(intGen, longGen) { a: Int, b: Long -> a < 3 && b % 2L == 0L }
+        }
+
+        assertEquals(3, exception.arguments[0])
+        assertEquals(5L, exception.arguments[1])
     }
 }
