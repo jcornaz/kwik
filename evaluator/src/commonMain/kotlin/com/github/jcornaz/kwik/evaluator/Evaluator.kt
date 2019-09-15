@@ -42,7 +42,7 @@ fun <T> forAll(
         } catch (skip: SkipEvaluation) {
             true
         } catch (error: Throwable) {
-            throw FalsifiedPropertyError(attempts, iterations, seed, extractArgumentList(argument), error)
+            throw FalsifiedPropertyError(attempts + 1, iterations, seed, extractArgumentList(argument), error)
         }
 
         if (!isSatisfied) throw FalsifiedPropertyError(attempts, iterations, seed, extractArgumentList(argument))

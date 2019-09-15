@@ -83,6 +83,35 @@ class ForAll4Test : AbstractRunnerTest() {
     }
 
     @Test
+    fun errorDisplayHelpfulMessage() {
+        val exception = assertFailsWith<FalsifiedPropertyError> {
+            var i = 0
+            forAll(
+                Generator.create { 42 },
+                Generator.create { -4.1 },
+                Generator.create { 100L },
+                Generator.create { "hello world" },
+                iterations = 123, seed = 78
+            ) { _, _, _, _ ->
+                if (++i >= 12) error("failed")
+                true
+            }
+        }
+
+        assertEquals(
+            """
+                Property falsified after 12 tests (out of 123)
+                Argument 1: 42
+                Argument 2: -4.1
+                Argument 3: 100
+                Argument 4: hello world
+                Generation seed: 78
+            """.trimIndent(),
+            exception.message
+        )
+    }
+
+    @Test
     fun evaluateForRandomValues() {
         val valuesA = mutableSetOf<Int>()
         val valuesB = mutableSetOf<Double>()
