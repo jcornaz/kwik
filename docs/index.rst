@@ -1,4 +1,8 @@
+Kwik
+====
+
 .. include:: ../README.rst
+    :start-after: .. afterBadges
     :end-before: .. startReferenceToDoc
 
 Have a look at the :doc:`setup <setup>` and :doc:`usage <write-tests>`
