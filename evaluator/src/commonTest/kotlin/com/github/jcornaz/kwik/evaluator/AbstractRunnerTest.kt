@@ -9,7 +9,11 @@ import kotlin.test.assertTrue
 
 abstract class AbstractRunnerTest {
 
-    abstract fun evaluate(iterations: Int = 200, seed: Long = Random.nextLong(), invocation: () -> Boolean)
+    abstract fun evaluate(
+        iterations: Int = 200,
+        seed: Long = Random.nextLong(),
+        invocation: PropertyEvaluationContext.() -> Boolean
+    )
 
     @Test
     fun zeroIterationShouldFail() {
@@ -75,7 +79,8 @@ abstract class AbstractRunnerTest {
 
         val values = mutableSetOf<Int>()
         var invocations = 0
-        forAll(iterations = 321) { value: Int ->
+        evaluate(iterations = 321) {
+            val value = Random.nextInt()
             skipIf(value % 2 == 0)
 
             ++invocations

@@ -12,7 +12,7 @@ class ForAll2Test : AbstractRunnerTest() {
     private val testGenerator1 = Generator.create { it.nextInt() }
     private val testGenerator2 = Generator.create { it.nextDouble() }
 
-    override fun evaluate(iterations: Int, seed: Long, invocation: () -> Boolean) {
+    override fun evaluate(iterations: Int, seed: Long, invocation: PropertyEvaluationContext.() -> Boolean) {
         forAll(
             testGenerator1,
             testGenerator2,

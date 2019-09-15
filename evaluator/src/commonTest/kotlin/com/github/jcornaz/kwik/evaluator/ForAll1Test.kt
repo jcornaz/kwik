@@ -11,7 +11,7 @@ class ForAll1Test : AbstractRunnerTest() {
 
     private val testGenerator = Generator.create { it.nextInt() }
 
-    override fun evaluate(iterations: Int, seed: Long, invocation: () -> Boolean) {
+    override fun evaluate(iterations: Int, seed: Long, invocation: PropertyEvaluationContext.() -> Boolean) {
         forAll(testGenerator, iterations, seed) { invocation() }
     }
 
