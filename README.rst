@@ -16,6 +16,9 @@ Kwik
 .. image:: https://img.shields.io/badge/dynamic/json.svg?color=blue&label=version&query=name&url=https%3A%2F%2Fapi.bintray.com%2Fpackages%2Fkwik%2Fstable%2Fkwik%2Fversions%2F_latest
     :target: https://bintray.com/kwik/stable/kwik/_latestVersion
 
+.. image:: https://img.shields.io/badge/dynamic/json.svg?color=blue&label=version&query=name&url=https%3A%2F%2Fapi.bintray.com%2Fpackages%2Fkwik%2Fpreview%2Fkwik%2Fversions%2F_latest
+    :target: https://bintray.com/kwik/preview/kwik/_latestVersion
+
 Property-based testing library for Kotlin.
 
 **Main features:**
