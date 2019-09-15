@@ -116,3 +116,8 @@ Find more detailed information in the setup_ instructions.
 .. _setup: https://kwik.readthedocs.io/en/latest/setup.html
 
 .. endReferenceToSetup
+
+Contribute
+----------
+
+See [how to contribute](https://github.com/jcornaz/kwik/blob/master/CONTRIBUTING.md)
