@@ -184,6 +184,19 @@ inline fun <reified A, reified B, reified C, reified D> forAll(
     seed = seed
 ) { (a, b), (c, d) -> property(a, b, c, d) }
 
+inline fun <reified A, reified B, reified C, reified D> checkForAll(
+    generatorA: Generator<A> = Generator.default(),
+    generatorB: Generator<B> = Generator.default(),
+    generatorC: Generator<C> = Generator.default(),
+    generatorD: Generator<D> = Generator.default(),
+    iterations: Int = kwikDefaultIterations,
+    seed: Long = Random.nextLong(),
+    crossinline property: PropertyEvaluationContext.(A, B, C, D) -> Unit
+): Unit = forAll(generatorA, generatorB, generatorC, generatorD, iterations, seed) { a, b, c, d ->
+    property(a, b, c, d)
+    true
+}
+
 /**
  * Pair of argument. Used by [forAll] of higher arity to let the [forAll] of argument being able to display the argument list.
  */
