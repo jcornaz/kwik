@@ -49,21 +49,22 @@ abstract class AbstractRunnerTest {
     }
 
     @Test
-    fun exceptionAreRethrown() {
-        val exception = assertFailsWith<CustomException> {
+    fun exceptionAreWrapped() {
+        val exception = assertFailsWith<FalsifiedPropertyError> {
             evaluate {
                 throw CustomException("hello from exception")
             }
         }
 
-        assertEquals("hello from exception", exception.message)
+        assertTrue(exception.cause is CustomException)
+        assertEquals("hello from exception", exception.cause!!.message)
     }
 
     @Test
     fun failFastInCaseOfException() {
         var invocations = 0
 
-        assertFailsWith<AssertionError> {
+        assertFailsWith<FalsifiedPropertyError> {
             evaluate(iterations = 42) {
                 invocations++
                 throw AssertionError()

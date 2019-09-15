@@ -41,15 +41,11 @@ fun <T> forAll(
             context.property(argument).also { ++attempts }
         } catch (skip: SkipEvaluation) {
             true
+        } catch (error: Throwable) {
+            throw FalsifiedPropertyError(attempts + 1, iterations, seed, extractArgumentList(argument), error)
         }
 
-        if (!isSatisfied)
-            throw FalsifiedPropertyError(
-                attempts,
-                iterations,
-                seed,
-                extractArgumentList(argument)
-            )
+        if (!isSatisfied) throw FalsifiedPropertyError(attempts, iterations, seed, extractArgumentList(argument))
     }
 
     println("OK, passed $attempts tests. (seed: $seed)")
@@ -178,7 +174,8 @@ data class FalsifiedPropertyError(
     val attempts: Int,
     val iterations: Int,
     val seed: Long,
-    val arguments: List<Any?>
+    val arguments: List<Any?>,
+    override val cause: Throwable? = null
 ) : AssertionError(buildString {
     append("Property falsified after $attempts tests (out of $iterations)\n")
 
