@@ -24,6 +24,23 @@ So the test pass only if the lambda returns true for 200 random inputs.
 
 .. _choose-property-iterations:
 
+Use assertions
+--------------
+
+If writing a lambda that return a boolean is not of your taste, you may alternatively use `checkForAll`.
+Instead of returning a boolean, we have to throw an exception in case of falsification.
+
+Example:
+
+.. literalinclude:: ../core/src/commonTest/kotlin/com/github/jcornaz/kwik/example/PlusOperatorTest.kt
+    :language: kotlin
+    :dedent: 4
+    :start-after: //region Using checkForAll
+    :end-before: //endregion
+
+This alternative can be especially useful to get more descriptive messages. In the example above, a falsification of the
+property would display the expected and actual values. Theses kind of messages cannot be provided when using `forAll`.
+
 Choose the number of iterations
 -------------------------------
 

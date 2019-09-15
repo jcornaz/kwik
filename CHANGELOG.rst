@@ -14,6 +14,12 @@ and this project adheres to `Semantic Versioning`_.
 Unreleased_
 -----------
 
+Added
+.....
+
+* `checkForAll`. An alternative to `forAll` allowing to use assertion (throw in case of error) instead of returning a boolean.
+  It can be especially helpful to more descriptive message about what is wrong.
+
 .. endUnreleasedBlock
 
 0.2.0-beta.1_ - 2019-09-15

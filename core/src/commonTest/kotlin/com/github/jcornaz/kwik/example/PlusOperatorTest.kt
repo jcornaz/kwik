@@ -1,5 +1,6 @@
 package com.github.jcornaz.kwik.example
 
+import com.github.jcornaz.kwik.evaluator.checkForAll
 import com.github.jcornaz.kwik.evaluator.forAll
 import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.combineWith
@@ -10,6 +11,7 @@ import com.github.jcornaz.kwik.generator.stdlib.enum
 import com.github.jcornaz.kwik.generator.stdlib.ints
 import com.github.jcornaz.kwik.generator.stdlib.withNaN
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class PlusOperatorTest {
 
@@ -17,6 +19,13 @@ class PlusOperatorTest {
     @Test
     fun isCommutative() = forAll { x: Int, y: Int ->
         x + y == y + x
+    }
+    //endregion
+
+    //region Using checkForAll
+    @Test
+    fun isCommutative2() = checkForAll { x: Int, y: Int ->
+        assertEquals(x + y, y + x)
     }
     //endregion
 
