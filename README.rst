@@ -120,4 +120,6 @@ Find more detailed information in the setup_ instructions.
 Contribute
 ----------
 
-See [how to contribute](https://github.com/jcornaz/kwik/blob/master/CONTRIBUTING.md)
+See `how to contribute`_
+
+.. _`how to contribute`: https://github.com/jcornaz/kwik/blob/master/CONTRIBUTING.md
