@@ -110,10 +110,11 @@ Example of setup using gradle.
 
     repositories {
         jcenter()
+        maven { url = uri("https://dl.bintray.com/kwik/preview") }
     }
 
     dependencies {
-        testCompile("com.github.jcornaz.kwik:kwik-core-jvm:0.1.0")
+        testCompile("com.github.jcornaz.kwik:kwik-core-jvm:0.2.0-beta.1")
     }
 .. endGradleSetup
 
