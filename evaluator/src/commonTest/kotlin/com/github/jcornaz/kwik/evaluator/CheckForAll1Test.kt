@@ -21,7 +21,7 @@ class CheckForAll1Test : AbstractRunnerTest() {
 
         val gen = Generator.create { it.nextInt(0, 10) }.withSamples(42, 100)
 
-        checkForAll(gen) {
+        checkForAll<Int>(gen) {
             values += it
         }
 
@@ -33,7 +33,7 @@ class CheckForAll1Test : AbstractRunnerTest() {
     fun falsificationDisplayHelpfulMessage() {
         val exception = assertFailsWith<FalsifiedPropertyError> {
             var i = 0
-            checkForAll(
+            checkForAll<Int>(
                 Generator.create { 42 },
                 iterations = 123,
                 seed = 78
@@ -54,7 +54,7 @@ class CheckForAll1Test : AbstractRunnerTest() {
     fun evaluateForRandomValues() {
         val values = mutableSetOf<Int>()
 
-        checkForAll(testGenerator, seed = 0L) { values += it }
+        checkForAll<Int>(testGenerator, seed = 0L) { values += it }
 
         assertTrue(values.size > 190)
     }
@@ -68,8 +68,8 @@ class CheckForAll1Test : AbstractRunnerTest() {
 
         val seed = 123564L
 
-        checkForAll(gen, seed = seed) { pass1 += it }
-        checkForAll(gen, seed = seed) { pass2 += it }
+        checkForAll<Int>(gen, seed = seed) { pass1 += it }
+        checkForAll<Int>(gen, seed = seed) { pass2 += it }
 
         assertEquals(pass1, pass2)
     }

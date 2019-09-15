@@ -111,14 +111,19 @@ inline fun <reified A, reified B> forAll(
     iterations: Int = kwikDefaultIterations,
     seed: Long = Random.nextLong(),
     crossinline property: PropertyEvaluationContext.(A, B) -> Boolean
-) {
-    forAll(
-        generatorA.combineWith(generatorB, ::ArgumentPair),
-        iterations,
-        seed
-    ) { (a, b) ->
-        property(a, b)
-    }
+) = forAll(generatorA.combineWith(generatorB, ::ArgumentPair), iterations, seed) { (a, b) ->
+    property(a, b)
+}
+
+inline fun <reified A, reified B> checkForAll(
+    generatorA: Generator<A> = Generator.default(),
+    generatorB: Generator<B> = Generator.default(),
+    iterations: Int = kwikDefaultIterations,
+    seed: Long = Random.nextLong(),
+    crossinline property: PropertyEvaluationContext.(A, B) -> Unit
+): Unit = forAll(generatorA, generatorB, iterations, seed) { a, b ->
+    property(a, b)
+    true
 }
 
 /**
@@ -138,12 +143,7 @@ inline fun <reified A, reified B, reified C> forAll(
     iterations: Int = kwikDefaultIterations,
     seed: Long = Random.nextLong(),
     crossinline property: PropertyEvaluationContext.(A, B, C) -> Boolean
-): Unit = forAll(
-    generatorA.combineWith(generatorB, ::ArgumentPair),
-    generatorC,
-    iterations,
-    seed
-) { (a, b), c ->
+): Unit = forAll(generatorA.combineWith(generatorB, ::ArgumentPair), generatorC, iterations, seed) { (a, b), c ->
     property(a, b, c)
 }
 
