@@ -13,7 +13,8 @@ Make sure that the environment variable `JAVA_HOME` point to a JDK installation 
 
 This is a standard gradle setup. Here the most important tasks you may want to run:
 
-* `./gradlew check` Build and test everything. (First think to do on a fresh clone)
+* `./gradlew check` Build and test/check everything (Best first task for a fresh clone)
+* `./gradlew test` Compile sources and run unit tests
 * `./gradlew version` Prints Kwik version
 * `./gradlew sphinx` Generate documentation (can be found in `build/site/index.html`)
 * `./gradlew detekt` Static code analysis and report code smells (may fail if too many code smells are found)
