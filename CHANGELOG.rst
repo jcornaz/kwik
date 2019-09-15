@@ -50,7 +50,7 @@ Modules extracted from core
     So it is still easy to get started with Kwik by simply adding ``core`` as a dependency
 
 Package names changed (Breaking)
-.........................
+................................
 
 The packages have been renamed, and classes/files have been moved to reflect their new module (see `Modules extracted from core`_)
 

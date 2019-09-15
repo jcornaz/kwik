@@ -154,4 +154,8 @@ tasks {
 
         setSourceDirectory("$rootDir/docs")
     }
+
+    val check by existing {
+        dependsOn(sphinx)
+    }
 }
