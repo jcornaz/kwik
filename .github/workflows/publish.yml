@@ -21,3 +21,6 @@ jobs:
         
     - name: Check with Gradle
       run: ./gradlew bintrayUpload --no-daemon --no-build-cache
+      env:
+        BINTRAY_USER: ${{ secrets.BINTRAY_USER }}
+        BINTRAY_KEY: ${{ secrets.BINTRAY_KEY }}
