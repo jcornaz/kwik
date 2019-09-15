@@ -1,15 +1,9 @@
-name: Check
+name: Publish
 
 on:
   push:
-    branches:
-    - master
     tags:
     - '*'
-  
-  pull_request:
-    branches: 
-    - master
 
 jobs:
   build:
@@ -26,4 +20,4 @@ jobs:
         java-version: 1.11
         
     - name: Check with Gradle
-      run: ./gradlew check --no-daemon --no-build-cache
+      run: ./gradlew bintrayUpload --no-daemon --no-build-cache
