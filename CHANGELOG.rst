@@ -14,6 +14,11 @@ and this project adheres to `Semantic Versioning`_.
 Unreleased_
 -----------
 
+Changed
+.......
+
+* Wrap exceptions thrown by the properties so that an helpful message can be displayed (number of attempts, arguments, etc.)
+
 Dependencies Updated
 ....................
 
