@@ -14,6 +14,11 @@ and this project adheres to `Semantic Versioning`_.
 Unreleased_
 -----------
 
+.. endUnreleasedBlock
+
+0.2.0-beta.2_ - 2019-09-16
+--------------------------
+
 Deprecated
 ..........
 
@@ -26,9 +31,6 @@ Added
 * ``checkForAll``. An alternative to ``forAll`` allowing to use assertion (throw in case of error) instead of returning a boolean.
   It can be especially helpful to more descriptive message about what is wrong.
 * ``Generator.randomSequence`` extension function to replace the deprecated ``Generator.randoms(Long): Sequence<T>``
-
-
-.. endUnreleasedBlock
 
 0.2.0-beta.1_ - 2019-09-15
 --------------------------
@@ -181,7 +183,8 @@ Added
 * ``withSample`` and ``withNull`` to inject constants values to be always tested
 * ``zip`` operator to combine two given generators
 
-.. _Unreleased: https://github.com/jcornaz/kwik/compare/0.2.0-beta.1...master
+.. _Unreleased: https://github.com/jcornaz/kwik/compare/0.2.0-beta.2...master
+.. _0.2.0-beta.2: https://github.com/jcornaz/kwik/compare/0.2.0-beta.1...0.2.0-beta.2
 .. _0.2.0-beta.1: https://github.com/jcornaz/kwik/compare/0.1.0...0.2.0-beta.1
 .. _0.1.0: https://github.com/jcornaz/kwik/compare/0.1.0-beta.1...0.1.0
 .. _0.1.0-beta.1: https://github.com/jcornaz/kwik/compare/0.1.0-alpha.4...0.1.0-beta.1
