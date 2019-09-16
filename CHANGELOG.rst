@@ -15,7 +15,7 @@ Unreleased_
 -----------
 
 Deprecated
-.......
+..........
 
 * Method ``Generator.randoms(Long)`` the generator should generate single values, not a sequence.
 
