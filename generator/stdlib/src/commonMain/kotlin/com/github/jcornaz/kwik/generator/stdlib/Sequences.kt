@@ -1,0 +1,38 @@
+package com.github.jcornaz.kwik.generator.stdlib
+
+import com.github.jcornaz.kwik.generator.api.Generator
+import kotlin.random.Random
+
+fun <T> Generator.Companion.sequences(
+    elementGen: Generator<T>,
+    minSize: Int = 0,
+    maxSize: Int = maxOf(minSize, KWIK_DEFAULT_MAX_SIZE)
+): Generator<Sequence<T>> = SequenceGenerator(elementGen, minSize, maxSize)
+
+inline fun <reified T> Generator.Companion.sequences(
+    minSize: Int = 0,
+    maxSize: Int = maxOf(minSize, KWIK_DEFAULT_MAX_SIZE)
+): Generator<Sequence<T>> = sequences(Generator.default(), minSize, maxSize)
+
+private class SequenceGenerator<T>(
+    private val elementGen: Generator<T>,
+    private val minSize: Int,
+    private val maxSize: Int
+) : Generator<Sequence<T>> {
+    override val samples: Set<Sequence<T>> = emptySet()
+
+    override fun generate(random: Random): Sequence<T> =
+        GeneratedSequence(random.nextLong(), random.nextInt(minSize, maxSize + 1), elementGen)
+}
+
+private data class GeneratedSequence<T>(
+    private val seed: Long,
+    private val size: Int,
+    private val elementGen: Generator<T>
+) : Sequence<T> by sequence<T>({
+    val random = Random(seed)
+
+    repeat(size) {
+        yield(elementGen.generate(random))
+    }
+})
