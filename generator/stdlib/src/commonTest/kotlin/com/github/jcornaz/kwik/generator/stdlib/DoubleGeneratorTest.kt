@@ -1,6 +1,7 @@
 package com.github.jcornaz.kwik.generator.stdlib
 
 import com.github.jcornaz.kwik.generator.api.Generator
+import com.github.jcornaz.kwik.generator.api.randomSequence
 import com.github.jcornaz.kwik.generator.test.AbstractGeneratorTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -19,7 +20,7 @@ class DoubleGeneratorTest : AbstractGeneratorTest() {
 
     @Test
     fun produceInsideGivenRange() {
-        assertTrue(Generator.doubles(-8.0, 14.0).randoms(0).take(1000).all { it >= -8 && it <= 14 })
+        assertTrue(Generator.doubles(-8.0, 14.0).randomSequence(0).take(1000).all { it >= -8 && it <= 14 })
     }
 
     @Test
@@ -50,12 +51,12 @@ class PositiveDoubleGeneratorTest : AbstractGeneratorTest() {
 
     @Test
     fun producePositiveIntegers() {
-        assertTrue(Generator.positiveDoubles().randoms(0).take(1000).all { it >= 0 })
+        assertTrue(Generator.positiveDoubles().randomSequence(0).take(1000).all { it >= 0 })
     }
 
     @Test
     fun produceSmallerThanMax() {
-        assertTrue(Generator.positiveDoubles(max = 42.0).randoms(0).take(1000).all { it >= 0.0 && it <= 42.0 })
+        assertTrue(Generator.positiveDoubles(max = 42.0).randomSequence(0).take(1000).all { it >= 0.0 && it <= 42.0 })
     }
 
     @Test
@@ -81,12 +82,12 @@ class NegativeDoubleGeneratorTest : AbstractGeneratorTest() {
 
     @Test
     fun produceNegativeIntegers() {
-        assertTrue(Generator.negativeDoubles().randoms(0).take(1000).all { it < 0 })
+        assertTrue(Generator.negativeDoubles().randomSequence(0).take(1000).all { it < 0 })
     }
 
     @Test
     fun produceBiggerThanMin() {
-        assertTrue(Generator.negativeDoubles(min = -42.0).randoms(0).take(1000).all { it < 0.0 && it >= -42.0 })
+        assertTrue(Generator.negativeDoubles(min = -42.0).randomSequence(0).take(1000).all { it < 0.0 && it >= -42.0 })
     }
 
     @Test
@@ -119,13 +120,13 @@ class NonZeroDoubleTest : AbstractGeneratorTest() {
 
     @Test
     fun produceNonZeroLongs() {
-        assertTrue(Generator.nonZeroDoubles().randoms(0).take(1000).all { it != 0.0 })
+        assertTrue(Generator.nonZeroDoubles().randomSequence(0).take(1000).all { it != 0.0 })
     }
 
     @Test
     fun produceInRange() {
         val gen = Generator.nonZeroDoubles(min = -42.0, max = 100.0)
-        assertTrue(gen.randoms(0).take(1000).all { it >= -42 && it <= 100 })
+        assertTrue(gen.randomSequence(0).take(1000).all { it >= -42 && it <= 100 })
     }
 
     @Test

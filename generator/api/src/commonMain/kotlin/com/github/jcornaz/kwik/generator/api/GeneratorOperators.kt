@@ -1,5 +1,7 @@
 package com.github.jcornaz.kwik.generator.api
 
+import kotlin.random.Random
+
 /**
  * Returns a generator containing the results of applying the given transform function to each element emitted by
  * the original generator.
@@ -11,7 +13,7 @@ private class MapGenerator<T, R>(private val source: Generator<T>, private val t
     Generator<R> {
     override val samples: Set<R> = source.samples.mapTo(mutableSetOf(), transform)
 
-    override fun randoms(seed: Long): Sequence<R> = source.randoms(seed).map(transform)
+    override fun generate(random: Random): R = transform(source.generate(random))
 }
 
 /**
@@ -38,7 +40,14 @@ private class FilterGenerator<T>(
 ) : Generator<T> {
     override val samples: Set<T> = source.samples.filterTo(mutableSetOf(), predicate)
 
-    override fun randoms(seed: Long): Sequence<T> = source.randoms(seed).filter(predicate)
+    override fun generate(random: Random): T {
+        var value = source.generate(random)
+
+        while(!predicate(value))
+            value = source.generate(random)
+
+        return value
+    }
 }
 
 /**
@@ -72,20 +81,18 @@ fun <T> Generator<T>.withNull(): Generator<T?> =
 private class SampleGenerator<T>(
     private val source: Generator<T>,
     samples: Iterable<T>
-) : Generator<T> {
+) : Generator<T> by source {
 
     override val samples: Set<T> = source.samples + samples
 
     init {
         require(this.samples.isNotEmpty()) { "No sample provided" }
     }
-
-    override fun randoms(seed: Long): Sequence<T> = source.randoms(seed)
 }
 
-private class NullGenerator<T>(private val source: Generator<T>) :
-    Generator<T?> {
+private class NullGenerator<T>(private val source: Generator<T>) : Generator<T?> {
+
     override val samples: Set<T?> = source.samples.plus<T?>(null)
 
-    override fun randoms(seed: Long): Sequence<T?> = source.randoms(seed)
+    override fun generate(random: Random): T? = source.generate(random)
 }

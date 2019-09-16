@@ -14,7 +14,7 @@ class CombineTest : AbstractGeneratorTest() {
 
     @Test
     fun combineTheValues() {
-        assertTrue(generator.randoms(0).take(200).distinct().count() > 190)
+        assertTrue(generator.randomSequence(0).take(200).distinct().count() > 190)
     }
 
     @Test
@@ -24,7 +24,7 @@ class CombineTest : AbstractGeneratorTest() {
             Generator.create { it.nextInt() }
         )
 
-        assertTrue(gen.randoms(123).take(200).count { (a, b) -> a != b } > 150)
+        assertTrue(gen.randomSequence(123).take(200).count { (a, b) -> a != b } > 150)
     }
 
     @Test
@@ -35,17 +35,6 @@ class CombineTest : AbstractGeneratorTest() {
         )
 
         assertEquals(setOf(1 to "one", 1 to "two", 2 to "one", 2 to "two"), gen.samples)
-    }
-
-    @Test
-    fun randomValuesContainsSamples() {
-        val gen = Generator.combine(
-            Generator.create { it.nextInt() + 3 }.withSamples(1, 2),
-            Generator.create { it.nextDouble() + 3.0 }.withSamples(1.0, 2.0)
-        )
-
-        assertTrue(gen.randoms(0).take(100).any { (x, y) -> x < 3 && y >= 3 })
-        assertTrue(gen.randoms(0).take(100).any { (x, y) -> y < 3 && x >= 3 })
     }
 }
 
@@ -59,7 +48,7 @@ class CombineWithTransformTest : AbstractGeneratorTest() {
 
     @Test
     fun combineTheValues() {
-        assertTrue(generator.randoms(0).take(200).distinct().count() > 190)
+        assertTrue(generator.randomSequence(0).take(200).distinct().count() > 190)
     }
 
     @Test
@@ -69,7 +58,7 @@ class CombineWithTransformTest : AbstractGeneratorTest() {
             Generator.create { it.nextDouble() }.withSamples(3.0, 4.0)
         ) { a, b -> CombinedValues(a, b) }
 
-        assertTrue(gen.randoms(0).take(200).count { (a, b) -> a != b.toInt() } > 150)
+        assertTrue(gen.randomSequence(0).take(200).count { (a, b) -> a != b.toInt() } > 150)
     }
 
     @Test
@@ -89,17 +78,6 @@ class CombineWithTransformTest : AbstractGeneratorTest() {
         )
     }
 
-    @Test
-    fun randomValuesContainsSamples() {
-        val gen = Generator.combine(
-            Generator.create { it.nextInt() + 3 }.withSamples(1, 2),
-            Generator.create { it.nextDouble() + 3.0 }.withSamples(1.0, 2.0)
-        ) { a, b -> CombinedValues(a, b) }
-
-        assertTrue(gen.randoms(0).take(100).any { (x, y) -> x < 3 && y >= 3 })
-        assertTrue(gen.randoms(0).take(100).any { (x, y) -> y < 3 && x >= 3 })
-    }
-
     private data class CombinedValues(val x: Int, val y: Double)
 }
 
@@ -110,14 +88,14 @@ class CombineWithTest : AbstractGeneratorTest() {
 
     @Test
     fun combineTheValues() {
-        assertTrue(generator.randoms(0).take(200).distinct().count() > 190)
+        assertTrue(generator.randomSequence(0).take(200).distinct().count() > 190)
     }
 
     @Test
     fun combineDifferentValues() {
         val gen = Generator.create { it.nextInt() }.combineWith(Generator.create { it.nextInt() })
 
-        assertTrue(gen.randoms(123).take(200).count { (a, b) -> a != b } > 150)
+        assertTrue(gen.randomSequence(123).take(200).count { (a, b) -> a != b } > 150)
     }
 
     @Test
@@ -126,15 +104,6 @@ class CombineWithTest : AbstractGeneratorTest() {
             .combineWith(Generator.create { it.nextInt().toString() }.withSamples("one", "two"))
 
         assertEquals(setOf(1 to "one", 1 to "two", 2 to "one", 2 to "two"), gen.samples)
-    }
-
-    @Test
-    fun randomValuesContainsSamples() {
-        val gen = Generator.create { it.nextInt() + 3 }.withSamples(1, 2)
-            .combineWith(Generator.create { it.nextInt().toString() }.withSamples("one", "two"))
-
-        assertTrue(gen.randoms(0).take(100).any { (x, y) -> x < 3 && y !in setOf("one", "two") })
-        assertTrue(gen.randoms(0).take(100).any { (x, y) -> y in setOf("one", "two") && x >= 3 })
     }
 }
 
@@ -151,7 +120,7 @@ class CombineWithWithTransformTest : AbstractGeneratorTest() {
 
     @Test
     fun combineTheValues() {
-        assertTrue(generator.randoms(0).take(200).distinct().count() > 190)
+        assertTrue(generator.randomSequence(0).take(200).distinct().count() > 190)
     }
 
     @Test
@@ -159,7 +128,7 @@ class CombineWithWithTransformTest : AbstractGeneratorTest() {
         val gen = Generator.create { it.nextInt() }
             .combineWith(Generator.create { it.nextInt() }) { a, b -> a to b }
 
-        assertTrue(gen.randoms(123).take(200).count { (a, b) -> a != b } > 150)
+        assertTrue(gen.randomSequence(123).take(200).count { (a, b) -> a != b } > 150)
     }
 
     @Test
@@ -177,17 +146,6 @@ class CombineWithWithTransformTest : AbstractGeneratorTest() {
                 CombinedValues(2, 4.0)
             ), gen.samples
         )
-    }
-
-    @Test
-    fun randomValuesContainsSamples() {
-        val gen = Generator.create { it.nextInt() + 3 }.withSamples(1, 2)
-            .combineWith(Generator.create { it.nextDouble() + 3.0 }.withSamples(-1.0, -2.0)) { a, b ->
-                CombinedValues(a, b)
-            }
-
-        assertTrue(gen.randoms(0).take(100).any { (x, y) -> x < 3 && y >= 3 })
-        assertTrue(gen.randoms(0).take(100).any { (x, y) -> y < 3 && x >= 3 })
     }
 
     private data class CombinedValues(val x: Int, val y: Double)

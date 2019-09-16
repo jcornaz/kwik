@@ -1,6 +1,7 @@
 package com.github.jcornaz.kwik.generator.stdlib
 
 import com.github.jcornaz.kwik.generator.api.Generator
+import com.github.jcornaz.kwik.generator.api.randomSequence
 import com.github.jcornaz.kwik.generator.test.AbstractGeneratorTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -11,7 +12,7 @@ class StringGeneratorTest : AbstractGeneratorTest() {
 
     @Test
     fun generateStringsOfGivenLengthRange() {
-        val values = Generator.strings(minLength = 3, maxLength = 12).randoms(0).take(200)
+        val values = Generator.strings(minLength = 3, maxLength = 12).randomSequence(0).take(200)
 
         assertTrue(values.all { it.length in 3..12 })
     }
@@ -38,7 +39,7 @@ class StringGeneratorTest : AbstractGeneratorTest() {
 
     @Test
     fun dontGenerateExcludedChars() {
-        val values = Generator.strings(exclude = setOf('a', 'b', 'c')).randoms(0).take(1000)
+        val values = Generator.strings(exclude = setOf('a', 'b', 'c')).randomSequence(0).take(1000)
 
         assertTrue(values.none { string -> string.any { it == 'a' || it == 'b' || it == 'c' } })
     }
@@ -47,7 +48,7 @@ class StringGeneratorTest : AbstractGeneratorTest() {
     fun bigMinLengthIsPossible() {
         val generator = Generator.strings(minLength = 1000)
 
-        assertEquals(1000, generator.randoms(1).first().length)
+        assertEquals(1000, generator.randomSequence(1).first().length)
     }
 
     @Test
@@ -55,7 +56,7 @@ class StringGeneratorTest : AbstractGeneratorTest() {
         val lengths = mutableSetOf<Int>()
 
         Generator.strings(maxLength = 1000)
-            .randoms(0)
+            .randomSequence(0)
             .take(1000)
             .forEach {
                 lengths += it.length
@@ -68,7 +69,7 @@ class StringGeneratorTest : AbstractGeneratorTest() {
     fun generateDifferentValues() {
         val values = mutableSetOf<String>()
 
-        Generator.strings().randoms(0).take(200).forEach {
+        Generator.strings().randomSequence(0).take(200).forEach {
             values += it
         }
 
@@ -81,14 +82,14 @@ class NonEmptyStringGeneratorTest : AbstractGeneratorTest() {
 
     @Test
     fun generateStringsOfGivenLengthRange() {
-        val values = Generator.nonEmptyStrings(maxLength = 12).randoms(0).take(200)
+        val values = Generator.nonEmptyStrings(maxLength = 12).randomSequence(0).take(200)
 
         assertTrue(values.all { it.length in 1..12 })
     }
 
     @Test
     fun doesNotGenerateEmpty() {
-        assertTrue(Generator.nonEmptyStrings().randoms(0).take(1000).none { it.isEmpty() })
+        assertTrue(Generator.nonEmptyStrings().randomSequence(0).take(1000).none { it.isEmpty() })
     }
 
     @Test
@@ -103,7 +104,7 @@ class NonEmptyStringGeneratorTest : AbstractGeneratorTest() {
 
     @Test
     fun dontGenerateExcludedChars() {
-        val values = Generator.nonEmptyStrings(exclude = setOf('a', 'b', 'c')).randoms(0).take(1000)
+        val values = Generator.nonEmptyStrings(exclude = setOf('a', 'b', 'c')).randomSequence(0).take(1000)
 
         assertTrue(values.none { string -> string.any { it == 'a' || it == 'b' || it == 'c' } })
     }
@@ -113,7 +114,7 @@ class NonEmptyStringGeneratorTest : AbstractGeneratorTest() {
         val lengths = mutableSetOf<Int>()
 
         Generator.nonEmptyStrings(maxLength = 1000)
-            .randoms(0)
+            .randomSequence(0)
             .take(1000)
             .forEach {
                 lengths += it.length
@@ -126,7 +127,7 @@ class NonEmptyStringGeneratorTest : AbstractGeneratorTest() {
     fun generateDifferentValues() {
         val values = mutableSetOf<String>()
 
-        Generator.nonEmptyStrings().randoms(0).take(200).forEach {
+        Generator.nonEmptyStrings().randomSequence(0).take(200).forEach {
             values += it
         }
 
@@ -139,14 +140,14 @@ class NonBlankStringGeneratorTest : AbstractGeneratorTest() {
 
     @Test
     fun generateStringsOfGivenLengthRange() {
-        val values = Generator.nonBlankStrings(maxLength = 12).randoms(0).take(200)
+        val values = Generator.nonBlankStrings(maxLength = 12).randomSequence(0).take(200)
 
         assertTrue(values.all { it.length in 1..12 })
     }
 
     @Test
     fun doesNotGenerateBlank() {
-        assertTrue(Generator.nonBlankStrings().randoms(0).take(1000).none { it.isBlank() })
+        assertTrue(Generator.nonBlankStrings().randomSequence(0).take(1000).none { it.isBlank() })
     }
 
     @Test
@@ -156,7 +157,7 @@ class NonBlankStringGeneratorTest : AbstractGeneratorTest() {
 
     @Test
     fun dontGenerateExcludedChars() {
-        val values = Generator.nonBlankStrings(exclude = setOf('a', 'b', 'c')).randoms(0).take(1000)
+        val values = Generator.nonBlankStrings(exclude = setOf('a', 'b', 'c')).randomSequence(0).take(1000)
 
         assertTrue(values.none { string -> string.any { it == 'a' || it == 'b' || it == 'c' } })
     }
@@ -166,7 +167,7 @@ class NonBlankStringGeneratorTest : AbstractGeneratorTest() {
         val lengths = mutableSetOf<Int>()
 
         Generator.nonBlankStrings(maxLength = 1000)
-            .randoms(0)
+            .randomSequence(0)
             .take(1000)
             .forEach {
                 lengths += it.length
@@ -179,7 +180,7 @@ class NonBlankStringGeneratorTest : AbstractGeneratorTest() {
     fun generateDifferentValues() {
         val values = mutableSetOf<String>()
 
-        Generator.nonBlankStrings().randoms(0).take(200).forEach {
+        Generator.nonBlankStrings().randomSequence(0).take(200).forEach {
             values += it
         }
 

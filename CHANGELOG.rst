@@ -14,11 +14,19 @@ and this project adheres to `Semantic Versioning`_.
 Unreleased_
 -----------
 
+Deprecated
+..........
+
+* Method ``Generator.randoms(Long)`` the generator should generate single values, not a sequence.
+
 Added
 .....
 
-* `checkForAll`. An alternative to `forAll` allowing to use assertion (throw in case of error) instead of returning a boolean.
+* **(Breaking)** method ``generate(Random): T`` in interface ``Generator`` to generate single value.
+* ``checkForAll``. An alternative to ``forAll`` allowing to use assertion (throw in case of error) instead of returning a boolean.
   It can be especially helpful to more descriptive message about what is wrong.
+* ``Generator.randomSequence`` extension function to replace the deprecated ``Generator.randoms(Long): Sequence<T>``
+
 
 .. endUnreleasedBlock
 

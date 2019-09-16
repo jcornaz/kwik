@@ -11,7 +11,7 @@ class MapTest : AbstractGeneratorTest() {
     fun applyTransform() {
         val gen: Generator<Pair<Int, String>> = Generator.create { it.nextInt() }.map { it to it.toString() }
 
-        gen.randoms(12).take(200).forEach { (i, s) ->
+        gen.randomSequence(12).take(200).forEach { (i, s) ->
             assertEquals(i, s.toInt())
         }
     }
@@ -21,8 +21,8 @@ class MapTest : AbstractGeneratorTest() {
         val source = Generator.create { it.nextInt() }
         val transformed: Generator<String> = source.map { it.toString() }
 
-        val sourceResults = source.randoms(37).take(200).toSet()
-        val transformedResults = transformed.randoms(37).take(200).toSet()
+        val sourceResults = source.randomSequence(37).take(200).toSet()
+        val transformedResults = transformed.randomSequence(37).take(200).toSet()
 
         assertEquals(sourceResults.size, transformedResults.size)
     }

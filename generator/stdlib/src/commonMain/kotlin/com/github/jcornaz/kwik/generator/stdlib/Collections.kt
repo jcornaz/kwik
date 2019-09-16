@@ -1,6 +1,7 @@
 package com.github.jcornaz.kwik.generator.stdlib
 
 import com.github.jcornaz.kwik.generator.api.Generator
+import com.github.jcornaz.kwik.generator.api.randomSequence
 import kotlin.random.Random
 
 private const val MAX_EXTRA_ADD_ATTEMPT = 1000
@@ -59,14 +60,8 @@ private class ListGenerator<T>(
         requireValidSizes(minSize, maxSize)
     }
 
-    override fun randoms(seed: Long): Sequence<List<T>> = sequence {
-        val elements = elementGen.randoms(seed).iterator()
-        val rng = Random(seed)
-
-        while (true) {
-            yield(List(rng.nextInt(minSize, maxSize + 1)) { elements.next() })
-        }
-    }
+    override fun generate(random: Random): List<T> =
+        List(random.nextInt(minSize, maxSize + 1)) { elementGen.generate(random) }
 }
 
 /**
@@ -125,29 +120,24 @@ private class SetGenerator<T>(
         requireValidSizes(minSize, maxSize)
     }
 
-    override fun randoms(seed: Long): Sequence<Set<T>> = sequence {
-        val elements = elementGen.randoms(seed).iterator()
-        val rng = Random(seed)
+    override fun generate(random: Random): Set<T> {
+        val size = random.nextInt(minSize, maxSize + 1)
+        val set = HashSet<T>(size)
 
-        while (true) {
-            val size = rng.nextInt(minSize, maxSize + 1)
-            val set = HashSet<T>(size)
-
-            repeat(size) {
-                set += elements.next()
-            }
-
-            var extraAttempt = 0
-            while (set.size < size && extraAttempt < MAX_EXTRA_ADD_ATTEMPT) {
-                set += elements.next()
-                ++extraAttempt
-            }
-
-            if (set.size < minSize)
-                error("Failed to create a set with the requested minimum of element")
-
-            yield(set)
+        repeat(size) {
+            set += elementGen.generate(random)
         }
+
+        var extraAttempt = 0
+        while (set.size < size && extraAttempt < MAX_EXTRA_ADD_ATTEMPT) {
+            set += elementGen.generate(random)
+            ++extraAttempt
+        }
+
+        if (set.size < minSize)
+            error("Failed to create a set with the requested minimum of element")
+
+        return set
     }
 }
 
@@ -206,7 +196,7 @@ private class MapGenerator<K, V>(
         if (minSize == 0) add(emptyMap())
 
         if (minSize <= 1 && maxSize >= 1) {
-            val values = (valueGen.samples.asSequence() + valueGen.randoms(0)).iterator()
+            val values = (valueGen.samples.asSequence() + valueGen.randomSequence(0)).iterator()
             keyGen.samples.forEach {
                 add(mapOf(it to values.next()))
             }
@@ -217,30 +207,24 @@ private class MapGenerator<K, V>(
         requireValidSizes(minSize, maxSize)
     }
 
-    override fun randoms(seed: Long): Sequence<Map<K, V>> = sequence {
-        val keys = keyGen.randoms(seed).iterator()
-        val values = valueGen.randoms(seed + 1).iterator()
-        val rng = Random(seed)
+    override fun generate(random: Random): Map<K, V> {
+        val size = random.nextInt(minSize, maxSize + 1)
+        val map = HashMap<K, V>(size)
 
-        while (true) {
-            val size = rng.nextInt(minSize, maxSize + 1)
-            val map = HashMap<K, V>(size)
-
-            repeat(size) {
-                map[keys.next()] = values.next()
-            }
-
-            var extraAttempt = 0
-            while (map.size < size && extraAttempt < MAX_EXTRA_ADD_ATTEMPT) {
-                map[keys.next()] = values.next()
-                ++extraAttempt
-            }
-
-            if (map.size < minSize)
-                error("Failed to create a set with the requested minimum of element")
-
-            yield(map)
+        repeat(size) {
+            map[keyGen.generate(random)] = valueGen.generate(random)
         }
+
+        var extraAttempt = 0
+        while (map.size < size && extraAttempt < MAX_EXTRA_ADD_ATTEMPT) {
+            map[keyGen.generate(random)] = valueGen.generate(random)
+            ++extraAttempt
+        }
+
+        if (map.size < minSize)
+            error("Failed to create a set with the requested minimum of element")
+
+        return map
     }
 }
 

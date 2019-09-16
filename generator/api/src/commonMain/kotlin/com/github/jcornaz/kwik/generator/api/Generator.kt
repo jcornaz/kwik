@@ -12,15 +12,16 @@ interface Generator<T> {
      */
     val samples: Set<T>
 
+    @Deprecated("Use randomSequence extension function instead", ReplaceWith("randomSequence(seed)"))
+    fun randoms(seed: Long): Sequence<T> = randomSequence(seed)
+
     /**
-     * Returns a sequence of random value.
+     * Returns a random value using the given [random].
      *
-     * **Must be pure**: It must always return the same value sequence for the same given [seed]
-     *
-     * @param seed Seed of the random generation.
-     *             Two invocations of the function with the same seed must return the same value sequence
+     * This function can mutate [random]. But it should always return the same value for a given [Random] state.
+     * Ex. `generate(Random(0L))` should always return the same value.
      */
-    fun randoms(seed: Long): Sequence<T>
+    fun generate(random: Random): T
 
     companion object {
 
@@ -34,8 +35,7 @@ interface Generator<T> {
             Generator<T> {
             override val samples: Set<T> get() = emptySet()
 
-            override fun randoms(seed: Long): Sequence<T> =
-                randomSequence(seed, next)
+            override fun generate(random: Random): T = next(random)
         }
 
         /**
@@ -50,7 +50,16 @@ interface Generator<T> {
 }
 
 /**
- * Returns a random sequence.
+ * Returns a sequence of random values.
+ *
+ * @param seed Seed of the random generation.
+ *             Two invocations of the function with the same seed must return the same value sequence
+ */
+fun <T> Generator<T>.randomSequence(seed: Long): Sequence<T> =
+    randomSequence(seed) { generate(it) }
+
+/**
+ * Returns a sequence of random values.
  *
  * @param seed Seed of the random generation.
  *             Two invocations of the function with the same seed will return the same value sequence

@@ -108,6 +108,10 @@ For enums or finite set of values we can use ``Generator.enum()`` and ``Generato
     :start-after: //region Create a generator for an enum
     :end-before: //endregion
 
+.. note::
+    You may reuse existing operator to build new ones. This can be done by calling ``Genarator.genarate(Random)`` of other
+    operators, or by using the available :ref:`operators <operators>`
+
 Add samples
 -----------
 

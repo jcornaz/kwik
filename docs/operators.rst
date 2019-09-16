@@ -1,3 +1,5 @@
+.. _operators:
+
 Generator operators
 ===================
 

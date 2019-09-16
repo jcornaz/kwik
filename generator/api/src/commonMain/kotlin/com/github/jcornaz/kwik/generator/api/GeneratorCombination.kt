@@ -53,16 +53,15 @@ private class CombinedGenerators<A, B, R>(
             generator2.samples.take(NUMBER_OF_SAMPLES_FOR_COMBINATION).map { b -> transform(a, b) }
         }
 
-    override fun randoms(seed: Long): Sequence<R> =
-        generator1.randomWithSamples(seed)
-            .zip(generator2.randomWithSamples(seed + 1), transform)
+    override fun generate(random: Random): R =
+        transform(generator1.generate(random), generator2.generate(random))
 
     private fun <T> Generator<T>.randomWithSamples(seed: Long): Sequence<T> {
-        if (samples.isEmpty()) return randoms(seed)
+        if (samples.isEmpty()) return randomSequence(seed)
 
         return sequence {
             val rng = Random(seed)
-            val values = randoms(seed).iterator()
+            val values = randomSequence(seed).iterator()
 
             while (true) {
                 yield(if (rng.nextDouble() < SAMPLE_PROBABILITY) samples.random(rng) else values.next())
@@ -83,13 +82,6 @@ private class MergedGenerators<T>(
 ) : Generator<T> {
     override val samples: Set<T> = generator1.samples + generator2.samples
 
-    override fun randoms(seed: Long): Sequence<T> = sequence {
-        val iterator1 = generator1.randoms(seed).iterator()
-        val iterator2 = generator2.randoms(seed + 1).iterator()
-
-        while (true) {
-            yield(iterator1.next())
-            yield(iterator2.next())
-        }
-    }
+    override fun generate(random: Random): T =
+        if (random.nextBoolean()) generator1.generate(random) else generator2.generate(random)
 }

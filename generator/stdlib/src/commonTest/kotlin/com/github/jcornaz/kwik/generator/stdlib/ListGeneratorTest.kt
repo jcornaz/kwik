@@ -1,6 +1,7 @@
 package com.github.jcornaz.kwik.generator.stdlib
 
 import com.github.jcornaz.kwik.generator.api.Generator
+import com.github.jcornaz.kwik.generator.api.randomSequence
 import com.github.jcornaz.kwik.generator.test.AbstractGeneratorTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -12,7 +13,7 @@ class ListGeneratorTest : AbstractGeneratorTest() {
     @Test
     fun generateInGivenSizeRange() {
         val values = Generator.lists(Generator.ints(), minSize = 3, maxSize = 12)
-            .randoms(0)
+            .randomSequence(0)
             .take(200)
 
         assertTrue(values.all { it.size in 3..12 })
@@ -40,7 +41,7 @@ class ListGeneratorTest : AbstractGeneratorTest() {
 
     @Test
     fun bigMinSizeIsPossible() {
-        assertEquals(1000, Generator.lists(Generator.ints(), minSize = 1000).randoms(1).first().size)
+        assertEquals(1000, Generator.lists(Generator.ints(), minSize = 1000).randomSequence(1).first().size)
     }
 
     @Test
@@ -48,7 +49,7 @@ class ListGeneratorTest : AbstractGeneratorTest() {
         val sizes = mutableSetOf<Int>()
 
         Generator.lists(Generator.ints())
-            .randoms(0)
+            .randomSequence(0)
             .take(200)
             .forEach {
                 sizes += it.size
@@ -61,7 +62,7 @@ class ListGeneratorTest : AbstractGeneratorTest() {
     fun generateDifferentValues() {
         val values = mutableSetOf<List<Int>>()
 
-        Generator.lists<Int>().randoms(0).take(200).forEach {
+        Generator.lists<Int>().randomSequence(0).take(200).forEach {
             values += it
         }
 
@@ -75,7 +76,7 @@ class NonEmptyListGeneratorTest : AbstractGeneratorTest() {
     @Test
     fun generateInGivenSizeRange() {
         val values = Generator.nonEmptyLists(Generator.ints(), maxSize = 12)
-            .randoms(0)
+            .randomSequence(0)
             .take(200)
 
         assertTrue(values.all { it.size in 1..12 })
@@ -96,7 +97,7 @@ class NonEmptyListGeneratorTest : AbstractGeneratorTest() {
         val sizes = mutableSetOf<Int>()
 
         Generator.nonEmptyLists(Generator.ints())
-            .randoms(0)
+            .randomSequence(0)
             .take(200)
             .forEach {
                 sizes += it.size
@@ -109,7 +110,7 @@ class NonEmptyListGeneratorTest : AbstractGeneratorTest() {
     fun generateDifferentValues() {
         val values = mutableSetOf<List<Int>>()
 
-        Generator.nonEmptyLists<Int>().randoms(0).take(200).forEach {
+        Generator.nonEmptyLists<Int>().randomSequence(0).take(200).forEach {
             values += it
         }
 
