@@ -2,6 +2,7 @@ package com.github.jcornaz.kwik.evaluator
 
 import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.combineWith
+import com.github.jcornaz.kwik.generator.api.randomSequence
 import com.github.jcornaz.kwik.generator.stdlib.default
 import kotlin.random.Random
 
@@ -272,7 +273,7 @@ data class FalsifiedPropertyError(
 /**
  * Return the values to test for the given [seed].
  *
- * Start by the [Generator.samples] before emitting the [Generator.randoms]
+ * Start by the [Generator.samples] before emitting the [Generator.randomSequence]
  */
 internal fun <T> Generator<T>.testValues(seed: Long): Sequence<T> =
-    samples.asSequence() + randoms(seed)
+    samples.asSequence() + randomSequence(seed)

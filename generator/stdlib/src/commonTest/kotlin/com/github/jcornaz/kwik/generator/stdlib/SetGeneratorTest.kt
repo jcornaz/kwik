@@ -1,6 +1,7 @@
 package com.github.jcornaz.kwik.generator.stdlib
 
 import com.github.jcornaz.kwik.generator.api.Generator
+import com.github.jcornaz.kwik.generator.api.randomSequence
 import com.github.jcornaz.kwik.generator.test.AbstractGeneratorTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -13,7 +14,7 @@ class SetGeneratorTest : AbstractGeneratorTest() {
     @Test
     fun generateInGivenSizeRange() {
         val values = Generator.sets(Generator.ints(), minSize = 3, maxSize = 12)
-            .randoms(0)
+            .randomSequence(0)
             .take(200)
 
         assertTrue(values.all { it.size in 3..12 })
@@ -41,7 +42,7 @@ class SetGeneratorTest : AbstractGeneratorTest() {
 
     @Test
     fun bigMinSizeIsPossible() {
-        assertEquals(1000, Generator.sets(Generator.ints(), minSize = 1000).randoms(1).first().size)
+        assertEquals(1000, Generator.sets(Generator.ints(), minSize = 1000).randomSequence(1).first().size)
     }
 
     @Test
@@ -49,7 +50,7 @@ class SetGeneratorTest : AbstractGeneratorTest() {
         val sizes = mutableSetOf<Int>()
 
         Generator.sets(Generator.ints())
-            .randoms(0)
+            .randomSequence(0)
             .take(200)
             .forEach {
                 sizes += it.size
@@ -62,7 +63,7 @@ class SetGeneratorTest : AbstractGeneratorTest() {
     fun generateDifferentValues() {
         val values = mutableSetOf<Set<Int>>()
 
-        Generator.sets<Int>().randoms(0).take(200).forEach {
+        Generator.sets<Int>().randomSequence(0).take(200).forEach {
             values += it
         }
 
@@ -74,7 +75,7 @@ class SetGeneratorTest : AbstractGeneratorTest() {
         val elementGenerator = Generator.create { it.nextInt(0, 3) }
 
         assertFails {
-            Generator.sets(elementGenerator, minSize = 4).randoms(0).first()
+            Generator.sets(elementGenerator, minSize = 4).randomSequence(0).first()
         }
     }
 }
@@ -85,7 +86,7 @@ class NonEmptySetGeneratorTest : AbstractGeneratorTest() {
     @Test
     fun generateInGivenSizeRange() {
         val values = Generator.nonEmptySets(Generator.ints(), maxSize = 12)
-            .randoms(0)
+            .randomSequence(0)
             .take(200)
 
         assertTrue(values.all { it.size in 1..12 })
@@ -106,7 +107,7 @@ class NonEmptySetGeneratorTest : AbstractGeneratorTest() {
         val sizes = mutableSetOf<Int>()
 
         Generator.nonEmptySets(Generator.ints())
-            .randoms(0)
+            .randomSequence(0)
             .take(200)
             .forEach {
                 sizes += it.size
@@ -119,7 +120,7 @@ class NonEmptySetGeneratorTest : AbstractGeneratorTest() {
     fun generateDifferentValues() {
         val values = mutableSetOf<Set<Int>>()
 
-        Generator.nonEmptySets<Int>().randoms(0).take(200).forEach {
+        Generator.nonEmptySets<Int>().randomSequence(0).take(200).forEach {
             values += it
         }
 

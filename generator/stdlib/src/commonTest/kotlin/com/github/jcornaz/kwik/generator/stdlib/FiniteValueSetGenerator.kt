@@ -1,6 +1,7 @@
 package com.github.jcornaz.kwik.generator.stdlib
 
 import com.github.jcornaz.kwik.generator.api.Generator
+import com.github.jcornaz.kwik.generator.api.randomSequence
 import com.github.jcornaz.kwik.generator.test.AbstractGeneratorTest
 import kotlin.test.Test
 import kotlin.test.assertFailsWith
@@ -16,14 +17,14 @@ class FiniteValueSetGenerator : AbstractGeneratorTest() {
 
     @Test
     fun generateOnlyGivenSamples() {
-        assertTrue(generator.randoms(-78).take(200).all { it in 0..4 })
+        assertTrue(generator.randomSequence(-78).take(200).all { it in 0..4 })
     }
 
     @Test
     fun generateAllGivenSamplesWithSameProbability() {
         val counts = IntArray(5)
 
-        generator.randoms(-37).take(10_000).forEach {
+        generator.randomSequence(-37).take(10_000).forEach {
             counts[it]++
         }
 

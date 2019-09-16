@@ -1,6 +1,7 @@
 package com.github.jcornaz.kwik.generator.stdlib
 
 import com.github.jcornaz.kwik.generator.api.Generator
+import com.github.jcornaz.kwik.generator.api.randomSequence
 import kotlin.random.Random
 
 private const val MAX_EXTRA_ADD_ATTEMPT = 1000
@@ -195,7 +196,7 @@ private class MapGenerator<K, V>(
         if (minSize == 0) add(emptyMap())
 
         if (minSize <= 1 && maxSize >= 1) {
-            val values = (valueGen.samples.asSequence() + valueGen.randoms(0)).iterator()
+            val values = (valueGen.samples.asSequence() + valueGen.randomSequence(0)).iterator()
             keyGen.samples.forEach {
                 add(mapOf(it to values.next()))
             }

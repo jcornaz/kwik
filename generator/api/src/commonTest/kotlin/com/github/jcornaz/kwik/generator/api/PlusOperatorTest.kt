@@ -25,7 +25,7 @@ class PlusOperatorTest : AbstractGeneratorTest() {
         val gen1 = Generator.create { it.nextInt(-100, 0) }
         val gen2 = Generator.create { it.nextInt(1, 101) }
 
-        val values = (gen1 + gen2).randoms(0).take(1000)
+        val values = (gen1 + gen2).randomSequence(0).take(1000)
 
         assertTrue(values.any { it > 0 })
         assertTrue(values.any { it < 0 })

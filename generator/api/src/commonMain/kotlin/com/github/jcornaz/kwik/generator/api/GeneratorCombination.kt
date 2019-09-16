@@ -57,11 +57,11 @@ private class CombinedGenerators<A, B, R>(
         transform(generator1.generate(random), generator2.generate(random))
 
     private fun <T> Generator<T>.randomWithSamples(seed: Long): Sequence<T> {
-        if (samples.isEmpty()) return randoms(seed)
+        if (samples.isEmpty()) return randomSequence(seed)
 
         return sequence {
             val rng = Random(seed)
-            val values = randoms(seed).iterator()
+            val values = randomSequence(seed).iterator()
 
             while (true) {
                 yield(if (rng.nextDouble() < SAMPLE_PROBABILITY) samples.random(rng) else values.next())

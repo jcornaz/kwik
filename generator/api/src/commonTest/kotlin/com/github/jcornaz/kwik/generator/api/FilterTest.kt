@@ -12,7 +12,7 @@ class FilterTest : AbstractGeneratorTest() {
     fun filterValues() {
         val gen: Generator<Int> = Generator.create { it.nextInt() }.filter { it % 2 == 0 }
 
-        gen.randoms(0).take(1000).forEach {
+        gen.randomSequence(0).take(1000).forEach {
             assertEquals(0, it % 2)
         }
     }
@@ -34,7 +34,7 @@ class FilterNotTest : AbstractGeneratorTest() {
     fun filterValues() {
         val gen: Generator<Int> = Generator.create { it.nextInt() }.filterNot { it % 2 == 0 }
 
-        gen.randoms(0).take(1000).forEach {
+        gen.randomSequence(0).take(1000).forEach {
             assertNotEquals(0, it % 2)
         }
     }

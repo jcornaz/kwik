@@ -1,6 +1,7 @@
 package com.github.jcornaz.kwik.generator.stdlib
 
 import com.github.jcornaz.kwik.generator.api.Generator
+import com.github.jcornaz.kwik.generator.api.randomSequence
 import com.github.jcornaz.kwik.generator.test.AbstractGeneratorTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -13,7 +14,7 @@ class MapGeneratorTest : AbstractGeneratorTest() {
     @Test
     fun generateInGivenSizeRange() {
         val values = Generator.maps(Generator.ints(), Generator.doubles(), minSize = 3, maxSize = 12)
-            .randoms(0)
+            .randomSequence(0)
             .take(200)
 
         assertTrue(values.all { it.size in 3..12 })
@@ -43,7 +44,7 @@ class MapGeneratorTest : AbstractGeneratorTest() {
     fun bigMinSizeIsPossible() {
         val generator = Generator.maps(Generator.ints(), Generator.ints(), minSize = 1000)
 
-        assertEquals(1000, generator.randoms(1).first().size)
+        assertEquals(1000, generator.randomSequence(1).first().size)
     }
 
     @Test
@@ -51,7 +52,7 @@ class MapGeneratorTest : AbstractGeneratorTest() {
         val sizes = mutableSetOf<Int>()
 
         Generator.maps(Generator.ints(), Generator.doubles())
-            .randoms(0)
+            .randomSequence(0)
             .take(200)
             .forEach {
                 sizes += it.size
@@ -64,7 +65,7 @@ class MapGeneratorTest : AbstractGeneratorTest() {
     fun generateDifferentValues() {
         val values = mutableSetOf<Map<Int, Double>>()
 
-        Generator.maps<Int, Double>().randoms(0).take(200).forEach {
+        Generator.maps<Int, Double>().randomSequence(0).take(200).forEach {
             values += it
         }
 
@@ -77,7 +78,7 @@ class MapGeneratorTest : AbstractGeneratorTest() {
         val keyGenerator = Generator.create { it.nextInt(0, 3) }
 
         assertFails {
-            Generator.maps(keyGenerator, Generator.ints(), minSize = 4).randoms(0).first()
+            Generator.maps(keyGenerator, Generator.ints(), minSize = 4).randomSequence(0).first()
         }
     }
 }
@@ -88,7 +89,7 @@ class NonEmptyMapGeneratorTest : AbstractGeneratorTest() {
     @Test
     fun generateInGivenSizeRange() {
         val values = Generator.nonEmptyMaps(Generator.ints(), Generator.doubles(), maxSize = 12)
-            .randoms(0)
+            .randomSequence(0)
             .take(200)
 
         assertTrue(values.all { it.size in 1..12 })
@@ -109,7 +110,7 @@ class NonEmptyMapGeneratorTest : AbstractGeneratorTest() {
         val sizes = mutableSetOf<Int>()
 
         Generator.nonEmptyMaps(Generator.ints(), Generator.doubles())
-            .randoms(0)
+            .randomSequence(0)
             .take(200)
             .forEach {
                 sizes += it.size
@@ -122,7 +123,7 @@ class NonEmptyMapGeneratorTest : AbstractGeneratorTest() {
     fun generateDifferentValues() {
         val values = mutableSetOf<Map<Int, Double>>()
 
-        Generator.nonEmptyMaps<Int, Double>().randoms(0).take(200).forEach {
+        Generator.nonEmptyMaps<Int, Double>().randomSequence(0).take(200).forEach {
             values += it
         }
 
