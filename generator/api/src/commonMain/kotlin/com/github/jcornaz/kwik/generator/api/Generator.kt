@@ -20,7 +20,9 @@ interface Generator<T> {
      * @param seed Seed of the random generation.
      *             Two invocations of the function with the same seed must return the same value sequence
      */
-    fun randoms(seed: Long): Sequence<T>
+    fun randoms(seed: Long): Sequence<T> = randomSequence(seed) { generate(it) }
+
+    fun generate(random: Random): T = randoms(random.nextLong()).first()
 
     companion object {
 
@@ -34,8 +36,7 @@ interface Generator<T> {
             Generator<T> {
             override val samples: Set<T> get() = emptySet()
 
-            override fun randoms(seed: Long): Sequence<T> =
-                randomSequence(seed, next)
+            override fun generate(random: Random): T = next(random)
         }
 
         /**
