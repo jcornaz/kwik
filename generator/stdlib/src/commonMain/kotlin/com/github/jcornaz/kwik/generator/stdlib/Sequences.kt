@@ -1,6 +1,7 @@
 package com.github.jcornaz.kwik.generator.stdlib
 
 import com.github.jcornaz.kwik.generator.api.Generator
+import com.github.jcornaz.kwik.generator.api.randomSequence
 import kotlin.random.Random
 
 fun <T> Generator.Companion.sequences(
@@ -31,21 +32,15 @@ private class SequenceGenerator<T>(
         requireValidSizes(minSize, maxSize)
     }
 
-    override fun generate(random: Random): Sequence<T> =
-        GeneratedSequence(random.nextLong(), random.nextInt(minSize, maxSize + 1), elementGen)
-}
+    override fun generate(random: Random): Sequence<T> {
+        val size = random.nextInt(minSize, maxSize + 1)
+        val seed = random.nextLong()
+        val sequence = randomSequence(seed) { elementGen.generate(it) }.take(size)
 
-private class GeneratedSequence<T>(
-    private val seed: Long,
-    private val size: Int,
-    private val elementGen: Generator<T>
-) : Sequence<T> by sequence<T>({
-    val random = Random(seed)
-
-    repeat(size) {
-        yield(elementGen.generate(random))
+        return object : Sequence<T> by sequence {
+            override fun toString(): String {
+                return sequence.joinToString(prefix = "[", postfix = "]", separator = ", ")
+            }
+        }
     }
-}) {
-
-    override fun toString(): String = joinToString(prefix = "[", postfix = "]", separator = ", ")
 }
