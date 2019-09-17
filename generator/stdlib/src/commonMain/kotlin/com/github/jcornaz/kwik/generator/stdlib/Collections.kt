@@ -228,7 +228,7 @@ private class MapGenerator<K, V>(
     }
 }
 
-private fun requireValidSizes(minSize: Int, maxSize: Int) {
+internal fun requireValidSizes(minSize: Int, maxSize: Int) {
     require(minSize >= 0) { "Invalid min size: $minSize" }
-    require(maxSize >= minSize) { "Invalid max size: $minSize" }
+    require(maxSize >= minSize) { "Invalid min-max sizes: min=$maxSize max=$minSize" }
 }

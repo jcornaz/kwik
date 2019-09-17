@@ -76,7 +76,23 @@ class SequenceGeneratorTest : AbstractGeneratorTest() {
     }
 
     @Test
-    fun failsForMinSizeSmallerThan0() {
-        assertFailsWith<IllegalArgumentException> { Generator.sequences<Int>(minSize = -1) }
+    fun failsWithMinSizeSmallerThan0() {
+        assertFailsWith<IllegalArgumentException> {
+            Generator.sequences<Int>(minSize = -1)
+        }
+    }
+
+    @Test
+    fun failsWithMaxSizeSmallerThanMinSize() {
+        assertFailsWith<IllegalArgumentException> {
+            Generator.sequences<Int>(minSize = 3, maxSize = 2)
+        }
+    }
+
+    @Test
+    fun generatedSequencesSupportToString() {
+        val sequence = generator.generate(Random)
+
+        assertEquals(sequence.toList().toString(), sequence.toString())
     }
 }
