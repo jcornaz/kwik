@@ -39,8 +39,7 @@ interface Generator<T> {
          * @param next Function that will be invoked to get a new random parameter.
          *             The function should use the given [Random] generator to ensure predictability of the values
          */
-        fun <T> create(next: (Random) -> T): Generator<T> = object :
-            Generator<T> {
+        fun <T> create(next: (Random) -> T): Generator<T> = object : Generator<T> {
             override val samples: Set<T> get() = emptySet()
 
             override fun generate(random: Random): T = next(random)
@@ -50,7 +49,7 @@ interface Generator<T> {
          * Create a random [Generator] generating values out of the given [samples]
          */
         fun <T> of(vararg samples: T): Generator<T> {
-            require(samples.isNotEmpty()) { "No given sample " }
+            require(samples.isNotEmpty()) { "No given sample" }
 
             return create { samples.random(it) }
         }
