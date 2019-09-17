@@ -12,6 +12,14 @@ interface Generator<T> {
      */
     val samples: Set<T>
 
+    /**
+     * Returns a sequence of random value.
+     *
+     * **Must be pure**: It must always return the same value sequence for the same given [seed]
+     *
+     * @param seed Seed of the random generation.
+     *             Two invocations of the function with the same seed must return the same value sequence
+     */
     @Deprecated("Use randomSequence extension function instead", ReplaceWith("randomSequence(seed)"))
     fun randoms(seed: Long): Sequence<T> = randomSequence(seed)
 
