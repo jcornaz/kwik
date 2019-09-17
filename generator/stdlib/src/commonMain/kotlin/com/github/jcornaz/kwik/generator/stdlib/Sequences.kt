@@ -19,7 +19,17 @@ private class SequenceGenerator<T>(
     private val minSize: Int,
     private val maxSize: Int
 ) : Generator<Sequence<T>> {
-    override val samples: Set<Sequence<T>> = emptySet()
+    override val samples: Set<Sequence<T>> = HashSet<Sequence<T>>().apply {
+        if (minSize == 0)
+            add(emptySequence())
+
+        if (minSize <= 1 && maxSize >= 1)
+            addAll(elementGen.samples.map { sequenceOf(it) })
+    }
+
+    init {
+        require(minSize >= 0) { "invalid minSize: $minSize" }
+    }
 
     override fun generate(random: Random): Sequence<T> =
         GeneratedSequence(random.nextLong(), random.nextInt(minSize, maxSize + 1), elementGen)

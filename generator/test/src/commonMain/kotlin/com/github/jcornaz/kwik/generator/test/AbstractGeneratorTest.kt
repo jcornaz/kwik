@@ -10,14 +10,14 @@ abstract class AbstractGeneratorTest {
     abstract val generator: Generator<*>
 
     @Test
-    fun isPredictable() {
+    open fun isPredictable() {
         repeat(100) {
             assertEquals(generator.generate(Random(it.toLong())), generator.generate(Random(it.toLong())))
         }
     }
 
     @Test
-    fun isRandom() {
+    open fun isRandom() {
         val generation1 = (0 until 100).map { generator.generate(Random) }
         val generation2 = (0 until 100).map { generator.generate(Random) }
 
