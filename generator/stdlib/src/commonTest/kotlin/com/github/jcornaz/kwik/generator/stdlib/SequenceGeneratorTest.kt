@@ -129,25 +129,23 @@ class NonEmptySequenceGeneratorTest {
     }
 
     @Test
-    @Ignore
     fun samplesAreSameThanSequenceGeneratorWithMinSizeOf1() {
         repeat(100) {
             val maxSize = Random.nextInt(1, 10)
             assertEquals(
-                Generator.sequences<Int>(1, maxSize).samples.map { it.toList() },
-                Generator.nonEmptySequences<Int>(maxSize).samples.map { it.toList() }
+                Generator.sequences<Int>(1, maxSize).samples.mapTo(HashSet<List<Int>>()) { it.toList() },
+                Generator.nonEmptySequences<Int>(maxSize).samples.mapTo(HashSet<List<Int>>()) { it.toList() }
             )
         }
     }
 
     @Test
-    @Ignore
     fun samplesAreSameThanSequenceGeneratorWithMinSizeOf1AndElementGen() {
         repeat(100) {
             val maxSize = Random.nextInt(1, 10)
             assertEquals(
-                Generator.sequences(Generator.ints(), 1, maxSize).samples.map { it.toList() },
-                Generator.nonEmptySequences(Generator.ints(), maxSize).samples.map { it.toList() }
+                Generator.sequences(Generator.ints(), 1, maxSize).samples.mapTo(HashSet<List<Int>>()) { it.toList() },
+                Generator.nonEmptySequences(Generator.ints(), maxSize).samples.mapTo(HashSet<List<Int>>()) { it.toList() }
             )
         }
     }
