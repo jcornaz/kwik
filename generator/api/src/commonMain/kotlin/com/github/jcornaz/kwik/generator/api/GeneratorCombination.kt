@@ -2,7 +2,6 @@ package com.github.jcornaz.kwik.generator.api
 
 import kotlin.random.Random
 
-private const val SAMPLE_PROBABILITY = 0.15
 private const val NUMBER_OF_SAMPLES_FOR_COMBINATION = 5
 
 /**
@@ -55,19 +54,6 @@ private class CombinedGenerators<A, B, R>(
 
     override fun generate(random: Random): R =
         transform(generator1.generate(random), generator2.generate(random))
-
-    private fun <T> Generator<T>.randomWithSamples(seed: Long): Sequence<T> {
-        if (samples.isEmpty()) return randomSequence(seed)
-
-        return sequence {
-            val rng = Random(seed)
-            val values = randomSequence(seed).iterator()
-
-            while (true) {
-                yield(if (rng.nextDouble() < SAMPLE_PROBABILITY) samples.random(rng) else values.next())
-            }
-        }
-    }
 }
 
 /**
