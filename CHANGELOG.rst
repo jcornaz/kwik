@@ -14,6 +14,10 @@ and this project adheres to `Semantic Versioning`_.
 Unreleased_
 -----------
 
+Added
+.....
+* ``sequences`` generator
+
 .. endUnreleasedBlock
 
 0.2.0-beta.2_ - 2019-09-16

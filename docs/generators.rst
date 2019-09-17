@@ -63,6 +63,11 @@ Strings
 Collections
 -----------
 
+``Generator.sequences(elementGen = Generator.default(), minSize = 0, maxSize = 200)``
+    Generate sequences. ``elementGen`` can be used to define the generator of the elements.
+
+    Generation include empty and singleton sequences as samples
+
 ``Generator.lists(elementGen = Generator.default(), minSize = 0, maxSize = 200)``
     Generate lists. ``elementGen`` can be used to define the generator of the elements.
 

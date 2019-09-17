@@ -4,12 +4,22 @@ import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.randomSequence
 import kotlin.random.Random
 
+/**
+ * Returns a generator of [Sequence] where element count are between [minSize] and [maxSize] (inclusive)
+ *
+ * @param elementGen Generator to use for elements in the list
+ */
 fun <T> Generator.Companion.sequences(
     elementGen: Generator<T>,
     minSize: Int = 0,
     maxSize: Int = maxOf(minSize, KWIK_DEFAULT_MAX_SIZE)
 ): Generator<Sequence<T>> = SequenceGenerator(elementGen, minSize, maxSize)
 
+/**
+ * Returns a generator of non-empty [Sequence] where element count are between [minSize] and [maxSize] (inclusive)
+ *
+ * Use a default generator for the elements. See [Generator.Companion.default]
+ */
 inline fun <reified T> Generator.Companion.sequences(
     minSize: Int = 0,
     maxSize: Int = maxOf(minSize, KWIK_DEFAULT_MAX_SIZE)
