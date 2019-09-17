@@ -25,6 +25,25 @@ inline fun <reified T> Generator.Companion.sequences(
     maxSize: Int = maxOf(minSize, KWIK_DEFAULT_MAX_SIZE)
 ): Generator<Sequence<T>> = sequences(Generator.default(), minSize, maxSize)
 
+/**
+ * Returns a generator of [Sequence] where element count are between 1 and [maxSize] (inclusive)
+ *
+ * @param elementGen Generator to use for elements in the list
+ */
+fun <T> Generator.Companion.nonEmptySequences(
+    elementGen: Generator<T>,
+    maxSize: Int = maxOf(1, KWIK_DEFAULT_MAX_SIZE)
+): Generator<Sequence<T>> = sequences(elementGen, 1, maxSize)
+
+/**
+ * Returns a generator of non-empty [Sequence] where element count are between 1 and [maxSize] (inclusive)
+ *
+ * Use a default generator for the elements. See [Generator.Companion.default]
+ */
+inline fun <reified T> Generator.Companion.nonEmptySequences(
+    maxSize: Int = maxOf(1, KWIK_DEFAULT_MAX_SIZE)
+): Generator<Sequence<T>> = sequences(Generator.default(), 1, maxSize)
+
 private class SequenceGenerator<T>(
     private val elementGen: Generator<T>,
     private val minSize: Int,

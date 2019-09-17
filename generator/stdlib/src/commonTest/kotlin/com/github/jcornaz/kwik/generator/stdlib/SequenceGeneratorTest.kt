@@ -27,8 +27,8 @@ class SequenceGeneratorTest : AbstractGeneratorTest() {
             val seed = Random.nextLong()
 
             assertEquals(
-                Generator.sequences<Int>().generate(Random(seed)).toList(),
-                Generator.sequences<Int>().generate(Random(seed)).toList()
+                generator.generate(Random(seed)).toList(),
+                generator.generate(Random(seed)).toList()
             )
         }
     }
@@ -90,9 +90,65 @@ class SequenceGeneratorTest : AbstractGeneratorTest() {
     }
 
     @Test
+    fun bigMinSizeIsPossible() {
+        assertEquals(1000, Generator.sequences(Generator.ints(), minSize = 1000).generate(Random).count())
+    }
+
+    @Test
     fun generatedSequencesSupportToString() {
         val sequence = generator.generate(Random)
 
         assertEquals(sequence.toList().toString(), sequence.toString())
+    }
+}
+
+class NonEmptySequenceGeneratorTest {
+
+    @Test
+    fun generateSameThanSequenceGeneratorWithMinSizeOf1() {
+        repeat(100) {
+            val maxSize = Random.nextInt(1, 10)
+            val seed = Random.nextLong()
+            assertEquals(
+                Generator.sequences<Int>(1, maxSize).generate(Random(seed)).toList(),
+                Generator.nonEmptySequences<Int>(maxSize).generate(Random(seed)).toList()
+            )
+        }
+    }
+
+    @Test
+    fun generateSameThanSequenceGeneratorWithMinSizeOf1AndElementGen() {
+        repeat(100) {
+            val maxSize = Random.nextInt(1, 10)
+            val seed = Random.nextLong()
+            assertEquals(
+                Generator.sequences(Generator.ints(), 1, maxSize).generate(Random(seed)).toList(),
+                Generator.nonEmptySequences(Generator.ints(), maxSize).generate(Random(seed)).toList()
+            )
+        }
+    }
+
+    @Test
+    @Ignore
+    fun samplesAreSameThanSequenceGeneratorWithMinSizeOf1() {
+        repeat(100) {
+            val maxSize = Random.nextInt(1, 10)
+            assertEquals(
+                Generator.sequences<Int>(1, maxSize).samples.map { it.toList() },
+                Generator.nonEmptySequences<Int>(maxSize).samples.map { it.toList() }
+            )
+        }
+    }
+
+    @Test
+    @Ignore
+    fun samplesAreSameThanSequenceGeneratorWithMinSizeOf1AndElementGen() {
+        repeat(100) {
+            val maxSize = Random.nextInt(1, 10)
+            assertEquals(
+                Generator.sequences(Generator.ints(), 1, maxSize).samples.map { it.toList() },
+                Generator.nonEmptySequences(Generator.ints(), maxSize).samples.map { it.toList() }
+            )
+        }
     }
 }

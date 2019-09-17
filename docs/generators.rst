@@ -63,15 +63,12 @@ Strings
 Collections
 -----------
 
-``Generator.sequences(elementGen = Generator.default(), minSize = 0, maxSize = 200)``
-    Generate sequences. ``elementGen`` can be used to define the generator of the elements.
-
-    Generation include empty and singleton sequences as samples
-
 ``Generator.lists(elementGen = Generator.default(), minSize = 0, maxSize = 200)``
     Generate lists. ``elementGen`` can be used to define the generator of the elements.
 
     Generation include empty and singleton lists as samples
+
+    Note that there is also a ``nonEmptyLists`` alternative
 
 ``Generator.sets(elementGen = Generator.default(), minSize = 0, maxSize = 200)``
     Generate sets. ``elementGen`` can be used to define the generator of the elements.
@@ -81,6 +78,8 @@ Collections
     Will fail in it takes too much iteration to reach the ``minSize``
     (so make sure the element generator can generate enough different values)
 
+    Note that there is also a ``nonEmptySets`` alternative
+
 ``Generator.maps(keyGen = Generator.default(), valueGen = Generator.default(), minSize = 0, maxSize = 200)``
     Generate sets. ``keyGen`` can be used to define the generator of the elements.
 
@@ -89,6 +88,17 @@ Collections
     Will fail in it takes too much iteration to reach the ``minSize``
     (so make sure the element generator can generate enough different values)
 
+    Note that there is also a ``nonEmptyMaps`` alternative
+
+Sequences
+---------
+
+``Generator.sequences(elementGen = Generator.default(), minSize = 0, maxSize = 200)``
+    Generate sequences. ``elementGen`` can be used to define the generator of the elements.
+
+    Generation include empty and singleton sequences as samples
+
+    Note that there is also a ``nonEmptySequences`` alternative
 
 Enums
 -----
