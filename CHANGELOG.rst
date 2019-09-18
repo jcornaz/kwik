@@ -14,6 +14,10 @@ and this project adheres to `Semantic Versioning`_.
 Unreleased_
 -----------
 
+Changed
+.......
+* default max size/length for string,collection and sequence generators set to `50` (instead of `200`)
+
 Added
 .....
 * ``sequences`` generator

@@ -58,7 +58,7 @@ class MapGeneratorTest : AbstractGeneratorTest() {
                 sizes += it.size
             }
 
-        assertTrue(sizes.size > 60)
+        assertTrue(sizes.size > 10)
     }
 
     @Test
@@ -116,7 +116,7 @@ class NonEmptyMapGeneratorTest : AbstractGeneratorTest() {
                 sizes += it.size
             }
 
-        assertTrue(sizes.size > 60)
+        assertTrue(sizes.size > 10)
     }
 
     @Test

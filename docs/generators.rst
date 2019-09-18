@@ -49,7 +49,7 @@ Primitives
 Strings
 -------
 
-``Generator.strings(minLength = 0, maxLength = 200, charset = StringCharsets.printable, exclude = emptySet())``
+``Generator.strings(minLength = 0, maxLength = 50, charset = StringCharsets.printable, exclude = emptySet())``
     Generate strings. Use the parameter ``charset`` and ``exclude`` to customize the characters which can be used.
 
     Generation include empty ("") and blank (" ") strings as samples.
@@ -63,14 +63,14 @@ Strings
 Collections
 -----------
 
-``Generator.lists(elementGen = Generator.default(), minSize = 0, maxSize = 200)``
+``Generator.lists(elementGen = Generator.default(), minSize = 0, maxSize = 50)``
     Generate lists. ``elementGen`` can be used to define the generator of the elements.
 
     Generation include empty and singleton lists as samples
 
     Note that there is also a ``nonEmptyLists`` alternative
 
-``Generator.sets(elementGen = Generator.default(), minSize = 0, maxSize = 200)``
+``Generator.sets(elementGen = Generator.default(), minSize = 0, maxSize = 50)``
     Generate sets. ``elementGen`` can be used to define the generator of the elements.
 
     Generation include empty and singleton sets as samples
@@ -80,7 +80,7 @@ Collections
 
     Note that there is also a ``nonEmptySets`` alternative
 
-``Generator.maps(keyGen = Generator.default(), valueGen = Generator.default(), minSize = 0, maxSize = 200)``
+``Generator.maps(keyGen = Generator.default(), valueGen = Generator.default(), minSize = 0, maxSize = 50)``
     Generate sets. ``keyGen`` can be used to define the generator of the elements.
 
     Generation include empty and singleton maps as samples
@@ -93,7 +93,7 @@ Collections
 Sequences
 ---------
 
-``Generator.sequences(elementGen = Generator.default(), minSize = 0, maxSize = 200)``
+``Generator.sequences(elementGen = Generator.default(), minSize = 0, maxSize = 50)``
     Generate sequences. ``elementGen`` can be used to define the generator of the elements.
 
     Generation include empty and singleton sequences as samples
