@@ -21,6 +21,7 @@ Changed
 Added
 .....
 * ``sequences`` generator
+* ``uuids`` generator
 
 .. endUnreleasedBlock
 
