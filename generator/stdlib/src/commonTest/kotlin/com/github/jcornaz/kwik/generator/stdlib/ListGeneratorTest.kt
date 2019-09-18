@@ -55,7 +55,7 @@ class ListGeneratorTest : AbstractGeneratorTest() {
                 sizes += it.size
             }
 
-        assertTrue(sizes.size > 60)
+        assertTrue(sizes.size > 10)
     }
 
     @Test
@@ -96,14 +96,14 @@ class NonEmptyListGeneratorTest : AbstractGeneratorTest() {
     fun generateOfManySize() {
         val sizes = mutableSetOf<Int>()
 
-        Generator.nonEmptyLists(Generator.ints())
+        Generator.nonEmptyLists(Generator.ints(), maxSize = 200)
             .randomSequence(0)
             .take(200)
             .forEach {
                 sizes += it.size
             }
 
-        assertTrue(sizes.size > 60)
+        assertTrue(sizes.size > 10)
     }
 
     @Test

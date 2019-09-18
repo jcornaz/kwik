@@ -93,13 +93,6 @@ class SequenceGeneratorTest : AbstractGeneratorTest() {
     fun bigMinSizeIsPossible() {
         assertEquals(1000, Generator.sequences(Generator.ints(), minSize = 1000).generate(Random).count())
     }
-
-    @Test
-    fun generatedSequencesSupportToString() {
-        val sequence = generator.generate(Random)
-
-        assertEquals(sequence.toList().toString(), sequence.toString())
-    }
 }
 
 class NonEmptySequenceGeneratorTest {

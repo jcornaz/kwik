@@ -64,12 +64,6 @@ private class SequenceGenerator<T>(
     override fun generate(random: Random): Sequence<T> {
         val size = random.nextInt(minSize, maxSize + 1)
         val seed = random.nextLong()
-        val sequence = randomSequence(seed) { elementGen.generate(it) }.take(size)
-
-        return object : Sequence<T> by sequence {
-            override fun toString(): String {
-                return sequence.joinToString(prefix = "[", postfix = "]", separator = ", ")
-            }
-        }
+        return elementGen.randomSequence(seed).take(size)
     }
 }
