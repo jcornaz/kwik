@@ -107,3 +107,9 @@ Enums
     Create a generator for the given enum type ``T``.
 
     The enum must contains at least one enumeration.
+
+Java
+----
+
+``Generator.uuids()``
+    Create a generator for UUID
