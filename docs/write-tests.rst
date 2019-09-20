@@ -22,8 +22,6 @@ So the test pass only if the lambda returns true for 200 random inputs.
 
     For other types we have to `Create a custom generator`_
 
-.. _choose-property-iterations:
-
 Use assertions
 --------------
 
@@ -40,6 +38,9 @@ Example:
 
 This alternative can be especially useful to get more descriptive messages. In the example above, a falsification of the
 property would display the expected and actual values. Theses kind of messages cannot be provided when using `forAll`.
+
+
+.. _choose-property-iterations:
 
 Choose the number of iterations
 -------------------------------
