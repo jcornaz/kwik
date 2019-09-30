@@ -32,6 +32,7 @@ Here are few tricks that will make your pull requests most likely to be accepted
 
 * Make sure the change is wanted by discussing it first int the [issues](https://github.com/jcornaz/kwik/issues)
 * Keep your pull request small (many small PR are better than one big)
+  * **Don't be afraid to open a pull request that solves only part of an issue**. It might still be merged and the issue be splitted into smaller ones.
 * Write automated tests covering the new feature or fix
 * Make sure it passes the build (run `./gradlew check`)
 * Write a description
