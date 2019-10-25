@@ -22,7 +22,7 @@ If the project is for the JVM (Java), you probably want to use Junit_ or Spek_.
 Add the required repository to your build system
 ------------------------------------------------
 
-- Stable versions will be published on jcenter_
+- Stable versions are published on jcenter_
 - Alpha, beta and release-candidates are published on https://dl.bintray.com/kwik/preview
 - Development artifacts are published on https://dl.bintray.com/kwik/dev
 
@@ -32,14 +32,21 @@ Add the artifact dependency
 ---------------------------
 
 - The group id is ``com.github.jcornaz.kwik``
-- Pick an artifact in the `Available artifacts`_.
-    - For a quick start on the JVM, chose ``kwik-core-jvm``
+- Pick an artifact in the `Available artifacts`_
+    - For a quick start using Kotlin/JVM, ``kwik-core-jvm`` is a good choice
 - Pick a version from: https://github.com/jcornaz/kwik/releases
 
-Available artifacts
-......................................
+Example with gradle
+...................
 
-The best to start writing property tests in your project, the best module to use is certainly ``kwik-core-jvm`` (and ``kwik-core-common`` in Kotlin/Common modules).
+.. include:: ../README.rst
+    :start-after: .. startGradleSetup
+    :end-before: .. endGradleSetup
+
+Available artifacts
+...................
+
+To start writing property tests in your project, the best module to use is certainly ``kwik-core-jvm`` (and ``kwik-core-common`` in Kotlin/Common modules).
 
 But to write a module or project that extends Kwik (like a collection of generator),
 you might prefer to pick more specific module(s) in this list:
@@ -60,20 +67,14 @@ you might prefer to pick more specific module(s) in this list:
       - ``kwik-generator-stdlib-jvm``
       - Generators for types available in the Kotlin standard library
     * - Property evaluator
-      - ``kwik-property-common``
-      - ``kwik-property-jvm``
+      - ``kwik-evaluator-common``
+      - ``kwik-evaluator-jvm``
       - Property evaluation
     * - Core
       - ``kwik-core-jvm-common``
       - ``kwik-core-jvm-jvm``
       - Contains nothing more than transitive dependencies on evaluator and standard generators
 
-Example with gradle
-...................
-
-.. include:: ../README.rst
-    :start-after: .. startGradleSetup
-    :end-before: .. endGradleSetup
 
 .. _configure-default-iterations:
 
@@ -103,7 +104,7 @@ For instance one may write the following gradle setup:
     }
 
 With the setup above each property would be evaluated 10'000 times (with different random inputs) when test are executed
-on the CI server. (to make it work the server needs to have a ``CI`` environment variable)
+on the CI server. (to make it work, the server needs to have a ``CI`` environment variable)
 
 And any developer may run ``./gradlew test -Dkwik.properties=10`` if he wants a fast feedback loop,
 evaluating each property only 10 times.
