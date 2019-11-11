@@ -17,6 +17,33 @@ private class MapGenerator<T, R>(private val source: Generator<T>, private val t
 }
 
 /**
+ * Returns a generator backed by the generator created when applying the given transform function to each element emitted by
+ * the original generator.
+ *
+ * Example:
+ *
+ * ```kotlin
+ * fun listGen() = Generator.positiveInts().andThen { size -> Generator.lists<String>(size) }
+ * ```
+ */
+fun <T, R> Generator<T>.andThen(transform: (T) -> Generator<R>): Generator<R> =
+    AndThenGenerator(this, transform)
+
+/**
+ * @Deprecated Use `andThen` operator instead
+ */
+@Deprecated("Use `andThen` operator instead", ReplaceWith("andThen(transform)"))
+fun <T, R> Generator<T>.flatMap(transform: (T) -> Generator<R>): Generator<R> = andThen(transform)
+
+private class AndThenGenerator<T, R>(private val source: Generator<T>, private val transform: (T) -> Generator<R>): Generator<R> {
+    override val samples: Set<R> =
+        source.samples.flatMapTo(HashSet()) { transform(it).samples }
+
+    override fun generate(random: Random): R =
+        source.generate(random).let(transform).generate(random)
+}
+
+/**
  * Returns a generator containing only elements matching the given predicate.
  *
  * **Usage of this operator slows down the property tests**

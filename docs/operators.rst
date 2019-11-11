@@ -20,6 +20,10 @@ Few operators are available as extension function on ``Generator`` to easily der
 ``map(transform: (T) -> R)``
     apply a transformation to all elements emitted by the source generator
 
+``andThen(transform: (T) -> Generator<R>)``
+    like map, it applies a transformation to all elements emitted by the source generator. The only difference
+    is that ``transform`` returns a ``generator`` instead of a value. You may see it like a ``flatMap``.
+
 ``filter(predicate: (T) -> Boolean)``
     filter elements emitted by the source generator, so that only elements matching the predicate are emitted.
 
