@@ -11,8 +11,8 @@ plugins {
     `maven-publish`
     kotlin("multiplatform") version "1.3.50"
     id("org.ajoberstar.reckon") version "0.11.0"
-    id("com.github.ben-manes.versions") version "0.25.0"
-    id("io.gitlab.arturbosch.detekt") version "1.0.1" apply false
+    id("com.github.ben-manes.versions") version "0.27.0"
+    id("io.gitlab.arturbosch.detekt") version "1.1.1" apply false
     id("com.jfrog.bintray") version "1.8.4" apply false
     id("kr.motd.sphinx") version "2.6.1"
 }
