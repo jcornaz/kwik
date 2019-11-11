@@ -14,6 +14,10 @@ and this project adheres to `Semantic Versioning`_.
 Unreleased_
 -----------
 
+Added
+.....
+* ``andThen`` operator to make easier building complex generation pipeline
+
 .. endUnreleasedBlock
 
 0.2.0-rc.1_ - 2019-09-18
