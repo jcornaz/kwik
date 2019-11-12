@@ -38,6 +38,9 @@ Few operators are available as extension function on ``Generator`` to easily der
 
     Always favor other method of creating a generators or at least make sure that most of values won't pass the predicate.
 
+Combining exiting operators
+---------------------------
+
 ``combineWith(other: Generator<B>, transform: (A, B) -> R)``
     Combine the generated values of both generators.
 
@@ -47,4 +50,7 @@ Few operators are available as extension function on ``Generator`` to easily der
     Not specifying the transform, will combine the value in pairs.
 
 ``plus(other: Generator<T>)`` (can be used as ``+``)
-    Merge the generated values of both operators.
+    Merge the generated values of both operators. (each generator having the same probability to used)
+
+``frequency(vararg weightedGenerators: Pair<Double, Generator<T>>)``
+    Returns a generator that randomly pick a value from the given list of the generator according to their respective weights.

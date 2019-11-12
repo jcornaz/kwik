@@ -72,6 +72,20 @@ private class MergedGenerators<T>(
         if (random.nextBoolean()) generator1.generate(random) else generator2.generate(random)
 }
 
+/**
+ * Returns a generator that randomly pick a value from the given list of the generator according to their respective weights.
+ *
+ * Example:
+ * ```
+ * // This generator has 3/4 chances to generate a positive value and 1/4 chance to generate a negative value
+ * val num = Generator.frequency(listOf(
+ *     3.0 to Generator.positiveInts(),
+ *     1.0 to Generator.negativeInts()
+ * ))
+ * ```
+ *
+ * @throws IllegalArgumentException if [weightedGenerators] is empty, contains negative weights or the sum of the weight is zero
+ */
 fun <T> Generator.Companion.frequency(
     weightedGenerators: Iterable<Pair<Double, Generator<T>>>
 ): Generator<T> {
@@ -90,6 +104,20 @@ fun <T> Generator.Companion.frequency(
     }
 }
 
+/**
+ * Returns a generator that randomly pick a value from the given list of the generator according to their respective weights.
+ *
+ * Example:
+ * ```
+ * // This generator has 3/4 chances to generate a positive value and 1/4 chance to generate a negative value
+ * val num = Generator.frequency(
+ *     3.0 to Generator.positiveInts(),
+ *     1.0 to Generator.negativeInts()
+ * )
+ * ```
+ *
+ * @throws IllegalArgumentException if [weightedGenerators] is empty, contains negative weights or the sum of the weight is zero
+ */
 fun <T> Generator.Companion.frequency(
     vararg weightedGenerator: Pair<Double, Generator<T>>
 ): Generator<T> = frequency(weightedGenerator.asList())
