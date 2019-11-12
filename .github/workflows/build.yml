@@ -27,10 +27,10 @@ jobs:
     - name: Cache global .gradle folder
       uses: actions/cache@v1
       with:
-        path: ../../../.gradle
+        path: ~/.gradle
         key: global-gradle-${{ hashFiles('**/*.kt*') }}
         restore-keys: |
           global-gradle-
 
     - name: Run gradle check
-      run: ./gradlew check
+      run: ./gradlew check --info
