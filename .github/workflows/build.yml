@@ -28,7 +28,7 @@ jobs:
       uses: actions/cache@v1
       with:
         path: .gradle
-        key: local-gradle-${{ hashFiles(**/*) }}
+        key: local-gradle-${{ hashFiles('**/*.kt', '**/*.kts', '**/*.properties') }}
         restore-keys: |
           local-gradle-
 
@@ -36,7 +36,7 @@ jobs:
       uses: actions/cache@v1
       with:
         path: ../../../.gradle
-        key: global-gradle-${{ hashFiles(**/*) }}
+        key: global-gradle-${{ hashFiles('**/*.kt', '**/*.kts', '**/*.properties') }}
         restore-keys: |
           global-gradle-
 
