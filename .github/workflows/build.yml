@@ -19,10 +19,16 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v1
       
+    - name: Cache .gradle folder
+      uses: actions/cache@v1
+      with:
+        path: $HOME/.gradle
+        key: gradle-folder
+        
     - name: Set up JDK 11
       uses: actions/setup-java@v1
       with:
         java-version: 1.11
         
     - name: Check with Gradle
-      run: ./gradlew check --no-daemon --no-build-cache
+      run: ./gradlew check
