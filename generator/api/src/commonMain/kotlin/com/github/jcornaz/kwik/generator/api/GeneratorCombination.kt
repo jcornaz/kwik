@@ -71,3 +71,42 @@ private class MergedGenerators<T>(
     override fun generate(random: Random): T =
         if (random.nextBoolean()) generator1.generate(random) else generator2.generate(random)
 }
+
+fun <T> Generator.Companion.frequency(
+    weightedGenerators: Iterable<Pair<Double, Generator<T>>>
+): Generator<T> {
+    val list =
+        if (weightedGenerators is List)
+            weightedGenerators
+        else
+            weightedGenerators.toList()
+
+    require(list.isNotEmpty()) { "No generator to use for frequency-based generation"}
+
+    if (list.size == 1) return list.single().second
+
+    return Frequency(list)
+}
+
+fun <T> Generator.Companion.frequency(
+    vararg weightedGenerator: Pair<Double, Generator<T>>
+): Generator<T> = frequency(weightedGenerator.asList())
+
+private class Frequency<T>(private val weightedGenerators: List<Pair<Double, Generator<T>>>) : Generator<T> {
+    override val samples: Set<T> = weightedGenerators
+        .flatMapTo(HashSet()) { (_, gen) -> gen.samples }
+
+    val max = weightedGenerators.sumByDouble { (weight, _) -> weight }
+
+    override fun generate(random: Random): T {
+        var value = random.nextDouble(max)
+
+        weightedGenerators.forEach { (weight, generator) ->
+            if (value < weight) return generator.generate(random)
+
+            value -= weight
+        }
+
+        return weightedGenerators.random(random).second.generate(random)
+    }
+}
