@@ -145,6 +145,7 @@ tasks {
     val sphinx by existing {
         inputs.file("$rootDir/CHANGELOG.rst")
         inputs.file("$rootDir/README.rst")
+        outputs.cacheIf { true }
     }
 
     withType<SphinxTask> {
