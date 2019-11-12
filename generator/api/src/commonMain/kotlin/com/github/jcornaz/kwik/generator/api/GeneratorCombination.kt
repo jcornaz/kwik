@@ -75,28 +75,45 @@ private class MergedGenerators<T>(
 fun <T> Generator.Companion.frequency(
     weightedGenerators: Iterable<Pair<Double, Generator<T>>>
 ): Generator<T> {
-    val list =
-        if (weightedGenerators is List)
-            weightedGenerators
-        else
-            weightedGenerators.toList()
+    val list = weightedGenerators.asSequence()
+        .onEach { (weight, _) -> require(weight >= 0.0) { "Negative weight(s) found in frequency input" } }
+        .filter { (weight, _) -> weight > 0.0 }
+        .toList()
 
-    require(list.isNotEmpty()) { "No generator to use for frequency-based generation"}
-
-    if (list.size == 1) return list.single().second
-
-    return Frequency(list)
+    return when (list.size) {
+        0 -> throw IllegalArgumentException("No generator (with weight > 0) to use for frequency-based generation")
+        1 -> list.single().second
+        2 -> list.let { (source1, source2) ->
+            DualGenerator(source1.second, source2.second, source1.first / (source1.first + source2.first))
+        }
+        else -> FrequencyGenerator(list)
+    }
 }
 
 fun <T> Generator.Companion.frequency(
     vararg weightedGenerator: Pair<Double, Generator<T>>
 ): Generator<T> = frequency(weightedGenerator.asList())
 
-private class Frequency<T>(private val weightedGenerators: List<Pair<Double, Generator<T>>>) : Generator<T> {
+private class DualGenerator<T>(
+    private val source1: Generator<T>,
+    private val source2: Generator<T>,
+    private val source1Probability: Double
+) : Generator<T> {
+    override val samples: Set<T> = source1.samples + source2.samples
+
+    override fun generate(random: Random): T =
+        if (random.nextDouble() < source1Probability) source1.generate(random) else source2.generate(random)
+}
+
+private class FrequencyGenerator<T>(private val weightedGenerators: List<Pair<Double, Generator<T>>>) : Generator<T> {
     override val samples: Set<T> = weightedGenerators
         .flatMapTo(HashSet()) { (_, gen) -> gen.samples }
 
     val max = weightedGenerators.sumByDouble { (weight, _) -> weight }
+
+    init {
+        require(max > 0.0) { "The sum of the weights is zero" }
+    }
 
     override fun generate(random: Random): T {
         var value = random.nextDouble(max)
