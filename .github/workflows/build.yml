@@ -5,7 +5,7 @@ on:
     branches:
     - master
     - '*.*'
-  
+
   pull_request:
     branches: 
     - master
@@ -27,10 +27,10 @@ jobs:
     - name: Cache global .gradle folder
       uses: actions/cache@v1
       with:
-        path: ~/.gradle
-        key: global-gradle-${{ hashFiles('**/*.kt*') }}
+        path: ~/.gradle/caches
+        key: gradle-cache-${{ hashFiles('**/*.kt*') }}
         restore-keys: |
-          global-gradle-
+          gradle-cache-
 
     - name: Run gradle check
-      run: ./gradlew check --info
+      run: ./gradlew check --no-daemon
