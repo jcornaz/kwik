@@ -33,7 +33,7 @@ jobs:
     - name: Cache global .gradle folder
       uses: actions/cache@v1
       with:
-        path: /$HOME/.gradle
+        path: ../../../.gradle
         key: global-gradle-folder
 
     - name: Run gradle check
