@@ -6,26 +6,29 @@ Generator operators
 Few operators are available as extension function on ``Generator`` to easily derive existing generators.
 
 
-``withSamples(vararg samples: T)``
-    add the given samples into the generated values, making sure the samples are always tested
+``withSamples(vararg samples: T, probability: Double)``
+    Add the given samples into the generated values.
+    The samples will have a higher probability to be generated than the other values.
+
+    That probability can be customized using the ``probability`` argument.
 
 ``withNull()``
-    add ``null`` into the generated values, making sure is is always tested
+    Add ``null`` into the generated values, making sure is is always tested
 
 ``withNaN()``
-    add ``NaN`` into the generated values, making sure is is always tested
+    Add ``NaN`` into the generated values, making sure is is always tested
 
     (for double generators only)
 
 ``map(transform: (T) -> R)``
-    apply a transformation to all elements emitted by the source generator
+    Apply a transformation to all elements emitted by the source generator
 
 ``andThen(transform: (T) -> Generator<R>)``
-    like map, it applies a transformation to all elements emitted by the source generator. The only difference
+    Like map, it applies a transformation to all elements emitted by the source generator. The only difference
     is that ``transform`` returns a ``generator`` instead of a value. You may see it like a ``flatMap``.
 
 ``filter(predicate: (T) -> Boolean)``
-    filter elements emitted by the source generator, so that only elements matching the predicate are emitted.
+    Filter elements emitted by the source generator, so that only elements matching the predicate are emitted.
 
     Be aware that the property evaluation will then have to generate more values.
 

@@ -10,6 +10,7 @@ interface Generator<T> {
     /**
      * Samples of values that should always be tested
      */
+    @Deprecated("Use the `withSample` operator to blend the samples in the generated output instead")
     val samples: Set<T>
 
     /**
@@ -48,11 +49,18 @@ interface Generator<T> {
         /**
          * Create a random [Generator] generating values out of the given [samples]
          */
-        fun <T> of(vararg samples: T): Generator<T> {
-            require(samples.isNotEmpty()) { "No given sample" }
+        fun <T> of(samples: Iterable<T>): Generator<T> {
+            val list = if (samples is List) samples else samples.toList()
 
-            return create { samples.random(it) }
+            require(list.isNotEmpty()) { "No given sample" }
+
+            return create { list.random(it) }
         }
+
+        /**
+         * Create a random [Generator] generating values out of the given [samples]
+         */
+        fun <T> of(vararg samples: T): Generator<T> = of(samples.asList())
     }
 }
 

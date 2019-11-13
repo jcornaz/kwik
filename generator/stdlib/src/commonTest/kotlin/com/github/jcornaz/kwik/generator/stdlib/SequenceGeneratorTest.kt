@@ -59,7 +59,7 @@ class SequenceGeneratorTest : AbstractGeneratorTest() {
     @Test
     fun hasSameSamplesThanListGenerator() {
         val elemGen = object : Generator<Int> {
-            override val samples: Set<Int> = setOf(1, 2, 3)
+            override val samples: Set<Int> get() = setOf(1, 2, 3)
 
             override fun generate(random: Random): Int = random.nextInt()
         }

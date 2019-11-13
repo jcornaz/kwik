@@ -47,7 +47,7 @@ private class CombinedGenerators<A, B, R>(
     private val generator2: Generator<B>,
     private val transform: (A, B) -> R
 ) : Generator<R> {
-    override val samples: Set<R> = generator1.samples.take(NUMBER_OF_SAMPLES_FOR_COMBINATION)
+    override val samples: Set<R> get() = generator1.samples.take(NUMBER_OF_SAMPLES_FOR_COMBINATION)
         .flatMapTo(mutableSetOf()) { a ->
             generator2.samples.take(NUMBER_OF_SAMPLES_FOR_COMBINATION).map { b -> transform(a, b) }
         }

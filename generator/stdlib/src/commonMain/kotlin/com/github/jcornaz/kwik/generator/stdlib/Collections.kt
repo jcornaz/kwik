@@ -48,7 +48,7 @@ private class ListGenerator<T>(
     private val minSize: Int,
     private val maxSize: Int
 ) : Generator<List<T>> {
-    override val samples: Set<List<T>> = mutableSetOf<List<T>>().apply {
+    override val samples: Set<List<T>> get() = mutableSetOf<List<T>>().apply {
         if (minSize == 0) add(emptyList())
 
         if (minSize <= 1 && maxSize >= 1) {
@@ -108,7 +108,7 @@ private class SetGenerator<T>(
     private val maxSize: Int
 ) : Generator<Set<T>> {
 
-    override val samples: Set<Set<T>> = mutableSetOf<Set<T>>().apply {
+    override val samples: Set<Set<T>> get() = mutableSetOf<Set<T>>().apply {
         if (minSize == 0) add(emptySet())
 
         if (minSize <= 1 && maxSize >= 1) {
@@ -192,7 +192,7 @@ private class MapGenerator<K, V>(
     private val maxSize: Int
 ) : Generator<Map<K, V>> {
 
-    override val samples: Set<Map<K, V>> = mutableSetOf<Map<K, V>>().apply {
+    override val samples: Set<Map<K, V>> get() = mutableSetOf<Map<K, V>>().apply {
         if (minSize == 0) add(emptyMap())
 
         if (minSize <= 1 && maxSize >= 1) {

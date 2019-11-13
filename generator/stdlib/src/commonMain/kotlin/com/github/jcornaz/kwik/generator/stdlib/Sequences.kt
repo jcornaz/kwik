@@ -49,7 +49,7 @@ private class SequenceGenerator<T>(
     private val minSize: Int,
     private val maxSize: Int
 ) : Generator<Sequence<T>> {
-    override val samples: Set<Sequence<T>> = HashSet<Sequence<T>>().apply {
+    override val samples: Set<Sequence<T>> get() = HashSet<Sequence<T>>().apply {
         if (minSize == 0) add(emptySequence())
 
         if (minSize <= 1 && maxSize >= 1) {
