@@ -132,6 +132,10 @@ subprojects {
         val test by registering {
             dependsOn("jvmTest")
         }
+
+        withType<Test> {
+            outputs.cacheIf { true }
+        }
     }
 }
 
