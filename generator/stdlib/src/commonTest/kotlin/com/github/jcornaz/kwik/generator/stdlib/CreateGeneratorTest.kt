@@ -4,7 +4,6 @@ import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.randomSequence
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 class CreateGeneratorTest {
 
@@ -26,10 +25,5 @@ class CreateGeneratorTest {
         val generation = Generator.create { iterator.next() }.randomSequence(0).take(200).toList()
 
         assertEquals(sequence.take(200).toList(), generation)
-    }
-
-    @Test
-    fun hasNoSample() {
-        assertTrue(Generator.create { it.nextDouble() }.samples.isEmpty())
     }
 }

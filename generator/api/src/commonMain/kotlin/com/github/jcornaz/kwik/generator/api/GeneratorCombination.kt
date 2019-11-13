@@ -92,6 +92,7 @@ fun <T> Generator.Companion.frequency(
     val list = weightedGenerators.asSequence()
         .onEach { (weight, _) -> require(weight >= 0.0) { "Negative weight(s) found in frequency input" } }
         .filter { (weight, _) -> weight > 0.0 }
+        .sortedByDescending { (weight, _) -> weight }
         .toList()
 
     return when (list.size) {
