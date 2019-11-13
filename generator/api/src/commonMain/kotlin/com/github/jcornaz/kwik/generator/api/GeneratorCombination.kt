@@ -71,3 +71,87 @@ private class MergedGenerators<T>(
     override fun generate(random: Random): T =
         if (random.nextBoolean()) generator1.generate(random) else generator2.generate(random)
 }
+
+/**
+ * Returns a generator that randomly pick a value from the given list of the generator according to their respective weights.
+ *
+ * Example:
+ * ```
+ * // This generator has 3/4 chances to generate a positive value and 1/4 chance to generate a negative value
+ * val num = Generator.frequency(listOf(
+ *     3.0 to Generator.positiveInts(),
+ *     1.0 to Generator.negativeInts()
+ * ))
+ * ```
+ *
+ * @throws IllegalArgumentException if [weightedGenerators] is empty, contains negative weights or the sum of the weight is zero
+ */
+fun <T> Generator.Companion.frequency(
+    weightedGenerators: Iterable<Pair<Double, Generator<T>>>
+): Generator<T> {
+    val list = weightedGenerators.asSequence()
+        .onEach { (weight, _) -> require(weight >= 0.0) { "Negative weight(s) found in frequency input" } }
+        .filter { (weight, _) -> weight > 0.0 }
+        .toList()
+
+    return when (list.size) {
+        0 -> throw IllegalArgumentException("No generator (with weight > 0) to use for frequency-based generation")
+        1 -> list.single().second
+        2 -> list.let { (source1, source2) ->
+            DualGenerator(source1.second, source2.second, source1.first / (source1.first + source2.first))
+        }
+        else -> FrequencyGenerator(list)
+    }
+}
+
+/**
+ * Returns a generator that randomly pick a value from the given list of the generator according to their respective weights.
+ *
+ * Example:
+ * ```
+ * // This generator has 3/4 chances to generate a positive value and 1/4 chance to generate a negative value
+ * val num = Generator.frequency(
+ *     3.0 to Generator.positiveInts(),
+ *     1.0 to Generator.negativeInts()
+ * )
+ * ```
+ *
+ * @throws IllegalArgumentException if [weightedGenerators] is empty, contains negative weights or the sum of the weight is zero
+ */
+fun <T> Generator.Companion.frequency(
+    vararg weightedGenerator: Pair<Double, Generator<T>>
+): Generator<T> = frequency(weightedGenerator.asList())
+
+private class DualGenerator<T>(
+    private val source1: Generator<T>,
+    private val source2: Generator<T>,
+    private val source1Probability: Double
+) : Generator<T> {
+    override val samples: Set<T> = source1.samples + source2.samples
+
+    override fun generate(random: Random): T =
+        if (random.nextDouble() < source1Probability) source1.generate(random) else source2.generate(random)
+}
+
+private class FrequencyGenerator<T>(private val weightedGenerators: List<Pair<Double, Generator<T>>>) : Generator<T> {
+    override val samples: Set<T> = weightedGenerators
+        .flatMapTo(HashSet()) { (_, gen) -> gen.samples }
+
+    val max = weightedGenerators.sumByDouble { (weight, _) -> weight }
+
+    init {
+        require(max > 0.0) { "The sum of the weights is zero" }
+    }
+
+    override fun generate(random: Random): T {
+        var value = random.nextDouble(max)
+
+        weightedGenerators.forEach { (weight, generator) ->
+            if (value < weight) return generator.generate(random)
+
+            value -= weight
+        }
+
+        return weightedGenerators.random(random).second.generate(random)
+    }
+}

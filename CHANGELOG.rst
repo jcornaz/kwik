@@ -17,6 +17,7 @@ Unreleased_
 Added
 .....
 * ``andThen`` operator to make easier building complex generation pipeline
+* ``frequency`` combinator, allowing to create a frequency-parametrized generator
 
 .. endUnreleasedBlock
 
