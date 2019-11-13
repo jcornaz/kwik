@@ -32,7 +32,7 @@ fun <T> forAll(
     val context = PropertyEvaluationContextImpl
 
     var attempts = 0
-    val iterator = generator.testValues(seed).iterator()
+    val iterator = generator.randomSequence(seed).iterator()
 
     while (attempts < iterations) {
         val argument = iterator.next()
@@ -269,11 +269,3 @@ data class FalsifiedPropertyError(
 
     append("Generation seed: $seed")
 })
-
-/**
- * Return the values to test for the given [seed].
- *
- * Start by the [Generator.samples] before emitting the [Generator.randomSequence]
- */
-internal fun <T> Generator<T>.testValues(seed: Long): Sequence<T> =
-    samples.asSequence() + randomSequence(seed)
