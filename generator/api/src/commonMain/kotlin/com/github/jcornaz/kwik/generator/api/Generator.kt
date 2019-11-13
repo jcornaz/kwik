@@ -11,7 +11,7 @@ interface Generator<T> {
      * Samples of values that should always be tested
      */
     @Deprecated("Use the `withSample` operator to blend the samples in the generated output instead")
-    val samples: Set<T>
+    val samples: Set<T> get() = emptySet()
 
     /**
      * Returns a sequence of random value.
@@ -41,8 +41,6 @@ interface Generator<T> {
          *             The function should use the given [Random] generator to ensure predictability of the values
          */
         fun <T> create(next: (Random) -> T): Generator<T> = object : Generator<T> {
-            override val samples: Set<T> get() = emptySet()
-
             override fun generate(random: Random): T = next(random)
         }
 

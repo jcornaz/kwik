@@ -26,13 +26,4 @@ class MapTest : AbstractGeneratorTest() {
 
         assertEquals(sourceResults.size, transformedResults.size)
     }
-
-    @Test
-    fun transformSamples() {
-        val generator = Generator.create { it.nextInt() }
-            .withSamples(42, 77)
-            .map { it.toString() }
-
-        assertEquals(setOf("42", "77"), generator.samples)
-    }
 }

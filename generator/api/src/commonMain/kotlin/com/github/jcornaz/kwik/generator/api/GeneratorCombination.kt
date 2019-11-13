@@ -12,7 +12,7 @@ fun <A, B, R> Generator<A>.combineWith(
     other: Generator<B>,
     transform: (A, B) -> R
 ): Generator<R> =
-    CombinedGenerators(this, other, transform)
+    Generator.combine(this, other, transform)
 
 /**
  * Returns a generator of values built from the elements of `this` generator and the [other] generator
@@ -20,7 +20,7 @@ fun <A, B, R> Generator<A>.combineWith(
 fun <A, B> Generator<A>.combineWith(
     other: Generator<B>
 ): Generator<Pair<A, B>> =
-    CombinedGenerators(this, other, ::Pair)
+    Generator.combine(this, other, ::Pair)
 
 /**
  * Returns a generator of combining the elements of [generator1] and [generator2]
@@ -40,7 +40,7 @@ fun <A, B> Generator.Companion.combine(
     generator1: Generator<A>,
     generator2: Generator<B>
 ): Generator<Pair<A, B>> =
-    CombinedGenerators(generator1, generator2, ::Pair)
+    combine(generator1, generator2, ::Pair)
 
 private class CombinedGenerators<A, B, R>(
     private val generator1: Generator<A>,
