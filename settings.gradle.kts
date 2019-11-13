@@ -2,8 +2,6 @@ rootProject.name = "kwik"
 
 include("core")
 
-include("random")
-
 include("generator-api")
 include("generator-stdlib")
 include("generator-test")
