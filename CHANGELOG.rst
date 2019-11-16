@@ -23,6 +23,11 @@ Added
 * ``andThen`` operator to make easier building complex generation pipeline
 * ``frequency`` combinator, allowing to create a frequency-parametrized generator
 
+Dependencies Updated
+....................
+
+* Kotlin (from ``1.3.50`` to ``1.3.60``)
+
 .. endUnreleasedBlock
 
 0.2.0-rc.1_ - 2019-09-18
