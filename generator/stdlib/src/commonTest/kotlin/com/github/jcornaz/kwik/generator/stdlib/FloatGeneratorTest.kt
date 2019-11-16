@@ -23,14 +23,40 @@ class FloatGeneratorTest : AbstractGeneratorTest() {
         assertTrue(Generator.floats(-8f, 14f).randomSequence(0).take(1000).all { it >= -8 && it <= 14 })
     }
 
+
     @Test
-    fun providesSamples() {
-        assertEquals(setOf(0f, -1f, 1f, -Float.MAX_VALUE, Float.MAX_VALUE), Generator.floats().samples)
+    fun doNotProduceZeroIfNotInRange() {
+        assertTrue(Generator.floats(1f, 14f).randomSequence(0).take(1000).none { it < 1f })
     }
 
     @Test
-    fun samplesAreInRange() {
-        assertEquals(setOf(1f, Float.MAX_VALUE), Generator.floats(min = 1f).samples)
+    fun generateZero() {
+        assertTrue(Generator.floats().randomSequence(0).take(30).any { it == 0f })
+    }
+
+    @Test
+    fun generateOne() {
+        assertTrue(Generator.floats().randomSequence(0).take(30).any { it == 1f })
+    }
+
+    @Test
+    fun generateMinusOne() {
+        assertTrue(Generator.floats().randomSequence(0).take(30).any { it == -1f })
+    }
+
+    @Test
+    fun generateMin() {
+        assertTrue(Generator.floats(min = 42f).randomSequence(5).take(30).any { it == 42f })
+    }
+
+    @Test
+    fun generateMax() {
+        assertTrue(Generator.floats(max = 24f).randomSequence(0).take(30).any { it == 24f })
+    }
+
+    @Test
+    fun generateBetweenZeroAndOne() {
+        assertTrue(Generator.floats().randomSequence(0).take(30).any { it > 0.0 && it < 1.0 })
     }
 }
 

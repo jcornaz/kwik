@@ -35,32 +35,32 @@ class DoubleGeneratorTest : AbstractGeneratorTest() {
 
     @Test
     fun generateZero() {
-        assertTrue(Generator.doubles().withNaN().randomSequence(0).take(30).any { it == 0.0 })
+        assertTrue(Generator.doubles().randomSequence(0).take(30).any { it == 0.0 })
     }
 
     @Test
     fun generateOne() {
-        assertTrue(Generator.doubles().withNaN().randomSequence(0).take(30).any { it == 1.0 })
+        assertTrue(Generator.doubles().randomSequence(0).take(30).any { it == 1.0 })
     }
 
     @Test
     fun generateMinusOne() {
-        assertTrue(Generator.doubles().withNaN().randomSequence(0).take(30).any { it == 1.0 })
+        assertTrue(Generator.doubles().randomSequence(0).take(30).any { it == -1.0 })
     }
 
     @Test
     fun generateMin() {
-        assertTrue(Generator.doubles(min = 42.0).withNaN().randomSequence(5).take(30).any { it == 42.0 })
+        assertTrue(Generator.doubles(min = 42.0).randomSequence(5).take(30).any { it == 42.0 })
     }
 
     @Test
     fun generateMax() {
-        assertTrue(Generator.doubles(max = 24.0).withNaN().randomSequence(0).take(30).any { it == 24.0 })
+        assertTrue(Generator.doubles(max = 24.0).randomSequence(0).take(30).any { it == 24.0 })
     }
 
     @Test
     fun generateBetweenZeroAndOne() {
-        assertTrue(Generator.doubles().withNaN().randomSequence(0).take(30).any { it > 0.0 && it < 1.0 })
+        assertTrue(Generator.doubles().randomSequence(0).take(30).any { it > 0.0 && it < 1.0 })
     }
 }
 
