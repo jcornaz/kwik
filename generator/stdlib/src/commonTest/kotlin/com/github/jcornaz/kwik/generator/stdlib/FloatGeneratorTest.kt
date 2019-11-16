@@ -4,7 +4,6 @@ import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.randomSequence
 import com.github.jcornaz.kwik.generator.test.AbstractGeneratorTest
 import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
@@ -77,17 +76,7 @@ class PositiveFloatGeneratorTest : AbstractGeneratorTest() {
 
     @Test
     fun produceSmallerThanMax() {
-        assertTrue(Generator.positiveFloats(max = 42f).randomSequence(0).take(1000).all { it >= 0.0 && it <= 42.0 })
-    }
-
-    @Test
-    fun provideSamples() {
-        assertEquals(setOf(0f, 1f, Float.MAX_VALUE), Generator.positiveFloats().samples)
-    }
-
-    @Test
-    fun samplesAreInRange() {
-        assertEquals(setOf(0f, 1f, 42f), Generator.positiveFloats(max = 42f).samples)
+        assertTrue(Generator.positiveFloats(max = 42f).randomSequence(0).take(1000).all { it in 0.0..42.0 })
     }
 }
 
@@ -109,16 +98,6 @@ class NegativeFloatGeneratorTest : AbstractGeneratorTest() {
     @Test
     fun produceBiggerThanMin() {
         assertTrue(Generator.negativeFloats(min = -42f).randomSequence(0).take(1000).all { it < 0.0 && it >= -42.0 })
-    }
-
-    @Test
-    fun provideSamples() {
-        assertEquals(setOf(-Float.MIN_VALUE, -Float.MAX_VALUE, -1f), Generator.negativeFloats().samples)
-    }
-
-    @Test
-    fun samplesAreInRange() {
-        assertEquals(setOf(-Float.MIN_VALUE, -42f, -1f), Generator.negativeFloats(min = -42f).samples)
     }
 }
 
@@ -148,21 +127,5 @@ class NonZeroFloatTest : AbstractGeneratorTest() {
     fun produceInRange() {
         val gen = Generator.nonZeroFloats(min = -42f, max = 100f)
         assertTrue(gen.randomSequence(0).take(1000).all { it >= -42 && it <= 100 })
-    }
-
-    @Test
-    fun provideSamples() {
-        assertEquals(
-            setOf(-Float.MIN_VALUE, -1f, -Float.MAX_VALUE, Float.MIN_VALUE, 1f, Float.MAX_VALUE),
-            Generator.nonZeroFloats().samples
-        )
-    }
-
-    @Test
-    fun samplesAreInRange() {
-        assertEquals(
-            setOf(-42f, -1f, -Float.MIN_VALUE, Float.MIN_VALUE, 1f, 42f),
-            Generator.nonZeroFloats(min = -42f, max = 42f).samples
-        )
     }
 }
