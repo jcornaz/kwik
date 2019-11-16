@@ -24,18 +24,43 @@ class DoubleGeneratorTest : AbstractGeneratorTest() {
     }
 
     @Test
-    fun providesSamples() {
-        assertEquals(setOf(0.0, -1.0, 1.0, -Double.MAX_VALUE, Double.MAX_VALUE), Generator.doubles().samples)
-    }
-
-    @Test
-    fun samplesAreInRange() {
-        assertEquals(setOf(1.0, Double.MAX_VALUE), Generator.doubles(min = 1.0).samples)
+    fun doNotProduceZeroIfNotInRange() {
+        assertTrue(Generator.doubles(1.0, 14.0).randomSequence(0).take(1000).none { it < 1.0 })
     }
 
     @Test
     fun withNaNIncludesNaNInSamples() {
-        assertTrue(Generator.doubles().withNaN().samples.any { it.isNaN() })
+        assertTrue(Generator.doubles().withNaN().randomSequence(0).take(30).any { it.isNaN() })
+    }
+
+    @Test
+    fun generateZero() {
+        assertTrue(Generator.doubles().withNaN().randomSequence(0).take(30).any { it == 0.0 })
+    }
+
+    @Test
+    fun generateOne() {
+        assertTrue(Generator.doubles().withNaN().randomSequence(0).take(30).any { it == 1.0 })
+    }
+
+    @Test
+    fun generateMinusOne() {
+        assertTrue(Generator.doubles().withNaN().randomSequence(0).take(30).any { it == 1.0 })
+    }
+
+    @Test
+    fun generateMin() {
+        assertTrue(Generator.doubles(min = 42.0).withNaN().randomSequence(5).take(30).any { it == 42.0 })
+    }
+
+    @Test
+    fun generateMax() {
+        assertTrue(Generator.doubles(max = 24.0).withNaN().randomSequence(0).take(30).any { it == 24.0 })
+    }
+
+    @Test
+    fun generateBetweenZeroAndOne() {
+        assertTrue(Generator.doubles().withNaN().randomSequence(0).take(30).any { it > 0.0 && it < 1.0 })
     }
 }
 

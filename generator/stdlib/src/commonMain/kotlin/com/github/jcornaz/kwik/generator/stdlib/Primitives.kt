@@ -150,9 +150,12 @@ fun Generator.Companion.doubles(
     val samples = listOf(0.0, 1.0, -1.0, min, max).filter { it in range }
 
     val until = (max + Double.MIN_VALUE).takeIf { it.isFinite() } ?: max
-    val generator = create { it.nextDouble(min, until) }
 
-    return generator.withSamples(samples)
+    return frequency(
+        0.3 to of(samples),
+        0.10 to create { it.nextDouble().coerceIn(min, max) },
+        0.6 to create { it.nextDouble(min, until) }
+    )
 }
 
 /**
