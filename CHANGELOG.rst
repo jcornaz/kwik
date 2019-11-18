@@ -14,6 +14,11 @@ and this project adheres to `Semantic Versioning`_.
 Unreleased_
 -----------
 
+.. endUnreleasedBlock
+
+0.2.0_ - 2019-11-18
+-------------------
+
 Added
 .....
 * ``andThen`` operator to make easier building complex generation pipeline
@@ -24,7 +29,6 @@ Dependencies Updated
 
 * Kotlin (from ``1.3.50`` to ``1.3.60``)
 
-.. endUnreleasedBlock
 
 0.2.0-rc.1_ - 2019-09-18
 --------------------------
@@ -205,7 +209,8 @@ Added
 * ``withSample`` and ``withNull`` to inject constants values to be always tested
 * ``zip`` operator to combine two given generators
 
-.. _Unreleased: https://github.com/jcornaz/kwik/compare/0.2.0-rc.1...master
+.. _Unreleased: https://github.com/jcornaz/kwik/compare/0.2.0...master
+.. _0.2.0: https://github.com/jcornaz/kwik/compare/0.2.0-rc.1...0.2.0
 .. _0.2.0-rc.1: https://github.com/jcornaz/kwik/compare/0.2.0-beta.2...0.2.0-rc.1
 .. _0.2.0-beta.2: https://github.com/jcornaz/kwik/compare/0.2.0-beta.1...0.2.0-beta.2
 .. _0.2.0-beta.1: https://github.com/jcornaz/kwik/compare/0.1.0...0.2.0-beta.1
