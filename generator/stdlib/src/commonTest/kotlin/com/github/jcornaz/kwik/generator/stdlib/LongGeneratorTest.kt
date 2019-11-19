@@ -24,27 +24,27 @@ class LongGeneratorTest : AbstractGeneratorTest() {
 
     @Test
     fun generateZero() {
-        assertTrue(Generator.longs().randomSequence(0).take(30).any { it == 0L })
+        assertTrue(Generator.longs().randomSequence(0).take(50).any { it == 0L })
     }
 
     @Test
     fun generateOne() {
-        assertTrue(Generator.longs().randomSequence(0).take(30).any { it == 1L })
+        assertTrue(Generator.longs().randomSequence(0).take(50).any { it == 1L })
     }
 
     @Test
     fun generateMinusOne() {
-        assertTrue(Generator.longs().randomSequence(0).take(30).any { it == -1L })
+        assertTrue(Generator.longs().randomSequence(0).take(50).any { it == -1L })
     }
 
     @Test
     fun generateMin() {
-        assertTrue(Generator.longs(min = 42).randomSequence(0).take(30).any { it == 42L })
+        assertTrue(Generator.longs(min = 42).randomSequence(0).take(50).any { it == 42L })
     }
 
     @Test
     fun generateMax() {
-        assertTrue(Generator.longs(max = 24).randomSequence(0).take(30).any { it == 24L })
+        assertTrue(Generator.longs(max = 24).randomSequence(0).take(50).any { it == 24L })
     }
 }
 

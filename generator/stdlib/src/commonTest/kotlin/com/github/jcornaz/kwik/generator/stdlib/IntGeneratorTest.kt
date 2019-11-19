@@ -24,27 +24,27 @@ class IntGeneratorTest : AbstractGeneratorTest() {
 
     @Test
     fun generateZero() {
-        assertTrue(Generator.ints().randomSequence(0).take(30).any { it == 0 })
+        assertTrue(Generator.ints().randomSequence(0).take(50).any { it == 0 })
     }
 
     @Test
     fun generateOne() {
-        assertTrue(Generator.ints().randomSequence(0).take(30).any { it == 1 })
+        assertTrue(Generator.ints().randomSequence(0).take(50).any { it == 1 })
     }
 
     @Test
     fun generateMinusOne() {
-        assertTrue(Generator.ints().randomSequence(0).take(30).any { it == -1 })
+        assertTrue(Generator.ints().randomSequence(0).take(50).any { it == -1 })
     }
 
     @Test
     fun generateMin() {
-        assertTrue(Generator.ints(min = 42).randomSequence(0).take(30).any { it == 42 })
+        assertTrue(Generator.ints(min = 42).randomSequence(0).take(50).any { it == 42 })
     }
 
     @Test
     fun generateMax() {
-        assertTrue(Generator.ints(max = 24).randomSequence(0).take(30).any { it == 24 })
+        assertTrue(Generator.ints(max = 24).randomSequence(0).take(50).any { it == 24 })
     }
 }
 

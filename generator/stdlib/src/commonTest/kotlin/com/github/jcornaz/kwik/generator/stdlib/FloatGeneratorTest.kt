@@ -30,32 +30,32 @@ class FloatGeneratorTest : AbstractGeneratorTest() {
 
     @Test
     fun generateZero() {
-        assertTrue(Generator.floats().randomSequence(0).take(30).any { it == 0f })
+        assertTrue(Generator.floats().randomSequence(0).take(50).any { it == 0f })
     }
 
     @Test
     fun generateOne() {
-        assertTrue(Generator.floats().randomSequence(0).take(30).any { it == 1f })
+        assertTrue(Generator.floats().randomSequence(0).take(50).any { it == 1f })
     }
 
     @Test
     fun generateMinusOne() {
-        assertTrue(Generator.floats().randomSequence(0).take(30).any { it == -1f })
+        assertTrue(Generator.floats().randomSequence(0).take(50).any { it == -1f })
     }
 
     @Test
     fun generateMin() {
-        assertTrue(Generator.floats(min = 42f).randomSequence(5).take(30).any { it == 42f })
+        assertTrue(Generator.floats(min = 42f).randomSequence(5).take(50).any { it == 42f })
     }
 
     @Test
     fun generateMax() {
-        assertTrue(Generator.floats(max = 24f).randomSequence(0).take(30).any { it == 24f })
+        assertTrue(Generator.floats(max = 24f).randomSequence(0).take(50).any { it == 24f })
     }
 
     @Test
     fun generateBetweenZeroAndOne() {
-        assertTrue(Generator.floats().randomSequence(0).take(30).any { it > 0.0 && it < 1.0 })
+        assertTrue(Generator.floats().randomSequence(0).take(50).any { it > 0.0 && it < 1.0 })
     }
 }
 
