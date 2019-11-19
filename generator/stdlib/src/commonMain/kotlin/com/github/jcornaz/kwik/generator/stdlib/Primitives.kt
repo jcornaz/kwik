@@ -19,7 +19,7 @@ fun Generator.Companion.ints(min: Int = Int.MIN_VALUE, max: Int = Int.MAX_VALUE)
     val range = min..max
     val samples = listOf(0, 1, -1, min, max).filter { it in range }
 
-    return create { it.nextInt(range) }.withSamples(samples)
+    return create { it.nextInt(range) }.withSamples(samples, probability = 0.3)
 }
 
 /**
@@ -64,7 +64,7 @@ fun Generator.Companion.longs(min: Long = Long.MIN_VALUE, max: Long = Long.MAX_V
     val range = min..max
     val samples = listOf(0, 1, -1, min, max).filter { it in range }
 
-    return create { it.nextLong(range) }.withSamples(samples)
+    return create { it.nextLong(range) }.withSamples(samples, probability = 0.3)
 }
 
 /**

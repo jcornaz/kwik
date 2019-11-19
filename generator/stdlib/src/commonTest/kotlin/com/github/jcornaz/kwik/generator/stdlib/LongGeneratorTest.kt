@@ -4,7 +4,6 @@ import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.randomSequence
 import com.github.jcornaz.kwik.generator.test.AbstractGeneratorTest
 import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
@@ -24,13 +23,28 @@ class LongGeneratorTest : AbstractGeneratorTest() {
     }
 
     @Test
-    fun provideSamples() {
-        assertEquals(setOf(Long.MIN_VALUE, Long.MAX_VALUE, -1, 0, 1), Generator.longs().samples)
+    fun generateZero() {
+        assertTrue(Generator.longs().randomSequence(0).take(30).any { it == 0L })
     }
 
     @Test
-    fun samplesAreInRange() {
-        assertEquals(setOf(42, Long.MAX_VALUE), Generator.longs(min = 42).samples)
+    fun generateOne() {
+        assertTrue(Generator.longs().randomSequence(0).take(30).any { it == 1L })
+    }
+
+    @Test
+    fun generateMinusOne() {
+        assertTrue(Generator.longs().randomSequence(0).take(30).any { it == -1L })
+    }
+
+    @Test
+    fun generateMin() {
+        assertTrue(Generator.longs(min = 42).randomSequence(0).take(30).any { it == 42L })
+    }
+
+    @Test
+    fun generateMax() {
+        assertTrue(Generator.longs(max = 24).randomSequence(0).take(30).any { it == 24L })
     }
 }
 
@@ -51,17 +65,7 @@ class PositiveLongGeneratorTest : AbstractGeneratorTest() {
 
     @Test
     fun produceSmallerThanMax() {
-        assertTrue(Generator.positiveLongs(max = 42).randomSequence(0).take(1000).all { it >= 0 && it <= 42 })
-    }
-
-    @Test
-    fun provideSamples() {
-        assertEquals(setOf(0, 1, Long.MAX_VALUE), Generator.positiveLongs().samples)
-    }
-
-    @Test
-    fun samplesAreInRange() {
-        assertEquals(setOf(0L, 1L, 42L), Generator.positiveLongs(max = 42).samples)
+        assertTrue(Generator.positiveLongs(max = 42).randomSequence(0).take(1000).all { it in 0..42 })
     }
 }
 
@@ -82,17 +86,7 @@ class NaturalLongGeneratorTest : AbstractGeneratorTest() {
 
     @Test
     fun produceSmallerThanMax() {
-        assertTrue(Generator.naturalLongs(max = 42).randomSequence(0).take(1000).all { it >= 1 && it <= 42 })
-    }
-
-    @Test
-    fun provideSamples() {
-        assertEquals(setOf(1, Long.MAX_VALUE), Generator.naturalLongs().samples)
-    }
-
-    @Test
-    fun samplesAreInRange() {
-        assertEquals(setOf(1L, 42L), Generator.naturalLongs(max = 42).samples)
+        assertTrue(Generator.naturalLongs(max = 42).randomSequence(0).take(1000).all { it in 1..42 })
     }
 }
 
@@ -114,16 +108,6 @@ class NegativeLongGeneratorTest : AbstractGeneratorTest() {
     @Test
     fun produceBiggerThanMin() {
         assertTrue(Generator.negativeLongs(min = -42).randomSequence(0).take(1000).all { it < 0 && it >= -42 })
-    }
-
-    @Test
-    fun provideSamples() {
-        assertEquals(setOf(-1, Long.MIN_VALUE), Generator.negativeLongs().samples)
-    }
-
-    @Test
-    fun samplesAreInRange() {
-        assertEquals(setOf(-1L, -42L), Generator.negativeLongs(min = -42).samples)
     }
 }
 
@@ -154,15 +138,5 @@ class NonZeroLongsTest : AbstractGeneratorTest() {
     fun produceInRange() {
         val gen = Generator.nonZeroLongs(min = -42, max = 100)
         assertTrue(gen.randomSequence(0).take(1000).all { it >= -42 && it <= 100 })
-    }
-
-    @Test
-    fun provideSamples() {
-        assertEquals(setOf(-1L, 1L, Long.MIN_VALUE, Long.MAX_VALUE), Generator.nonZeroLongs().samples)
-    }
-
-    @Test
-    fun samplesAreInRange() {
-        assertEquals(setOf(-1L, 1L, -42L, 42L), Generator.nonZeroLongs(min = -42, max = 42).samples)
     }
 }
