@@ -57,25 +57,6 @@ class SequenceGeneratorTest : AbstractGeneratorTest() {
     }
 
     @Test
-    fun hasSameSamplesThanListGenerator() {
-        val elemGen = object : Generator<Int> {
-            override val samples: Set<Int> get() = setOf(1, 2, 3)
-
-            override fun generate(random: Random): Int = random.nextInt()
-        }
-
-        repeat(200) {
-            val minSize = Random.nextInt(0, 2)
-            val maxSize = Random.nextInt(minSize, 3)
-
-            assertEquals(
-                Generator.lists(elemGen, minSize, maxSize).samples,
-                Generator.sequences(elemGen, minSize, maxSize).samples.mapTo(HashSet()) { it.toList() }
-            )
-        }
-    }
-
-    @Test
     fun failsWithMinSizeSmallerThan0() {
         assertFailsWith<IllegalArgumentException> {
             Generator.sequences<Int>(minSize = -1)
