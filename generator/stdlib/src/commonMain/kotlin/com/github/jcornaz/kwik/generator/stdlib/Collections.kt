@@ -20,7 +20,7 @@ fun <T> Generator.Companion.lists(
     requireValidSizes(minSize, maxSize)
 
     return ints(min = minSize, max = maxSize)
-        .andThen { lists(elementGen, it) }
+        .andThen { lists(elementGen, size = it) }
 }
 
 /**
@@ -60,6 +60,12 @@ inline fun <reified T> Generator.Companion.lists(
     maxSize: Int = KWIK_DEFAULT_MAX_SIZE
 ): Generator<List<T>> =
     lists(Generator.default(), minSize, maxSize)
+
+/**
+ * Returns a generator of [List] using a default generator for the elements
+ */
+inline fun <reified T> Generator.Companion.lists(size: Int): Generator<List<T>> =
+    lists(Generator.default(), size = size)
 
 /**
  * Returns a generator of non-empty [List] using a default generator for the elements

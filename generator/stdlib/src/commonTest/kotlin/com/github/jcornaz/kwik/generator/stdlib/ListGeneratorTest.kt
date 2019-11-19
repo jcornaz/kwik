@@ -70,6 +70,18 @@ class ListGeneratorTest : AbstractGeneratorTest() {
     }
 }
 
+class FixedSizeListGeneratorTest : AbstractGeneratorTest() {
+    override val generator: Generator<*> = Generator.lists<Int>(size = 12)
+
+    @Test
+    fun alwaysGenerateListsOfGivenSize() {
+        repeat(100) { size ->
+            val gen = Generator.lists(Generator.create { it.nextInt() }, size = size)
+            assertTrue(gen.randomSequence(0).take(1000).all { it.size == size })
+        }
+    }
+}
+
 class NonEmptyListGeneratorTest : AbstractGeneratorTest() {
     override val generator: Generator<List<Int>> = Generator.nonEmptyLists()
 
