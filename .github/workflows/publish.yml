@@ -19,7 +19,7 @@ jobs:
       with:
         java-version: 1.11
         
-    - name: Check with Gradle
+    - name: Publish with gradle
       run: ./gradlew bintrayUpload --no-daemon --no-build-cache
       env:
         BINTRAY_USER: ${{ secrets.BINTRAY_USER }}

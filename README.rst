@@ -93,12 +93,13 @@ Motivation
 Property based testing is great and very powerful. But despite the fact that many good libraries already exist,
 none of them fully fit my needs.
 
-The existing alternatives often:
+The known alternatives either:
 
 * Are bound to a specific test-engine
 * Can only be used in Java module (not in Kotlin multi-platform modules)
-* Relies on reflection, making them slower than it could be and make some errors detectable only at runtime
-* Some of them also force the user to add unwanted dependencies in the classpath
+* Relies on reflection, making them slower and make some errors detectable only at runtime
+* Do not allow enough freedom and safety to customize existing generators
+* Force the user to add unwanted dependencies in the classpath
 
 Setup
 -----
@@ -110,12 +111,12 @@ Example of setup using gradle.
 
     repositories {
         jcenter()
-        maven { url = uri("https://dl.bintray.com/kwik/preview") }
     }
 
     dependencies {
-        testCompile("com.github.jcornaz.kwik:kwik-core-jvm:0.2.0-rc.1")
+        testCompile("com.github.jcornaz.kwik:kwik-core-jvm:0.2.0")
     }
+
 .. endGradleSetup
 
 .. startReferenceToSetup

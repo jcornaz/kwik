@@ -18,6 +18,16 @@ Changed
 .......
 * `withSample` now takes a probability argument, and include the samples in the generation
 
+.. endUnreleasedBlock
+
+0.2.0_ - 2019-11-19
+-------------------
+
+Deprecated
+..........
+* ``samples`` property in ``Generator`` interface. (Samples are about to be included in generation of ``generate``)
+    One should use ``withSamples`` and ``frequency`` instead.
+
 Added
 .....
 * ``andThen`` operator to make easier building complex generation pipeline
@@ -28,7 +38,6 @@ Dependencies Updated
 
 * Kotlin (from ``1.3.50`` to ``1.3.60``)
 
-.. endUnreleasedBlock
 
 0.2.0-rc.1_ - 2019-09-18
 --------------------------
