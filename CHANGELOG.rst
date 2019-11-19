@@ -16,8 +16,13 @@ Unreleased_
 
 .. endUnreleasedBlock
 
-0.2.0_ - 2019-11-18
+0.2.0_ - 2019-11-19
 -------------------
+
+Deprecated
+..........
+* ``samples`` property in ``Generator`` interface. (Samples are about to be included in generation of ``generate``)
+    One should use ``withSamples`` and ``frequency`` instead.
 
 Added
 .....
