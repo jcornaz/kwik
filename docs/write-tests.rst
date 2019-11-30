@@ -148,3 +148,14 @@ Sometime we want to exclude some specific set of input. For that, we can call ``
 
 Be careful to not overuse it though as it may slow down the tests.
 Always prefer creating or configuring custom generators if you can.
+
+Ensure an evaluation
+--------------------
+
+Make sure the predicare is satisfied for at least one of the generated inputs.
+
+.. literalinclude:: ../core/src/commonTest/kotlin/com/github/jcornaz/kwik/example/EnsureAtLeastOneTest.kt
+    :language: kotlin
+    :dedent: 8
+    :start-after: //region ensure at least one evaluation
+    :end-before: //endregion
