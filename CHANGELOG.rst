@@ -18,6 +18,12 @@ Changed
 .......
 
 * `withSample` now takes a probability argument, and include the samples in the generation
+=======
+
+Dependencies Updated
+....................
+
+* Kotlin (from ``1.3.60`` to ``1.3.61``)
 
 .. endUnreleasedBlock
 
@@ -37,7 +43,7 @@ Added
 Dependencies Updated
 ....................
 
-* Kotlin (from ``1.3.50`` to ``1.3.60``)
+* Kotlin (from ``1.3.50`` to ``1.3.60``)stat
 
 
 0.2.0-rc.1_ - 2019-09-18
