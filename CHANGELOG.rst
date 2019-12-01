@@ -43,7 +43,7 @@ Added
 Dependencies Updated
 ....................
 
-* Kotlin (from ``1.3.50`` to ``1.3.60``)stat
+* Kotlin (from ``1.3.50`` to ``1.3.60``)
 
 
 0.2.0-rc.1_ - 2019-09-18
