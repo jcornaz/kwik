@@ -29,7 +29,7 @@ fun <T> forAll(
 ) {
     require(iterations > 0) { "Iterations must be > 0, but was: $iterations" }
 
-    val context = PropertyEvaluationContextImpl
+    val context = PropertyEvaluationContextImpl()
 
     var attempts = 0
     val iterator = generator.testValues(seed).iterator()
@@ -49,12 +49,34 @@ fun <T> forAll(
         if (!isSatisfied) throw FalsifiedPropertyError(attempts, iterations, seed, extractArgumentList(argument))
     }
 
+    if (!context.oneSatisfied && context.shouldAtLeastOneSatisfied) {
+        throw FalsifiedPropertyError(
+            attempts,
+            iterations,
+            seed,
+            emptyList(),
+            additionalFailureMessage = "None of the test passed the at least one condition"
+        )
+    }
+
     println("OK, passed $attempts tests. (seed: $seed)")
 }
 
-private object PropertyEvaluationContextImpl : PropertyEvaluationContext {
+private class PropertyEvaluationContextImpl : PropertyEvaluationContext {
+
+    var shouldAtLeastOneSatisfied = false
+    var oneSatisfied = false
+
     override fun skipIf(condition: Boolean) {
         if (condition) throw SkipEvaluation()
+    }
+
+    override fun ensureAtLeastOne(condition: () -> Boolean): Boolean {
+        shouldAtLeastOneSatisfied = true
+        if (condition())
+            oneSatisfied = true
+        // true because we need to let the cycle go on in case the property is only ensureAtLeastOne
+        return true
     }
 }
 
@@ -259,7 +281,8 @@ data class FalsifiedPropertyError(
     val iterations: Int,
     val seed: Long,
     val arguments: List<Any?>,
-    override val cause: Throwable? = null
+    override val cause: Throwable? = null,
+    val additionalFailureMessage: String = ""
 ) : AssertionError(buildString {
     append("Property falsified after $attempts tests (out of $iterations)\n")
 
@@ -268,6 +291,11 @@ data class FalsifiedPropertyError(
     }
 
     append("Generation seed: $seed")
+
+    if(additionalFailureMessage.isNotEmpty()) {
+        append("\n")
+        append(additionalFailureMessage)
+    }
 })
 
 /**

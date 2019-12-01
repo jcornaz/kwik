@@ -52,6 +52,85 @@ class ForAll1Test : AbstractRunnerTest() {
     }
 
     @Test
+    fun ensureAtLeastOneWithNoOtherConditionButNoneSatisfies() {
+        val exception = assertFailsWith<FalsifiedPropertyError> {
+            forAll(
+                Generator.create { 42 },
+                iterations = 123,
+                seed = 78
+            ) { x ->
+                ensureAtLeastOne { x < 10 }
+            }
+        }
+
+        assertEquals(
+            """
+                Property falsified after 123 tests (out of 123)
+                Generation seed: 78
+                None of the test passed the at least one condition
+            """.trimIndent(),
+            exception.message
+        )
+    }
+
+    @Test
+    fun ensureAtLeastOneWithNoOtherConditionAndOneSatisfies() {
+        var iteration = 0
+        forAll(
+            Generator.create { 42 },
+            iterations = 123,
+            seed = 78
+        ) { x ->
+            ++iteration
+            ensureAtLeastOne { x > 10 }
+        }
+
+        assertEquals(123, iteration)
+    }
+
+    @Test
+    fun ensureAtLeastOneSatisfiesAndOtherConditionIsAlwaysTrue() {
+        var iteration = 0
+        forAll(
+            Generator.create { 42 },
+            iterations = 123,
+            seed = 78
+        ) { x ->
+            ++iteration
+            ensureAtLeastOne { x > 10 }
+            true
+        }
+
+        assertEquals(123, iteration)
+    }
+
+    @Test
+    fun ensureAtLeastOneSatisfiesAndOtherConditionFail() {
+        var iteration = 0
+        val exception = assertFailsWith<FalsifiedPropertyError> {
+            forAll(
+                Generator.create { 42 },
+                iterations = 123,
+                seed = 78
+            ) { x ->
+                ++iteration
+                ensureAtLeastOne { x > 10 }
+                iteration < 10
+            }
+        }
+
+        assertEquals(10, iteration)
+        assertEquals(
+            """
+                Property falsified after 10 tests (out of 123)
+                Argument 1: 42
+                Generation seed: 78
+            """.trimIndent(),
+            exception.message
+        )
+    }
+
+    @Test
     fun errorDisplayHelpfulMessage() {
         val exception = assertFailsWith<FalsifiedPropertyError> {
             var i = 0
