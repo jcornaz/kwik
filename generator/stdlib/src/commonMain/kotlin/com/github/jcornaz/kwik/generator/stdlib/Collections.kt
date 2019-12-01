@@ -5,7 +5,7 @@ import com.github.jcornaz.kwik.generator.api.andThen
 import com.github.jcornaz.kwik.generator.api.randomSequence
 import kotlin.random.Random
 
-private const val MAX_EXTRA_ADD_ATTEMPT = 1000
+private const val MAX_EXTRA_ADDITIONAL_ATTEMPT = 10_000
 
 /**
  * Returns a generator of [List] where sizes are all between [minSize] and [maxSize] (inclusive)
@@ -28,7 +28,7 @@ fun <T> Generator.Companion.lists(
  *
  * @param elementGen Generator to use for elements in the list
  */
-fun <T> Generator.Companion.lists(
+private fun <T> Generator.Companion.lists(
     elementGen: Generator<T>,
     size: Int
 ): Generator<List<T>> {
@@ -62,12 +62,6 @@ inline fun <reified T> Generator.Companion.lists(
     lists(Generator.default(), minSize, maxSize)
 
 /**
- * Returns a generator of [List] using a default generator for the elements
- */
-inline fun <reified T> Generator.Companion.lists(size: Int): Generator<List<T>> =
-    lists(Generator.default(), size = size)
-
-/**
  * Returns a generator of non-empty [List] using a default generator for the elements
  */
 inline fun <reified T> Generator.Companion.nonEmptyLists(maxSize: Int = KWIK_DEFAULT_MAX_SIZE): Generator<List<T>> =
@@ -84,7 +78,33 @@ fun <T> Generator.Companion.sets(
     elementGen: Generator<T>,
     minSize: Int = 0,
     maxSize: Int = maxOf(minSize, KWIK_DEFAULT_MAX_SIZE)
-): Generator<Set<T>> = SetGenerator(elementGen, minSize, maxSize)
+): Generator<Set<T>> {
+    return ints(minSize, maxSize).andThen { sets(elementGen, size = it) }
+}
+
+private fun <T> Generator.Companion.sets(
+    elementGen: Generator<T>,
+    size: Int
+): Generator<Set<T>> {
+    return create { random ->
+        val set = HashSet<T>(size)
+
+        repeat(size) {
+            set += elementGen.generate(random)
+        }
+
+        var extraAttempt = 0
+        while (set.size < size && extraAttempt < MAX_EXTRA_ADDITIONAL_ATTEMPT) {
+            set += elementGen.generate(random)
+            ++extraAttempt
+        }
+
+        if (set.size < size)
+            error("Failed to create a set with the requested minimum of element")
+
+        return@create set
+    }
+}
 
 /**
  * Returns a generator of non-empty [Set] where sizes are all between 1 and [maxSize] (inclusive)
@@ -110,46 +130,6 @@ inline fun <reified T> Generator.Companion.sets(
  */
 inline fun <reified T> Generator.Companion.nonEmptySets(maxSize: Int = KWIK_DEFAULT_MAX_SIZE): Generator<Set<T>> =
     sets(Generator.default(), 1, maxSize)
-
-private class SetGenerator<T>(
-    private val elementGen: Generator<T>,
-    private val minSize: Int,
-    private val maxSize: Int
-) : Generator<Set<T>> {
-
-    override val samples: Set<Set<T>>
-        get() = mutableSetOf<Set<T>>().apply {
-            if (minSize == 0) add(emptySet())
-
-            if (minSize <= 1 && maxSize >= 1) {
-                elementGen.samples.forEach { add(setOf(it)) }
-            }
-        }
-
-    init {
-        requireValidSizes(minSize, maxSize)
-    }
-
-    override fun generate(random: Random): Set<T> {
-        val size = random.nextInt(minSize, maxSize + 1)
-        val set = HashSet<T>(size)
-
-        repeat(size) {
-            set += elementGen.generate(random)
-        }
-
-        var extraAttempt = 0
-        while (set.size < size && extraAttempt < MAX_EXTRA_ADD_ATTEMPT) {
-            set += elementGen.generate(random)
-            ++extraAttempt
-        }
-
-        if (set.size < minSize)
-            error("Failed to create a set with the requested minimum of element")
-
-        return set
-    }
-}
 
 /**
  * Returns a generator of [Map] where sizes are all between [minSize] and [maxSize] (inclusive)
@@ -227,7 +207,7 @@ private class MapGenerator<K, V>(
         }
 
         var extraAttempt = 0
-        while (map.size < size && extraAttempt < MAX_EXTRA_ADD_ATTEMPT) {
+        while (map.size < size && extraAttempt < MAX_EXTRA_ADDITIONAL_ATTEMPT) {
             map[keyGen.generate(random)] = valueGen.generate(random)
             ++extraAttempt
         }

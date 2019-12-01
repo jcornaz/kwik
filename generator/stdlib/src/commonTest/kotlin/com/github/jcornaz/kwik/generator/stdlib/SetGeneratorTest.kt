@@ -21,23 +21,25 @@ class SetGeneratorTest : AbstractGeneratorTest() {
     }
 
     @Test
-    fun samplesContainsEmpty() {
-        assertTrue(Generator.sets<Int>().samples.any { it.isEmpty() })
+    fun generatesEmpty() {
+        assertTrue(Generator.sets<Int>().randomSequence(0).take(50).any { it.isEmpty() })
     }
 
     @Test
-    fun samplesContainsSingletons() {
-        assertTrue(Generator.sets<Int>().samples.any { it.size == 1 })
+    fun generatesSingletons() {
+        assertTrue(Generator.sets<Int>().randomSequence(0).take(50).any { it.size == 1 })
     }
 
     @Test
-    fun noEmptySampleWhenMinSizeIsGreaterThan0() {
-        assertTrue(Generator.sets(Generator.ints(), minSize = 1).samples.none { it.isEmpty() })
+    fun doesNotGenerateEmptyWhenMinSizeIsGreaterThan0() {
+        val gen = Generator.sets(Generator.ints(), minSize = 1)
+        assertTrue(gen.randomSequence(0).take(1000).none { it.isEmpty() })
     }
 
     @Test
-    fun noSingletonSampleWhenMinSizeIsGreaterThan1() {
-        assertTrue(Generator.sets(Generator.ints(), minSize = 2).samples.none { it.size <= 1 })
+    fun doesNotGenerateSingletonWhenMinSizeIsGreaterThan1() {
+        val gen = Generator.sets(Generator.ints(), minSize = 2)
+        assertTrue(gen.randomSequence(0).take(1000).none { it.size == 1 })
     }
 
     @Test
@@ -90,16 +92,6 @@ class NonEmptySetGeneratorTest : AbstractGeneratorTest() {
             .take(200)
 
         assertTrue(values.all { it.size in 1..12 })
-    }
-
-    @Test
-    fun samplesDoesNotContainsEmpty() {
-        assertTrue(Generator.nonEmptySets<Int>().samples.none { it.isEmpty() })
-    }
-
-    @Test
-    fun samplesContainsSingletons() {
-        assertTrue(Generator.nonEmptySets<Int>().samples.any { it.size == 1 })
     }
 
     @Test
