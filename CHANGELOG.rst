@@ -14,6 +14,12 @@ and this project adheres to `Semantic Versioning`_.
 Unreleased_
 -----------
 
+
+Dependencies Updated
+....................
+
+* Kotlin (from ``1.3.60`` to ``1.3.61``)
+
 .. endUnreleasedBlock
 
 0.2.0_ - 2019-11-19
