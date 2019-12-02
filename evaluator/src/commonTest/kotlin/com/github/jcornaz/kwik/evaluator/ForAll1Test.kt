@@ -52,6 +52,79 @@ class ForAll1Test : AbstractRunnerTest() {
     }
 
     @Test
+    fun ensureAtLeastOneCanCauseAdditionalIterations() {
+        var iterations = 0
+
+        forAll(
+            Generator.create { ++iterations },
+            iterations = 10
+        ) { x ->
+            ensureAtLeastOne("is greater than 100") { x >= 100 }
+            true
+        }
+
+        assertEquals(100, iterations)
+    }
+
+    @Test
+    fun multipleEnsureAtLeastOneCauseAdditionalIterationUntilTheyAreBothSatisfied() {
+        var iterations = 0
+
+        forAll(
+            Generator.create { ++iterations },
+            iterations = 10
+        ) { x ->
+            ensureAtLeastOne("is greater than 100") { x >= 100 }
+            ensureAtLeastOne("is greater than 10") { x >= 10 }
+            true
+        }
+
+        assertEquals(100, iterations)
+    }
+
+    @Test
+    fun ensureAtLeastOneDoesNotCauseAdditionalIterationWhenNotNecessary() {
+        var iteration = 0
+
+        forAll(
+            Generator.create { 42 },
+            iterations = 123
+        ) { x ->
+            ++iteration
+            ensureAtLeastOne("is greated than 10") { x > 10 }
+            true
+        }
+
+        assertEquals(123, iteration)
+    }
+
+    @Test
+    fun doesNotCauseAdditionalIterationInCaseOfFalsification() {
+        var iteration = 0
+        val exception = assertFailsWith<FalsifiedPropertyError> {
+            forAll(
+                Generator.create { 42 },
+                iterations = 123,
+                seed = 78
+            ) { x ->
+                ++iteration
+                ensureAtLeastOne("is greater than 10") { x > 10 }
+                iteration < 10
+            }
+        }
+
+        assertEquals(10, iteration)
+        assertEquals(
+            """
+                Property falsified after 10 tests (out of 123)
+                Argument 1: 42
+                Generation seed: 78
+            """.trimIndent(),
+            exception.message
+        )
+    }
+
+    @Test
     fun errorDisplayHelpfulMessage() {
         val exception = assertFailsWith<FalsifiedPropertyError> {
             var i = 0

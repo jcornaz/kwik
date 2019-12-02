@@ -29,12 +29,12 @@ fun <T> forAll(
 ) {
     require(iterations > 0) { "Iterations must be > 0, but was: $iterations" }
 
-    val context = PropertyEvaluationContextImpl
+    val context = PropertyEvaluationContextImpl()
 
     var attempts = 0
     val iterator = generator.testValues(seed).iterator()
 
-    while (attempts < iterations) {
+    while (attempts < iterations || !context.allRequirementsAreSatisfied) {
         val argument = iterator.next()
 
         @Suppress("SwallowedException") // SkipEvaluation is used to silently skip an evaluation
@@ -52,9 +52,22 @@ fun <T> forAll(
     println("OK, passed $attempts tests. (seed: $seed)")
 }
 
-private object PropertyEvaluationContextImpl : PropertyEvaluationContext {
+private class PropertyEvaluationContextImpl : PropertyEvaluationContext {
+
+    private val allRequirements = HashSet<String>()
+    private val satisfiedRequirements = HashSet<String>()
+
+    val allRequirementsAreSatisfied
+        get() = satisfiedRequirements.size == allRequirements.size
+
     override fun skipIf(condition: Boolean) {
         if (condition) throw SkipEvaluation()
+    }
+
+    override fun ensureAtLeastOne(name: String, predicate: () -> Boolean) {
+        allRequirements += name
+        if (name !in satisfiedRequirements && predicate())
+            satisfiedRequirements += name
     }
 }
 
@@ -259,7 +272,8 @@ data class FalsifiedPropertyError(
     val iterations: Int,
     val seed: Long,
     val arguments: List<Any?>,
-    override val cause: Throwable? = null
+    override val cause: Throwable? = null,
+    val additionalFailureMessage: String = ""
 ) : AssertionError(buildString {
     append("Property falsified after $attempts tests (out of $iterations)\n")
 
@@ -268,6 +282,11 @@ data class FalsifiedPropertyError(
     }
 
     append("Generation seed: $seed")
+
+    if(additionalFailureMessage.isNotEmpty()) {
+        append("\n")
+        append(additionalFailureMessage)
+    }
 })
 
 /**
