@@ -3,10 +3,7 @@ package com.github.jcornaz.kwik.generator.stdlib
 import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.randomSequence
 import com.github.jcornaz.kwik.generator.test.AbstractGeneratorTest
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFails
-import kotlin.test.assertTrue
+import kotlin.test.*
 
 class SetGeneratorTest : AbstractGeneratorTest() {
     override val generator: Generator<Set<Int>> = Generator.sets()
@@ -18,6 +15,13 @@ class SetGeneratorTest : AbstractGeneratorTest() {
             .take(200)
 
         assertTrue(values.all { it.size in 3..12 })
+    }
+
+    @Test
+    fun failWithInvalidSize() {
+        assertFailsWith<IllegalArgumentException> {
+            Generator.sets<Int>(minSize = -2)
+        }
     }
 
     @Test

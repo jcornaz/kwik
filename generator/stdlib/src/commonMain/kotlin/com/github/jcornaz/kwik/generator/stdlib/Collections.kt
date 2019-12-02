@@ -2,8 +2,6 @@ package com.github.jcornaz.kwik.generator.stdlib
 
 import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.andThen
-import com.github.jcornaz.kwik.generator.api.randomSequence
-import kotlin.random.Random
 
 private const val MAX_EXTRA_ADDITIONAL_ATTEMPT = 10_000
 
@@ -79,6 +77,8 @@ fun <T> Generator.Companion.sets(
     minSize: Int = 0,
     maxSize: Int = maxOf(minSize, KWIK_DEFAULT_MAX_SIZE)
 ): Generator<Set<T>> {
+    requireValidSizes(minSize, maxSize)
+
     return ints(minSize, maxSize).andThen { sets(elementGen, size = it) }
 }
 
@@ -144,7 +144,34 @@ fun <K, V> Generator.Companion.maps(
     valueGen: Generator<V>,
     minSize: Int = 0,
     maxSize: Int = maxOf(minSize, KWIK_DEFAULT_MAX_SIZE)
-): Generator<Map<K, V>> = MapGenerator(keyGen, valueGen, minSize, maxSize)
+): Generator<Map<K, V>> {
+    requireValidSizes(minSize, maxSize)
+    
+    return ints(minSize, maxSize).andThen { maps(keyGen, valueGen, size = it) }
+}
+
+private fun <K, V> Generator.Companion.maps(
+    keyGen: Generator<K>,
+    valueGen: Generator<V>,
+    size: Int
+): Generator<Map<K, V>> = create { random ->
+    val map = HashMap<K, V>(size)
+
+    repeat(size) {
+        map[keyGen.generate(random)] = valueGen.generate(random)
+    }
+
+    var extraAttempt = 0
+    while (map.size < size && extraAttempt < MAX_EXTRA_ADDITIONAL_ATTEMPT) {
+        map[keyGen.generate(random)] = valueGen.generate(random)
+        ++extraAttempt
+    }
+
+    if (map.size < size)
+        error("Failed to create a set with the requested minimum of element")
+
+    return@create map
+}
 
 /**
  * Returns a generator of non-empty [Map] where sizes are all between 1 and [maxSize] (inclusive)
@@ -174,50 +201,6 @@ inline fun <reified K, reified V> Generator.Companion.nonEmptyMaps(
     maxSize: Int = KWIK_DEFAULT_MAX_SIZE
 ): Generator<Map<K, V>> =
     maps(Generator.default(), Generator.default(), 1, maxSize)
-
-private class MapGenerator<K, V>(
-    private val keyGen: Generator<K>,
-    private val valueGen: Generator<V>,
-    private val minSize: Int,
-    private val maxSize: Int
-) : Generator<Map<K, V>> {
-
-    override val samples: Set<Map<K, V>>
-        get() = mutableSetOf<Map<K, V>>().apply {
-            if (minSize == 0) add(emptyMap())
-
-            if (minSize <= 1 && maxSize >= 1) {
-                val values = (valueGen.samples.asSequence() + valueGen.randomSequence(0)).iterator()
-                keyGen.samples.forEach {
-                    add(mapOf(it to values.next()))
-                }
-            }
-        }
-
-    init {
-        requireValidSizes(minSize, maxSize)
-    }
-
-    override fun generate(random: Random): Map<K, V> {
-        val size = random.nextInt(minSize, maxSize + 1)
-        val map = HashMap<K, V>(size)
-
-        repeat(size) {
-            map[keyGen.generate(random)] = valueGen.generate(random)
-        }
-
-        var extraAttempt = 0
-        while (map.size < size && extraAttempt < MAX_EXTRA_ADDITIONAL_ATTEMPT) {
-            map[keyGen.generate(random)] = valueGen.generate(random)
-            ++extraAttempt
-        }
-
-        if (map.size < minSize)
-            error("Failed to create a set with the requested minimum of element")
-
-        return map
-    }
-}
 
 internal fun requireValidSizes(minSize: Int, maxSize: Int) {
     require(minSize >= 0) { "Invalid min size: $minSize" }
