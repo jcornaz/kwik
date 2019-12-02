@@ -52,52 +52,46 @@ class ForAll1Test : AbstractRunnerTest() {
     }
 
     @Test
-    fun ensureAtLeastOneWithNoOtherConditionButNoneSatisfies() {
-        val exception = assertFailsWith<FalsifiedPropertyError> {
-            forAll(
-                Generator.create { 42 },
-                iterations = 123,
-                seed = 78
-            ) { x ->
-                ensureAtLeastOne { x < 10 }
-            }
+    fun ensureAtLeastOneCanCauseAdditionalIterations() {
+        var iterations = 0
+
+        forAll(
+            Generator.create { ++iterations },
+            iterations = 10
+        ) { x ->
+            ensureAtLeastOne("is greater than 100") { x >= 100 }
+            true
         }
 
-        assertEquals(
-            """
-                Property falsified after 123 tests (out of 123)
-                Generation seed: 78
-                None of the test passed the at least one condition
-            """.trimIndent(),
-            exception.message
-        )
+        assertEquals(100, iterations)
     }
 
     @Test
-    fun ensureAtLeastOneWithNoOtherConditionAndOneSatisfies() {
-        var iteration = 0
+    fun multipleEnsureAtLeastOneCauseAdditionalIterationUntilTheyAreBothSatisfied() {
+        var iterations = 0
+
         forAll(
-            Generator.create { 42 },
-            iterations = 123,
-            seed = 78
+            Generator.create { ++iterations },
+            iterations = 10
         ) { x ->
-            ++iteration
-            ensureAtLeastOne { x > 10 }
+            ensureAtLeastOne("is greater than 100") { x >= 100 }
+            ensureAtLeastOne("is greater than 10") { x >= 10 }
+            true
         }
 
-        assertEquals(123, iteration)
+        assertEquals(100, iterations)
     }
 
     @Test
-    fun ensureAtLeastOneSatisfiesAndOtherConditionIsAlwaysTrue() {
+    fun ensureAtLeastOneDoesNotCauseAdditionalIterationWhenNotNecessary() {
         var iteration = 0
+
         forAll(
             Generator.create { 42 },
-            iterations = 123,
-            seed = 78
+            iterations = 123
         ) { x ->
             ++iteration
-            ensureAtLeastOne { x > 10 }
+            ensureAtLeastOne("is greated than 10") { x > 10 }
             true
         }
 
@@ -105,7 +99,7 @@ class ForAll1Test : AbstractRunnerTest() {
     }
 
     @Test
-    fun ensureAtLeastOneSatisfiesAndOtherConditionFail() {
+    fun doesNotCauseAdditionalIterationInCaseOfFalsification() {
         var iteration = 0
         val exception = assertFailsWith<FalsifiedPropertyError> {
             forAll(
@@ -114,7 +108,7 @@ class ForAll1Test : AbstractRunnerTest() {
                 seed = 78
             ) { x ->
                 ++iteration
-                ensureAtLeastOne { x > 10 }
+                ensureAtLeastOne("is greater than 10") { x > 10 }
                 iteration < 10
             }
         }

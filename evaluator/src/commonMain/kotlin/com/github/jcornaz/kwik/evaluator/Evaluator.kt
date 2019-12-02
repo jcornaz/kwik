@@ -34,7 +34,7 @@ fun <T> forAll(
     var attempts = 0
     val iterator = generator.testValues(seed).iterator()
 
-    while (attempts < iterations) {
+    while (attempts < iterations || !context.allRequirementsAreSatisfied) {
         val argument = iterator.next()
 
         @Suppress("SwallowedException") // SkipEvaluation is used to silently skip an evaluation
@@ -49,34 +49,25 @@ fun <T> forAll(
         if (!isSatisfied) throw FalsifiedPropertyError(attempts, iterations, seed, extractArgumentList(argument))
     }
 
-    if (!context.oneSatisfied && context.shouldAtLeastOneSatisfied) {
-        throw FalsifiedPropertyError(
-            attempts,
-            iterations,
-            seed,
-            emptyList(),
-            additionalFailureMessage = "None of the test passed the at least one condition"
-        )
-    }
-
     println("OK, passed $attempts tests. (seed: $seed)")
 }
 
 private class PropertyEvaluationContextImpl : PropertyEvaluationContext {
 
-    var shouldAtLeastOneSatisfied = false
-    var oneSatisfied = false
+    private val allRequirements = HashSet<String>()
+    private val satisfiedRequirements = HashSet<String>()
+
+    val allRequirementsAreSatisfied
+        get() = satisfiedRequirements.size == allRequirements.size
 
     override fun skipIf(condition: Boolean) {
         if (condition) throw SkipEvaluation()
     }
 
-    override fun ensureAtLeastOne(condition: () -> Boolean): Boolean {
-        shouldAtLeastOneSatisfied = true
-        if (condition())
-            oneSatisfied = true
-        // true because we need to let the cycle go on in case the property is only ensureAtLeastOne
-        return true
+    override fun ensureAtLeastOne(name: String, predicate: () -> Boolean) {
+        allRequirements += name
+        if (name !in satisfiedRequirements && predicate())
+            satisfiedRequirements += name
     }
 }
 
