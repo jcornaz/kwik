@@ -3,7 +3,6 @@
 import com.jfrog.bintray.gradle.BintrayExtension
 import com.jfrog.bintray.gradle.BintrayPlugin
 import io.gitlab.arturbosch.detekt.DetektPlugin
-import io.gitlab.arturbosch.detekt.detekt
 import kr.motd.gradle.sphinx.gradle.SphinxTask
 import java.util.*
 
@@ -12,7 +11,7 @@ plugins {
     kotlin("multiplatform") version "1.3.61"
     id("org.ajoberstar.reckon") version "0.12.0"
     id("com.github.ben-manes.versions") version "0.27.0"
-    id("io.gitlab.arturbosch.detekt") version "1.2.0" apply false
+    id("io.gitlab.arturbosch.detekt") version "1.2.1" apply false
     id("com.jfrog.bintray") version "1.8.4" apply false
     id("kr.motd.sphinx") version "2.6.1"
 }
@@ -75,7 +74,7 @@ subprojects {
             "src/jvmMain/kotlin"
         )
         buildUponDefaultConfig = true
-        config = files("$rootDir/detekt-config.yml")
+        config.setFrom( files("$rootDir/detekt-config.yml"))
     }
 
     publishing {
