@@ -18,6 +18,7 @@ Changed
 .......
 
 * `withSample` now takes a probability argument, and include the samples in the generation
+* All generators now have a probability of generating edge cases instead of statically providing samples
 
 Added
 .....
