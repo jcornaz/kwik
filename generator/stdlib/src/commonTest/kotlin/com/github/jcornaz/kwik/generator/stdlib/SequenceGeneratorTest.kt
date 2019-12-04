@@ -1,6 +1,7 @@
 package com.github.jcornaz.kwik.generator.stdlib
 
 import com.github.jcornaz.kwik.generator.api.Generator
+import com.github.jcornaz.kwik.generator.api.randomSequence
 import com.github.jcornaz.kwik.generator.test.AbstractGeneratorTest
 import kotlin.random.Random
 import kotlin.test.*
@@ -74,6 +75,26 @@ class SequenceGeneratorTest : AbstractGeneratorTest() {
     fun bigMinSizeIsPossible() {
         assertEquals(1000, Generator.sequences(Generator.ints(), minSize = 1000).generate(Random).count())
     }
+
+    @Test
+    fun generateEmptySequences() {
+        assertTrue(Generator.sequences<Int>().randomSequence(0).take(50).any { it.none() })
+    }
+
+    @Test
+    fun generateSingletonSequences() {
+        assertTrue(Generator.sequences<Int>().randomSequence(0).take(50).any { it.take(2).count() == 1 })
+    }
+
+    @Test
+    fun doesNotGenerateEmptySequenceWhenMinIsGreatedThan0() {
+        assertTrue(Generator.sequences<Int>(minSize = 1).randomSequence(0).take(1000).none { it.none() })
+    }
+
+    @Test
+    fun doesNotGenerateSingletonSequenceWhenMinIsGreaterThan1() {
+        assertTrue(Generator.sequences<Int>(minSize = 2).randomSequence(0).take(1000).none { it.take(2).count() <= 1 })
+    }
 }
 
 class NonEmptySequenceGeneratorTest {
@@ -98,28 +119,6 @@ class NonEmptySequenceGeneratorTest {
             assertEquals(
                 Generator.sequences(Generator.ints(), 1, maxSize).generate(Random(seed)).toList(),
                 Generator.nonEmptySequences(Generator.ints(), maxSize).generate(Random(seed)).toList()
-            )
-        }
-    }
-
-    @Test
-    fun samplesAreSameThanSequenceGeneratorWithMinSizeOf1() {
-        repeat(100) {
-            val maxSize = Random.nextInt(1, 10)
-            assertEquals(
-                Generator.sequences<Int>(1, maxSize).samples.mapTo(HashSet<List<Int>>()) { it.toList() },
-                Generator.nonEmptySequences<Int>(maxSize).samples.mapTo(HashSet<List<Int>>()) { it.toList() }
-            )
-        }
-    }
-
-    @Test
-    fun samplesAreSameThanSequenceGeneratorWithMinSizeOf1AndElementGen() {
-        repeat(100) {
-            val maxSize = Random.nextInt(1, 10)
-            assertEquals(
-                Generator.sequences(Generator.ints(), 1, maxSize).samples.mapTo(HashSet<List<Int>>()) { it.toList() },
-                Generator.nonEmptySequences(Generator.ints(), maxSize).samples.mapTo(HashSet<List<Int>>()) { it.toList() }
             )
         }
     }
