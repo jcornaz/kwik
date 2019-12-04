@@ -12,7 +12,7 @@ class EnsureAtLeastOneExample {
 
             // This forces the property to run as many times as necessary
             // so that we make sure to always test the case where x and y are both zero.
-            ensureAtLeastOne() { x == 0 && y == 0 }
+            ensureAtLeastOne { x == 0 && y == 0 }
 
             x * y == y * x
         }
