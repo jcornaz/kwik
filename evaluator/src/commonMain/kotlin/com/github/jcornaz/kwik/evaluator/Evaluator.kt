@@ -77,7 +77,7 @@ private class PropertyEvaluationContextImpl(private val iterations: Int) : Prope
         }
     }
 
-    override fun ensureAtLeastOne(name: String, predicate: () -> Boolean) {
+    override fun ensureAtLeastOne(predicate: () -> Boolean) {
         val index = requirementIndex++
         if (requirements.size <= index) {
             requirements.add(predicate())
