@@ -21,7 +21,11 @@ All generators no longer statically provide ``samples``. Instead they have a goo
 
 * ``withSample`` now takes a probability argument, and include the samples in the generation
 
-=======
+Added
+.....
+
+* ``ensureAtLeastOne`` utility in evaluation context,
+    that will force property evaluation until a given predicate gets satisfied
 
 Dependencies Updated
 ....................
