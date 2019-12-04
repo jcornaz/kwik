@@ -29,39 +29,50 @@ fun <T> forAll(
 ) {
     require(iterations > 0) { "Iterations must be > 0, but was: $iterations" }
 
-    val context = PropertyEvaluationContextImpl()
+    val context = PropertyEvaluationContextImpl(iterations)
 
-    var attempts = 0
-    val iterator = generator.testValues(seed).iterator()
+    val inputIterator = generator.testValues(seed).iterator()
 
-    while (attempts < iterations || !context.allRequirementsAreSatisfied) {
-        val argument = iterator.next()
+    while (context.needMoreEvaluation) {
+        context.newEvaluation()
+
+        val input = inputIterator.next()
 
         @Suppress("SwallowedException") // SkipEvaluation is used to silently skip an evaluation
         val isSatisfied = try {
-            context.property(argument).also { ++attempts }
+            context.property(input)
         } catch (skip: SkipEvaluation) {
             true
         } catch (error: Throwable) {
-            throw FalsifiedPropertyError(attempts + 1, iterations, seed, extractArgumentList(argument), error)
+            throw FalsifiedPropertyError(context.attempts, iterations, seed, extractArgumentList(input), error)
         }
 
-        if (!isSatisfied) throw FalsifiedPropertyError(attempts, iterations, seed, extractArgumentList(argument))
+        if (!isSatisfied) throw FalsifiedPropertyError(context.attempts, iterations, seed, extractArgumentList(input))
     }
 
-    println("OK, passed $attempts tests. (seed: $seed)")
+    println("OK, passed ${context.attempts} tests. (seed: $seed)")
 }
 
-private class PropertyEvaluationContextImpl : PropertyEvaluationContext {
+private class PropertyEvaluationContextImpl(private val iterations: Int) : PropertyEvaluationContext {
 
     private val allRequirements = HashSet<String>()
     private val satisfiedRequirements = HashSet<String>()
 
-    val allRequirementsAreSatisfied
-        get() = satisfiedRequirements.size == allRequirements.size
+    var attempts = 0
+        private set
+
+    val needMoreEvaluation
+        get() = attempts < iterations || satisfiedRequirements.size != allRequirements.size
+
+    fun newEvaluation() {
+        ++attempts
+    }
 
     override fun skipIf(condition: Boolean) {
-        if (condition) throw SkipEvaluation()
+        if (condition) {
+            --attempts
+            throw SkipEvaluation()
+        }
     }
 
     override fun ensureAtLeastOne(name: String, predicate: () -> Boolean) {
