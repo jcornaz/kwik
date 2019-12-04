@@ -55,30 +55,35 @@ fun <T> forAll(
 
 private class PropertyEvaluationContextImpl(private val iterations: Int) : PropertyEvaluationContext {
 
-    private val allRequirements = HashSet<String>()
-    private val satisfiedRequirements = HashSet<String>()
+    private val requirements = mutableListOf<Boolean>()
+    private var requirementIndex = 0
 
     var attempts = 0
         private set
 
     val needMoreEvaluation
-        get() = attempts < iterations || satisfiedRequirements.size != allRequirements.size
+        get() = attempts < iterations || requirements.any { !it }
 
     fun newEvaluation() {
         ++attempts
+        requirementIndex = 0
     }
 
     override fun skipIf(condition: Boolean) {
         if (condition) {
             --attempts
+            requirementIndex = 0
             throw SkipEvaluation()
         }
     }
 
     override fun ensureAtLeastOne(name: String, predicate: () -> Boolean) {
-        allRequirements += name
-        if (name !in satisfiedRequirements && predicate())
-            satisfiedRequirements += name
+        val index = requirementIndex++
+        if (requirements.size <= index) {
+            requirements.add(predicate())
+        } else if (!requirements[index]) {
+            requirements[index] = predicate()
+        }
     }
 }
 
