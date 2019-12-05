@@ -17,5 +17,5 @@ interface PropertyEvaluationContext {
      * Force to evaluate the property has many time as necessary
      * so that the [predicate] evaluate to `true` at least once.
      */
-    fun ensureAtLeastOne(name: String, predicate: () -> Boolean)
+    fun ensureAtLeastOne(predicate: () -> Boolean)
 }

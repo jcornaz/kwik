@@ -43,7 +43,7 @@ class ForAll1Test : AbstractRunnerTest() {
             Generator.create { ++iterations },
             iterations = 10
         ) { x ->
-            ensureAtLeastOne("is greater than 100") { x >= 100 }
+            ensureAtLeastOne { x >= 100 }
             true
         }
 
@@ -58,8 +58,24 @@ class ForAll1Test : AbstractRunnerTest() {
             Generator.create { ++iterations },
             iterations = 10
         ) { x ->
-            ensureAtLeastOne("is greater than 100") { x >= 100 }
-            ensureAtLeastOne("is greater than 10") { x >= 10 }
+            ensureAtLeastOne { x >= 100 }
+            ensureAtLeastOne { x >= 10 }
+            true
+        }
+
+        assertEquals(100, iterations)
+    }
+
+    @Test
+    fun multipleEnsureAtLeastOneCauseAdditionalIterationUntilTheyAreBothSatisfied_orderDoesNotMatter() {
+        var iterations = 0
+
+        forAll(
+            Generator.create { ++iterations },
+            iterations = 10
+        ) { x ->
+            ensureAtLeastOne { x >= 10 }
+            ensureAtLeastOne { x >= 100 }
             true
         }
 
@@ -75,7 +91,7 @@ class ForAll1Test : AbstractRunnerTest() {
             iterations = 123
         ) { x ->
             ++iteration
-            ensureAtLeastOne("is greated than 10") { x > 10 }
+            ensureAtLeastOne { x > 10 }
             true
         }
 
@@ -92,7 +108,7 @@ class ForAll1Test : AbstractRunnerTest() {
                 seed = 78
             ) { x ->
                 ++iteration
-                ensureAtLeastOne("is greater than 10") { x > 10 }
+                ensureAtLeastOne { x > 10 }
                 iteration < 10
             }
         }
