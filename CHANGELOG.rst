@@ -14,15 +14,20 @@ and this project adheres to `Semantic Versioning`_.
 Unreleased_
 -----------
 
+.. endUnreleasedBlock
+
+0.3.0-alpha.1_ - 2019-12-05
+---------------------------
+
 Removed **(Breaking)**
 .......
 
 * ``Generator.samples`` property has been removed.
-    Now the generator have to have a probability to generate the edge cases in ``generate``.
-    The recommended option when building a generator, is to use ``withSamples``
+Now the generator have to have a probability to generate the edge cases in ``generate``.
+The recommended option when building a generator, is to use ``withSamples``
 
 * ``Generator.randoms`` function has been removed.
-    ``Generator.generate`` or ``Generator.randomSequence`` should be used instead.
+``Generator.generate`` or ``Generator.randomSequence`` should be used instead.
 
 Changed
 .......
@@ -35,14 +40,12 @@ Added
 .....
 
 * ``ensureAtLeastOne`` utility in evaluation context,
-    that will force property evaluation until a given predicate gets satisfied
+that will force property evaluation until a given predicate gets satisfied
 
 Dependencies Updated
 ....................
 
 * Kotlin (from ``1.3.60`` to ``1.3.61``)
-
-.. endUnreleasedBlock
 
 0.2.0_ - 2019-11-19
 -------------------
@@ -242,7 +245,8 @@ Added
 * ``withSample`` and ``withNull`` to inject constants values to be always tested
 * ``zip`` operator to combine two given generators
 
-.. _Unreleased: https://github.com/jcornaz/kwik/compare/0.2.0...master
+.. _Unreleased: https://github.com/jcornaz/kwik/compare/0.3.0-alpha.1...master
+.. _0.3.0-alpha.1: https://github.com/jcornaz/kwik/compare/0.2.0...0.3.0-alpha.1
 .. _0.2.0: https://github.com/jcornaz/kwik/compare/0.2.0-rc.1...0.2.0
 .. _0.2.0-rc.1: https://github.com/jcornaz/kwik/compare/0.2.0-beta.2...0.2.0-rc.1
 .. _0.2.0-beta.2: https://github.com/jcornaz/kwik/compare/0.2.0-beta.1...0.2.0-beta.2
