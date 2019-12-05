@@ -14,6 +14,16 @@ and this project adheres to `Semantic Versioning`_.
 Unreleased_
 -----------
 
+Removed
+.......
+
+* ``Generator.samples`` property has been removed.
+    Now the generator have to have a probability to generate the edge cases in ``generate``.
+    The recommended option when building a generator, is to use ``withSamples``
+
+* ``Generator.randoms`` function has been removed.
+    ``Generator.generate`` or ``Generator.randomSequence`` should be used instead.
+
 Changed
 .......
 
