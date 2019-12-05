@@ -14,7 +14,7 @@ and this project adheres to `Semantic Versioning`_.
 Unreleased_
 -----------
 
-Removed
+Removed **(Breaking)**
 .......
 
 * ``Generator.samples`` property has been removed.
@@ -29,7 +29,7 @@ Changed
 
 All generators no longer statically provide ``samples``. Instead they have a good probability to generate edge cases.
 
-* ``withSample`` now takes a probability argument, and include the samples in the generation
+* **(Breaking binary)** ``withSample`` now takes a probability argument, and include the samples in the generation
 
 Added
 .....
