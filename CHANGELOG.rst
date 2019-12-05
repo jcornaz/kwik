@@ -14,12 +14,22 @@ and this project adheres to `Semantic Versioning`_.
 Unreleased_
 -----------
 
+Removed **(Breaking)**
+.......
+
+* ``Generator.samples`` property has been removed.
+    Now the generator have to have a probability to generate the edge cases in ``generate``.
+    The recommended option when building a generator, is to use ``withSamples``
+
+* ``Generator.randoms`` function has been removed.
+    ``Generator.generate`` or ``Generator.randomSequence`` should be used instead.
+
 Changed
 .......
 
 All generators no longer statically provide ``samples``. Instead they have a good probability to generate edge cases.
 
-* ``withSample`` now takes a probability argument, and include the samples in the generation
+* **(Breaking binary)** ``withSample`` now takes a probability argument, and include the samples in the generation
 
 Added
 .....
