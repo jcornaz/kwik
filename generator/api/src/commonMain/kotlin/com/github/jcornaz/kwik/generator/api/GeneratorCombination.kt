@@ -12,7 +12,7 @@ fun <A, B, R> Generator<A>.combineWith(
     other: Generator<B>,
     transform: (A, B) -> R
 ): Generator<R> =
-    CombinedGenerators(this, other, transform)
+    Generator.combine(this, other, transform)
 
 /**
  * Returns a generator of values built from the elements of `this` generator and the [other] generator
@@ -20,7 +20,7 @@ fun <A, B, R> Generator<A>.combineWith(
 fun <A, B> Generator<A>.combineWith(
     other: Generator<B>
 ): Generator<Pair<A, B>> =
-    CombinedGenerators(this, other, ::Pair)
+    Generator.combine(this, other, ::Pair)
 
 /**
  * Returns a generator of combining the elements of [generator1] and [generator2]
@@ -40,14 +40,14 @@ fun <A, B> Generator.Companion.combine(
     generator1: Generator<A>,
     generator2: Generator<B>
 ): Generator<Pair<A, B>> =
-    CombinedGenerators(generator1, generator2, ::Pair)
+    combine(generator1, generator2, ::Pair)
 
 private class CombinedGenerators<A, B, R>(
     private val generator1: Generator<A>,
     private val generator2: Generator<B>,
     private val transform: (A, B) -> R
 ) : Generator<R> {
-    override val samples: Set<R> = generator1.samples.take(NUMBER_OF_SAMPLES_FOR_COMBINATION)
+    override val samples: Set<R> get() = generator1.samples.take(NUMBER_OF_SAMPLES_FOR_COMBINATION)
         .flatMapTo(mutableSetOf()) { a ->
             generator2.samples.take(NUMBER_OF_SAMPLES_FOR_COMBINATION).map { b -> transform(a, b) }
         }
@@ -92,6 +92,7 @@ fun <T> Generator.Companion.frequency(
     val list = weightedGenerators.asSequence()
         .onEach { (weight, _) -> require(weight >= 0.0) { "Negative weight(s) found in frequency input" } }
         .filter { (weight, _) -> weight > 0.0 }
+        .sortedByDescending { (weight, _) -> weight }
         .toList()
 
     return when (list.size) {

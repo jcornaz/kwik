@@ -3,10 +3,7 @@ package com.github.jcornaz.kwik.generator.stdlib
 import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.randomSequence
 import com.github.jcornaz.kwik.generator.test.AbstractGeneratorTest
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFails
-import kotlin.test.assertTrue
+import kotlin.test.*
 
 class SetGeneratorTest : AbstractGeneratorTest() {
     override val generator: Generator<Set<Int>> = Generator.sets()
@@ -21,23 +18,32 @@ class SetGeneratorTest : AbstractGeneratorTest() {
     }
 
     @Test
-    fun samplesContainsEmpty() {
-        assertTrue(Generator.sets<Int>().samples.any { it.isEmpty() })
+    fun failWithInvalidSize() {
+        assertFailsWith<IllegalArgumentException> {
+            Generator.sets<Int>(minSize = -2)
+        }
     }
 
     @Test
-    fun samplesContainsSingletons() {
-        assertTrue(Generator.sets<Int>().samples.any { it.size == 1 })
+    fun generatesEmpty() {
+        assertTrue(Generator.sets<Int>().randomSequence(0).take(50).any { it.isEmpty() })
     }
 
     @Test
-    fun noEmptySampleWhenMinSizeIsGreaterThan0() {
-        assertTrue(Generator.sets(Generator.ints(), minSize = 1).samples.none { it.isEmpty() })
+    fun generatesSingletons() {
+        assertTrue(Generator.sets<Int>().randomSequence(0).take(50).any { it.size == 1 })
     }
 
     @Test
-    fun noSingletonSampleWhenMinSizeIsGreaterThan1() {
-        assertTrue(Generator.sets(Generator.ints(), minSize = 2).samples.none { it.size <= 1 })
+    fun doesNotGenerateEmptyWhenMinSizeIsGreaterThan0() {
+        val gen = Generator.sets(Generator.ints(), minSize = 1)
+        assertTrue(gen.randomSequence(0).take(1000).none { it.isEmpty() })
+    }
+
+    @Test
+    fun doesNotGenerateSingletonWhenMinSizeIsGreaterThan1() {
+        val gen = Generator.sets(Generator.ints(), minSize = 2)
+        assertTrue(gen.randomSequence(0).take(1000).none { it.size == 1 })
     }
 
     @Test
@@ -90,16 +96,6 @@ class NonEmptySetGeneratorTest : AbstractGeneratorTest() {
             .take(200)
 
         assertTrue(values.all { it.size in 1..12 })
-    }
-
-    @Test
-    fun samplesDoesNotContainsEmpty() {
-        assertTrue(Generator.nonEmptySets<Int>().samples.none { it.isEmpty() })
-    }
-
-    @Test
-    fun samplesContainsSingletons() {
-        assertTrue(Generator.nonEmptySets<Int>().samples.any { it.size == 1 })
     }
 
     @Test

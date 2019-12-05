@@ -7,4 +7,4 @@ import com.github.jcornaz.kwik.generator.api.Generator
  */
 @Suppress("SpreadOperator")
 inline fun <reified T : Enum<T>> Generator.Companion.enum(): Generator<T> =
-    of(*enumValues())
+    of(enumValues<T>().asList())

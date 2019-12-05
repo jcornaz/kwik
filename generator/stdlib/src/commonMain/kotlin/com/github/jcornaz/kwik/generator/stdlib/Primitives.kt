@@ -1,8 +1,9 @@
 package com.github.jcornaz.kwik.generator.stdlib
 
 import com.github.jcornaz.kwik.generator.api.Generator
-import com.github.jcornaz.kwik.generator.api.plus
+import com.github.jcornaz.kwik.generator.api.frequency
 import com.github.jcornaz.kwik.generator.api.map
+import com.github.jcornaz.kwik.generator.api.plus
 import com.github.jcornaz.kwik.generator.api.withSamples
 import kotlin.random.nextInt
 import kotlin.random.nextLong
@@ -18,7 +19,7 @@ fun Generator.Companion.ints(min: Int = Int.MIN_VALUE, max: Int = Int.MAX_VALUE)
     val range = min..max
     val samples = listOf(0, 1, -1, min, max).filter { it in range }
 
-    return create { it.nextInt(range) }.withSamples(samples)
+    return create { it.nextInt(range) }.withSamples(samples, probability = 0.3)
 }
 
 /**
@@ -63,7 +64,7 @@ fun Generator.Companion.longs(min: Long = Long.MIN_VALUE, max: Long = Long.MAX_V
     val range = min..max
     val samples = listOf(0, 1, -1, min, max).filter { it in range }
 
-    return create { it.nextLong(range) }.withSamples(samples)
+    return create { it.nextLong(range) }.withSamples(samples, probability = 0.3)
 }
 
 /**
@@ -142,20 +143,37 @@ fun Generator.Companion.nonZeroFloats(min: Float = -Float.MAX_VALUE, max: Float 
  *
  * [min] and [max] must be finite.
  */
+@Suppress("MagicNumber")
 fun Generator.Companion.doubles(
     min: Double = -Double.MAX_VALUE,
     max: Double = Double.MAX_VALUE
 ): Generator<Double> {
-    require(max >= min) { "Until must be greater than from but from was $min and until was $max" }
+    require(max >= min) { "until must be greater than from, but from was $min and until was $max" }
     require(min.isFinite() && max.isFinite()) { "from or until was not finite" }
 
     val range = min..max
-    val samples = listOf(0.0, 1.0, -1.0, min, max).filter { it in range }
 
     val until = (max + Double.MIN_VALUE).takeIf { it.isFinite() } ?: max
-    val generator = create { it.nextDouble(min, until) }
 
-    return generator.withSamples(samples)
+    val generators = mutableListOf(
+        0.3 to create { it.nextDouble(min, until) },
+        0.2 to create { it.nextDouble(-100.0, 100.0).coerceIn(min, max) },
+        0.1 to of(min, max)
+    )
+
+    if (0.0 in range)
+        generators += 0.1 to of(0.0)
+
+    if (-1.0 in range)
+        generators += 0.1 to of(-1.0)
+
+    if (1.0 in range)
+        generators += 0.1 to of(1.0)
+
+    if (min <= 1.0 && max >= 0.0)
+        generators += 0.1 to create { it.nextDouble().coerceIn(min, max) }
+
+    return frequency(generators)
 }
 
 /**

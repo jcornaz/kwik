@@ -1,7 +1,6 @@
 package com.github.jcornaz.kwik.evaluator
 
 import com.github.jcornaz.kwik.generator.api.Generator
-import com.github.jcornaz.kwik.generator.api.withSamples
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -14,25 +13,6 @@ class CheckForAll2Test : AbstractRunnerTest() {
 
     override fun evaluate(iterations: Int, seed: Long, invocation: PropertyEvaluationContext.() -> Boolean) {
         checkForAll(testGenerator1, testGenerator2, iterations, seed) { _, _ -> assertTrue(invocation()) }
-    }
-
-    @Test
-    fun evaluateSamples() {
-        val ints = mutableSetOf<Int>()
-        val doubles = mutableSetOf<Double>()
-
-        val gen1 = Generator.create { it.nextInt(0, 10) }.withSamples(42, 100)
-        val gen2 = Generator.create { it.nextDouble(0.0, 10.0) }.withSamples(123.0, 678.0)
-
-        checkForAll(gen1, gen2) { i, d ->
-            ints += i
-            doubles += d
-        }
-
-        assertTrue(42 in ints)
-        assertTrue(100 in ints)
-        assertTrue(123.0 in doubles)
-        assertTrue(123.0 in doubles)
     }
 
     @Test
