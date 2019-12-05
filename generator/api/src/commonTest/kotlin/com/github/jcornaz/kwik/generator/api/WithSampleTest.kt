@@ -65,7 +65,7 @@ class WithNullTest : AbstractGeneratorTest() {
         Generator.create { it.nextInt(5, Int.MAX_VALUE) }.withNull()
 
     @Test
-    fun samplesContainsNull() {
-        assertTrue(Generator.create { Any() }.withNull().samples.any { it == null })
+    fun generatesNull() {
+        assertTrue(Generator.create { Any() }.withNull().randomSequence(0).take(50).any { it == null })
     }
 }
