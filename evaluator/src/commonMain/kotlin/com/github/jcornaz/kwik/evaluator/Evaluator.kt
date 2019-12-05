@@ -62,7 +62,10 @@ private class PropertyEvaluationContextImpl(private val iterations: Int) : Prope
         private set
 
     val needMoreEvaluation
-        get() = attempts < iterations || requirements.any { !it }
+        get() = attempts < iterations || !requirementAreSatisfied
+
+    private val requirementAreSatisfied
+        get() = requirements.all { it }
 
     fun newEvaluation() {
         ++attempts
