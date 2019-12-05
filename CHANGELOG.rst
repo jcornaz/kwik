@@ -20,14 +20,14 @@ Unreleased_
 ---------------------------
 
 Removed **(Breaking)**
-.......
+......................
 
 * ``Generator.samples`` property has been removed.
-Now the generator have to have a probability to generate the edge cases in ``generate``.
-The recommended option when building a generator, is to use ``withSamples``
+    Now the generator have to have a probability to generate the edge cases in ``generate``.
+    The recommended option when building a generator, is to use ``withSamples``
 
 * ``Generator.randoms`` function has been removed.
-``Generator.generate`` or ``Generator.randomSequence`` should be used instead.
+    ``Generator.generate`` or ``Generator.randomSequence`` should be used instead.
 
 Changed
 .......
@@ -40,7 +40,7 @@ Added
 .....
 
 * ``ensureAtLeastOne`` utility in evaluation context,
-that will force property evaluation until a given predicate gets satisfied
+    that will force property evaluation until a given predicate gets satisfied
 
 Dependencies Updated
 ....................
