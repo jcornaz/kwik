@@ -18,6 +18,9 @@ complexity:
     excludes: "**/test/**,**/androidTest/**,**/*.Test.kt,**/*.Spec.kt,**/*.Spek.kt"
     threshold: 3
     ignoreStringsRegex: '$^'
+  LongParameterList:
+    active: true
+    ignoreDefaultParameters: true
   TooManyFunctions:
     active: true
     excludes: "**/test/**,**/androidTest/**,**/*.Test.kt,**/*.Spec.kt,**/*.Spek.kt"
