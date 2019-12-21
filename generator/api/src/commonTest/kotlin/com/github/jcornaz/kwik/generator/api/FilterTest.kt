@@ -16,15 +16,6 @@ class FilterTest : AbstractGeneratorTest() {
             assertEquals(0, it % 2)
         }
     }
-
-    @Test
-    fun filterSamples() {
-        val generator = Generator.create { it.nextInt() }
-            .withSamples(42, 77)
-            .filter { it < 50 }
-
-        assertEquals(setOf(42), generator.samples)
-    }
 }
 
 class FilterNotTest : AbstractGeneratorTest() {
@@ -37,14 +28,5 @@ class FilterNotTest : AbstractGeneratorTest() {
         gen.randomSequence(0).take(1000).forEach {
             assertNotEquals(0, it % 2)
         }
-    }
-
-    @Test
-    fun filterSamples() {
-        val generator = Generator.create { it.nextInt() }
-            .withSamples(42, 77)
-            .filterNot { it < 50 }
-
-        assertEquals(setOf(77), generator.samples)
     }
 }

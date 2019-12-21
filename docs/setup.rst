@@ -12,8 +12,8 @@ If the project is for the JVM (Java), you probably want to use Junit_ or Spek_.
 .. note::
     If you choose to use kotlintest_ as a test-engine, be aware that it includes a similar property-based testing API.
 
-    In order to don't get confused by mixing the two libraries you may exclude the ``kotlintest-assertions`` artifact
-    or introduce some rules in your IDE and/or linter to prevent usages of the package `io.kotlintest.properties`.
+    In order to not get confused by mixing the two libraries, you may exclude the ``kotlintest-assertions`` artifact
+    or introduce some rules in your IDE/linter to prevent usages of the package `io.kotlintest.properties`.
 
 .. _Junit: https://junit.org/junit5
 .. _Spek: https://spekframework.org
@@ -24,7 +24,6 @@ Add the required repository to your build system
 
 - Stable versions are published on jcenter_
 - Alpha, beta and release-candidates are published on https://dl.bintray.com/kwik/preview
-- Development artifacts are published on https://dl.bintray.com/kwik/dev
 
 .. _jcenter: https://bintray.com/bintray/jcenter
 

@@ -4,7 +4,6 @@ import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.randomSequence
 import com.github.jcornaz.kwik.generator.test.AbstractGeneratorTest
 import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
@@ -23,14 +22,40 @@ class FloatGeneratorTest : AbstractGeneratorTest() {
         assertTrue(Generator.floats(-8f, 14f).randomSequence(0).take(1000).all { it >= -8 && it <= 14 })
     }
 
+
     @Test
-    fun providesSamples() {
-        assertEquals(setOf(0f, -1f, 1f, -Float.MAX_VALUE, Float.MAX_VALUE), Generator.floats().samples)
+    fun doNotProduceZeroIfNotInRange() {
+        assertTrue(Generator.floats(1f, 14f).randomSequence(0).take(1000).none { it < 1f })
     }
 
     @Test
-    fun samplesAreInRange() {
-        assertEquals(setOf(1f, Float.MAX_VALUE), Generator.floats(min = 1f).samples)
+    fun generateZero() {
+        assertTrue(Generator.floats().randomSequence(0).take(50).any { it == 0f })
+    }
+
+    @Test
+    fun generateOne() {
+        assertTrue(Generator.floats().randomSequence(0).take(50).any { it == 1f })
+    }
+
+    @Test
+    fun generateMinusOne() {
+        assertTrue(Generator.floats().randomSequence(0).take(50).any { it == -1f })
+    }
+
+    @Test
+    fun generateMin() {
+        assertTrue(Generator.floats(min = 42f).randomSequence(5).take(50).any { it == 42f })
+    }
+
+    @Test
+    fun generateMax() {
+        assertTrue(Generator.floats(max = 24f).randomSequence(0).take(50).any { it == 24f })
+    }
+
+    @Test
+    fun generateBetweenZeroAndOne() {
+        assertTrue(Generator.floats().randomSequence(0).take(50).any { it > 0.0 && it < 1.0 })
     }
 }
 
@@ -51,17 +76,7 @@ class PositiveFloatGeneratorTest : AbstractGeneratorTest() {
 
     @Test
     fun produceSmallerThanMax() {
-        assertTrue(Generator.positiveFloats(max = 42f).randomSequence(0).take(1000).all { it >= 0.0 && it <= 42.0 })
-    }
-
-    @Test
-    fun provideSamples() {
-        assertEquals(setOf(0f, 1f, Float.MAX_VALUE), Generator.positiveFloats().samples)
-    }
-
-    @Test
-    fun samplesAreInRange() {
-        assertEquals(setOf(0f, 1f, 42f), Generator.positiveFloats(max = 42f).samples)
+        assertTrue(Generator.positiveFloats(max = 42f).randomSequence(0).take(1000).all { it in 0.0..42.0 })
     }
 }
 
@@ -83,16 +98,6 @@ class NegativeFloatGeneratorTest : AbstractGeneratorTest() {
     @Test
     fun produceBiggerThanMin() {
         assertTrue(Generator.negativeFloats(min = -42f).randomSequence(0).take(1000).all { it < 0.0 && it >= -42.0 })
-    }
-
-    @Test
-    fun provideSamples() {
-        assertEquals(setOf(-Float.MIN_VALUE, -Float.MAX_VALUE, -1f), Generator.negativeFloats().samples)
-    }
-
-    @Test
-    fun samplesAreInRange() {
-        assertEquals(setOf(-Float.MIN_VALUE, -42f, -1f), Generator.negativeFloats(min = -42f).samples)
     }
 }
 
@@ -122,21 +127,5 @@ class NonZeroFloatTest : AbstractGeneratorTest() {
     fun produceInRange() {
         val gen = Generator.nonZeroFloats(min = -42f, max = 100f)
         assertTrue(gen.randomSequence(0).take(1000).all { it >= -42 && it <= 100 })
-    }
-
-    @Test
-    fun provideSamples() {
-        assertEquals(
-            setOf(-Float.MIN_VALUE, -1f, -Float.MAX_VALUE, Float.MIN_VALUE, 1f, Float.MAX_VALUE),
-            Generator.nonZeroFloats().samples
-        )
-    }
-
-    @Test
-    fun samplesAreInRange() {
-        assertEquals(
-            setOf(-42f, -1f, -Float.MIN_VALUE, Float.MIN_VALUE, 1f, 42f),
-            Generator.nonZeroFloats(min = -42f, max = 42f).samples
-        )
     }
 }

@@ -1,20 +1,13 @@
 package com.github.jcornaz.kwik.generator.api
 
-import kotlin.random.Random
+private const val DEFAULT_SAMPLE_PROBABILITY = 0.2
 
 /**
  * Returns a generator containing the results of applying the given transform function to each element emitted by
  * the original generator.
  */
 fun <T, R> Generator<T>.map(transform: (T) -> R): Generator<R> =
-    MapGenerator(this, transform)
-
-private class MapGenerator<T, R>(private val source: Generator<T>, private val transform: (T) -> R) :
-    Generator<R> {
-    override val samples: Set<R> = source.samples.mapTo(mutableSetOf(), transform)
-
-    override fun generate(random: Random): R = transform(source.generate(random))
-}
+    Generator.create { transform(generate(it)) }
 
 /**
  * Returns a generator backed by the generator created when applying the given transform function to each element emitted by
@@ -27,21 +20,13 @@ private class MapGenerator<T, R>(private val source: Generator<T>, private val t
  * ```
  */
 fun <T, R> Generator<T>.andThen(transform: (T) -> Generator<R>): Generator<R> =
-    AndThenGenerator(this, transform)
+    Generator.create { generate(it).let(transform).generate(it) }
 
 /**
  * @Deprecated Use `andThen` operator instead
  */
 @Deprecated("Use `andThen` operator instead", ReplaceWith("andThen(transform)"))
 fun <T, R> Generator<T>.flatMap(transform: (T) -> Generator<R>): Generator<R> = andThen(transform)
-
-private class AndThenGenerator<T, R>(private val source: Generator<T>, private val transform: (T) -> Generator<R>): Generator<R> {
-    override val samples: Set<R> =
-        source.samples.flatMapTo(HashSet()) { transform(it).samples }
-
-    override fun generate(random: Random): R =
-        source.generate(random).let(transform).generate(random)
-}
 
 /**
  * Returns a generator containing only elements matching the given predicate.
@@ -50,7 +35,14 @@ private class AndThenGenerator<T, R>(private val source: Generator<T>, private v
  * Use it with caution and always favor customizing or creating generators if possible.
  */
 fun <T> Generator<T>.filter(predicate: (T) -> Boolean): Generator<T> =
-    FilterGenerator(this, predicate)
+    Generator.create { random ->
+        var value = generate(random)
+
+        while(!predicate(value))
+            value = generate(random)
+
+        value
+    }
 
 /**
  * Returns a generator containing all elements except the ones matching the given predicate.
@@ -59,42 +51,36 @@ fun <T> Generator<T>.filter(predicate: (T) -> Boolean): Generator<T> =
  * Use it with caution and always favor customizing or creating generators if possible.
  */
 fun <T> Generator<T>.filterNot(predicate: (T) -> Boolean): Generator<T> =
-    FilterGenerator(this) { !predicate(it) }
+    filter { !predicate(it) }
 
-private class FilterGenerator<T>(
-    private val source: Generator<T>,
-    private val predicate: (T) -> Boolean
-) : Generator<T> {
-    override val samples: Set<T> = source.samples.filterTo(mutableSetOf(), predicate)
-
-    override fun generate(random: Random): T {
-        var value = source.generate(random)
-
-        while(!predicate(value))
-            value = source.generate(random)
-
-        return value
-    }
-}
 
 /**
- * Returns a new generator adding the given [samples] into generated random values.
- *
- * The "random" values always start by the given [samples] so that they always appear at least once.
+ * Returns a new generator that has a good [probability] to generate a value from the given [samples],
+ * and generate from source the rest of the time.
  */
-fun <T> Generator<T>.withSamples(vararg samples: T): Generator<T> =
-    withSamples(samples.asList())
+fun <T> Generator<T>.withSamples(vararg samples: T, probability: Double = DEFAULT_SAMPLE_PROBABILITY): Generator<T> =
+    withSamples(samples.asList(), probability)
 
 /**
- * Returns a new generator adding the given [samples] into generated random values.
- *
- * The "random" values always start by the given [samples] so that they always appear at least once.
+ * Returns a new generator that has a good [probability] to generate a value from the given [samples],
+ * and generate from source the rest of the time.
  */
-fun <T> Generator<T>.withSamples(samples: Iterable<T>): Generator<T> {
+fun <T> Generator<T>.withSamples(samples: Iterable<T>, probability: Double = DEFAULT_SAMPLE_PROBABILITY): Generator<T> {
+    requireValidProbability(probability)
+
     val sampleList = (samples as? List<T>) ?: samples.toList()
     if (sampleList.isEmpty()) return this
 
-    return SampleGenerator(this, sampleList)
+    return Generator.frequency(
+        probability to Generator.of(samples),
+        (1 - probability) to this
+    )
+}
+
+private fun requireValidProbability(probability: Double) {
+    require(probability > 0.0 && probability < 1.0) {
+        "Invalid sample probability: $probability. Must be greater than 0 and smaller than 1"
+    }
 }
 
 /**
@@ -102,24 +88,13 @@ fun <T> Generator<T>.withSamples(samples: Iterable<T>): Generator<T> {
  *
  * The "random" values always start by `null` so that it always appear at least once.
  */
-fun <T> Generator<T>.withNull(): Generator<T?> =
-    NullGenerator(this)
+fun <T> Generator<T>.withNull(probability: Double = DEFAULT_SAMPLE_PROBABILITY): Generator<T?> {
+    requireValidProbability(probability)
 
-private class SampleGenerator<T>(
-    private val source: Generator<T>,
-    samples: Iterable<T>
-) : Generator<T> by source {
-
-    override val samples: Set<T> = source.samples + samples
-
-    init {
-        require(this.samples.isNotEmpty()) { "No sample provided" }
+    return Generator.create { random ->
+        if (random.nextDouble() < probability)
+            null
+        else
+            generate(random)
     }
-}
-
-private class NullGenerator<T>(private val source: Generator<T>) : Generator<T?> {
-
-    override val samples: Set<T?> = source.samples.plus<T?>(null)
-
-    override fun generate(random: Random): T? = source.generate(random)
 }

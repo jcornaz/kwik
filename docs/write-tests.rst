@@ -128,12 +128,12 @@ And since ``null`` and ``NaN`` are two quite common edge-case, there are dedicat
     :start-after: //region Add samples
     :end-before: //endregion
 
-The generation will always start by emitting the given samples.
+The samples have higher chance to be generated and will be tested more often.
 
 .. note::
     All built-in generators already have some samples included.
 
-    For instance ``Generator.ints()`` will make sure to test ``0``, ``1``, ``-1``, ``Int.MAX_VALUE`` and ``Int.MIN_VALUE``
+    For instance ``Generator.ints()`` will generate ``0``, ``1``, ``-1``, ``Int.MAX_VALUE`` and ``Int.MIN_VALUE`` often.
 
 Skip an evaluation
 ------------------

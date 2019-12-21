@@ -29,45 +29,64 @@ fun <T> forAll(
 ) {
     require(iterations > 0) { "Iterations must be > 0, but was: $iterations" }
 
-    val context = PropertyEvaluationContextImpl()
+    val context = PropertyEvaluationContextImpl(iterations)
 
-    var attempts = 0
-    val iterator = generator.testValues(seed).iterator()
+    val inputIterator = generator.randomSequence(seed).iterator()
 
-    while (attempts < iterations || !context.allRequirementsAreSatisfied) {
-        val argument = iterator.next()
+    while (context.needMoreEvaluation) {
+        context.newEvaluation()
+
+        val input = inputIterator.next()
 
         @Suppress("SwallowedException") // SkipEvaluation is used to silently skip an evaluation
         val isSatisfied = try {
-            context.property(argument).also { ++attempts }
+            context.property(input)
         } catch (skip: SkipEvaluation) {
             true
         } catch (error: Throwable) {
-            throw FalsifiedPropertyError(attempts + 1, iterations, seed, extractArgumentList(argument), error)
+            throw FalsifiedPropertyError(context.attempts, iterations, seed, extractArgumentList(input), error)
         }
 
-        if (!isSatisfied) throw FalsifiedPropertyError(attempts, iterations, seed, extractArgumentList(argument))
+        if (!isSatisfied) throw FalsifiedPropertyError(context.attempts, iterations, seed, extractArgumentList(input))
     }
 
-    println("OK, passed $attempts tests. (seed: $seed)")
+    println("OK, passed ${context.attempts} tests. (seed: $seed)")
 }
 
-private class PropertyEvaluationContextImpl : PropertyEvaluationContext {
+private class PropertyEvaluationContextImpl(private val iterations: Int) : PropertyEvaluationContext {
 
-    private val allRequirements = HashSet<String>()
-    private val satisfiedRequirements = HashSet<String>()
+    private val requirements = mutableListOf<Boolean>()
+    private var requirementIndex = 0
 
-    val allRequirementsAreSatisfied
-        get() = satisfiedRequirements.size == allRequirements.size
+    var attempts = 0
+        private set
 
-    override fun skipIf(condition: Boolean) {
-        if (condition) throw SkipEvaluation()
+    val needMoreEvaluation
+        get() = attempts < iterations || !requirementAreSatisfied
+
+    private val requirementAreSatisfied
+        get() = requirements.all { it }
+
+    fun newEvaluation() {
+        ++attempts
+        requirementIndex = 0
     }
 
-    override fun ensureAtLeastOne(name: String, predicate: () -> Boolean) {
-        allRequirements += name
-        if (name !in satisfiedRequirements && predicate())
-            satisfiedRequirements += name
+    override fun skipIf(condition: Boolean) {
+        if (condition) {
+            --attempts
+            requirementIndex = 0
+            throw SkipEvaluation()
+        }
+    }
+
+    override fun ensureAtLeastOne(predicate: () -> Boolean) {
+        val index = requirementIndex++
+        if (requirements.size <= index) {
+            requirements.add(predicate())
+        } else if (!requirements[index]) {
+            requirements[index] = predicate()
+        }
     }
 }
 
@@ -288,11 +307,3 @@ data class FalsifiedPropertyError(
         append(additionalFailureMessage)
     }
 })
-
-/**
- * Return the values to test for the given [seed].
- *
- * Start by the [Generator.samples] before emitting the [Generator.randomSequence]
- */
-internal fun <T> Generator<T>.testValues(seed: Long): Sequence<T> =
-    samples.asSequence() + randomSequence(seed)

@@ -18,23 +18,23 @@ class StringGeneratorTest : AbstractGeneratorTest() {
     }
 
     @Test
-    fun samplesContainsEmpty() {
-        assertTrue(Generator.strings().samples.any { it.isEmpty() })
+    fun generateEmpty() {
+        assertTrue(Generator.strings().randomSequence(0).take(50).any { it.isEmpty() })
     }
 
     @Test
-    fun samplesContainsBlank() {
-        assertTrue(Generator.strings().samples.any { it.isNotEmpty() && it.isBlank() })
+    fun generateBlank() {
+        assertTrue(Generator.strings().randomSequence(0).take(50).any { it.isNotEmpty() && it.isBlank() })
     }
 
     @Test
-    fun noEmptySampleWhenMinLengthIsGreaterThan0() {
-        assertTrue(Generator.strings(minLength = 1).samples.none { it.isEmpty() })
+    fun doesNotGenerateEmptyWhenMinLengthIsGreaterThan0() {
+        assertTrue(Generator.strings(minLength = 1).randomSequence(0).take(1000).none { it.isEmpty() })
     }
 
     @Test
-    fun sampleSizeIsBiggerThanMinLength() {
-        assertTrue(Generator.strings(minLength = 2).samples.none { it.length <= 1 })
+    fun generateOfSizeBiggerThanMinMinLength() {
+        assertTrue(Generator.strings(minLength = 2).randomSequence(0).take(1000).none { it.length <= 1 })
     }
 
     @Test
@@ -93,16 +93,6 @@ class NonEmptyStringGeneratorTest : AbstractGeneratorTest() {
     }
 
     @Test
-    fun samplesDoesNotContainsEmpty() {
-        assertTrue(Generator.nonEmptyStrings().samples.none { it.isEmpty() })
-    }
-
-    @Test
-    fun samplesContainsBlank() {
-        assertTrue(Generator.nonEmptyStrings().samples.any { it.isNotEmpty() && it.isBlank() })
-    }
-
-    @Test
     fun dontGenerateExcludedChars() {
         val values = Generator.nonEmptyStrings(exclude = setOf('a', 'b', 'c')).randomSequence(0).take(1000)
 
@@ -148,11 +138,6 @@ class NonBlankStringGeneratorTest : AbstractGeneratorTest() {
     @Test
     fun doesNotGenerateBlank() {
         assertTrue(Generator.nonBlankStrings().randomSequence(0).take(1000).none { it.isBlank() })
-    }
-
-    @Test
-    fun samplesDoesNotContainBlank() {
-        assertTrue(Generator.nonBlankStrings().samples.none { it.isBlank() })
     }
 
     @Test

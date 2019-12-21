@@ -4,7 +4,6 @@ import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.randomSequence
 import com.github.jcornaz.kwik.generator.test.AbstractGeneratorTest
 import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
@@ -24,13 +23,28 @@ class IntGeneratorTest : AbstractGeneratorTest() {
     }
 
     @Test
-    fun provideSamples() {
-        assertEquals(setOf(Int.MIN_VALUE, Int.MAX_VALUE, -1, 0, 1), Generator.ints().samples)
+    fun generateZero() {
+        assertTrue(Generator.ints().randomSequence(0).take(50).any { it == 0 })
     }
 
     @Test
-    fun samplesAreInRange() {
-        assertEquals(setOf(42, Int.MAX_VALUE), Generator.ints(min = 42).samples)
+    fun generateOne() {
+        assertTrue(Generator.ints().randomSequence(0).take(50).any { it == 1 })
+    }
+
+    @Test
+    fun generateMinusOne() {
+        assertTrue(Generator.ints().randomSequence(0).take(50).any { it == -1 })
+    }
+
+    @Test
+    fun generateMin() {
+        assertTrue(Generator.ints(min = 42).randomSequence(0).take(50).any { it == 42 })
+    }
+
+    @Test
+    fun generateMax() {
+        assertTrue(Generator.ints(max = 24).randomSequence(0).take(50).any { it == 24 })
     }
 }
 
@@ -51,17 +65,7 @@ class PositiveIntGeneratorTest : AbstractGeneratorTest() {
 
     @Test
     fun produceSmallerThanMax() {
-        assertTrue(Generator.positiveInts(max = 42).randomSequence(0).take(1000).all { it >= 0 && it <= 42 })
-    }
-
-    @Test
-    fun provideSamples() {
-        assertEquals(setOf(0, 1, Int.MAX_VALUE), Generator.positiveInts().samples)
-    }
-
-    @Test
-    fun samplesAreInRange() {
-        assertEquals(setOf(0, 1, 42), Generator.positiveInts(max = 42).samples)
+        assertTrue(Generator.positiveInts(max = 42).randomSequence(0).take(1000).all { it in 0..42 })
     }
 }
 
@@ -82,17 +86,7 @@ class NaturalIntGeneratorTest : AbstractGeneratorTest() {
 
     @Test
     fun produceSmallerThanMax() {
-        assertTrue(Generator.naturalInts(max = 42).randomSequence(0).take(1000).all { it >= 1 && it <= 42 })
-    }
-
-    @Test
-    fun provideSamples() {
-        assertEquals(setOf(1, Int.MAX_VALUE), Generator.naturalInts().samples)
-    }
-
-    @Test
-    fun samplesAreInRange() {
-        assertEquals(setOf(1, 42), Generator.naturalInts(max = 42).samples)
+        assertTrue(Generator.naturalInts(max = 42).randomSequence(0).take(1000).all { it in 1..42 })
     }
 }
 
@@ -114,16 +108,6 @@ class NegativeIntGeneratorTest : AbstractGeneratorTest() {
     @Test
     fun produceBiggerThanMin() {
         assertTrue(Generator.negativeInts(min = -42).randomSequence(0).take(1000).all { it < 0 && it >= -42 })
-    }
-
-    @Test
-    fun provideSamples() {
-        assertEquals(setOf(-1, Int.MIN_VALUE), Generator.negativeInts().samples)
-    }
-
-    @Test
-    fun samplesAreInRange() {
-        assertEquals(setOf(-1, -42), Generator.negativeInts(min = -42).samples)
     }
 }
 
@@ -153,15 +137,5 @@ class NonZeroIntsTest : AbstractGeneratorTest() {
     fun produceInRange() {
         val gen = Generator.nonZeroInts(min = -42, max = 100)
         assertTrue(gen.randomSequence(0).take(1000).all { it >= -42 && it <= 100 })
-    }
-
-    @Test
-    fun provideSamples() {
-        assertEquals(setOf(-1, 1, Int.MIN_VALUE, Int.MAX_VALUE), Generator.nonZeroInts().samples)
-    }
-
-    @Test
-    fun samplesAreInRange() {
-        assertEquals(setOf(-1, 1, -42, 42), Generator.nonZeroInts(min = -42, max = 42).samples)
     }
 }

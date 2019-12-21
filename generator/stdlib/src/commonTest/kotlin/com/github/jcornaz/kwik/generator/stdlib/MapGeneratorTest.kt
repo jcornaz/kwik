@@ -3,10 +3,7 @@ package com.github.jcornaz.kwik.generator.stdlib
 import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.randomSequence
 import com.github.jcornaz.kwik.generator.test.AbstractGeneratorTest
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFails
-import kotlin.test.assertTrue
+import kotlin.test.*
 
 class MapGeneratorTest : AbstractGeneratorTest() {
     override val generator: Generator<Map<Int, Double>> = Generator.maps()
@@ -21,23 +18,32 @@ class MapGeneratorTest : AbstractGeneratorTest() {
     }
 
     @Test
-    fun samplesContainsEmpty() {
-        assertTrue(Generator.maps<Int, Double>().samples.any { it.isEmpty() })
+    fun failWithInvalidSize() {
+        assertFailsWith<IllegalArgumentException> {
+            Generator.maps<Int, Double>(minSize = -2)
+        }
     }
 
     @Test
-    fun samplesContainsSingletons() {
-        assertTrue(Generator.maps<Int, Double>().samples.any { it.size == 1 })
+    fun generatesEmpty() {
+        assertTrue(Generator.maps<Int, Double>().randomSequence(0).take(50).any { it.isEmpty() })
     }
 
     @Test
-    fun noEmptySampleWhenMinSizeIsGreaterThan0() {
-        assertTrue(Generator.maps(Generator.ints(), Generator.doubles(), minSize = 1).samples.none { it.isEmpty() })
+    fun generateSingletons() {
+        assertTrue(Generator.maps<Int, Double>().randomSequence(0).take(50).any { it.size == 1 })
     }
 
     @Test
-    fun noSingletonSampleWhenMinSizeIsGreaterThan1() {
-        assertTrue(Generator.maps(Generator.ints(), Generator.doubles(), minSize = 2).samples.none { it.size <= 1 })
+    fun doesNotGenerateEmptyWhenMinSizeIsGreaterThan0() {
+        val generator = Generator.maps(Generator.ints(), Generator.doubles(), minSize = 1)
+        assertTrue(generator.randomSequence(0).take(1000).none { it.isEmpty() })
+    }
+
+    @Test
+    fun doesNotGeneratSingletonWhenMinSizeIsGreaterThan1() {
+        val generator = Generator.maps(Generator.ints(), Generator.doubles(), minSize = 2)
+        assertTrue(generator.randomSequence(0).take(1000).none { it.size <= 1 })
     }
 
     @Test
@@ -93,16 +99,6 @@ class NonEmptyMapGeneratorTest : AbstractGeneratorTest() {
             .take(200)
 
         assertTrue(values.all { it.size in 1..12 })
-    }
-
-    @Test
-    fun samplesDoesNotContainsEmpty() {
-        assertTrue(Generator.nonEmptyMaps<Int, Double>().samples.none { it.isEmpty() })
-    }
-
-    @Test
-    fun samplesContainsSingletons() {
-        assertTrue(Generator.nonEmptyMaps<Int, Double>().samples.any { it.size == 1 })
     }
 
     @Test
