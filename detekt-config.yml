@@ -1,17 +1,66 @@
 build:
-  maxIssues: 10
+  maxIssues: 5
+
+comments:
+  active: true
+  excludes: "**/test/**,**/androidTest/**,**/*.Test.kt,**/*.Spec.kt,**/*.Spek.kt"
+  UndocumentedPublicClass:
+    active: true
+  UndocumentedPublicFunction:
+    active: true
+  UndocumentedPublicProperty:
+    active: true
 
 complexity:
+  active: true
+  StringLiteralDuplication:
+    active: true
+    excludes: "**/test/**,**/androidTest/**,**/*.Test.kt,**/*.Spec.kt,**/*.Spek.kt"
+    threshold: 3
+    ignoreStringsRegex: '$^'
   TooManyFunctions:
+    active: true
+    excludes: "**/test/**,**/androidTest/**,**/*.Test.kt,**/*.Spec.kt,**/*.Spek.kt"
     thresholdInFiles: 30
     thresholdInClasses: 10
     thresholdInInterfaces: 5
     thresholdInObjects: 10
     thresholdInEnums: 5
     ignoreDeprecated: true
-  LongParameterList:
-    ignoreDefaultParameters: true
 
 exceptions:
   TooGenericExceptionCaught:
     active: false
+
+potential-bugs:
+  active: true
+  Deprecation:
+    active: true
+  HasPlatformType:
+    active: true
+  ImplicitDefaultLocale:
+    active: true
+  LateinitUsage:
+    active: true
+    excludes: "**/test/**,**/androidTest/**,**/*.Test.kt,**/*.Spec.kt,**/*.Spek.kt"
+  UnsafeCast:
+    active: true
+
+style:
+  active: true
+  ForbiddenVoid:
+    active: true
+  UnnecessaryApply:
+    active: true
+  UnnecessaryLet:
+    active: true
+  UnusedImports:
+    active: true
+  UnusedPrivateClass:
+    active: true
+  UnusedPrivateMember:
+    active: true
+  UseRequire:
+    active: true
+  VarCouldBeVal:
+    active: true
