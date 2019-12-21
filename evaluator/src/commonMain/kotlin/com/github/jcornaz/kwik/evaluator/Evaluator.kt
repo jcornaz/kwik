@@ -279,7 +279,9 @@ inline fun <reified A, reified B, reified C, reified D> checkForAll(
 }
 
 /**
- * Pair of argument. Used by [forAll] of higher arity to let the [forAll] of argument being able to display the argument list.
+ * Pair of argument.
+ *
+ * Used by [forAll] of higher arity to let the [forAll] of argument being able to display the argument list.
  */
 data class ArgumentPair<A, B>(val first: A, val second: B)
 

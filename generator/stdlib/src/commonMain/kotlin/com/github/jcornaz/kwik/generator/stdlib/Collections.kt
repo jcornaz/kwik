@@ -68,7 +68,8 @@ inline fun <reified T> Generator.Companion.nonEmptyLists(maxSize: Int = KWIK_DEF
 /**
  * Returns a generator of [Set] where sizes are all between [minSize] and [maxSize] (inclusive)
  *
- * If the domain of the elements is too small, this generator may fail after too many attempt to create a set of [minSize]
+ * If the domain of the elements is too small,
+ * this generator may fail after too many attempt to create a set of [minSize]
  *
  * @param elementGen Generator to use for elements in the set
  */

@@ -10,8 +10,8 @@ fun <T, R> Generator<T>.map(transform: (T) -> R): Generator<R> =
     Generator.create { transform(generate(it)) }
 
 /**
- * Returns a generator backed by the generator created when applying the given transform function to each element emitted by
- * the original generator.
+ * Returns a new generator backed by [this] generator and applying the given [transform] function
+ * to each element emitted by the original generator.
  *
  * Example:
  *
@@ -29,7 +29,7 @@ fun <T, R> Generator<T>.andThen(transform: (T) -> Generator<R>): Generator<R> =
 fun <T, R> Generator<T>.flatMap(transform: (T) -> Generator<R>): Generator<R> = andThen(transform)
 
 /**
- * Returns a generator containing only elements matching the given predicate.
+ * Returns a generator that generates only elements matching the given predicate.
  *
  * **Usage of this operator slows down the property tests**
  * Use it with caution and always favor customizing or creating generators if possible.

@@ -64,7 +64,8 @@ private class MergedGenerators<T>(
 }
 
 /**
- * Returns a generator that randomly pick a value from the given list of the generator according to their respective weights.
+ * Returns a generator that randomly pick a value from the given list of the generator
+ * according to their respective weights.
  *
  * Example:
  * ```
@@ -75,7 +76,8 @@ private class MergedGenerators<T>(
  * ))
  * ```
  *
- * @throws IllegalArgumentException if [weightedGenerators] is empty, contains negative weights or the sum of the weight is zero
+ * @throws IllegalArgumentException
+ *         if [weightedGenerators] is empty, contains negative weights or the sum of the weight is zero
  */
 fun <T> Generator.Companion.frequency(
     weightedGenerators: Iterable<Pair<Double, Generator<T>>>
@@ -90,14 +92,19 @@ fun <T> Generator.Companion.frequency(
         0 -> throw IllegalArgumentException("No generator (with weight > 0) to use for frequency-based generation")
         1 -> list.single().second
         2 -> list.let { (source1, source2) ->
-            DualGenerator(source1.second, source2.second, source1.first / (source1.first + source2.first))
+            DualGenerator(
+                source1 = source1.second,
+                source2 = source2.second,
+                source1Probability = source1.first / (source1.first + source2.first)
+            )
         }
         else -> FrequencyGenerator(list)
     }
 }
 
 /**
- * Returns a generator that randomly pick a value from the given list of the generator according to their respective weights.
+ * Returns a generator that randomly pick a value from the given list of the generator
+ * according to their respective weights.
  *
  * Example:
  * ```
@@ -108,7 +115,8 @@ fun <T> Generator.Companion.frequency(
  * )
  * ```
  *
- * @throws IllegalArgumentException if [weightedGenerators] is empty, contains negative weights or the sum of the weight is zero
+ * @throws IllegalArgumentException
+ *         if [weightedGenerators] is empty, contains negative weights or the sum of the weight is zero
  */
 fun <T> Generator.Companion.frequency(
     vararg weightedGenerators: Pair<Double, Generator<T>>
