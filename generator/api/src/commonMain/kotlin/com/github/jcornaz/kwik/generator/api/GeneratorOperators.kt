@@ -88,13 +88,5 @@ private fun requireValidProbability(probability: Double) {
  *
  * The "random" values always start by `null` so that it always appear at least once.
  */
-fun <T> Generator<T>.withNull(probability: Double = DEFAULT_SAMPLE_PROBABILITY): Generator<T?> {
-    requireValidProbability(probability)
-
-    return Generator.create { random ->
-        if (random.nextDouble() < probability)
-            null
-        else
-            generate(random)
-    }
-}
+fun <T> Generator<T>.withNull(probability: Double = DEFAULT_SAMPLE_PROBABILITY): Generator<T?> =
+    withSamples(listOf(null), probability)
