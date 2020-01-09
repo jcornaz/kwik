@@ -1,7 +1,14 @@
 {
   "extends": [
     "config:base",
-    ":automergePatch",
     ":prHourlyLimitNone"
+  ],
+  "packageRules": [
+    {
+      "packagePatterns": [
+        "^org.jetbrains.kotlin:"
+      ],
+      "groupName": "Kotlin"
+    }
   ]
 }
