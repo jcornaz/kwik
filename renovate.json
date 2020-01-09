@@ -3,6 +3,9 @@
     "config:base",
     ":prHourlyLimitNone"
   ],
+  "assignees": ["jcornaz"],
+  "reviewers": ["jcornaz"],
+  "labels": ["chore"],
   "packageRules": [
     {
       "packagePatterns": [
