@@ -1,0 +1,17 @@
+{
+  "extends": [
+    "config:base",
+    ":prHourlyLimitNone"
+  ],
+  "assignees": ["jcornaz"],
+  "reviewers": ["jcornaz"],
+  "labels": ["chore"],
+  "packageRules": [
+    {
+      "packagePatterns": [
+        "^org.jetbrains.kotlin:"
+      ],
+      "groupName": "Kotlin"
+    }
+  ]
+}
