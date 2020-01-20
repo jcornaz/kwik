@@ -24,7 +24,7 @@ You may (but don't have to) write a message in the issue to say you are working 
 
 ## Build from source
 
-Make sure that the environment variable `JAVA_HOME` points to a JDK installation (version 11 or 13)
+Make sure that the environment variable `JAVA_HOME` points to a JDK installation (version 8, 11 or 13)
 
 This project use a standard [gradle](https://gradle.org/) setup. Here are the most important tasks you may want to run:
 
