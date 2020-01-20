@@ -2,8 +2,6 @@
 
 import com.jfrog.bintray.gradle.BintrayExtension
 import com.jfrog.bintray.gradle.BintrayPlugin
-import io.gitlab.arturbosch.detekt.DetektPlugin
-import io.gitlab.arturbosch.detekt.detekt
 import kr.motd.gradle.sphinx.gradle.SphinxTask
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile
 import java.util.*
@@ -13,7 +11,7 @@ plugins {
     kotlin("multiplatform") version "1.3.61"
     id("org.ajoberstar.reckon") version "0.12.0"
     id("com.github.ben-manes.versions") version "0.27.0"
-    id("io.gitlab.arturbosch.detekt") version "1.4.0" apply false
+    id("io.gitlab.arturbosch.detekt") version "1.4.0"
     id("com.jfrog.bintray") version "1.8.4" apply false
     id("kr.motd.sphinx") version "2.6.1"
 }
@@ -21,6 +19,19 @@ plugins {
 reckon {
     scopeFromProp()
     stageFromProp("alpha", "beta", "rc", "final")
+}
+
+detekt {
+    input = files(
+        subprojects.flatMap { project ->
+            listOf(
+                "${project.projectDir}/src/commonMain/kotlin",
+                "${project.projectDir}/src/jvmMain/kotlin"
+            )
+        }
+    )
+    buildUponDefaultConfig = true
+    config = files("$rootDir/detekt-config.yml")
 }
 
 allprojects {
@@ -34,7 +45,6 @@ allprojects {
 
 subprojects {
     apply(plugin = "org.jetbrains.kotlin.multiplatform")
-    apply<DetektPlugin>()
     apply<BintrayPlugin>()
     apply<MavenPublishPlugin>()
 
@@ -68,15 +78,6 @@ subprojects {
                 }
             }
         }
-    }
-
-    detekt {
-        input = files(
-            "src/commonMain/kotlin",
-            "src/jvmMain/kotlin"
-        )
-        buildUponDefaultConfig = true
-        config.setFrom( files("$rootDir/detekt-config.yml"))
     }
 
     publishing {
