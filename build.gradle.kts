@@ -5,6 +5,7 @@ import com.jfrog.bintray.gradle.BintrayPlugin
 import io.gitlab.arturbosch.detekt.DetektPlugin
 import io.gitlab.arturbosch.detekt.detekt
 import kr.motd.gradle.sphinx.gradle.SphinxTask
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.util.*
 
 plugins {
@@ -122,6 +123,13 @@ subprojects {
     }
 
     tasks {
+        
+        withType<KotlinCompile> {
+            kotlinOptions {
+               jvmTarget = "1.8"
+            }
+        }
+        
         val bintrayUpload by existing {
             dependsOn("check")
 
