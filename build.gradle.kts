@@ -5,7 +5,7 @@ import com.jfrog.bintray.gradle.BintrayPlugin
 import io.gitlab.arturbosch.detekt.DetektPlugin
 import io.gitlab.arturbosch.detekt.detekt
 import kr.motd.gradle.sphinx.gradle.SphinxTask
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile
 import java.util.*
 
 plugins {
@@ -124,7 +124,7 @@ subprojects {
 
     tasks {
         
-        withType<KotlinCompile> {
+        withType<KotlinJvmCompile> {
             kotlinOptions {
                jvmTarget = "1.8"
             }
