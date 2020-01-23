@@ -41,7 +41,7 @@ Add the artifact dependency
 - Pick a version from: https://github.com/jcornaz/kwik/releases
 
 Example with gradle for Kotlin/JVM
-...................
+..................................
 
 .. include:: ../README.rst
     :start-after: .. startGradleSetup
