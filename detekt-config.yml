@@ -3,7 +3,7 @@ build:
 
 comments:
   active: true
-  excludes: "**/test/**,**/androidTest/**,**/*.Test.kt,**/*.Spec.kt,**/*.Spek.kt"
+  excludes: "**/test/**,**/androidTest/**,**/*.Test.kt,**/*.Spec.kt,**/*.Spek.kt,**/examples/**"
   UndocumentedPublicClass:
     active: true
   UndocumentedPublicFunction:
@@ -67,3 +67,7 @@ style:
     active: true
   VarCouldBeVal:
     active: true
+  MagicNumber:
+    active: true
+    excludes: "**/test/**,**/androidTest/**,**/*.Test.kt,**/*.Spec.kt,**/*.Spek.kt,**/examples/**"
+    
