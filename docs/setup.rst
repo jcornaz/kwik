@@ -31,11 +31,16 @@ Add the artifact dependency
 ---------------------------
 
 - The group id is ``com.github.jcornaz.kwik``
-- Pick an artifact in the `Available artifacts`_
-    - For a quick start using Kotlin/JVM, ``kwik-core-jvm`` is a good choice
+- Artefact ids have the form of ``kwik-<MODULE>-<PLATFORM>``. Example: `kwik-evaluator-jvm`.
+    - Available modules:
+        - ``evaluator``: property evaluation
+        - ``generator-api``: API for random genetor, already transitively added via ``evaluator`` or ``generator-stdlib``
+        - ``generator-stdlib``: Collection of random generators for types provided by the kotlin standard library
+    - Available platforms: ``jvm``, ``linux`` and ``windows``
+
 - Pick a version from: https://github.com/jcornaz/kwik/releases
 
-Example with gradle
+Example with gradle for Kotlin/JVM
 ...................
 
 .. include:: ../README.rst

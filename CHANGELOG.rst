@@ -14,6 +14,11 @@ and this project adheres to `Semantic Versioning`_.
 Unreleased_
 -----------
 
+Removed **(Breaking)**
+......................
+
+* Module ``core``. It was an empty module only to provide transitive dependencies to most common used modules.
+
 Added
 .....
 
