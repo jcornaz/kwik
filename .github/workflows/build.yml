@@ -3,9 +3,9 @@ name: Build
 on:
   push:
     branches:
+    - chore/kotlin-native
     - master
     - '*.*'
-    - chore/kotlin-native
 
   pull_request:
     branches: 
