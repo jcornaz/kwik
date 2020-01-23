@@ -9,5 +9,12 @@ kotlin {
                 implementation(kotlin("test-annotations-common"))
             }
         }
+
+        jvmMain {
+            dependencies {
+                implementation(kotlin("test"))
+                implementation(kotlin("test-junit"))
+            }
+        }
     }
 }
