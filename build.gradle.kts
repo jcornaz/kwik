@@ -50,6 +50,7 @@ subprojects {
 
     kotlin {
         jvm()
+        linuxX64("linux")
 
         sourceSets {
             commonMain {
