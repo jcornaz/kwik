@@ -50,6 +50,8 @@ subprojects {
 
     kotlin {
         jvm()
+        linuxX64("linux")
+        mingwX64("windows")
 
         sourceSets {
             commonMain {
@@ -139,7 +141,7 @@ subprojects {
         }
 
         val test by registering {
-            dependsOn("jvmTest")
+            dependsOn("jvmTest", "linuxTest")
         }
     }
 }
