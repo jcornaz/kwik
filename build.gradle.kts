@@ -91,6 +91,14 @@ subprojects {
             val jvm by getting {
                 artifactId = "kwik-${project.name}-jvm"
             }
+
+            val linux by getting {
+                artifactId = "kwik-${project.name}-linux"
+            }
+
+            val windows by getting {
+                artifactId = "kwik-${project.name}-windows"
+            }
         }
     }
 
@@ -122,7 +130,7 @@ subprojects {
             }
         }
 
-        setPublications("metadata", "jvm")
+        setPublications("metadata", "jvm", "linux", "windows")
     }
 
     tasks {
