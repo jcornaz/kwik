@@ -141,7 +141,7 @@ subprojects {
         }
 
         val test by registering {
-            dependsOn("jvmTest", "linuxTest")
+            dependsOn("jvmTest", "linuxTest", "windowsTest")
         }
     }
 }
