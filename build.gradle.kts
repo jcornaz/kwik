@@ -51,6 +51,7 @@ subprojects {
     kotlin {
         jvm()
         linuxX64("linux")
+        mingwX64("windows")
 
         sourceSets {
             commonMain {
