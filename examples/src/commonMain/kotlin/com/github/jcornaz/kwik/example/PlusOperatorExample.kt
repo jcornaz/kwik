@@ -69,10 +69,7 @@ class PlusOperatorTest {
 
     //region Create a custom generator
     val customGenerator1 = Generator.create { rng ->
-        CustomClass(
-            rng.nextInt(),
-            rng.nextInt()
-        )
+        CustomClass(rng.nextInt(), rng.nextInt())
     }
     //endregion
 
@@ -83,12 +80,7 @@ class PlusOperatorTest {
     //endregion
 
     //region Combine generators
-    val combinedGenerator = Generator.ints().combineWith(Generator.ints()) { x, y ->
-        CustomClass(
-            x,
-            y
-        )
-    }
+    val combinedGenerator = Generator.ints().combineWith(Generator.ints()) { x, y -> CustomClass(x, y) }
     //endregion
 
     //region Add samples

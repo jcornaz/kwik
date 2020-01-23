@@ -14,6 +14,16 @@ and this project adheres to `Semantic Versioning`_.
 Unreleased_
 -----------
 
+Removed **(Breaking)**
+......................
+
+* Module ``core``. It was an empty module only to provide transitive dependencies to most common used modules.
+
+Added
+.....
+
+* ``linux`` and ``windows`` targets (x64 arch)
+
 .. endUnreleasedBlock
 
 0.3.0-alpha.1_ - 2019-12-05
