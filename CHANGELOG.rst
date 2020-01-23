@@ -14,6 +14,11 @@ and this project adheres to `Semantic Versioning`_.
 Unreleased_
 -----------
 
+Added
+.....
+
+* ``linux`` and ``windows`` targets (x64 arch)
+
 .. endUnreleasedBlock
 
 0.3.0-alpha.1_ - 2019-12-05
