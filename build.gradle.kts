@@ -85,10 +85,6 @@ subprojects {
 
     publishing {
         publications.withType<MavenPublication>().apply {
-            val kotlinMultiplatform by getting {
-                artifactId = "kwik-${project.name}"
-            }
-
             val metadata by getting {
                 artifactId = "kwik-${project.name}-common"
             }
@@ -142,7 +138,7 @@ subprojects {
         if (Os.isFamily(Os.FAMILY_WINDOWS)) {
             setPublications("windows")
         } else {
-            setPublications("kotlinMultiplatform", "metadata", "jvm", "linux")
+            setPublications("metadata", "jvm", "linux")
         }
     }
 
