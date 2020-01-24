@@ -3,24 +3,28 @@ name: Publish
 on:
   push:
     tags:
-    - '*'
+      - '*'
 
 jobs:
   publish:
 
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+    runs-on: ${{ matrix.os }}
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v1
-      
-    - name: Set up JDK
-      uses: actions/setup-java@v1
-      with:
-        java-version: 8
-        
-    - name: Publish with gradle
-      run: ./gradlew bintrayUpload --no-daemon --no-build-cache
-      env:
-        BINTRAY_USER: ${{ secrets.BINTRAY_USER }}
-        BINTRAY_KEY: ${{ secrets.BINTRAY_KEY }}
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 8
+
+      - name: Publish with gradle
+        run: ./gradlew bintrayUpload --no-daemon --no-build-cache
+        env:
+          BINTRAY_USER: ${{ secrets.BINTRAY_USER }}
+          BINTRAY_KEY: ${{ secrets.BINTRAY_KEY }}
