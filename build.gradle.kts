@@ -3,6 +3,7 @@
 import com.jfrog.bintray.gradle.BintrayExtension
 import com.jfrog.bintray.gradle.BintrayPlugin
 import kr.motd.gradle.sphinx.gradle.SphinxTask
+import org.codehaus.plexus.util.Os
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile
 import java.util.*
 
@@ -84,6 +85,10 @@ subprojects {
 
     publishing {
         publications.withType<MavenPublication>().apply {
+            val kotlinMultiplatform by getting {
+                artifactId = "kwik-${project.name}"
+            }
+
             val metadata by getting {
                 artifactId = "kwik-${project.name}-common"
             }
@@ -92,12 +97,16 @@ subprojects {
                 artifactId = "kwik-${project.name}-jvm"
             }
 
-            val linux by getting {
-                artifactId = "kwik-${project.name}-linux"
+            if (Os.isFamily(Os.FAMILY_UNIX)) {
+                val linux by getting {
+                    artifactId = "kwik-${project.name}-linux"
+                }
             }
 
-            val windows by getting {
-                artifactId = "kwik-${project.name}-windows"
+            if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+                val windows by getting {
+                    artifactId = "kwik-${project.name}-windows"
+                }
             }
         }
     }
@@ -130,17 +139,21 @@ subprojects {
             }
         }
 
-        setPublications("metadata", "jvm", "linux", "windows")
+        if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+            setPublications("windows")
+        } else {
+            setPublications("metadata", "jvm", "linux")
+        }
     }
 
     tasks {
-        
+
         withType<KotlinJvmCompile> {
             kotlinOptions {
-               jvmTarget = "1.8"
+                jvmTarget = "1.8"
             }
         }
-        
+
         val bintrayUpload by existing {
             dependsOn("check")
 
