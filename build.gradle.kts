@@ -142,7 +142,7 @@ subprojects {
         if (Os.isFamily(Os.FAMILY_WINDOWS)) {
             setPublications("windows")
         } else {
-            setPublications("metadata", "jvm", "linux")
+            setPublications("kotlinMultiplatform", "metadata", "jvm", "linux")
         }
     }
 
