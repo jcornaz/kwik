@@ -139,10 +139,6 @@ subprojects {
             if ("test" in project.name)
                 enabled = false
         }
-
-        val test by registering {
-            dependsOn("jvmTest", "linuxTest", "windowsTest")
-        }
     }
 }
 
