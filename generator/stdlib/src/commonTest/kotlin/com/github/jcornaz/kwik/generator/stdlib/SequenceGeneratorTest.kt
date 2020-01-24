@@ -13,8 +13,10 @@ class SequenceGeneratorTest : AbstractGeneratorTest() {
     fun generateOfAllSizeInGivenRange() {
         val sizes = mutableSetOf<Int>()
 
+        val random = Random(0)
+
         repeat(100) {
-            val size = Generator.sequences<Int>(minSize = 3, maxSize = 12).generate(Random).count()
+            val size = Generator.sequences<Int>(minSize = 3, maxSize = 12).generate(random).count()
             assertTrue(size in 3..12)
             sizes += size
         }
