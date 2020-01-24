@@ -115,7 +115,8 @@ Example of setup using gradle.
     }
 
     dependencies {
-        testCompile("com.github.jcornaz.kwik:kwik-core-jvm:0.3.0-alpha.1")
+        testCompile("com.github.jcornaz.kwik:kwik-evaluator-jvm:0.3.0")
+        testCompile("com.github.jcornaz.kwik:kwik-generator-stdlib-jvm:0.3.0")
     }
 .. endGradleSetup
 
