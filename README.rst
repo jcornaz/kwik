@@ -111,11 +111,14 @@ Example of setup using gradle.
 
     repositories {
         jcenter()
-        maven { url = uri("https://dl.bintray.com/kwik/preview") } // For preview versions only
     }
 
     dependencies {
+    
+        // Property evaluation mechanism
         testCompile("com.github.jcornaz.kwik:kwik-evaluator-jvm:0.3.0")
+        
+        // Collection of generator for the kotlin standard library
         testCompile("com.github.jcornaz.kwik:kwik-generator-stdlib-jvm:0.3.0")
     }
 .. endGradleSetup
