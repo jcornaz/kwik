@@ -29,7 +29,10 @@ Added
 .....
 
 * ``linux`` and ``windows`` targets (x64 arch)
+    Thanks to drodel_ and michellesantos_
 
+.. _drodel: https://github.com/drodel
+.. _michellesantos: https://github.com/michellesantos
 
 Migration from 0.2.0
 ....................
@@ -78,6 +81,9 @@ Added
 
 * ``ensureAtLeastOne`` utility in evaluation context,
     that will force property evaluation until a given predicate gets satisfied
+    Thanks to alessandroagnelli_
+
+.. _alessandroagnelli: https://github.com/alessandroagnelli
 
 Dependencies Updated
 ....................
