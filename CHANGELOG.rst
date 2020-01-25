@@ -30,6 +30,29 @@ Added
 
 * ``linux`` and ``windows`` targets (x64 arch)
 
+
+Migration from 0.2.0
+....................
+
+#. Before updating to 0.3.0 (so using version 0.2.0)
+
+    #. Remove all usage of deprecated members
+
+       * Use ``Generator.withSamples`` instead of ``Generator.samples``
+
+       * Use ``Generator.randomSequence`` instead of ``Generator.randoms``
+
+    #. Replace dependencies of module ``core`` by ``evaluator`` and ``generator-stdlib``
+        Example with gradle for JVM project:
+
+        .. code-block:: kotlin
+
+            dependencies {
+                testImplementation("com.github.jcornaz.kwik:kwik-evaluator-jvm:0.2.0")
+                testImplementation("com.github.jcornaz.kwik:kwik-generator-stdlib-jvm:0.2.0")
+            }
+
+
 0.3.0-alpha.1_ - 2019-12-05
 ---------------------------
 
