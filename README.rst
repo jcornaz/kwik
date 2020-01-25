@@ -30,6 +30,7 @@ Property-based testing library for Kotlin.
 * No reflection
 * Configurable built-in generators
 * Easy way to create and combine generators
+* Seeded generation for reproducible results
 
 **Planned features:**
 
