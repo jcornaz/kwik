@@ -34,10 +34,10 @@ jobs:
     - name: Gradle cache
       uses: actions/cache@v1
       with:
-        path: ~/.gradle/caches
-        key: gradle-cache-${{ matrix.java }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/*.kt*') }}
+        path: ~/.gradle
+        key: gradle-cache-${{ matrix.os }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/*.kt*') }}
         restore-keys: |
-          gradle-cache-${{ matrix.java }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          gradle-cache-${{ matrix.os }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
 
     - name: Run gradle check
       run: ./gradlew check --no-daemon
