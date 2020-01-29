@@ -1,6 +1,3 @@
-build:
-  maxIssues: 5
-
 comments:
   active: true
   excludes: "**/test/**,**/androidTest/**,**/*.Test.kt,**/*.Spec.kt,**/*.Spek.kt,**/examples/**"
