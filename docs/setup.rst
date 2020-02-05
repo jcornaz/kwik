@@ -87,7 +87,9 @@ Configure the default number of iterations
 
 By default Kwik will evaluate each property 200 times. (each time with different random inputs)
 
-This default can be configured by setting the system property ``kwik.iterations``.
+This default can be configured by defining the system property ``kwik.iterations`` (on JVM)
+or environment variable ``KWIK_ITERATIONS`` (on JVM and Linux).
+If both are defined (on JVM), then the system property has precedence.
 
 It can be especially useful to define a different number of iteration on the CI server
 
