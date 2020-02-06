@@ -4,13 +4,11 @@ on:
   push:
     branches:
     - master
-    - develop
     - '*.*'
 
   pull_request:
     branches:
     - master
-    - develop
 
 jobs:
   linux:
@@ -39,6 +37,12 @@ jobs:
         key: gradle-cache-linux-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/*.kt*') }}
         restore-keys: |
           gradle-cache-linux-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+
+    - name: Konan cache
+      uses: actions/cache@v1
+      with:
+        path: ~/.konan
+        key: konan-cache-linux-${{ hashFiles('build.gradle.kts') }}
 
     - name: JVM test
       run: ./gradlew jvmTest
@@ -75,6 +79,12 @@ jobs:
           key: gradle-cache-windows-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/*.kt*') }}
           restore-keys: |
             gradle-cache-windows-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+
+      - name: Konan cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.konan
+          key: konan-cache-windows-${{ hashFiles('build.gradle.kts') }}
 
       - name: Check
         run: ./gradlew check
