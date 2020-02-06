@@ -58,6 +58,13 @@ jobs:
         name: detekt-report
         path: build/reports/detekt/detekt.html
 
+    - name: Archive test results
+      if: matrix.java == 11
+      uses: actions/upload-artifact@v1
+      with:
+        name: test-report
+        path: build/reports/allTests/
+
   windows:
     runs-on: windows-latest
 

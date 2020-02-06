@@ -160,25 +160,43 @@ subprojects {
 }
 
 tasks {
-    register("version") {
+    val version by registering {
+        group = "Help"
+        description = "Prints version of kwik"
+
         doLast {
             println(project.version)
         }
     }
 
-    val sphinx by existing {
-        inputs.file("$rootDir/CHANGELOG.rst")
-        inputs.file("$rootDir/README.rst")
-        outputs.cacheIf { true }
+    val detekt by existing {
+        description = "Performs static code analysis and report detected code smells"
     }
 
-    withType<SphinxTask> {
+    val sphinx by existing(SphinxTask::class) {
         warningsAsErrors = true
 
         setSourceDirectory("$rootDir/docs")
+        inputs.file("$rootDir/CHANGELOG.rst")
+        inputs.file("$rootDir/README.rst")
+
+        outputs.cacheIf { true }
+    }
+
+    val testReport by registering(TestReport::class) {
+        group = "Verification"
+        description = "Create an aggregated report of all test tasks"
+
+        destinationDir = file("$buildDir/reports/allTests")
+        reportOn(subprojects.flatMap { it.tasks.withType(Test::class) })
+
+        dependsOn.clear()
+        subprojects.forEach {
+            mustRunAfter(subprojects.flatMap { it.tasks.withType(Test::class) })
+        }
     }
 
     val check by existing {
-        dependsOn(sphinx)
+        dependsOn(sphinx, testReport)
     }
 }
