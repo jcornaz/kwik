@@ -23,8 +23,22 @@ jobs:
         with:
           java-version: 8
 
+      - name: Gradle cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.gradle
+          key: gradle-cache-linux-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/*.kt*') }}
+          restore-keys: |
+            gradle-cache-linux-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+
+      - name: Konan cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.konan
+          key: konan-cache-linux-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+
       - name: Publish with gradle
-        run: ./gradlew bintrayUpload --no-daemon --no-build-cache
+        run: ./gradlew bintrayUpload --no-daemon --rerun-tasks
         env:
           BINTRAY_USER: ${{ secrets.BINTRAY_USER }}
           BINTRAY_KEY: ${{ secrets.BINTRAY_KEY }}

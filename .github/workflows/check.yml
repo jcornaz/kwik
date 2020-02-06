@@ -48,18 +48,18 @@ jobs:
       run: ./gradlew jvmTest
 
     - name: Check
-      if: matrix.java == 11
+      if: matrix.java == 8
       run: ./gradlew check
 
     - name: Publish detekt report
-      if: matrix.java == 11
+      if: matrix.java == 8
       uses: actions/upload-artifact@v1
       with:
         name: detekt-report
         path: build/reports/detekt/detekt.html
 
-    - name: Archive test results
-      if: matrix.java == 11
+    - name: Publish test results
+      if: matrix.java == 8
       uses: actions/upload-artifact@v1
       with:
         name: test-report
