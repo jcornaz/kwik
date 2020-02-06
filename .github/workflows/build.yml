@@ -12,16 +12,15 @@ on:
     - develop
 
 jobs:
-  build:
+  linux:
 
     strategy:
       matrix:
         java: [8, 11, 13]
-        os: [ubuntu-latest, windows-latest]
     
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
-    timeout-minutes: 30
+    timeout-minutes: 15
     
     steps:
     - name: Checkout repository
@@ -36,9 +35,40 @@ jobs:
       uses: actions/cache@v1
       with:
         path: ~/.gradle
-        key: gradle-cache-${{ matrix.os }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/*.kt*') }}
+        key: gradle-cache-linux-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/*.kt*') }}
         restore-keys: |
-          gradle-cache-${{ matrix.os }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          gradle-cache-linux-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
 
     - name: Run gradle check
       run: ./gradlew check --no-daemon
+
+    - name: Publish detekt report
+      uses: actions/upload-artifact@v1
+        with:
+          name: detekt-report
+          path: build/reports/detekt/detekt.html
+
+  windows:
+    runs-on: windows-latest
+
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v1
+
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Gradle cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.gradle
+          key: gradle-cache-windows-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/*.kt*') }}
+          restore-keys: |
+            gradle-cache-windows-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+
+      - name: Run gradle check
+        run: ./gradlew check --no-daemon
