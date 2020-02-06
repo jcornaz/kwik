@@ -42,7 +42,7 @@ jobs:
       uses: actions/cache@v1
       with:
         path: ~/.konan
-        key: konan-cache-linux-${{ hashFiles('build.gradle.kts') }}
+        key: konan-cache-linux-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
 
     - name: JVM test
       run: ./gradlew jvmTest
@@ -91,7 +91,7 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ~/.konan
-          key: konan-cache-windows-${{ hashFiles('build.gradle.kts') }}
+          key: konan-cache-linux-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
 
       - name: Check
         run: ./gradlew check
