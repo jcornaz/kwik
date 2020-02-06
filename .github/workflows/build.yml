@@ -44,9 +44,9 @@ jobs:
 
     - name: Publish detekt report
       uses: actions/upload-artifact@v1
-        with:
-          name: detekt-report
-          path: build/reports/detekt/detekt.html
+      with:
+        name: detekt-report
+        path: build/reports/detekt/detekt.html
 
   windows:
     runs-on: windows-latest
