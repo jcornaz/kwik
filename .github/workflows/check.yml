@@ -40,10 +40,15 @@ jobs:
         restore-keys: |
           gradle-cache-linux-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
 
-    - name: Run gradle check
-      run: ./gradlew check --no-daemon
+    - name: JVM test
+      run: ./gradlew jvmTest
+
+    - name: Check
+      if: matrix.java == 11
+      run: ./gradlew check
 
     - name: Publish detekt report
+      if: matrix.java == 11
       uses: actions/upload-artifact@v1
       with:
         name: detekt-report
@@ -71,5 +76,5 @@ jobs:
           restore-keys: |
             gradle-cache-windows-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
 
-      - name: Run gradle check
-        run: ./gradlew check --no-daemon
+      - name: Check
+        run: ./gradlew check
