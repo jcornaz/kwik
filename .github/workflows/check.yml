@@ -1,0 +1,97 @@
+name: Check
+
+on:
+  push:
+    branches:
+    - master
+    - '*.*'
+
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  linux:
+
+    strategy:
+      matrix:
+        java: [8, 11, 13]
+    
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 15
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v1
+
+    - name: Set up JDK
+      uses: actions/setup-java@v1
+      with:
+        java-version: ${{ matrix.java }}
+
+    - name: Gradle cache
+      uses: actions/cache@v1
+      with:
+        path: ~/.gradle
+        key: gradle-cache-linux-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/*.kt*') }}
+        restore-keys: |
+          gradle-cache-linux-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+
+    - name: Konan cache
+      uses: actions/cache@v1
+      with:
+        path: ~/.konan
+        key: konan-cache-linux-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+
+    - name: JVM test
+      run: ./gradlew jvmTest
+
+    - name: Check
+      if: matrix.java == 8
+      run: ./gradlew check
+
+    - name: Publish detekt report
+      if: matrix.java == 8
+      uses: actions/upload-artifact@v1
+      with:
+        name: detekt-report
+        path: build/reports/detekt/detekt.html
+
+    - name: Publish test results
+      if: matrix.java == 8
+      uses: actions/upload-artifact@v1
+      with:
+        name: test-report
+        path: build/reports/allTests/
+
+  windows:
+    runs-on: windows-latest
+
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v1
+
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Gradle cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.gradle
+          key: gradle-cache-windows-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/*.kt*') }}
+          restore-keys: |
+            gradle-cache-windows-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+
+      - name: Konan cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.konan
+          key: konan-cache-linux-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+
+      - name: Check
+        run: ./gradlew check
