@@ -27,9 +27,9 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ~/.gradle
-          key: gradle-cache-${{ matrix.os }}-java${{ matrix.java }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/*.kt*') }}
+          key: gradle-cache-${{ matrix.os }}-java8-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/*.kt*') }}
           restore-keys: |
-            gradle-cache-${{ matrix.os }}-java${{ matrix.java }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+            gradle-cache-${{ matrix.os }}-java8-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
 
       - name: Publish with gradle
         run: ./gradlew bintrayUpload --no-daemon --rerun-tasks
