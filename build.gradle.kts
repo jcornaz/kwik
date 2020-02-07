@@ -108,8 +108,6 @@ subprojects {
     }
 
     configure<BintrayExtension> {
-        if ("test" in project.name || "examples" in project.name) return@configure
-
         user = System.getenv("BINTRAY_USER")
         key = System.getenv("BINTRAY_KEY")
         publish = true
@@ -154,6 +152,9 @@ subprojects {
 
         val bintrayUpload by existing {
             dependsOn("check")
+
+            if ("test" in project.name && "examples" in project.name)
+                enabled = false
         }
     }
 }
