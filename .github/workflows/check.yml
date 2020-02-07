@@ -4,6 +4,7 @@ on:
   push:
     branches:
     - master
+    - publication-test
     - '*.*'
 
   pull_request:
@@ -23,7 +24,12 @@ jobs:
     
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Fetch tags
+      run: git fetch --tags
 
     - name: Set up JDK
       uses: actions/setup-java@v1
