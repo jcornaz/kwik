@@ -34,15 +34,9 @@ jobs:
       uses: actions/cache@v1
       with:
         path: ~/.gradle
-        key: gradle-cache-linux-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/*.kt*') }}
+        key: gradle-cache-linux-java${{ matrix.java }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/*.kt*') }}
         restore-keys: |
-          gradle-cache-linux-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
-
-    - name: Konan cache
-      uses: actions/cache@v1
-      with:
-        path: ~/.konan
-        key: konan-cache-linux-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          gradle-cache-linux-java${{ matrix.java }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
 
     - name: JVM test
       run: ./gradlew jvmTest
@@ -83,15 +77,9 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ~/.gradle
-          key: gradle-cache-windows-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/*.kt*') }}
+          key: gradle-cache-windows-java8-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/*.kt*') }}
           restore-keys: |
-            gradle-cache-windows-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
-
-      - name: Konan cache
-        uses: actions/cache@v1
-        with:
-          path: ~/.konan
-          key: konan-cache-linux-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+            gradle-cache-windows-java8-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
 
       - name: Check
         run: ./gradlew check

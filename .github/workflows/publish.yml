@@ -10,9 +10,9 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu, windows]
 
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}-latest
 
     steps:
       - name: Checkout repository
@@ -27,15 +27,9 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ~/.gradle
-          key: gradle-cache-linux-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/*.kt*') }}
+          key: gradle-cache-${{ matrix.os }}-java${{ matrix.java }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/*.kt*') }}
           restore-keys: |
-            gradle-cache-linux-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
-
-      - name: Konan cache
-        uses: actions/cache@v1
-        with:
-          path: ~/.konan
-          key: konan-cache-linux-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+            gradle-cache-${{ matrix.os }}-java${{ matrix.java }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
 
       - name: Publish with gradle
         run: ./gradlew bintrayUpload --no-daemon --rerun-tasks
