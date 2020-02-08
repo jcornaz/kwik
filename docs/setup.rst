@@ -31,12 +31,17 @@ Add the artifact dependency
 ---------------------------
 
 - The group id is ``com.github.jcornaz.kwik``
-- Artefact ids have the form of ``kwik-<MODULE>-<PLATFORM>``. Example: `kwik-evaluator-jvm`.
+- Artifact ids have the form of ``kwik-<MODULE>-<PLATFORM>``
+
     - Available modules:
+
         - ``evaluator``: property evaluation
         - ``generator-api``: API for random genetor, already transitively added via ``evaluator`` or ``generator-stdlib``
         - ``generator-stdlib``: Collection of random generators for types provided by the kotlin standard library
+
     - Available platforms: ``jvm``, ``linux`` and ``windows``
+
+    - Example: ``kwik-evaluator-jvm``
 
 - Pick a version from: https://github.com/jcornaz/kwik/releases
 
@@ -47,37 +52,17 @@ Example with gradle for Kotlin/JVM
     :start-after: .. startGradleSetup
     :end-before: .. endGradleSetup
 
-Available artifacts
-...................
+Kotlin/JVM configuration
+------------------------
 
-To start writing property tests in your project, the best module to use is certainly ``kwik-core-jvm`` (and ``kwik-core-common`` in Kotlin/Common modules).
+If you compile Kotlin to Java ByteCode, you must target Java 8 or above.
 
-But to write a module or project that extends Kwik (like a collection of generator),
-you might prefer to pick more specific module(s) in this list:
+Here is how to configure it with gradle
 
-.. list-table:: List of available modules
-    :header-rows: 1
-
-    * - Module
-      - Kotlin/Common artifact
-      - Kotlin/JVM artifact
-      - Remarks
-    * - Generator API
-      - ``kwik-generator-api-common``
-      - ``kwik-generator-api-jvm``
-      - API to create new generators
-    * - Standard generators
-      - ``kwik-generator-stdlib-common``
-      - ``kwik-generator-stdlib-jvm``
-      - Generators for types available in the Kotlin standard library
-    * - Property evaluator
-      - ``kwik-evaluator-common``
-      - ``kwik-evaluator-jvm``
-      - Property evaluation
-    * - Core
-      - ``kwik-core-jvm-common``
-      - ``kwik-core-jvm-jvm``
-      - Contains nothing more than transitive dependencies on evaluator and standard generators
+.. literalinclude:: ../example/build.gradle.kts
+    :language: kotlin
+    :start-after: //region Configure Kotlin JVM compilation
+    :end-before: //endregion
 
 
 .. _configure-default-iterations:

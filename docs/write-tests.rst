@@ -6,7 +6,7 @@ Basic usage
 
 To evaluate a property we must invoke the function ``forAll`` like this:
 
-.. literalinclude:: ../examples/src/commonMain/kotlin/com/github/jcornaz/kwik/example/PlusOperatorExample.kt
+.. literalinclude:: ../example/src/test/kotlin/com/github/jcornaz/kwik/example/PlusOperatorExample.kt
     :language: kotlin
     :dedent: 4
     :start-after: //region Default config and generators
@@ -30,7 +30,7 @@ Instead of returning a boolean, we have to throw an exception in case of falsifi
 
 Example:
 
-.. literalinclude:: ../examples/src/commonMain/kotlin/com/github/jcornaz/kwik/example/PlusOperatorExample.kt
+.. literalinclude:: ../example/src/test/kotlin/com/github/jcornaz/kwik/example/PlusOperatorExample.kt
     :language: kotlin
     :dedent: 4
     :start-after: //region Using checkForAll
@@ -49,7 +49,7 @@ By default the property is evaluated 200 times [1]_. But we can configure it by 
 
 For instance, the following property will be evaluated 1000 times:
 
-.. literalinclude:: ../examples/src/commonMain/kotlin/com/github/jcornaz/kwik/example/PlusOperatorExample.kt
+.. literalinclude:: ../example/src/test/kotlin/com/github/jcornaz/kwik/example/PlusOperatorExample.kt
     :language: kotlin
     :dedent: 8
     :start-after: //region With a given number of iterations
@@ -67,7 +67,7 @@ To solve this problem, Kwik use seeds. By default a random seed is used and prin
 If we observe a failure in the CI, we simply look at the build-log to see what seed has been used,
 then we can pass the seed to ``forAll`` so that it always test the same inputs.
 
-.. literalinclude:: ../examples/src/commonMain/kotlin/com/github/jcornaz/kwik/example/PlusOperatorExample.kt
+.. literalinclude:: ../example/src/test/kotlin/com/github/jcornaz/kwik/example/PlusOperatorExample.kt
     :language: kotlin
     :dedent: 8
     :start-after: //region Use a seed
@@ -80,7 +80,7 @@ Random input is good. But sometimes, we need to constraint the range of possible
 
 That's why the function ``forAll`` accepts *generators*, and all built-in *generators* can be configured.
 
-.. literalinclude:: ../examples/src/commonMain/kotlin/com/github/jcornaz/kwik/example/PlusOperatorExample.kt
+.. literalinclude:: ../example/src/test/kotlin/com/github/jcornaz/kwik/example/PlusOperatorExample.kt
     :language: kotlin
     :dedent: 8
     :start-after: //region Configure or use a custom generator
@@ -95,7 +95,7 @@ For this we can create a generator by implementing the interface ``Generator``.
 
 But most of the time it may be simpler to call ``Generator.create``:
 
-.. literalinclude:: ../examples/src/commonMain/kotlin/com/github/jcornaz/kwik/example/PlusOperatorExample.kt
+.. literalinclude:: ../example/src/test/kotlin/com/github/jcornaz/kwik/example/PlusOperatorExample.kt
     :language: kotlin
     :dedent: 4
     :start-after: //region Create a custom generator
@@ -103,7 +103,7 @@ But most of the time it may be simpler to call ``Generator.create``:
 
 For enums or finite set of values we can use ``Generator.enum()`` and ``Generator.of()``:
 
-.. literalinclude:: ../examples/src/commonMain/kotlin/com/github/jcornaz/kwik/example/PlusOperatorExample.kt
+.. literalinclude:: ../example/src/test/kotlin/com/github/jcornaz/kwik/example/PlusOperatorExample.kt
     :language: kotlin
     :dedent: 4
     :start-after: //region Create a generator for an enum
@@ -122,7 +122,7 @@ These edge-cases can be added to a generator with the function ``withSamples``.
 
 And since ``null`` and ``NaN`` are two quite common edge-case, there are dedicated ``withNull`` and ``withNaN`` operators.
 
-.. literalinclude:: ../examples/src/commonMain/kotlin/com/github/jcornaz/kwik/example/PlusOperatorExample.kt
+.. literalinclude:: ../example/src/test/kotlin/com/github/jcornaz/kwik/example/PlusOperatorExample.kt
     :language: kotlin
     :dedent: 4
     :start-after: //region Add samples
@@ -140,7 +140,7 @@ Skip an evaluation
 
 Sometime we want to exclude some specific set of input. For that, we can call ``skipIf`` in the property evaluation block.
 
-.. literalinclude:: ../examples/src/commonMain/kotlin/com/github/jcornaz/kwik/example/PlusOperatorExample.kt
+.. literalinclude:: ../example/src/test/kotlin/com/github/jcornaz/kwik/example/PlusOperatorExample.kt
     :language: kotlin
     :dedent: 8
     :start-after: //region Skip evaluation
@@ -157,7 +157,7 @@ All theses random inputs are nice, but we may want to be sure that some conditio
 For that, we can call ``ensureAtLeastOne``. It will force the property evaluation run as many time as necessary, so that
 the given predicate gets true.
 
-.. literalinclude:: ../examples/src/commonMain/kotlin/com/github/jcornaz/kwik/example/EnsureAtLeastOneExample.kt
+.. literalinclude:: ../example/src/test/kotlin/com/github/jcornaz/kwik/example/EnsureAtLeastOneExample.kt
     :language: kotlin
     :dedent: 8
     :start-after: //region ensure at least one evaluation

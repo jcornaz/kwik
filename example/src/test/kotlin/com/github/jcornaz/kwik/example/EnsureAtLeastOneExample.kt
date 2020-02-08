@@ -1,7 +1,7 @@
 package com.github.jcornaz.kwik.example
 
 import com.github.jcornaz.kwik.evaluator.forAll
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 
 class EnsureAtLeastOneExample {
 

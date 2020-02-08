@@ -176,6 +176,7 @@ tasks {
         setSourceDirectory("$rootDir/docs")
         inputs.file("$rootDir/CHANGELOG.rst")
         inputs.file("$rootDir/README.rst")
+        inputs.dir("$rootDir/example")
 
         outputs.cacheIf { true }
     }
@@ -188,12 +189,12 @@ tasks {
         reportOn(subprojects.flatMap { it.tasks.withType(Test::class) })
 
         dependsOn.clear()
-        subprojects.forEach {
-            mustRunAfter(subprojects.flatMap { it.tasks.withType(Test::class) })
-        }
+        mustRunAfter(subprojects.flatMap { it.tasks.withType(Test::class) })
     }
 
     val check by existing {
-        dependsOn(sphinx, testReport)
+        dependsOn(sphinx)
+
+        finalizedBy(testReport)
     }
 }
