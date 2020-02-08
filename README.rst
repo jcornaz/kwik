@@ -114,10 +114,10 @@ Example of setup using gradle.
     dependencies {
     
         // Property evaluation mechanism
-        testCompile("com.github.jcornaz.kwik:kwik-evaluator-jvm:0.3.0")
+        testCompile("com.github.jcornaz.kwik:kwik-evaluator-jvm:0.4.0")
         
         // Collection of generator for the kotlin standard library
-        testCompile("com.github.jcornaz.kwik:kwik-generator-stdlib-jvm:0.3.0")
+        testCompile("com.github.jcornaz.kwik:kwik-generator-stdlib-jvm:0.4.0")
     }
 .. endGradleSetup
 

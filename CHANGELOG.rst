@@ -14,6 +14,11 @@ and this project adheres to `Semantic Versioning`_.
 Unreleased_
 -----------
 
+.. endUnreleasedBlock
+
+0.4.0_ - 2020-02-08
+-------------------
+
 Added
 .....
 
@@ -22,7 +27,6 @@ Added
 * Allow to configure default seed via system property ``kwik.seed`` (on JVM) or via environment variable ``KWIK_SEED`` on JVM and Linux
   (on JVM the system property has precedence over the environment variable)
 
-.. endUnreleasedBlock
 
 0.3.0_ - 2020-01-24
 -------------------
@@ -295,7 +299,8 @@ Added
 * ``withSample`` and ``withNull`` to inject constants values to be always tested
 * ``zip`` operator to combine two given generators
 
-.. _Unreleased: https://github.com/jcornaz/kwik/compare/0.3.0...master
+.. _Unreleased: https://github.com/jcornaz/kwik/compare/0.4.0...master
+.. _0.4.0: https://github.com/jcornaz/kwik/compare/0.3.0...0.4.0
 .. _0.3.0: https://github.com/jcornaz/kwik/compare/0.3.0-alpha.1...0.3.0
 .. _0.3.0-alpha.1: https://github.com/jcornaz/kwik/compare/0.2.0...0.3.0-alpha.1
 .. _0.2.0: https://github.com/jcornaz/kwik/compare/0.2.0-rc.1...0.2.0
