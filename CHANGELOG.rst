@@ -14,6 +14,13 @@ and this project adheres to `Semantic Versioning`_.
 Unreleased_
 -----------
 
+Added
+.....
+
+* Allow to configure default number of iteration via environment variable ``KWIK_ITERATIONS`` on JVM and Linux
+  (on JVM the system property has precedence over the environment variable)
+* Allow to configure default seed via system property ``kwik.seed`` (on JVM) or via environment variable ``KWIK_SEED`` on JVM and Linux
+  (on JVM the system property has precedence over the environment variable)
 
 .. endUnreleasedBlock
 

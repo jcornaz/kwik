@@ -40,7 +40,7 @@ This alternative can be especially useful to get more descriptive messages. In t
 property would display the expected and actual values. Theses kind of messages cannot be provided when using `forAll`.
 
 
-.. _choose-property-iterations:
+.. _choose-iterations:
 
 Choose the number of iterations
 -------------------------------
@@ -57,6 +57,9 @@ For instance, the following property will be evaluated 1000 times:
 
 .. [1] The default number of iterations can be :ref:`configured via system property <configure-default-iterations>`
 
+
+.. _choose-seed:
+
 Use a seed to get reproducible results
 --------------------------------------
 
@@ -72,6 +75,8 @@ then we can pass the seed to ``forAll`` so that it always test the same inputs.
     :dedent: 8
     :start-after: //region Use a seed
     :end-before: //endregion
+
+.. note:: The seed can be :ref:`set globally <configure-default-seed>`
 
 Customize generated values
 --------------------------
