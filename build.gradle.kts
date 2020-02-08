@@ -176,6 +176,7 @@ tasks {
         setSourceDirectory("$rootDir/docs")
         inputs.file("$rootDir/CHANGELOG.rst")
         inputs.file("$rootDir/README.rst")
+        inputs.dir("$rootDir/example")
 
         outputs.cacheIf { true }
     }

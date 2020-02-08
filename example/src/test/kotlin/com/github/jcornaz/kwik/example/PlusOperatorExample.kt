@@ -10,8 +10,8 @@ import com.github.jcornaz.kwik.generator.stdlib.doubles
 import com.github.jcornaz.kwik.generator.stdlib.enum
 import com.github.jcornaz.kwik.generator.stdlib.ints
 import com.github.jcornaz.kwik.generator.stdlib.withNaN
-import kotlin.test.Test
-import kotlin.test.assertEquals
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 
 class PlusOperatorTest {
 
