@@ -2,7 +2,8 @@ rootProject.name = "example"
 
 // This block is only useful to build example against the current version of Kiwk
 // It can be removed in case published version of kwik is used
-if (file("../settings.gradle.kts").exists()) {
+if (System.getProperty("include.kwik")?.toLowerCase() == "true") {
+    println("Build includes current version kwik")
     includeBuild("..") {
         dependencySubstitution {
             substitute(module("com.github.jcornaz.kwik:kwik-evaluator-jvm"))
@@ -15,4 +16,6 @@ if (file("../settings.gradle.kts").exists()) {
                 .with(project(":generator-stdlib"))
         }
     }
+} else {
+    println("Build fetch latest published version of kwik")
 }

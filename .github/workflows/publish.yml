@@ -42,7 +42,7 @@ jobs:
         run: ./gradlew check --rerun-tasks
 
       - name: Check example
-        run: ./gradlew -p example --include-build .. check
+        run: ./gradlew -p example check -Dinclude.kwik=true
 
       - name: Upload artifacts
         run: ./gradlew bintrayUpload
