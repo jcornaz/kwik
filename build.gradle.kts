@@ -152,9 +152,6 @@ subprojects {
 
         val bintrayUpload by existing {
             dependsOn("check")
-
-            if ("test" in project.name && "examples" in project.name)
-                enabled = false
         }
     }
 }
