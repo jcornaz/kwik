@@ -1,5 +1,5 @@
-Configurations
-==============
+Configuration
+=============
 
 Kwik allow you to configure some defaults via system property (for Kotlin/JVM) or environment variable
 (Kotlin/JVM, or Kotlin/Native on linux),
@@ -9,8 +9,8 @@ Note when running Kotlin/JVM the system properties have precedence over the envi
 
 .. _configure-default-iterations:
 
-Default umber of iterations
----------------------------
+Default number of iterations
+----------------------------
 
 By default Kwik will evaluate each property 200 times. (each time with different random inputs)
 
