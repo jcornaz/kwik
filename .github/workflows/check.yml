@@ -63,6 +63,13 @@ jobs:
         name: test-report
         path: build/reports/allTests/
 
+    - name: Publish documentation
+      if: matrix.java == 8
+      uses: actions/upload-artifact@v1
+      with:
+        name: documentation
+        path: build/site/
+
   windows:
     runs-on: windows-latest
 
