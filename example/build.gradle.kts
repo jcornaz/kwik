@@ -20,14 +20,14 @@ dependencies {
     testImplementation("com.github.jcornaz.kwik:kwik-generator-stdlib-jvm:0.3.0")
 }
 
-tasks {
-    withType<KotlinJvmCompile> {
-        kotlinOptions {
-            jvmTarget = "1.8"
-        }
+//region Configure Kotlin JVM compilation
+tasks.withType<KotlinJvmCompile> {
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
+}
+//endregion
 
-    test {
-        useJUnitPlatform()
-    }
+tasks.test {
+    useJUnitPlatform()
 }
