@@ -92,5 +92,9 @@ jobs:
           restore-keys: |
             gradle-cache-windows-java8-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
 
-      - name: Check
+      - name: Check kwik
         run: ./gradlew check
+
+      - name: Check example
+        run: ./gradlew -p example --include-build .. check
+
