@@ -44,7 +44,7 @@ jobs:
       - name: Check example
         run: ./gradlew -p example --include-build .. check
 
-      - name: Publish with gradle
+      - name: Upload artifacts
         run: ./gradlew bintrayUpload
         env:
           BINTRAY_USER: ${{ secrets.BINTRAY_USER }}
