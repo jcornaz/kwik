@@ -41,9 +41,13 @@ jobs:
     - name: JVM test
       run: ./gradlew jvmTest
 
-    - name: Check
+    - name: Check kwik
       if: matrix.java == 8
       run: ./gradlew check
+
+    - name: Check example
+      if: matrix.java == 8
+      run: ./gradlew -p example --include-build .. check
 
     - name: Publish detekt report
       if: matrix.java == 8

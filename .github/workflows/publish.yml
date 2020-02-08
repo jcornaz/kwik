@@ -38,8 +38,14 @@ jobs:
           restore-keys: |
             gradle-cache-${{ matrix.os }}-java8-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
 
+      - name: Check kwik
+        run: ./gradlew check --rerun-tasks
+
+      - name: Check example
+        run: ./gradlew -p example --include-build .. check
+
       - name: Publish with gradle
-        run: ./gradlew bintrayUpload --no-daemon --rerun-tasks
+        run: ./gradlew bintrayUpload
         env:
           BINTRAY_USER: ${{ secrets.BINTRAY_USER }}
           BINTRAY_KEY: ${{ secrets.BINTRAY_KEY }}
