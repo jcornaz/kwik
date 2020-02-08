@@ -18,3 +18,9 @@ kotlin {
         }
     }
 }
+
+tasks {
+    val bintrayUpload by existing {
+        enabled = false
+    }
+}

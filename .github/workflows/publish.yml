@@ -2,6 +2,8 @@ name: Publish
 
 on:
   push:
+    branches:
+      - publication-test
     tags:
       - '*'
 
@@ -10,13 +12,18 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu, windows]
 
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Fetch tags
+        run: git fetch --tags
 
       - name: Set up JDK
         uses: actions/setup-java@v1
@@ -27,15 +34,9 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ~/.gradle
-          key: gradle-cache-linux-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/*.kt*') }}
+          key: gradle-cache-${{ matrix.os }}-java8-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/*.kt*') }}
           restore-keys: |
-            gradle-cache-linux-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
-
-      - name: Konan cache
-        uses: actions/cache@v1
-        with:
-          path: ~/.konan
-          key: konan-cache-linux-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+            gradle-cache-${{ matrix.os }}-java8-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
 
       - name: Publish with gradle
         run: ./gradlew bintrayUpload --no-daemon --rerun-tasks
