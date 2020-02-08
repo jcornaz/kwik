@@ -18,7 +18,8 @@ val kwikDefaultIterations: Int
  *
  * Can return a different value at each call
  *
- * May return the same value at each call (if system property 'kwik.seed' or environment variable 'KWIK_ITERATIONS' is set)
+ * May return the same value at each call
+ * (if system property 'kwik.seed' or environment variable 'KWIK_ITERATIONS' is set)
  */
 fun nextSeed(): Long {
     println("nextSeed (kwik.seed: ${getProperty("kwik.seed")})")
