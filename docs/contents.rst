@@ -6,6 +6,7 @@ Welcome to Kwik's documentation!
 
     Home <index>
     setup
+    configuration
     write-tests
     generators
     operators

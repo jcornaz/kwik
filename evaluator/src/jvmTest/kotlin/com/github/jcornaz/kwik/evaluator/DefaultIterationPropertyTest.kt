@@ -3,7 +3,7 @@ package com.github.jcornaz.kwik.evaluator
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ForAllJvmTest {
+class DefaultIterationPropertyTest {
 
     @Test
     fun forAll1UseKwikIterationsSystemPropertyByDefault() {
@@ -63,16 +63,3 @@ class ForAllJvmTest {
 }
 
 
-inline fun <R> withSystemProperty(key: String, value: String, block: () -> R): R {
-    val previousValue: String? = System.getProperty(key)
-    System.setProperty(key, value)
-    return try {
-        block()
-    } finally {
-        if (previousValue == null) {
-            System.clearProperty(key)
-        } else {
-            System.setProperty(key, previousValue)
-        }
-    }
-}
