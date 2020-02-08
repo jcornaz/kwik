@@ -2,8 +2,8 @@ rootProject.name = "example"
 
 // This block is only useful to build example against the current version of Kiwk
 // It can be removed in case published version of kwik is used
-if (System.getProperty("include.kwik")?.toLowerCase() == "true") {
-    println("Build includes current version kwik")
+if (System.getProperty("include")?.toLowerCase() == "true") {
+    println("Include current version of kwik")
     includeBuild("..") {
         dependencySubstitution {
             substitute(module("com.github.jcornaz.kwik:kwik-evaluator-jvm"))
@@ -17,5 +17,5 @@ if (System.getProperty("include.kwik")?.toLowerCase() == "true") {
         }
     }
 } else {
-    println("Build fetch latest published version of kwik")
+    println("Fetch published version of kwik")
 }
