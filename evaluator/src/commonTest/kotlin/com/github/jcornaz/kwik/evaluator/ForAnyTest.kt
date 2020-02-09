@@ -1,6 +1,7 @@
 package com.github.jcornaz.kwik.evaluator
 
 import com.github.jcornaz.kwik.fuzzer.ExperimentalKwikFuzzer
+import com.github.jcornaz.kwik.fuzzer.ensureAtLeastOne
 import com.github.jcornaz.kwik.fuzzer.toFuzzer
 import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.randomSequence
@@ -81,5 +82,93 @@ class ForAnyTest {
         assertFailsWith<IllegalArgumentException> {
             forAny(Generator.ints().toFuzzer(), iterations = 0) { }
         }
+    }
+
+    @Test
+    fun guaranteesCanCauseAdditionalEvaluation() {
+        var iterations = 0
+
+        forAny(
+            Generator.create { iterations + 1 }
+                .toFuzzer()
+                .ensureAtLeastOne { it >= 100 },
+            iterations = 10
+        ) { ++iterations }
+
+        assertEquals(100, iterations)
+    }
+
+
+    @Test
+    fun multipleGuaranteesCauseAdditionalIterationUntilTheyAreAllSatisfied() {
+        var iterations = 0
+
+        forAny(
+            Generator.create { iterations + 1 }
+                .toFuzzer()
+                .ensureAtLeastOne { it >= 100 }
+                .ensureAtLeastOne { it >= 10 },
+            iterations = 10
+        ) { ++iterations }
+
+        assertEquals(100, iterations)
+    }
+
+    @Test
+    fun multipleGuaranteesCauseAdditionalIterationUntilTheyAreBothSatisfied_orderDoesNotMatter() {
+        var iterations = 0
+
+        forAny(
+            Generator.create { iterations + 1 }
+                .toFuzzer()
+                .ensureAtLeastOne { it >= 10 }
+                .ensureAtLeastOne { it >= 100 },
+            iterations = 10
+        ) { ++iterations }
+
+        assertEquals(100, iterations)
+    }
+
+    @Test
+    fun guaranteesDoesNotCauseAdditionalIterationWhenNotNecessary() {
+        var iteration = 0
+
+        forAny(
+            Generator.create { 42 }
+                .toFuzzer()
+                .ensureAtLeastOne { it > 10 }
+            ,
+            iterations = 123
+        ) { ++iteration }
+
+        assertEquals(123, iteration)
+    }
+
+    @Test
+    fun doesNotCauseAdditionalIterationInCaseOfFalsification() {
+        var iteration = 0
+
+        val exception = assertFailsWith<FalsifiedPropertyError> {
+            forAny(
+                Generator.create { 42 }
+                    .toFuzzer()
+                    .ensureAtLeastOne { it > 10 },
+                iterations = 123,
+                seed = 78
+            ) {
+                ++iteration
+                assertTrue(iteration < 10)
+            }
+        }
+
+        assertEquals(10, iteration)
+        assertEquals(
+            """
+                Property falsified after 10 tests (out of 123)
+                Argument 1: 42
+                Generation seed: 78
+            """.trimIndent(),
+            exception.message
+        )
     }
 }

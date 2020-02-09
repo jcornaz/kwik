@@ -3,6 +3,7 @@ package com.github.jcornaz.kwik.fuzzer
 import com.github.jcornaz.kwik.generator.api.Generator
 import kotlin.test.Test
 import kotlin.test.assertSame
+import kotlin.test.assertTrue
 
 @ExperimentalKwikFuzzer
 class GeneratorToFuzzerTest {
@@ -24,5 +25,15 @@ class GeneratorToFuzzerTest {
 
         val fuzzer = generator.toFuzzer(shrinker)
         assertSame(fuzzer.shrinker, shrinker)
+    }
+
+    @Test
+    fun hasNoGuaranteesByDefault() {
+        assertTrue(
+            Generator.create { it.nextInt() }
+                .toFuzzer()
+                .guarantees
+                .isEmpty()
+        )
     }
 }

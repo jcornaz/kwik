@@ -14,6 +14,14 @@ fun <T> Generator<T>.toFuzzer(shrinker: Shrinker<T> = noShrink()): Fuzzer<T> =
     Fuzzer(this, shrinker, emptyList())
 
 /**
+ * Force to evaluate the property has many time as necessary
+ * so that the [predicate] evaluate to `true` at least once.
+ */
+@ExperimentalKwikFuzzer
+fun <T> Fuzzer<T>.ensureAtLeastOne(predicate: (T) -> Boolean): Fuzzer<T> =
+    copy(guarantees = guarantees + predicate)
+
+/**
  * Returns a fuzzer that evaluates only elements matching the given [predicate].
  *
  * **Usage of this operator slows down the property tests**

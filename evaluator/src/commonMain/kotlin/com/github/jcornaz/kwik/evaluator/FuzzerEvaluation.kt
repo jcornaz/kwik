@@ -25,14 +25,26 @@ fun <T> forAny(
 ) {
     require(iterations > 0) { "Iterations must be > 0, but was: $iterations" }
 
-    fuzzer.generator
-        .randomSequence(seed)
-        .take(iterations)
-        .forEachIndexed { index, input ->
-            try {
-                block(input)
-            } catch (throwable: Throwable) {
-                throw FalsifiedPropertyError(index + 1, iterations, seed, listOf(input), throwable)
-            }
+    val unsatisfiedGuarantees = fuzzer.guarantees.toMutableList()
+    var iterationDone = 0
+
+    val inputIterator = fuzzer.generator.randomSequence(seed).iterator()
+
+    do {
+        val input = inputIterator.next()
+
+        val guaranteesIterator = unsatisfiedGuarantees.listIterator()
+        while(guaranteesIterator.hasNext()) {
+            if (guaranteesIterator.next().invoke(input))
+                guaranteesIterator.remove()
         }
+
+        try {
+            block(input)
+        } catch (throwable: Throwable) {
+            throw FalsifiedPropertyError(iterationDone + 1, iterations, seed, listOf(input), throwable)
+        }
+
+        ++iterationDone
+    } while (iterationDone < iterations || unsatisfiedGuarantees.isNotEmpty())
 }
