@@ -1,9 +1,10 @@
 package com.github.jcornaz.kwik.evaluator
 
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
-import kotlin.test.assertNotEquals
+import com.github.jcornaz.kwik.fuzzer.ExperimentalKwikFuzzer
+import com.github.jcornaz.kwik.fuzzer.toFuzzer
+import com.github.jcornaz.kwik.generator.api.Generator
+import com.github.jcornaz.kwik.generator.stdlib.ints
+import kotlin.test.*
 
 class DefaultSeedPropertyTest {
 
@@ -19,6 +20,24 @@ class DefaultSeedPropertyTest {
         withSystemProperty("kwik.seed", "314") {
             assertEquals(314, nextSeed())
             assertEquals(nextSeed(), nextSeed())
+        }
+    }
+
+    @Test
+    @ExperimentalKwikFuzzer
+    fun forAnyUsesSeedInPropertyIfAny() {
+        withSystemProperty("kwik.seed", "101") {
+            val exception1 = assertFailsWith<FalsifiedPropertyError> {
+                forAny(Generator.ints().toFuzzer()) { fail() }
+            }
+
+            val exception2 = assertFailsWith<FalsifiedPropertyError> {
+                forAny(Generator.ints().toFuzzer()) { fail() }
+            }
+
+            assertEquals(101, exception1.seed)
+            assertEquals(101, exception2.seed)
+            assertEquals(exception1.arguments, exception2.arguments)
         }
     }
 
