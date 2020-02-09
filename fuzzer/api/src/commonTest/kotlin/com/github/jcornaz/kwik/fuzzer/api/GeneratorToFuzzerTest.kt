@@ -1,4 +1,4 @@
-package com.github.jcornaz.kwik.fuzzer
+package com.github.jcornaz.kwik.fuzzer.api
 
 import com.github.jcornaz.kwik.generator.api.Generator
 import kotlin.test.Test

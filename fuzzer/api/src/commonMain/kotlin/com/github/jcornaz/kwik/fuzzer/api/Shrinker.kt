@@ -1,4 +1,4 @@
-package com.github.jcornaz.kwik.fuzzer
+package com.github.jcornaz.kwik.fuzzer.api
 
 /**
  * The shrinker type.

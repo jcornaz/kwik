@@ -1,4 +1,4 @@
-package com.github.jcornaz.kwik.fuzzer
+package com.github.jcornaz.kwik.fuzzer.api
 
 /**
  * Returns a [Shrinker] that consider inputs of [Shrinker.shrink] to be already the smallest value possible,
