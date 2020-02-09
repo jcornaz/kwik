@@ -4,6 +4,7 @@ import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
+@ExperimentalKwikFuzzer
 class NoShrinkTest {
 
     @Test
