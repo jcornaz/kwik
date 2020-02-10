@@ -47,7 +47,7 @@ Status
 
 The project is incubating and its API is subject to changes.
 
-Please give it a try and write a feed back in the issues_ or discuss on gitter_.
+Please give it a try and write a feedback in the issues_ or discuss on gitter_.
 
 .. _issues: https://github.com/jcornaz/kwik/issues
 .. _gitter: https://gitter.im/kwik-test/community
@@ -94,8 +94,8 @@ none of them fully fit my needs.
 The known alternatives either:
 
 * Are bound to a specific test-engine
-* Can only be used in Java module (not in Kotlin multi-platform modules)
-* Relies on reflection, making them slower and make some errors detectable only at runtime
+* Can only be used when compiling kotlin to Java (and cannot be used in multi-platform projects)
+* Relies on reflection, making the tests slower and make some errors detectable only at runtime
 * Do not allow enough freedom and safety to customize existing generators
 * Force the user to add unwanted dependencies in the classpath
 
