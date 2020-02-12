@@ -1,8 +1,11 @@
 package com.github.jcornaz.kwik.simplifier.api
 
 /**
- * A simplifier is capable of taking a value and returning a sequence of values
+ * A simplifier is capable of taking a value to return a sequence of values
  * that are in some sense "simpler" than the given value.
+ *
+ * The definition of what "simpler" means is defined by the implementer of this interface.
+ * For instance one may consider `1` simpler than `-189034789235`.
  */
 @ExperimentalKwikFuzzer
 interface Simplifier<T> {

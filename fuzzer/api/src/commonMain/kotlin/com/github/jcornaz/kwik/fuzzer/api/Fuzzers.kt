@@ -6,6 +6,8 @@ import com.github.jcornaz.kwik.generator.api.filterNot
 import com.github.jcornaz.kwik.simplifier.api.ExperimentalKwikFuzzer
 import com.github.jcornaz.kwik.simplifier.api.Simplifier
 import com.github.jcornaz.kwik.simplifier.api.dontSimplify
+import com.github.jcornaz.kwik.simplifier.api.filter
+import com.github.jcornaz.kwik.simplifier.api.filterNot
 
 /**
  * Returns a [Fuzzer] backed by this [Generator].
@@ -32,7 +34,10 @@ fun <T> Fuzzer<T>.ensureAtLeastOne(predicate: (T) -> Boolean): Fuzzer<T> =
  */
 @ExperimentalKwikFuzzer
 fun <T> Fuzzer<T>.filter(predicate: (T) -> Boolean): Fuzzer<T> =
-    copy(generator.filter(predicate))
+    copy(
+        generator = generator.filter(predicate),
+        simplifier = simplifier.filter(predicate)
+    )
 
 /**
  * Returns a fuzzer that evaluates only elements not matching the given [predicate].
@@ -42,4 +47,7 @@ fun <T> Fuzzer<T>.filter(predicate: (T) -> Boolean): Fuzzer<T> =
  */
 @ExperimentalKwikFuzzer
 fun <T> Fuzzer<T>.filterNot(predicate: (T) -> Boolean): Fuzzer<T> =
-    copy(generator.filterNot(predicate))
+    copy(
+        generator = generator.filterNot(predicate),
+        simplifier = simplifier.filterNot(predicate)
+    )
