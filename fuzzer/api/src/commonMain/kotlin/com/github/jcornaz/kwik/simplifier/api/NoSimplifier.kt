@@ -1,4 +1,4 @@
-package com.github.jcornaz.kwik.fuzzer.api
+package com.github.jcornaz.kwik.simplifier.api
 
 /**
  * Returns a [Simplifier] that consider every input of [Simplifier.simplify] to be already the smallest value possible,

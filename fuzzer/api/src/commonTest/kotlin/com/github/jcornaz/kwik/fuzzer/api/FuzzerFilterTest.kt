@@ -4,12 +4,13 @@ import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.filter
 import com.github.jcornaz.kwik.generator.api.filterNot
 import com.github.jcornaz.kwik.generator.api.randomSequence
+import com.github.jcornaz.kwik.simplifier.api.ExperimentalKwikFuzzer
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @ExperimentalKwikFuzzer
-class FilterTest {
+class FuzzerFilterTest {
 
     @Test
     fun applyFilterToGenerator() {
@@ -24,6 +25,11 @@ class FilterTest {
                 generator.toFuzzer().filter { it != value }.generator.randomSequence(seed).take(100).toList()
             )
         }
+    }
+
+    @Test
+    fun applyFilterToSimplifier() {
+
     }
 
     @Test

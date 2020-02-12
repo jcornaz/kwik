@@ -3,6 +3,9 @@ package com.github.jcornaz.kwik.fuzzer.api
 import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.filter
 import com.github.jcornaz.kwik.generator.api.filterNot
+import com.github.jcornaz.kwik.simplifier.api.ExperimentalKwikFuzzer
+import com.github.jcornaz.kwik.simplifier.api.Simplifier
+import com.github.jcornaz.kwik.simplifier.api.dontSimplify
 
 /**
  * Returns a [Fuzzer] backed by this [Generator].

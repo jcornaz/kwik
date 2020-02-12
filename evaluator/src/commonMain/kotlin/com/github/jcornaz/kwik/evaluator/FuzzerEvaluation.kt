@@ -1,6 +1,6 @@
 package com.github.jcornaz.kwik.evaluator
 
-import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
+import com.github.jcornaz.kwik.simplifier.api.ExperimentalKwikFuzzer
 import com.github.jcornaz.kwik.fuzzer.api.Fuzzer
 import com.github.jcornaz.kwik.generator.api.randomSequence
 

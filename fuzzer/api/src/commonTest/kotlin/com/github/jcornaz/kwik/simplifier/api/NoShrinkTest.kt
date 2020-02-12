@@ -1,4 +1,4 @@
-package com.github.jcornaz.kwik.fuzzer.api
+package com.github.jcornaz.kwik.simplifier.api
 
 import kotlin.random.Random
 import kotlin.test.Test

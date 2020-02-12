@@ -1,4 +1,4 @@
-package com.github.jcornaz.kwik.fuzzer.api
+package com.github.jcornaz.kwik.simplifier.api
 
 /**
  * The fuzzer system and related abstractions are extremely experimental and can be completely reworked between

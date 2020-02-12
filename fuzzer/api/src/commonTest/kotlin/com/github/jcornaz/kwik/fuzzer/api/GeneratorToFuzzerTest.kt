@@ -1,6 +1,8 @@
 package com.github.jcornaz.kwik.fuzzer.api
 
 import com.github.jcornaz.kwik.generator.api.Generator
+import com.github.jcornaz.kwik.simplifier.api.ExperimentalKwikFuzzer
+import com.github.jcornaz.kwik.simplifier.api.Simplifier
 import kotlin.test.Test
 import kotlin.test.assertSame
 import kotlin.test.assertTrue
