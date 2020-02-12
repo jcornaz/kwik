@@ -1,13 +1,18 @@
 package com.github.jcornaz.kwik.evaluator
 
-import com.github.jcornaz.kwik.simplifier.api.ExperimentalKwikFuzzer
 import com.github.jcornaz.kwik.fuzzer.api.ensureAtLeastOne
 import com.github.jcornaz.kwik.fuzzer.api.toFuzzer
 import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.randomSequence
 import com.github.jcornaz.kwik.generator.stdlib.ints
+import com.github.jcornaz.kwik.simplifier.api.ExperimentalKwikFuzzer
+import com.github.jcornaz.kwik.simplifier.api.Simplifier
 import kotlin.random.Random
-import kotlin.test.*
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
+import kotlin.test.assertTrue
+import kotlin.test.fail
 
 @ExperimentalKwikFuzzer
 class ForAnyTest {
@@ -167,6 +172,35 @@ class ForAnyTest {
                 Property falsified after 10 tests (out of 123)
                 Argument 1: 42
                 Generation seed: 78
+            """.trimIndent(),
+            exception.message
+        )
+    }
+
+    @Test
+    fun simplifyInputToGetSimplerInputFalsifingTheProperty() {
+        val exception = assertFailsWith<FalsifiedPropertyError> {
+            forAny(
+                Generator.create { 42 }
+                    .toFuzzer(object : Simplifier<Int> {
+                        override fun simplify(value: Int): Sequence<Int> = when(value) {
+                            0 -> emptySequence()
+                            1 -> sequenceOf(0)
+                            else -> sequenceOf(value / 2, value - 1)
+                        }
+                    }),
+                iterations = 320,
+                seed = 87
+            ) {
+                assertTrue(it < 10)
+            }
+        }
+
+        assertEquals(
+            """
+                Property falsified after 1 tests (out of 320)
+                Argument 1: 10
+                Generation seed: 87
             """.trimIndent(),
             exception.message
         )
