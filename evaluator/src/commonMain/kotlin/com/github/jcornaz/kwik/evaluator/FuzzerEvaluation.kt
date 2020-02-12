@@ -1,8 +1,8 @@
 package com.github.jcornaz.kwik.evaluator
 
-import com.github.jcornaz.kwik.simplifier.api.ExperimentalKwikFuzzer
 import com.github.jcornaz.kwik.fuzzer.api.Fuzzer
 import com.github.jcornaz.kwik.generator.api.randomSequence
+import com.github.jcornaz.kwik.simplifier.api.ExperimentalKwikFuzzer
 
 
 /**
@@ -25,26 +25,32 @@ fun <T> forAny(
 ) {
     require(iterations > 0) { "Iterations must be > 0, but was: $iterations" }
 
+    val inputIterator = fuzzer.generator.randomSequence(seed).iterator()
     val unsatisfiedGuarantees = fuzzer.guarantees.toMutableList()
     var iterationDone = 0
-
-    val inputIterator = fuzzer.generator.randomSequence(seed).iterator()
 
     do {
         val input = inputIterator.next()
 
-        val guaranteesIterator = unsatisfiedGuarantees.listIterator()
-        while(guaranteesIterator.hasNext()) {
-            if (guaranteesIterator.next().invoke(input))
-                guaranteesIterator.remove()
-        }
+        unsatisfiedGuarantees.removeSatisfing(input)
 
         try {
             block(input)
         } catch (throwable: Throwable) {
-            throw FalsifiedPropertyError(iterationDone + 1, iterations, seed, listOf(input), throwable)
+            val simplerInput = fuzzer.simplifier.simplify(input) { newInput ->
+                runCatching { block(newInput) }.isSuccess
+            }
+            throw FalsifiedPropertyError(iterationDone + 1, iterations, seed, listOf(simplerInput), throwable)
         }
 
         ++iterationDone
     } while (iterationDone < iterations || unsatisfiedGuarantees.isNotEmpty())
+}
+
+private fun <T> MutableList<(T) -> Boolean>.removeSatisfing(input: T) {
+    val iterator = listIterator()
+    while (iterator.hasNext()) {
+        if (iterator.next().invoke(input))
+            iterator.remove()
+    }
 }
