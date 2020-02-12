@@ -22,13 +22,18 @@ Fuzzer
 
 A new module ``fuzzer`` has been added. It contain an experimental abstraction layer which is meant to be above the
 ``Generator``.
-A Generator is responsbile only for generating random value (without even knowing if it is for testing purpose or not).
+
+The (existing)  Generator is responsible only for generating random value
+(without even knowing if it is for testing purpose or not).
+
 A ``Fuzzer`` is specialized for property based testing.
-It contains a ``Generator``, a ``Simplifier`` (not yet implemented) and a list of guarantees
+It contains a ``Generator``, a ``Simplifier`` and a list of guarantees
 that must be satisfied at least once during evaluation.
 
 A new function ``forAny`` is provided to run test using ``Fuzzer`` instead of ``Generator`` in module ``evaluator``.
 
+In case of property falsification,
+that ``forAny`` function simplify the input to the simplest input that still falsify the property.
 
 .. endUnreleasedBlock
 
