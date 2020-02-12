@@ -5,13 +5,12 @@ import kotlin.test.Test
 import kotlin.test.assertTrue
 
 @ExperimentalKwikFuzzer
-class NoShrinkTest {
+class NoSimplifierTest {
 
     @Test
-    fun noShrinkerAlwaysReturnAnEmptySequence() {
-        val shrinker = dontSimplify<Int>()
+    fun alwaysReturnAnEmptySequence() {
         repeat(100) {
-            assertTrue(shrinker.simplify(Random.nextInt()).none())
+            assertTrue(dontSimplify<Int>().simplify(Random.nextInt()).none())
         }
     }
 }

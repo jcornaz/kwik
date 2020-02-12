@@ -2,7 +2,7 @@ package com.github.jcornaz.kwik.fuzzer.api
 
 import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.simplifier.api.ExperimentalKwikFuzzer
-import com.github.jcornaz.kwik.simplifier.api.Simplifier
+import com.github.jcornaz.kwik.simplifier.api.dontSimplify
 import kotlin.test.Test
 import kotlin.test.assertSame
 import kotlin.test.assertTrue
@@ -18,15 +18,12 @@ class GeneratorToFuzzerTest {
     }
 
     @Test
-    fun generatorToFuzzerAcceptsAShrinker() {
+    fun generatorToFuzzerAcceptsASimplifier() {
         val generator = Generator.create { it.nextInt() }
-        val shrinker = object : Simplifier<Int> {
-            @ExperimentalKwikFuzzer
-            override fun simplify(value: Int): Sequence<Int> = throw UnsupportedOperationException()
-        }
+        val simplifier = dontSimplify<Int>()
 
-        val fuzzer = generator.toFuzzer(shrinker)
-        assertSame(fuzzer.simplifier, shrinker)
+        val fuzzer = generator.toFuzzer(simplifier)
+        assertSame(fuzzer.simplifier, simplifier)
     }
 
     @Test
