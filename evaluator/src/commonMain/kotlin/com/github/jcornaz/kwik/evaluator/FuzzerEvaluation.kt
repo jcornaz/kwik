@@ -32,14 +32,12 @@ fun <T> forAny(
     do {
         val input = inputIterator.next()
 
-        unsatisfiedGuarantees.removeSatisfing(input)
+        unsatisfiedGuarantees.removeSatisfying(input)
 
         try {
             block(input)
         } catch (throwable: Throwable) {
-            val simplerInput = fuzzer.simplifier.simplify(input) { newInput ->
-                runCatching { block(newInput) }.isSuccess
-            }
+            val simplerInput = fuzzer.simplifier.simplify(input) { runCatching { block(it) }.isSuccess }
             throw FalsifiedPropertyError(iterationDone + 1, iterations, seed, listOf(simplerInput), throwable)
         }
 
@@ -47,7 +45,7 @@ fun <T> forAny(
     } while (iterationDone < iterations || unsatisfiedGuarantees.isNotEmpty())
 }
 
-private fun <T> MutableList<(T) -> Boolean>.removeSatisfing(input: T) {
+private fun <T> MutableList<(T) -> Boolean>.removeSatisfying(input: T) {
     val iterator = listIterator()
     while (iterator.hasNext()) {
         if (iterator.next().invoke(input))
