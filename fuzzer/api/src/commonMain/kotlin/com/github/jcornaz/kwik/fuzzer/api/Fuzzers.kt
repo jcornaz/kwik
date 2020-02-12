@@ -7,11 +7,11 @@ import com.github.jcornaz.kwik.generator.api.filterNot
 /**
  * Returns a [Fuzzer] backed by this [Generator].
  *
- * You may pass a [shrinker]. Otherwise the resulting fuzzer will not support shrinking.
+ * You may pass a [simplifier]. Otherwise the resulting fuzzer will not support input simplification.
  */
 @ExperimentalKwikFuzzer
-fun <T> Generator<T>.toFuzzer(shrinker: Shrinker<T> = noShrink()): Fuzzer<T> =
-    Fuzzer(this, shrinker, emptyList())
+fun <T> Generator<T>.toFuzzer(simplifier: Simplifier<T> = dontSimplify()): Fuzzer<T> =
+    Fuzzer(this, simplifier, emptyList())
 
 /**
  * Force to evaluate the property has many time as necessary

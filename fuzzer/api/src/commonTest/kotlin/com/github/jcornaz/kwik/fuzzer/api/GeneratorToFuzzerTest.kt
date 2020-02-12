@@ -18,13 +18,13 @@ class GeneratorToFuzzerTest {
     @Test
     fun generatorToFuzzerAcceptsAShrinker() {
         val generator = Generator.create { it.nextInt() }
-        val shrinker = object : Shrinker<Int> {
+        val shrinker = object : Simplifier<Int> {
             @ExperimentalKwikFuzzer
-            override fun shrink(value: Int): Sequence<Int> = throw UnsupportedOperationException()
+            override fun simplify(value: Int): Sequence<Int> = throw UnsupportedOperationException()
         }
 
         val fuzzer = generator.toFuzzer(shrinker)
-        assertSame(fuzzer.shrinker, shrinker)
+        assertSame(fuzzer.simplifier, shrinker)
     }
 
     @Test

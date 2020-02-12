@@ -9,9 +9,9 @@ class NoShrinkTest {
 
     @Test
     fun noShrinkerAlwaysReturnAnEmptySequence() {
-        val shrinker = noShrink<Int>()
+        val shrinker = dontSimplify<Int>()
         repeat(100) {
-            assertTrue(shrinker.shrink(Random.nextInt()).none())
+            assertTrue(shrinker.simplify(Random.nextInt()).none())
         }
     }
 }
