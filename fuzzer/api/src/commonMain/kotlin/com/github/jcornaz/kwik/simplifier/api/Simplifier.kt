@@ -12,6 +12,10 @@ interface Simplifier<T> {
      *
      * The result sequence must be finite. It can be empty.
      */
-    @ExperimentalKwikFuzzer
     fun simplify(value: T): Sequence<T>
+}
+
+@ExperimentalKwikFuzzer
+internal fun <T> simplifier(simplify: (T) -> Sequence<T>): Simplifier<T> = object : Simplifier<T> {
+    override fun simplify(value: T): Sequence<T> = simplify(value)
 }
