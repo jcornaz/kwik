@@ -287,8 +287,7 @@ data class FalsifiedPropertyError(
     val iterations: Int,
     val seed: Long,
     val arguments: List<Any?>,
-    override val cause: Throwable? = null,
-    val additionalFailureMessage: String = ""
+    override val cause: Throwable? = null
 ) : AssertionError(buildString {
     append("Property falsified after $attempts tests (out of $iterations)\n")
 
@@ -297,9 +296,4 @@ data class FalsifiedPropertyError(
     }
 
     append("Generation seed: $seed")
-
-    if(additionalFailureMessage.isNotEmpty()) {
-        append("\n")
-        append(additionalFailureMessage)
-    }
 })

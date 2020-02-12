@@ -1,9 +1,27 @@
 package com.github.jcornaz.kwik.evaluator
 
+import com.github.jcornaz.kwik.simplifier.api.ExperimentalKwikFuzzer
+import com.github.jcornaz.kwik.fuzzer.api.toFuzzer
+import com.github.jcornaz.kwik.generator.api.Generator
+import com.github.jcornaz.kwik.generator.stdlib.ints
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class DefaultIterationPropertyTest {
+
+    @Test
+    @ExperimentalKwikFuzzer
+    fun forAnyUseKwikIterationsSystemPropertyByDefault() {
+        var count = 0
+
+        withSystemProperty("kwik.iterations", "101") {
+            forAny(Generator.ints().toFuzzer()) { _: Int ->
+                ++count
+            }
+        }
+
+        assertEquals(101, count)
+    }
 
     @Test
     fun forAll1UseKwikIterationsSystemPropertyByDefault() {

@@ -66,7 +66,9 @@ fun <T> Generator<T>.withSamples(vararg samples: T, probability: Double = DEFAUL
  * and generate from source the rest of the time.
  */
 fun <T> Generator<T>.withSamples(samples: Iterable<T>, probability: Double = DEFAULT_SAMPLE_PROBABILITY): Generator<T> {
-    requireValidProbability(probability)
+    require(probability > 0.0 && probability < 1.0) {
+        "Invalid sample probability: $probability. Must be greater than 0 and smaller than 1"
+    }
 
     val sampleList = (samples as? List<T>) ?: samples.toList()
     if (sampleList.isEmpty()) return this
@@ -77,24 +79,10 @@ fun <T> Generator<T>.withSamples(samples: Iterable<T>, probability: Double = DEF
     )
 }
 
-private fun requireValidProbability(probability: Double) {
-    require(probability > 0.0 && probability < 1.0) {
-        "Invalid sample probability: $probability. Must be greater than 0 and smaller than 1"
-    }
-}
-
 /**
  * Returns a new generator adding `null` into generated random values.
  *
  * The "random" values always start by `null` so that it always appear at least once.
  */
-fun <T> Generator<T>.withNull(probability: Double = DEFAULT_SAMPLE_PROBABILITY): Generator<T?> {
-    requireValidProbability(probability)
-
-    return Generator.create { random ->
-        if (random.nextDouble() < probability)
-            null
-        else
-            generate(random)
-    }
-}
+fun <T> Generator<T>.withNull(probability: Double = DEFAULT_SAMPLE_PROBABILITY): Generator<T?> =
+    withSamples(listOf(null), probability)
