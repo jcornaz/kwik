@@ -7,7 +7,7 @@ import kotlin.test.assertEquals
 class PairTest {
 
     @Test
-    fun alternatesSimplestValuesOfFirstAndSecond() {
+    fun simplifyFirstThenSecond() {
         val first = simplifier<Int> {
             assertEquals(10, it)
             sequenceOf(1, 2, 3)
@@ -22,13 +22,22 @@ class PairTest {
         assertEquals(
             expected = listOf(
                 1 to 'Z',
-                10 to 'A',
                 2 to 'Z',
-                10 to 'B',
                 3 to 'Z',
+                10 to 'A',
+                10 to 'B',
                 10 to 'C'
             ),
             actual = pair.simplify(10 to 'Z').toList()
+        )
+    }
+
+    @Test
+    fun returnEmptySequenceIfBothHaveNoSimplerValue() {
+        val pair = Simplifier.pair(dontSimplify<Int>(), dontSimplify<Char>())
+        assertEquals(
+            expected = 0,
+            actual = pair.simplify(1 to 'A').count()
         )
     }
 

@@ -16,21 +16,24 @@ fun <A, B> Simplifier.Companion.pair(
     first: Simplifier<A>,
     second: Simplifier<B>
 ): Simplifier<Pair<A, B>> = simplifier { (firstValue, secondValue) ->
-    sequence {
-        val firstIterator = first.simplify(firstValue).iterator()
-        val secondIterator = second.simplify(secondValue).iterator()
+    first.simplify(firstValue).map { it to secondValue }
+        .plus(second.simplify(secondValue).map { firstValue to it })
+}
 
-        while (firstIterator.hasNext() && secondIterator.hasNext()) {
-            yield(firstIterator.next() to secondValue)
-            yield(firstValue to secondIterator.next())
-        }
-
-        firstIterator.forEach {
-            yield(it to secondValue)
-        }
-
-        secondIterator.forEach {
-            yield(firstValue to it)
-        }
-    }
+/**
+ * Create a [Simplifier] that can simplify triples.
+ *
+ * @param first Simplifier for the first elements of the pairs
+ * @param second Simplifier for the second elements of the pairs
+ * @param third Simplifier for the third elements of the pairs
+ */
+@ExperimentalKwikFuzzer
+fun <A, B, C> Simplifier.Companion.triple(
+    first: Simplifier<A>,
+    second: Simplifier<B>,
+    third: Simplifier<C>
+): Simplifier<Triple<A, B, C>> = simplifier { (firstValue, secondValue, thirdValue) ->
+    first.simplify(firstValue).map { Triple(it, secondValue, thirdValue) }
+        .plus(second.simplify(secondValue).map { Triple(firstValue, it, thirdValue) })
+        .plus(third.simplify(thirdValue).map { Triple(firstValue, secondValue, it) })
 }

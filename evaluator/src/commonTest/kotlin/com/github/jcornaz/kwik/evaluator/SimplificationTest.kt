@@ -14,7 +14,7 @@ class SimplificationTest {
     fun returnsInitialValueIfThereIsNoSimplerValue() {
         repeat(100) {
             val initialValue = Random.nextInt()
-            assertEquals(initialValue, dontSimplify<Int>().simplify(initialValue) { Random.nextBoolean() })
+            assertEquals(initialValue, dontSimplify<Int>().findSimplestFalsification(initialValue) { Random.nextBoolean() })
         }
     }
 
@@ -26,7 +26,7 @@ class SimplificationTest {
 
         repeat(100) {
             val initialValue = Random.nextInt()
-            assertEquals(initialValue, simplifier.simplify(initialValue) { true })
+            assertEquals(initialValue, simplifier.findSimplestFalsification(initialValue) { true })
         }
     }
 
@@ -39,7 +39,7 @@ class SimplificationTest {
 
         repeat(100) {
             val initialValue = Random.nextInt(1, 100)
-            assertEquals(0, simplifier.simplify(initialValue) { false })
+            assertEquals(0, simplifier.findSimplestFalsification(initialValue) { false })
         }
     }
 
@@ -52,7 +52,7 @@ class SimplificationTest {
 
         repeat(100) {
             val initialValue = Random.nextInt()
-            assertEquals(null, simplifier.simplify(initialValue) { false })
+            assertEquals(null, simplifier.findSimplestFalsification(initialValue) { false })
         }
     }
 
@@ -68,7 +68,7 @@ class SimplificationTest {
 
         repeat(1000) {
             val initialValue = Random.nextInt(100, 200)
-            val result = simplifier.simplify(initialValue) { it < 42 }
+            val result = simplifier.findSimplestFalsification(initialValue) { it < 42 }
             assertEquals(42, result)
         }
     }
