@@ -13,7 +13,7 @@ interface Simplifier<T> {
     /**
      * Returns a sequence of values that are simpler than [value].
      *
-     * The result sequence must be finite. It can be empty.
+     * The result sequence must be finite and should returns values ordered from simpler to more complex.
      */
     fun simplify(value: T): Sequence<T>
 }

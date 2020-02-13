@@ -5,11 +5,9 @@ import com.github.jcornaz.kwik.simplifier.api.Simplifier
 
 @ExperimentalKwikFuzzer
 internal tailrec fun <T> Simplifier<T>.simplify(initialValue: T, satisfy: (T) -> Boolean): T {
-    val simplerValue = try {
-        simplify(initialValue).first { !satisfy(it) }
-    } catch (noSuchElement: NoSuchElementException) {
-        return initialValue
-    }
+    val simplerValuesIterator = simplify(initialValue).filterNot(satisfy).iterator()
 
-    return simplify(simplerValue, satisfy)
+    if (!simplerValuesIterator.hasNext()) return initialValue
+
+    return simplify(simplerValuesIterator.next(), satisfy)
 }
