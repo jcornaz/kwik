@@ -16,9 +16,6 @@ interface Simplifier<T> {
      * The result sequence must be finite and should returns values ordered from simpler to more complex.
      */
     fun simplify(value: T): Sequence<T>
-}
 
-@ExperimentalKwikFuzzer
-internal fun <T> simplifier(simplify: (T) -> Sequence<T>): Simplifier<T> = object : Simplifier<T> {
-    override fun simplify(value: T): Sequence<T> = simplify(value)
+    companion object
 }
