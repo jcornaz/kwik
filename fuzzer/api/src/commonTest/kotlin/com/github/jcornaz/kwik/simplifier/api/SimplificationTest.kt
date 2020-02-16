@@ -1,8 +1,9 @@
-package com.github.jcornaz.kwik.evaluator
+package com.github.jcornaz.kwik.simplifier.api
 
 import com.github.jcornaz.kwik.simplifier.api.ExperimentalKwikFuzzer
 import com.github.jcornaz.kwik.simplifier.api.Simplifier
 import com.github.jcornaz.kwik.simplifier.api.dontSimplify
+import com.github.jcornaz.kwik.simplifier.api.findSimplestFalsification
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
