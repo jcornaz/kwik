@@ -36,6 +36,8 @@ that must be satisfied at least once during evaluation.
 * Simplifier combination ``Simplifier.pair(Simplifier, Simplifier)`` and ``Simplier.triple(Simplifier, Simplifier, Simplifier)``
   Are provided
 
+* ``Arbitrary.pair``
+
 .. endUnreleasedBlock
 
 0.4.0_ - 2020-02-08
