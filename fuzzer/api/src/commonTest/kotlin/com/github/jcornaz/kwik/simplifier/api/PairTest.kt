@@ -78,4 +78,22 @@ class PairTest {
             actual = pair.simplify('Z' to 10).toList()
         )
     }
+
+    @Test
+    fun bothAreSimplifiedWhenTryingToFindSimplestFalsification() {
+        val simplifier = simplifier<Int> { value ->
+            when (value) {
+                0 -> emptySequence()
+                1 -> sequenceOf(0)
+                else -> sequenceOf(value / 2, value - 1)
+            }
+        }
+
+        val result = Simplifier.pair(simplifier, simplifier)
+            .findSimplestFalsification(100 to 100) { (first, _) ->
+                first < 12
+            }
+
+        assertEquals(12 to 0, result)
+    }
 }

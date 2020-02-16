@@ -106,4 +106,22 @@ class TripleTest {
             actual = pair.simplify(Triple(42.0, 'Z', 10)).toList()
         )
     }
+
+    @Test
+    fun allAreSimplifiedWhenTryingToFindSimplestFalsification() {
+        val simplifier = simplifier<Int> { value ->
+            when (value) {
+                0 -> emptySequence()
+                1 -> sequenceOf(0)
+                else -> sequenceOf(value / 2, value - 1)
+            }
+        }
+
+        val result = Simplifier.triple(simplifier, simplifier, simplifier)
+            .findSimplestFalsification(Triple(101, 102, 103)) { (first, _, third) ->
+                first < 12 || third < 42
+            }
+
+        assertEquals(Triple(12, 0, 42), result)
+    }
 }
