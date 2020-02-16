@@ -3,6 +3,7 @@ package com.github.jcornaz.kwik.evaluator
 import com.github.jcornaz.kwik.fuzzer.api.Fuzzer
 import com.github.jcornaz.kwik.generator.api.randomSequence
 import com.github.jcornaz.kwik.simplifier.api.ExperimentalKwikFuzzer
+import com.github.jcornaz.kwik.simplifier.api.findSimplestFalsification
 
 
 /**
@@ -37,7 +38,9 @@ fun <T> forAny(
         try {
             block(input)
         } catch (throwable: Throwable) {
-            val simplerInput = fuzzer.simplifier.simplify(input) { runCatching { block(it) }.isSuccess }
+            val simplerInput = fuzzer.simplifier.findSimplestFalsification(input) {
+                runCatching { block(it) }.isSuccess
+            }
             throw FalsifiedPropertyError(iterationDone + 1, iterations, seed, listOf(simplerInput), throwable)
         }
 

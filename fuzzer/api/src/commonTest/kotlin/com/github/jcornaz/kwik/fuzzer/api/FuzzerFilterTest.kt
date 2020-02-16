@@ -5,6 +5,7 @@ import com.github.jcornaz.kwik.generator.api.filter
 import com.github.jcornaz.kwik.generator.api.filterNot
 import com.github.jcornaz.kwik.generator.api.randomSequence
 import com.github.jcornaz.kwik.simplifier.api.ExperimentalKwikFuzzer
+import com.github.jcornaz.kwik.simplifier.api.dontSimplify
 import com.github.jcornaz.kwik.simplifier.api.simplifier
 import kotlin.random.Random
 import kotlin.test.Test
@@ -23,7 +24,7 @@ class FuzzerFilterTest {
 
             assertEquals(
                 generator.filter { it != value }.randomSequence(seed).take(100).toList(),
-                generator.toFuzzer().filter { it != value }.generator.randomSequence(seed).take(100).toList()
+                generator.toFuzzer(dontSimplify()).filter { it != value }.generator.randomSequence(seed).take(100).toList()
             )
         }
     }
@@ -38,7 +39,7 @@ class FuzzerFilterTest {
 
             assertEquals(
                 generator.filterNot { it == value }.randomSequence(seed).take(100).toList(),
-                generator.toFuzzer().filterNot { it == value }.generator.randomSequence(seed).take(100).toList()
+                generator.toFuzzer(dontSimplify()).filterNot { it == value }.generator.randomSequence(seed).take(100).toList()
             )
         }
     }

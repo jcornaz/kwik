@@ -30,10 +30,15 @@ A ``Fuzzer`` is specialized for property based testing.
 It contains a ``Generator``, a ``Simplifier`` and a list of guarantees
 that must be satisfied at least once during evaluation.
 
-A new function ``forAny`` is provided to run test using ``Fuzzer`` instead of ``Generator`` in module ``evaluator``.
+* A new function ``forAny`` is provided to run test using ``Fuzzer`` instead of ``Generator`` in module ``evaluator``.
+  In case of property falsification, this function will simplify the input to the simplest input that still falsify the property.
 
-In case of property falsification,
-that ``forAny`` function simplify the input to the simplest input that still falsify the property.
+* Simplifier combination ``Simplifier.pair(Simplifier, Simplifier)`` and ``Simplier.triple(Simplifier, Simplifier, Simplifier)``
+  Are provided
+
+* ``Arbitrary`` an empty object type that can be used to find ``Fuzzer`` factories (regardless of the module they come from)
+
+* ``Arbitrary.pair`` and ``Arbitrary.triple`` to combine fuzzers.
 
 .. endUnreleasedBlock
 

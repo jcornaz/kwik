@@ -5,7 +5,6 @@ import com.github.jcornaz.kwik.generator.api.filter
 import com.github.jcornaz.kwik.generator.api.filterNot
 import com.github.jcornaz.kwik.simplifier.api.ExperimentalKwikFuzzer
 import com.github.jcornaz.kwik.simplifier.api.Simplifier
-import com.github.jcornaz.kwik.simplifier.api.dontSimplify
 import com.github.jcornaz.kwik.simplifier.api.filter
 import com.github.jcornaz.kwik.simplifier.api.filterNot
 
@@ -15,8 +14,8 @@ import com.github.jcornaz.kwik.simplifier.api.filterNot
  * You may pass a [simplifier]. Otherwise the resulting fuzzer will not support input simplification.
  */
 @ExperimentalKwikFuzzer
-fun <T> Generator<T>.toFuzzer(simplifier: Simplifier<T> = dontSimplify()): Fuzzer<T> =
-    Fuzzer(this, simplifier, emptyList())
+fun <T> Generator<T>.toFuzzer(simplifier: Simplifier<T>): Fuzzer<T> =
+    Fuzzer(this, simplifier)
 
 /**
  * Force to evaluate the property has many time as necessary

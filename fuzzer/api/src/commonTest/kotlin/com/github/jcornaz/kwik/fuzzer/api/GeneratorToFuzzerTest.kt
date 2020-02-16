@@ -13,7 +13,7 @@ class GeneratorToFuzzerTest {
     @Test
     fun generatorToFuzzzerCreateAGeneratorWithThatFuzzer() {
         val generator = Generator.create { it.nextInt() }
-        val fuzzer = generator.toFuzzer()
+        val fuzzer = generator.toFuzzer(dontSimplify())
         assertSame(generator, fuzzer.generator)
     }
 
@@ -30,7 +30,7 @@ class GeneratorToFuzzerTest {
     fun hasNoGuaranteesByDefault() {
         assertTrue(
             Generator.create { it.nextInt() }
-                .toFuzzer()
+                .toFuzzer(dontSimplify())
                 .guarantees
                 .isEmpty()
         )

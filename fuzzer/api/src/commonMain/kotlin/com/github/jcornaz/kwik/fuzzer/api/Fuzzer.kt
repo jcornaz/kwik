@@ -18,5 +18,5 @@ import com.github.jcornaz.kwik.simplifier.api.Simplifier
 data class Fuzzer<T>(
     val generator: Generator<T>,
     val simplifier: Simplifier<T>,
-    val guarantees: List<(T) -> Boolean>
+    val guarantees: List<(T) -> Boolean> = emptyList()
 )

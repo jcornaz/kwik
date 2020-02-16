@@ -4,6 +4,7 @@ import com.github.jcornaz.kwik.simplifier.api.ExperimentalKwikFuzzer
 import com.github.jcornaz.kwik.fuzzer.api.toFuzzer
 import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.stdlib.ints
+import com.github.jcornaz.kwik.simplifier.api.dontSimplify
 import kotlin.test.*
 
 class DefaultSeedPropertyTest {
@@ -28,11 +29,11 @@ class DefaultSeedPropertyTest {
     fun forAnyUsesSeedInPropertyIfAny() {
         withSystemProperty("kwik.seed", "101") {
             val exception1 = assertFailsWith<FalsifiedPropertyError> {
-                forAny(Generator.ints().toFuzzer()) { fail() }
+                forAny(Generator.ints().toFuzzer(dontSimplify())) { fail() }
             }
 
             val exception2 = assertFailsWith<FalsifiedPropertyError> {
-                forAny(Generator.ints().toFuzzer()) { fail() }
+                forAny(Generator.ints().toFuzzer(dontSimplify())) { fail() }
             }
 
             assertEquals(101, exception1.seed)
