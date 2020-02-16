@@ -36,7 +36,9 @@ that must be satisfied at least once during evaluation.
 * Simplifier combination ``Simplifier.pair(Simplifier, Simplifier)`` and ``Simplier.triple(Simplifier, Simplifier, Simplifier)``
   Are provided
 
-* ``Arbitrary.pair``
+* ``Arbitrary`` an empty object type that can be used to find ``Fuzzer`` factories (regardless of the module they come from)
+
+* ``Arbitrary.pair`` and ``Arbitrary.triple`` to combine fuzzers.
 
 .. endUnreleasedBlock
 

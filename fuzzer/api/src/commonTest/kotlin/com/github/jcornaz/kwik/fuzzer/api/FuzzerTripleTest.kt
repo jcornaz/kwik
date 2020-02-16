@@ -1,0 +1,44 @@
+package com.github.jcornaz.kwik.fuzzer.api
+
+import com.github.jcornaz.kwik.generator.api.Generator
+import com.github.jcornaz.kwik.simplifier.api.ExperimentalKwikFuzzer
+import com.github.jcornaz.kwik.simplifier.api.dontSimplify
+import com.github.jcornaz.kwik.simplifier.api.simplifier
+import kotlin.random.Random
+import kotlin.test.Test
+import kotlin.test.assertEquals
+
+@ExperimentalKwikFuzzer
+class FuzzerTripleTest {
+
+    @Test
+    fun combinesGenerators() {
+        val triple = Arbitrary.triple(
+            Generator.of(1).toFuzzer(dontSimplify()),
+            Generator.of(2).toFuzzer(dontSimplify()),
+            Generator.of(3).toFuzzer(dontSimplify())
+        )
+
+        assertEquals(Triple(1, 2, 3), triple.generator.generate(Random))
+    }
+
+    @Test
+    fun combineSimplifiers() {
+        val generator = Generator.create { it.nextInt() }
+
+        val pair = Arbitrary.triple(
+            generator.toFuzzer(simplifier { sequenceOf(it - 1) }),
+            generator.toFuzzer(simplifier { sequenceOf(it - 2) }),
+            generator.toFuzzer(simplifier { sequenceOf(it - 3) })
+        )
+
+        assertEquals(
+            listOf(
+                Triple(9, 20, 30),
+                Triple(10, 18, 30),
+                Triple(10, 20, 27)
+            ),
+            pair.simplifier.simplify(Triple(10, 20, 30)).toList()
+        )
+    }
+}
