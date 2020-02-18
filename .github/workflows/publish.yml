@@ -25,6 +25,9 @@ jobs:
       - name: Fetch tags
         run: git fetch --tags
 
+      - name: Validate gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
