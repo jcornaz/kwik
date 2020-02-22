@@ -2,6 +2,9 @@ rootProject.name = "kwik"
 
 enableFeaturePreview("GRADLE_METADATA")
 
+
+include("core")
+
 include("generator-api")
 include("generator-stdlib")
 include("generator-test")

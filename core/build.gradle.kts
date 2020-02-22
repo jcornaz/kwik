@@ -2,8 +2,9 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
+                api(project(":evaluator"))
                 api(project(":fuzzer-api"))
-                implementation(project(":generator-stdlib"))
+                api(project(":generator-stdlib"))
             }
         }
     }
