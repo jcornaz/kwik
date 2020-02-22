@@ -26,10 +26,10 @@ class TripleTest {
         assertEquals(
             expected = listOf(
                 Triple(1, 'Z', 42.0),
-                Triple(2, 'Z', 42.0),
                 Triple(10, 'A', 42.0),
-                Triple(10, 'B', 42.0),
                 Triple(10, 'Z', 3.14),
+                Triple(2, 'Z', 42.0),
+                Triple(10, 'B', 42.0),
                 Triple(10, 'Z', 3.33)
             ),
             actual = pair.simplify(Triple(10, 'Z', 42.0)).toList()
