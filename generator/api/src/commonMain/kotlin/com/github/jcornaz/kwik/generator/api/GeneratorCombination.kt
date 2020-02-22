@@ -4,6 +4,8 @@ import com.github.jcornaz.kwik.generator.api.simplification.SimplificationTree
 import com.github.jcornaz.kwik.generator.api.simplification.simplestValue
 import kotlin.random.Random
 
+private const val FIFTY_PERCENT = 0.5
+
 /**
  * Returns a generator of values built from the elements of `this` generator and the [other] generator
  * using the provided [transform] function applied to each pair of elements.
@@ -57,7 +59,7 @@ private class CombinedGenerators<A, B, R>(
  * Returns a generator merging values of with the [other] generator
  */
 operator fun <T> Generator<T>.plus(other: Generator<T>): Generator<T> =
-    DualGenerator(this, other, 0.5)
+    DualGenerator(this, other, source1Probability = FIFTY_PERCENT)
 
 /**
  * Returns a generator that randomly pick a value from the given list of the generator
