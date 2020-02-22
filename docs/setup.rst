@@ -10,14 +10,14 @@ So before being able to use Kwik you have to setup a test-engine for your projec
 If the project is for the JVM (Java), you probably want to use Junit_ or Spek_.
 
 .. note::
-    If you choose to use kotlintest_ as a test-engine, be aware that it includes a similar property-based testing API.
+    If you choose to use kotest_ as a test-engine, be aware that it includes a similar property-based testing API.
 
     In order to not get confused by mixing the two libraries, you may exclude the ``kotlintest-assertions`` artifact
-    or introduce some rules in your IDE/linter to prevent usages of the package `io.kotlintest.properties`.
+    or introduce some rules in your IDE/linter to prevent usages of the package ``kotlin.io.kotest.property``.
 
 .. _Junit: https://junit.org/junit5
 .. _Spek: https://spekframework.org
-.. _kotlintest: https://github.com/kotlintest/kotlintest
+.. _kotest: https://github.com/kotest/kotest
 
 Add the required repository to your build system
 ------------------------------------------------
@@ -31,17 +31,12 @@ Add the artifact dependency
 ---------------------------
 
 - The group id is ``com.github.jcornaz.kwik``
-- Artifact ids have the form of ``kwik-<MODULE>-<PLATFORM>``
+- Pick the artifact id that suits your platform:
 
-    - Available modules:
-
-        - ``evaluator``: property evaluation
-        - ``generator-api``: API for random genetor, already transitively added via ``evaluator`` or ``generator-stdlib``
-        - ``generator-stdlib``: Collection of random generators for types provided by the kotlin standard library
-
-    - Available platforms: ``jvm``, ``linux`` and ``windows``
-
-    - Example: ``kwik-evaluator-jvm``
+  * ``kwik-core-common``
+  * ``kwik-core-jvm``
+  * ``kwik-core-linux``
+  * ``kwik-core-windows``
 
 - Pick a version from: https://github.com/jcornaz/kwik/releases
 

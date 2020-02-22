@@ -2,10 +2,9 @@ package com.github.jcornaz.kwik.fuzzer.api
 
 import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.combineWith
-import com.github.jcornaz.kwik.simplifier.api.ExperimentalKwikFuzzer
-import com.github.jcornaz.kwik.simplifier.api.Simplifier
-import com.github.jcornaz.kwik.simplifier.api.pair
-import com.github.jcornaz.kwik.simplifier.api.triple
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.Simplifier
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.pair
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.triple
 
 /**
  * Returns a [Fuzzer] for pair of [A] and [B].

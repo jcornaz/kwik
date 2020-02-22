@@ -1,5 +1,6 @@
-package com.github.jcornaz.kwik.simplifier.api
+package com.github.jcornaz.kwik.fuzzer.api.simplifier
 
+import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -57,7 +58,10 @@ class TripleTest {
             sequenceOf(1, 2, 3)
         }
 
-        val pair = Simplifier.triple(first, dontSimplify<Char>(), dontSimplify<Double>())
+        val pair = Simplifier.triple(first,
+            dontSimplify<Char>(),
+            dontSimplify<Double>()
+        )
 
         assertEquals(
             expected = listOf(
@@ -76,7 +80,10 @@ class TripleTest {
             sequenceOf(1, 2, 3)
         }
 
-        val pair = Simplifier.triple(dontSimplify<Char>(), second, dontSimplify<Double>())
+        val pair = Simplifier.triple(
+            dontSimplify<Char>(), second,
+            dontSimplify<Double>()
+        )
 
         assertEquals(
             expected = listOf(
@@ -95,7 +102,9 @@ class TripleTest {
             sequenceOf(1, 2, 3)
         }
 
-        val pair = Simplifier.triple(dontSimplify<Double>(), dontSimplify<Char>(), third)
+        val pair = Simplifier.triple(
+            dontSimplify<Double>(),
+            dontSimplify<Char>(), third)
 
         assertEquals(
             expected = listOf(

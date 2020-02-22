@@ -1,8 +1,7 @@
 package com.github.jcornaz.kwik.fuzzer.api
 
 import com.github.jcornaz.kwik.generator.api.Generator
-import com.github.jcornaz.kwik.simplifier.api.ExperimentalKwikFuzzer
-import com.github.jcornaz.kwik.simplifier.api.Simplifier
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.Simplifier
 
 /**
  * Definition of how to create values of type [T] that are relevant for testing.

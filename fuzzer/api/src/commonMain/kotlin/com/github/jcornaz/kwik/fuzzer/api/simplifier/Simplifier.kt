@@ -1,4 +1,6 @@
-package com.github.jcornaz.kwik.simplifier.api
+package com.github.jcornaz.kwik.fuzzer.api.simplifier
+
+import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
 
 /**
  * A simplifier is capable of taking a value to return a sequence of values

@@ -1,9 +1,8 @@
 package com.github.jcornaz.kwik.fuzzer.api
 
 import com.github.jcornaz.kwik.generator.api.Generator
-import com.github.jcornaz.kwik.simplifier.api.ExperimentalKwikFuzzer
-import com.github.jcornaz.kwik.simplifier.api.dontSimplify
-import com.github.jcornaz.kwik.simplifier.api.simplifier
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.dontSimplify
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.simplifier
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -27,9 +26,21 @@ class FuzzerTripleTest {
         val generator = Generator.create { it.nextInt() }
 
         val pair = Arbitrary.triple(
-            generator.toFuzzer(simplifier { sequenceOf(it - 1) }),
-            generator.toFuzzer(simplifier { sequenceOf(it - 2) }),
-            generator.toFuzzer(simplifier { sequenceOf(it - 3) })
+            generator.toFuzzer(simplifier {
+                sequenceOf(
+                    it - 1
+                )
+            }),
+            generator.toFuzzer(simplifier {
+                sequenceOf(
+                    it - 2
+                )
+            }),
+            generator.toFuzzer(simplifier {
+                sequenceOf(
+                    it - 3
+                )
+            })
         )
 
         assertEquals(

@@ -1,10 +1,10 @@
 package com.github.jcornaz.kwik.evaluator
 
-import com.github.jcornaz.kwik.simplifier.api.ExperimentalKwikFuzzer
+import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
 import com.github.jcornaz.kwik.fuzzer.api.toFuzzer
 import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.stdlib.ints
-import com.github.jcornaz.kwik.simplifier.api.dontSimplify
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.dontSimplify
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
