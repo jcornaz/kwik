@@ -1,8 +1,10 @@
 package com.github.jcornaz.kwik.evaluator
 
+import com.github.jcornaz.kwik.generator.api.ExperimentalKwikGeneratorApi
 import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.combineWith
-import com.github.jcornaz.kwik.generator.api.randomSequence
+import com.github.jcornaz.kwik.generator.api.sampleTreeSequence
+import com.github.jcornaz.kwik.generator.api.simplification.findSimplestFalsification
 import com.github.jcornaz.kwik.generator.stdlib.default
 
 /**
@@ -15,6 +17,8 @@ import com.github.jcornaz.kwik.generator.stdlib.default
  * @param property Function invoked multiple times with random inputs to assess a property of the System under test.
  *                 Must return a boolean (true = satisfied, false = falsified)
  */
+@UseExperimental(ExperimentalKwikGeneratorApi::class)
+@Suppress("SwallowedException") // SkipEvaluation is used to silently skip an evaluation
 fun <T> forAll(
     generator: Generator<T>,
     iterations: Int = kwikDefaultIterations,
@@ -25,23 +29,28 @@ fun <T> forAll(
 
     val context = PropertyEvaluationContextImpl(iterations)
 
-    val inputIterator = generator.randomSequence(seed).iterator()
+    val inputIterator = generator.sampleTreeSequence(seed).iterator()
 
     while (context.needMoreEvaluation) {
         context.newEvaluation()
 
         val input = inputIterator.next()
 
-        @Suppress("SwallowedException") // SkipEvaluation is used to silently skip an evaluation
-        val isSatisfied = try {
-            context.property(input)
+        val (isSatisfied, error) = try {
+            context.property(input.root) to null
         } catch (skip: SkipEvaluation) {
-            true
+            true to null
         } catch (error: Throwable) {
-            throw FalsifiedPropertyError(context.attempts, iterations, seed, extractArgumentList(input), error)
+            false to error
         }
 
-        if (!isSatisfied) throw FalsifiedPropertyError(context.attempts, iterations, seed, extractArgumentList(input))
+        if (!isSatisfied) {
+            context.startSimplification()
+            val simplestInput = input.findSimplestFalsification { simplerInput ->
+                runCatching { context.property(simplerInput) }.getOrElse { false }
+            }
+            throw FalsifiedPropertyError(context.attempts, iterations, seed, extractArgumentList(simplestInput), error)
+        }
     }
 
     println("OK, passed ${context.attempts} tests. (seed: $seed)")
@@ -51,6 +60,7 @@ private class PropertyEvaluationContextImpl(private val iterations: Int) : Prope
 
     private val requirements = mutableListOf<Boolean>()
     private var requirementIndex = 0
+    private var isSimplifying = false
 
     var attempts = 0
         private set
@@ -68,7 +78,7 @@ private class PropertyEvaluationContextImpl(private val iterations: Int) : Prope
 
     override fun skipIf(condition: Boolean) {
         if (condition) {
-            --attempts
+            if (!isSimplifying) --attempts
             requirementIndex = 0
             throw SkipEvaluation()
         }
@@ -81,6 +91,10 @@ private class PropertyEvaluationContextImpl(private val iterations: Int) : Prope
         } else if (!requirements[index]) {
             requirements[index] = predicate()
         }
+    }
+
+    fun startSimplification() {
+        isSimplifying = true
     }
 }
 

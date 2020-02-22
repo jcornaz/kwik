@@ -1,7 +1,7 @@
 package com.github.jcornaz.kwik.generator.api
 
-import com.github.jcornaz.kwik.generator.api.simplification.SampleTree
-import com.github.jcornaz.kwik.generator.api.simplification.sampleLeaf
+import com.github.jcornaz.kwik.generator.api.simplification.SimplificationTree
+import com.github.jcornaz.kwik.generator.api.simplification.simplestValue
 import kotlin.random.Random
 
 /**
@@ -49,8 +49,8 @@ private class CombinedGenerators<A, B, R>(
 ) : Generator<R> {
 
     @ExperimentalKwikGeneratorApi
-    override fun generateSampleTree(random: Random): SampleTree<R> =
-        sampleLeaf(transform(generator1.generate(random), generator2.generate(random)))
+    override fun generateSampleTree(random: Random): SimplificationTree<R> =
+        simplestValue(transform(generator1.generate(random), generator2.generate(random)))
 }
 
 /**
@@ -125,7 +125,7 @@ private class DualGenerator<T>(
 ) : Generator<T> {
 
     @ExperimentalKwikGeneratorApi
-    override fun generateSampleTree(random: Random): SampleTree<T> =
+    override fun generateSampleTree(random: Random): SimplificationTree<T> =
         if (random.nextDouble() < source1Probability) source1.generateSampleTree(random)
         else source2.generateSampleTree(random)
 }
@@ -138,7 +138,7 @@ private class FrequencyGenerator<T>(private val weightedGenerators: List<Pair<Do
     }
 
     @ExperimentalKwikGeneratorApi
-    override fun generateSampleTree(random: Random): SampleTree<T> {
+    override fun generateSampleTree(random: Random): SimplificationTree<T> {
         var value = random.nextDouble(max)
 
         weightedGenerators.forEach { (weight, generator) ->

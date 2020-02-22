@@ -8,7 +8,7 @@ import com.github.jcornaz.kwik.generator.api.ExperimentalKwikGeneratorApi
  * If there is no value for which [satisfy] returns false, then the root is returned.
  */
 @ExperimentalKwikGeneratorApi
-tailrec fun <T> SampleTree<T>.findSimplestFalsification(satisfy: (T) -> Boolean): T {
+tailrec fun <T> SimplificationTree<T>.findSimplestFalsification(satisfy: (T) -> Boolean): T {
     val branchIterator = branches.filterNot { satisfy(it.root) }.iterator()
 
     if (!branchIterator.hasNext()) return root
