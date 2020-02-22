@@ -1,9 +1,8 @@
 package com.github.jcornaz.kwik.fuzzer.api
 
 import com.github.jcornaz.kwik.generator.api.Generator
-import com.github.jcornaz.kwik.simplifier.api.ExperimentalKwikFuzzer
-import com.github.jcornaz.kwik.simplifier.api.dontSimplify
-import com.github.jcornaz.kwik.simplifier.api.simplifier
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.dontSimplify
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.simplifier
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -26,8 +25,16 @@ class FuzzerPairTest {
         val generator = Generator.create { it.nextInt() }
 
         val pair = Arbitrary.pair(
-            generator.toFuzzer(simplifier { sequenceOf(it - 7) }),
-            generator.toFuzzer(simplifier { sequenceOf(it - 8) })
+            generator.toFuzzer(simplifier {
+                sequenceOf(
+                    it - 7
+                )
+            }),
+            generator.toFuzzer(simplifier {
+                sequenceOf(
+                    it - 8
+                )
+            })
         )
 
         assertEquals(listOf(3 to 50, 10 to 42), pair.simplifier.simplify(10 to 50).toList())

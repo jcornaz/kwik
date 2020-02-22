@@ -4,9 +4,8 @@ import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.filter
 import com.github.jcornaz.kwik.generator.api.filterNot
 import com.github.jcornaz.kwik.generator.api.randomSequence
-import com.github.jcornaz.kwik.simplifier.api.ExperimentalKwikFuzzer
-import com.github.jcornaz.kwik.simplifier.api.dontSimplify
-import com.github.jcornaz.kwik.simplifier.api.simplifier
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.dontSimplify
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.simplifier
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -47,7 +46,14 @@ class FuzzerFilterTest {
     @Test
     fun applyFilterToSimplifier() {
         val simplerValues = Generator.create { it.nextInt() }
-            .toFuzzer(simplifier { sequenceOf(1, 2, 3, 4) })
+            .toFuzzer(simplifier {
+                sequenceOf(
+                    1,
+                    2,
+                    3,
+                    4
+                )
+            })
             .filter { it % 2 == 0 }
             .simplifier
             .simplify(0).toList()
@@ -58,7 +64,14 @@ class FuzzerFilterTest {
     @Test
     fun applyFilterNotToSimplifier() {
         val simplerValues = Generator.create { it.nextInt() }
-            .toFuzzer(simplifier { sequenceOf(1, 2, 3, 4) })
+            .toFuzzer(simplifier {
+                sequenceOf(
+                    1,
+                    2,
+                    3,
+                    4
+                )
+            })
             .filterNot { it % 2 == 0 }
             .simplifier
             .simplify(0).toList()

@@ -1,5 +1,6 @@
-package com.github.jcornaz.kwik.simplifier.api
+package com.github.jcornaz.kwik.fuzzer.api.simplifier
 
+import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -34,7 +35,10 @@ class PairTest {
 
     @Test
     fun returnEmptySequenceIfBothHaveNoSimplerValue() {
-        val pair = Simplifier.pair(dontSimplify<Int>(), dontSimplify<Char>())
+        val pair = Simplifier.pair(
+            dontSimplify<Int>(),
+            dontSimplify<Char>()
+        )
         assertEquals(
             expected = 0,
             actual = pair.simplify(1 to 'A').count()
@@ -48,7 +52,9 @@ class PairTest {
             sequenceOf(1, 2, 3)
         }
 
-        val pair = Simplifier.pair(first, dontSimplify<Char>())
+        val pair = Simplifier.pair(first,
+            dontSimplify<Char>()
+        )
 
         assertEquals(
             expected = listOf(

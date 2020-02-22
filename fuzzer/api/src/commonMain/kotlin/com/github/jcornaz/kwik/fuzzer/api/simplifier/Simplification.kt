@@ -1,4 +1,6 @@
-package com.github.jcornaz.kwik.simplifier.api
+package com.github.jcornaz.kwik.fuzzer.api.simplifier
+
+import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
 
 /**
  * Find the simplest value [T] for which [satisfy] returns false.

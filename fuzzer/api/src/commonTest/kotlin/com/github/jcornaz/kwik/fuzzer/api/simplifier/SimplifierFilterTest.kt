@@ -1,5 +1,6 @@
-package com.github.jcornaz.kwik.simplifier.api
+package com.github.jcornaz.kwik.fuzzer.api.simplifier
 
+import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
