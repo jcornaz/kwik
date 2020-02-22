@@ -13,7 +13,7 @@ If the project is for the JVM (Java), you probably want to use Junit_ or Spek_.
     If you choose to use kotest_ as a test-engine, be aware that it includes a similar property-based testing API.
 
     In order to not get confused by mixing the two libraries, you may exclude the ``kotlintest-assertions`` artifact
-    or introduce some rules in your IDE/linter to prevent usages of the package ``kotlin.io.kotest.property``.
+    or introduce some rules in your IDE/linter to prevent usages of the package ``io.kotest.property``.
 
 .. _Junit: https://junit.org/junit5
 .. _Spek: https://spekframework.org
