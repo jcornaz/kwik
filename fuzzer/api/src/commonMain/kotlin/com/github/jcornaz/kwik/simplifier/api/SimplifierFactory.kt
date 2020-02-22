@@ -16,8 +16,15 @@ fun <A, B> Simplifier.Companion.pair(
     first: Simplifier<A>,
     second: Simplifier<B>
 ): Simplifier<Pair<A, B>> = simplifier { (firstValue, secondValue) ->
-    first.simplify(firstValue).map { it to secondValue }
-        .plus(second.simplify(secondValue).map { firstValue to it })
+    sequence {
+        val i1 = first.simplify(firstValue).map { it to secondValue }.iterator()
+        val i2 = second.simplify(secondValue).map { firstValue to it }.iterator()
+
+        while(i1.hasNext() || i2.hasNext()) {
+            if (i1.hasNext()) yield(i1.next())
+            if (i2.hasNext()) yield(i2.next())
+        }
+    }
 }
 
 /**
@@ -33,7 +40,15 @@ fun <A, B, C> Simplifier.Companion.triple(
     second: Simplifier<B>,
     third: Simplifier<C>
 ): Simplifier<Triple<A, B, C>> = simplifier { (firstValue, secondValue, thirdValue) ->
-    first.simplify(firstValue).map { Triple(it, secondValue, thirdValue) }
-        .plus(second.simplify(secondValue).map { Triple(firstValue, it, thirdValue) })
-        .plus(third.simplify(thirdValue).map { Triple(firstValue, secondValue, it) })
+    sequence {
+        val i1 = first.simplify(firstValue).map { Triple(it, secondValue, thirdValue) }.iterator()
+        val i2 = second.simplify(secondValue).map { Triple(firstValue, it, thirdValue) }.iterator()
+        val i3 = third.simplify(thirdValue).map { Triple(firstValue, secondValue, it) }.iterator()
+
+        while(i1.hasNext() || i2.hasNext() || i3.hasNext()) {
+            if (i1.hasNext()) yield(i1.next())
+            if (i2.hasNext()) yield(i2.next())
+            if (i3.hasNext()) yield(i3.next())
+        }
+    }
 }

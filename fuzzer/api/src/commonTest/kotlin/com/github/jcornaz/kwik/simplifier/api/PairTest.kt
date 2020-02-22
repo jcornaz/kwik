@@ -22,10 +22,10 @@ class PairTest {
         assertEquals(
             expected = listOf(
                 1 to 'Z',
-                2 to 'Z',
-                3 to 'Z',
                 10 to 'A',
+                2 to 'Z',
                 10 to 'B',
+                3 to 'Z',
                 10 to 'C'
             ),
             actual = pair.simplify(10 to 'Z').toList()
