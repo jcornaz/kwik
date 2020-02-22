@@ -1,8 +1,6 @@
-package com.github.jcornaz.kwik.generator.api
+package com.github.jcornaz.kwik.generator.api.simplification
 
-import com.github.jcornaz.kwik.generator.api.simplification.findSimplestFalsification
-import com.github.jcornaz.kwik.generator.api.simplification.simplestValue
-import com.github.jcornaz.kwik.generator.api.simplification.simplificationTree
+import com.github.jcornaz.kwik.generator.api.ExperimentalKwikGeneratorApi
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals

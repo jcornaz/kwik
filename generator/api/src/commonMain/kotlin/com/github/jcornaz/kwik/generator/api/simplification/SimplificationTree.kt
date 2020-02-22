@@ -30,8 +30,22 @@ fun <T> simplestValue(root: T): SimplificationTree<T> =
 fun <T> simplificationTree(root: T, simplify: (T) -> Sequence<T>): SimplificationTree<T> =
     SimplificationTree(root, simplify(root).map { simplificationTree(it, simplify) })
 
+/**
+ * Returns a [Generator] that use [simplify] to build the [SimplificationTree] of the generated values.
+ */
 @ExperimentalKwikGeneratorApi
-fun <T> Generator<T>.withSimplification(simplify: (T) -> Sequence<T>): Generator<T> = object : Generator<T> {
+fun <T> Generator<T>.withSimplification(simplify: (T) -> Sequence<T>): Generator<T> =
+    Simplifier(this, simplify)
+
+private class Simplifier<out T>(
+    private val generator: Generator<T>,
+    private val simplify: (T) -> Sequence<T>
+): Generator<T> {
+
+    @ExperimentalKwikGeneratorApi
     override fun generateSampleTree(random: Random): SimplificationTree<T> =
-        simplificationTree(this@withSimplification.generateSampleTree(random).root, simplify)
+        simplificationTree(
+            root = generator.generateSampleTree(random).root,
+            simplify = simplify
+        )
 }
