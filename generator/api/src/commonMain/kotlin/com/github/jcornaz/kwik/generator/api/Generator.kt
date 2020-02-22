@@ -1,5 +1,7 @@
 package com.github.jcornaz.kwik.generator.api
 
+import com.github.jcornaz.kwik.generator.api.simplification.SampleTree
+import com.github.jcornaz.kwik.generator.api.simplification.sampleLeaf
 import kotlin.random.Random
 
 /**
@@ -13,7 +15,21 @@ interface Generator<out T> {
      * This function can mutate [random]. But it should always return the same value for a given [Random] state.
      * Ex. `generate(Random(0L))` should always return the same value.
      */
-    fun generate(random: Random): T
+    @Deprecated("Use generateSampleTree instead", ReplaceWith("generateSampleTree(random).root"))
+    @UseExperimental(ExperimentalKwikGeneratorApi::class)
+    fun generate(random: Random): T =
+        generateSampleTree(random).root
+
+    /**
+     * Returns a random value using the given [random].
+     *
+     * The random value is wrapped in a [SampleTree] that can be used during input simplification process.
+     *
+     * This function can mutate [random]. But it should always return the same value for a given [Random] state.
+     * Ex. `generate(Random(0L))` should always return the same value.
+     */
+    @ExperimentalKwikGeneratorApi
+    fun generateSampleTree(random: Random): SampleTree<T>
 
     companion object {
 
@@ -23,8 +39,10 @@ interface Generator<out T> {
          * @param next Function that will be invoked to get a new random parameter.
          *             The function should use the given [Random] generator to ensure predictability of the values
          */
+        @ExperimentalKwikGeneratorApi
         fun <T> create(next: (Random) -> T): Generator<T> = object : Generator<T> {
-            override fun generate(random: Random): T = next(random)
+            override fun generateSampleTree(random: Random): SampleTree<T> =
+                sampleLeaf(next(random))
         }
 
         /**

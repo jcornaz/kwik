@@ -1,5 +1,7 @@
 package com.github.jcornaz.kwik.generator.api
 
+import com.github.jcornaz.kwik.generator.api.simplification.SampleTree
+import com.github.jcornaz.kwik.generator.api.simplification.sampleLeaf
 import kotlin.random.Random
 
 /**
@@ -45,23 +47,17 @@ private class CombinedGenerators<A, B, R>(
     private val generator2: Generator<B>,
     private val transform: (A, B) -> R
 ) : Generator<R> {
-    override fun generate(random: Random): R =
-        transform(generator1.generate(random), generator2.generate(random))
+
+    @ExperimentalKwikGeneratorApi
+    override fun generateSampleTree(random: Random): SampleTree<R> =
+        sampleLeaf(transform(generator1.generate(random), generator2.generate(random)))
 }
 
 /**
  * Returns a generator merging values of with the [other] generator
  */
 operator fun <T> Generator<T>.plus(other: Generator<T>): Generator<T> =
-    MergedGenerators(this, other)
-
-private class MergedGenerators<T>(
-    private val generator1: Generator<T>,
-    private val generator2: Generator<T>
-) : Generator<T> {
-    override fun generate(random: Random): T =
-        if (random.nextBoolean()) generator1.generate(random) else generator2.generate(random)
-}
+    DualGenerator(this, other, 0.5)
 
 /**
  * Returns a generator that randomly pick a value from the given list of the generator
@@ -127,8 +123,11 @@ private class DualGenerator<T>(
     private val source2: Generator<T>,
     private val source1Probability: Double
 ) : Generator<T> {
-    override fun generate(random: Random): T =
-        if (random.nextDouble() < source1Probability) source1.generate(random) else source2.generate(random)
+
+    @ExperimentalKwikGeneratorApi
+    override fun generateSampleTree(random: Random): SampleTree<T> =
+        if (random.nextDouble() < source1Probability) source1.generateSampleTree(random)
+        else source2.generateSampleTree(random)
 }
 
 private class FrequencyGenerator<T>(private val weightedGenerators: List<Pair<Double, Generator<T>>>) : Generator<T> {
@@ -138,15 +137,16 @@ private class FrequencyGenerator<T>(private val weightedGenerators: List<Pair<Do
         require(max > 0.0) { "The sum of the weights is zero" }
     }
 
-    override fun generate(random: Random): T {
+    @ExperimentalKwikGeneratorApi
+    override fun generateSampleTree(random: Random): SampleTree<T> {
         var value = random.nextDouble(max)
 
         weightedGenerators.forEach { (weight, generator) ->
-            if (value < weight) return generator.generate(random)
+            if (value < weight) return generator.generateSampleTree(random)
 
             value -= weight
         }
 
-        return weightedGenerators.random(random).second.generate(random)
+        return weightedGenerators.random(random).second.generateSampleTree(random)
     }
 }

@@ -1,5 +1,8 @@
 package com.github.jcornaz.kwik.generator.api
 
+import com.github.jcornaz.kwik.generator.api.simplification.findSimplestFalsification
+import com.github.jcornaz.kwik.generator.api.simplification.sampleLeaf
+import com.github.jcornaz.kwik.generator.api.simplification.sampleTree
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -11,7 +14,9 @@ class SimplificationTest {
     fun returnsInitialValueIfThereIsNoSimplerValue() {
         repeat(100) {
             val initialValue = Random.nextInt()
-            assertEquals(initialValue, sampleLeaf(initialValue).findSimplestFalsification { Random.nextBoolean() })
+            assertEquals(initialValue, sampleLeaf(
+                initialValue
+            ).findSimplestFalsification { Random.nextBoolean() })
         }
     }
 
@@ -20,9 +25,10 @@ class SimplificationTest {
         repeat(100) {
             val initialValue = Random.nextInt()
 
-            val tree = sampleTree(initialValue) {
-                sequenceOf(1, 2, 3, 4)
-            }
+            val tree =
+                sampleTree(initialValue) {
+                    sequenceOf(1, 2, 3, 4)
+                }
 
             assertEquals(initialValue, tree.findSimplestFalsification { true })
         }
@@ -33,9 +39,10 @@ class SimplificationTest {
 
         repeat(100) {
             val initialValue = Random.nextInt(1, 100)
-            val tree = sampleTree(initialValue) { value ->
-                if (value == 0) emptySequence() else sequenceOf(0, 1, 3)
-            }
+            val tree =
+                sampleTree(initialValue) { value ->
+                    if (value == 0) emptySequence() else sequenceOf(0, 1, 3)
+                }
             assertEquals(0, tree.findSimplestFalsification { false })
         }
     }
@@ -44,9 +51,10 @@ class SimplificationTest {
     fun returnsFirstSimplestValueThatFalsifyThePropertyEvenIfItIshNull() {
         repeat(100) {
             val initialValue = Random.nextInt()
-            val tree = sampleTree<Int?>(initialValue) { value ->
-                if (value == null) emptySequence() else sequenceOf(null)
-            }
+            val tree =
+                sampleTree<Int?>(initialValue) { value ->
+                    if (value == null) emptySequence() else sequenceOf(null)
+                }
             assertEquals(null, tree.findSimplestFalsification { false })
         }
     }
@@ -56,13 +64,14 @@ class SimplificationTest {
 
         repeat(1000) {
             val initialValue = Random.nextInt(100, 200)
-            val tree = sampleTree(initialValue) { value ->
-                when (value) {
-                    0 -> emptySequence()
-                    1 -> sequenceOf(0)
-                    else -> sequenceOf(value / 2, value - 1)
+            val tree =
+                sampleTree(initialValue) { value ->
+                    when (value) {
+                        0 -> emptySequence()
+                        1 -> sequenceOf(0)
+                        else -> sequenceOf(value / 2, value - 1)
+                    }
                 }
-            }
             val result = tree.findSimplestFalsification { it < 42 }
             assertEquals(42, result)
         }
