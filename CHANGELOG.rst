@@ -15,13 +15,17 @@ Unreleased_
 -----------
 
 Added
-.....
+,,,,,
+
+Reintroduce ``core`` core module that add all transitive dependencies necessary for property based testing.
+
+**Until Kwik reach the stable release 1.0.0 you should depend ONLY on that module. Other modules may be renamed, reorganized or removed.**
 
 Fuzzer
 ,,,,,,
 
 A new module ``fuzzer`` has been added. It contain an experimental abstraction layer which is meant to be above the
-``Generator``.
+``Generator``. (Note that ``fuzzer-api`` is transitively added by ``evaluator`` and ``core``
 
 The (existing)  Generator is responsible only for generating random value
 (without even knowing if it is for testing purpose or not).
