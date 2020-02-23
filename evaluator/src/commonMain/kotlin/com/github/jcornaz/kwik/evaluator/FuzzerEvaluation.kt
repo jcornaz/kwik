@@ -1,6 +1,6 @@
 package com.github.jcornaz.kwik.evaluator
 
-import com.github.jcornaz.kwik.fuzzer.api.Fuzzer
+import com.github.jcornaz.kwik.fuzzer.api.SimpleFuzzer
 import com.github.jcornaz.kwik.generator.api.randomSequence
 import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.findSimplestFalsification
@@ -19,7 +19,7 @@ import com.github.jcornaz.kwik.fuzzer.api.simplifier.findSimplestFalsification
  */
 @ExperimentalKwikFuzzer
 fun <T> forAny(
-    fuzzer: Fuzzer<T>,
+    fuzzer: SimpleFuzzer<T>,
     iterations: Int = kwikDefaultIterations,
     seed: Long = nextSeed(),
     block: (T) -> Unit
