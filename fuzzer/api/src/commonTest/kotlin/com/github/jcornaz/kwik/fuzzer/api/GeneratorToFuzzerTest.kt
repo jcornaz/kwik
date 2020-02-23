@@ -6,10 +6,9 @@ import com.github.jcornaz.kwik.fuzzer.api.simplifier.tree.SimplificationTree
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.tree.assertTreeEquals
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.tree.simplestValue
 import com.github.jcornaz.kwik.generator.api.Generator
-import com.github.jcornaz.kwik.generator.api.randomSequence
+import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertSame
 
 @ExperimentalKwikFuzzer
 class GeneratorToFuzzerTest {
@@ -19,9 +18,14 @@ class GeneratorToFuzzerTest {
         val generator = Generator.create { it.nextInt() }
         val fuzzer = generator.toFuzzer(dontSimplify())
 
-        val fromGenerator = generator.randomSequence(seed = 12).take(100).toList()
-        val fromFuzzer = fuzzer.fuzz(seed = 12, count = 100).map { it.root }.toList()
-        assertEquals(fromGenerator, fromFuzzer)
+        repeat(100) {
+            val seed = Random.nextLong()
+
+            assertEquals(
+                generator.generate(Random(seed)),
+                fuzzer.generate(Random(seed)).root
+            )
+        }
     }
 
     @Test
@@ -35,7 +39,7 @@ class GeneratorToFuzzerTest {
 
         assertTreeEquals(
             SimplificationTree(12, sequenceOf(1, 2, 3, 4).map { simplestValue(it) }),
-            fuzzer.fuzz(0, 1).single()
+            fuzzer.generate(Random)
         )
     }
 }

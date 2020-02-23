@@ -4,22 +4,19 @@ import com.github.jcornaz.kwik.fuzzer.api.simplifier.Simplifier
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.tree.SimplificationTree
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.tree.simplificationTree
 import com.github.jcornaz.kwik.generator.api.Generator
-import com.github.jcornaz.kwik.generator.api.randomSequence
+import kotlin.random.Random
 
 
 /**
  * Definition of how to create values of type [T] that are relevant for testing.
  *
- *
  * This is the combination of
  * * a [Generator] responsible for value generation,
- * * a [Simplifier] responsbile for finding smaller/simpler values,
- * * some [guarantees] that can force the property evaluation to run as long as necessary
- *   to make sure that all guarantees are fulfilled
+ * * a [Simplifier] responsbile for finding smaller/simpler values
  */
 @ExperimentalKwikFuzzer
 interface Fuzzer<out T> {
-    fun fuzz(seed: Long, count: Int): Sequence<SimplificationTree<T>>
+    fun generate(random: Random): SimplificationTree<T>
 }
 
 @Deprecated("Use fuzzer instead")
@@ -52,6 +49,6 @@ private class SimpleFuzzer<T>(
     val generator: Generator<T>,
     val simplifier: Simplifier<T>
 ) : Fuzzer<T> {
-    override fun fuzz(seed: Long, count: Int): Sequence<SimplificationTree<T>> =
-        generator.randomSequence(seed).take(count).map { simplificationTree(it, simplifier::simplify) }
+    override fun generate(random: Random): SimplificationTree<T> =
+        simplificationTree(generator.generate(random), simplifier::simplify)
 }
