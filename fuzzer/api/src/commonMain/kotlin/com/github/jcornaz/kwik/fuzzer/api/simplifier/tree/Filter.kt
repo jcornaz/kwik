@@ -1,11 +1,14 @@
-package com.github.jcornaz.kwik.generator.api.simplification
+package com.github.jcornaz.kwik.fuzzer.api.simplifier.tree
 
 import com.github.jcornaz.kwik.generator.api.ExperimentalKwikGeneratorApi
 
 @ExperimentalKwikGeneratorApi
 internal fun <T> SimplificationTree<T>.filter(predicate: (T) -> Boolean): SimplificationTree<T>? {
     val newChildren = children.mapNotNull { it.filter(predicate) }
-    if (predicate(root)) return SimplificationTree(root, newChildren)
+    if (predicate(root)) return SimplificationTree(
+        root,
+        newChildren
+    )
 
     val newChildrenList = newChildren.toList()
 

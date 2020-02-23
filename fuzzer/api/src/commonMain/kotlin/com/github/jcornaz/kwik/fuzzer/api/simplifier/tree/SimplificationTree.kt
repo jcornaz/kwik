@@ -1,4 +1,4 @@
-package com.github.jcornaz.kwik.generator.api.simplification
+package com.github.jcornaz.kwik.fuzzer.api.simplifier.tree
 
 import com.github.jcornaz.kwik.generator.api.ExperimentalKwikGeneratorApi
 
@@ -26,4 +26,11 @@ fun <T> simplestValue(root: T): SimplificationTree<T> =
  */
 @ExperimentalKwikGeneratorApi
 fun <T> simplificationTree(root: T, simplify: (T) -> Sequence<T>): SimplificationTree<T> =
-    SimplificationTree(root, simplify(root).map { simplificationTree(it, simplify) })
+    SimplificationTree(
+        root,
+        simplify(root).map {
+            simplificationTree(
+                it,
+                simplify
+            )
+        })

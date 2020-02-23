@@ -1,4 +1,4 @@
-package com.github.jcornaz.kwik.generator.api.simplification
+package com.github.jcornaz.kwik.fuzzer.api.simplifier.tree
 
 import com.github.jcornaz.kwik.generator.api.ExperimentalKwikGeneratorApi
 import kotlin.random.Random
@@ -12,13 +12,21 @@ class SimplificationTreeTest {
     fun rootIsGivenValue() {
         repeat(100) {
             val value = Random.nextInt()
-            assertEquals(value, simplificationTree(value) { emptySequence() }.root)
+            assertEquals(value, simplificationTree(
+                value
+            ) { emptySequence() }.root)
         }
     }
 
     @Test
     fun buildsBranchesFromSimplifierFunction() {
-        val branches = simplificationTree(42) { sequenceOf(1, 2, 3) }
+        val branches = simplificationTree(42) {
+            sequenceOf(
+                1,
+                2,
+                3
+            )
+        }
             .children.map { it.root }.toList()
 
         assertEquals(listOf(1, 2, 3), branches)
@@ -26,13 +34,14 @@ class SimplificationTreeTest {
 
     @Test
     fun buildsTreeFromSimplifierFunction() {
-        val tree = simplificationTree(4) { value ->
-            when (value) {
-                0 -> emptySequence()
-                1 -> sequenceOf(0)
-                else -> sequenceOf(value / 2, value - 1).distinct()
+        val tree =
+            simplificationTree(4) { value ->
+                when (value) {
+                    0 -> emptySequence()
+                    1 -> sequenceOf(0)
+                    else -> sequenceOf(value / 2, value - 1).distinct()
+                }
             }
-        }
 
         assertTreeEquals(
             actual = tree,
@@ -43,7 +52,10 @@ class SimplificationTreeTest {
                         2, sequenceOf(
                             SimplificationTree(
                                 1, sequenceOf(
-                                    SimplificationTree(0, emptySequence())
+                                    SimplificationTree(
+                                        0,
+                                        emptySequence()
+                                    )
                                 )
                             )
                         )
@@ -52,14 +64,20 @@ class SimplificationTreeTest {
                         3, sequenceOf(
                             SimplificationTree(
                                 1, sequenceOf(
-                                    SimplificationTree(0, emptySequence())
+                                    SimplificationTree(
+                                        0,
+                                        emptySequence()
+                                    )
                                 )
                             ),
                             SimplificationTree(
                                 2, sequenceOf(
                                     SimplificationTree(
                                         1, sequenceOf(
-                                            SimplificationTree(0, emptySequence())
+                                            SimplificationTree(
+                                                0,
+                                                emptySequence()
+                                            )
                                         )
                                     )
                                 )

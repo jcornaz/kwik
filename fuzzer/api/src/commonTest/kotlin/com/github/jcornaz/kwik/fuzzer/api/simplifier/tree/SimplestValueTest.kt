@@ -1,4 +1,4 @@
-package com.github.jcornaz.kwik.generator.api.simplification
+package com.github.jcornaz.kwik.fuzzer.api.simplifier.tree
 
 import com.github.jcornaz.kwik.generator.api.ExperimentalKwikGeneratorApi
 import kotlin.random.Random
@@ -20,7 +20,9 @@ class SimplestValueTest {
     fun hasValueAsRoot() {
         repeat(100) {
             val value = Random.nextInt()
-            assertEquals(value, simplestValue(value).root)
+            assertEquals(value, simplestValue(
+                value
+            ).root)
         }
     }
 }

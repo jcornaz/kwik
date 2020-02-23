@@ -1,4 +1,4 @@
-package com.github.jcornaz.kwik.generator.api.simplification
+package com.github.jcornaz.kwik.fuzzer.api.simplifier.tree
 
 import com.github.jcornaz.kwik.generator.api.ExperimentalKwikGeneratorApi
 import kotlin.random.Random
@@ -50,7 +50,9 @@ class SimplificationTest {
         repeat(100) {
             val initialValue = Random.nextInt()
             val tree =
-                simplificationTree<Int?>(initialValue) { value ->
+                simplificationTree<Int?>(
+                    initialValue
+                ) { value ->
                     if (value == null) emptySequence() else sequenceOf(null)
                 }
             assertEquals(null, tree.findSimplestFalsification { false })

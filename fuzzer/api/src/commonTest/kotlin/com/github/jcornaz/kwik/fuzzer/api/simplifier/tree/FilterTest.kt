@@ -1,4 +1,4 @@
-package com.github.jcornaz.kwik.generator.api.simplification
+package com.github.jcornaz.kwik.fuzzer.api.simplifier.tree
 
 import com.github.jcornaz.kwik.generator.api.ExperimentalKwikGeneratorApi
 import kotlin.test.Test
@@ -21,17 +21,33 @@ class FilterTest {
 
     @Test
     fun filterChildren() {
-        val tree = SimplificationTree(1, sequenceOf(2, 3, 4, 5, 6).map { simplestValue(it) })
+        val tree = SimplificationTree(
+            1,
+            sequenceOf(
+                2,
+                3,
+                4,
+                5,
+                6
+            ).map { simplestValue(it) })
 
         assertTreeEquals(
-            SimplificationTree(1, sequenceOf(3, 5).map { simplestValue(it) }),
+            SimplificationTree(
+                1,
+                sequenceOf(
+                    3,
+                    5
+                ).map { simplestValue(it) }),
             assertNotNull(tree.filter { it % 2 != 0 })
         )
     }
 
     @Test
     fun returnsSatifingChildIfRootDoesntSatisfyPredicate() {
-        val tree = SimplificationTree(1, sequenceOf(simplestValue(2)))
+        val tree = SimplificationTree(
+            1,
+            sequenceOf(simplestValue(2))
+        )
 
         assertTreeEquals(
             simplestValue(2),
@@ -98,7 +114,11 @@ class FilterTest {
                     simplestValue(2),
                     SimplificationTree(
                         4,
-                        sequenceOf(simplestValue(12))
+                        sequenceOf(
+                            simplestValue(
+                                12
+                            )
+                        )
                     ),
                     simplestValue(42)
                 )
