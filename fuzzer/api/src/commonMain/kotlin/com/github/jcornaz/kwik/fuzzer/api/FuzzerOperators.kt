@@ -6,14 +6,6 @@ import com.github.jcornaz.kwik.generator.api.filter
 import com.github.jcornaz.kwik.generator.api.filterNot
 
 /**
- * Force to evaluate the property has many time as necessary
- * so that the [predicate] evaluate to `true` at least once.
- */
-@ExperimentalKwikFuzzer
-fun <T> OldFuzzer<T>.ensureAtLeastOne(predicate: (T) -> Boolean): OldFuzzer<T> =
-    copy(guarantees = guarantees + predicate)
-
-/**
  * Returns a fuzzer that evaluates only elements matching the given [predicate].
  *
  * **Usage of this operator slows down the property tests**

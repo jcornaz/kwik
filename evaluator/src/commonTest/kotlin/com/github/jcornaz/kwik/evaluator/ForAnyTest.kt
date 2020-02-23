@@ -1,13 +1,12 @@
 package com.github.jcornaz.kwik.evaluator
 
-import com.github.jcornaz.kwik.fuzzer.api.ensureAtLeastOne
-import com.github.jcornaz.kwik.fuzzer.api.toOldFuzzer
-import com.github.jcornaz.kwik.generator.api.Generator
-import com.github.jcornaz.kwik.generator.api.randomSequence
-import com.github.jcornaz.kwik.generator.stdlib.ints
 import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.Simplifier
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.dontSimplify
+import com.github.jcornaz.kwik.fuzzer.api.toFuzzer
+import com.github.jcornaz.kwik.generator.api.Generator
+import com.github.jcornaz.kwik.generator.api.randomSequence
+import com.github.jcornaz.kwik.generator.stdlib.ints
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -19,10 +18,26 @@ import kotlin.test.fail
 class ForAnyTest {
 
     @Test
+    fun sameSeedLeadsToSameInputs() {
+        val iteration1 = mutableListOf<Int>()
+        val iteration2 = mutableListOf<Int>()
+
+        forAny(Generator.ints().toFuzzer(dontSimplify()), seed = 12) {
+            iteration1 += it
+        }
+
+        forAny(Generator.ints().toFuzzer(dontSimplify()), seed = 12) {
+            iteration2 += it
+        }
+
+        assertEquals(iteration1, iteration2)
+    }
+
+    @Test
     fun perform200EvaluationsByDefault() {
         var invocations = 0
 
-        forAny(Generator.ints().toOldFuzzer(dontSimplify())) {
+        forAny(Generator.ints().toFuzzer(dontSimplify())) {
             ++invocations
         }
 
@@ -34,7 +49,7 @@ class ForAnyTest {
         var invocations = 0
 
         assertFailsWith<AssertionError> {
-            forAny(Generator.ints().toOldFuzzer(dontSimplify())) {
+            forAny(Generator.ints().toFuzzer(dontSimplify())) {
                 ++invocations
                 fail()
             }
@@ -52,7 +67,7 @@ class ForAnyTest {
 
             val values = mutableListOf<Int>()
 
-            forAny(generator.toOldFuzzer(dontSimplify()), iterations = 100, seed = seed) {
+            forAny(generator.toFuzzer(dontSimplify()), iterations = 100, seed = seed) {
                 values += it
             }
 
@@ -63,7 +78,7 @@ class ForAnyTest {
     @Test
     fun wrapErrorIntoFalsifiedPropertyError() {
         val exception = assertFailsWith<FalsifiedPropertyError> {
-            forAny(Generator.of(12).toOldFuzzer(dontSimplify()), iterations = 42, seed = 24) {
+            forAny(Generator.of(12).toFuzzer(dontSimplify()), iterations = 42, seed = 24) {
                 throw CustomException("my message")
             }
         }
@@ -86,96 +101,8 @@ class ForAnyTest {
     @Test
     fun failsForZeroIteration() {
         assertFailsWith<IllegalArgumentException> {
-            forAny(Generator.ints().toOldFuzzer(dontSimplify()), iterations = 0) { }
+            forAny(Generator.ints().toFuzzer(dontSimplify()), iterations = 0) { }
         }
-    }
-
-    @Test
-    fun guaranteesCanCauseAdditionalEvaluation() {
-        var iterations = 0
-
-        forAny(
-            Generator.create { iterations + 1 }
-                .toOldFuzzer(dontSimplify())
-                .ensureAtLeastOne { it >= 100 },
-            iterations = 10
-        ) { ++iterations }
-
-        assertEquals(100, iterations)
-    }
-
-
-    @Test
-    fun multipleGuaranteesCauseAdditionalIterationUntilTheyAreAllSatisfied() {
-        var iterations = 0
-
-        forAny(
-            Generator.create { iterations + 1 }
-                .toOldFuzzer(dontSimplify())
-                .ensureAtLeastOne { it >= 100 }
-                .ensureAtLeastOne { it >= 10 },
-            iterations = 10
-        ) { ++iterations }
-
-        assertEquals(100, iterations)
-    }
-
-    @Test
-    fun multipleGuaranteesCauseAdditionalIterationUntilTheyAreBothSatisfied_orderDoesNotMatter() {
-        var iterations = 0
-
-        forAny(
-            Generator.create { iterations + 1 }
-                .toOldFuzzer(dontSimplify())
-                .ensureAtLeastOne { it >= 10 }
-                .ensureAtLeastOne { it >= 100 },
-            iterations = 10
-        ) { ++iterations }
-
-        assertEquals(100, iterations)
-    }
-
-    @Test
-    fun guaranteesDoesNotCauseAdditionalIterationWhenNotNecessary() {
-        var iteration = 0
-
-        forAny(
-            Generator.create { 42 }
-                .toOldFuzzer(dontSimplify())
-                .ensureAtLeastOne { it > 10 }
-            ,
-            iterations = 123
-        ) { ++iteration }
-
-        assertEquals(123, iteration)
-    }
-
-    @Test
-    fun doesNotCauseAdditionalIterationInCaseOfFalsification() {
-        var iteration = 0
-
-        val exception = assertFailsWith<FalsifiedPropertyError> {
-            forAny(
-                Generator.create { 42 }
-                    .toOldFuzzer(dontSimplify())
-                    .ensureAtLeastOne { it > 10 },
-                iterations = 123,
-                seed = 78
-            ) {
-                ++iteration
-                assertTrue(iteration < 10)
-            }
-        }
-
-        assertEquals(10, iteration)
-        assertEquals(
-            """
-                Property falsified after 10 tests (out of 123)
-                Argument 1: 42
-                Generation seed: 78
-            """.trimIndent(),
-            exception.message
-        )
     }
 
     @Test
@@ -183,9 +110,9 @@ class ForAnyTest {
         val exception = assertFailsWith<FalsifiedPropertyError> {
             forAny(
                 Generator.create { 42 }
-                    .toOldFuzzer(object :
+                    .toFuzzer(object :
                         Simplifier<Int> {
-                        override fun simplify(value: Int): Sequence<Int> = when(value) {
+                        override fun simplify(value: Int): Sequence<Int> = when (value) {
                             0 -> emptySequence()
                             1 -> sequenceOf(0)
                             else -> sequenceOf(value / 2, value - 1)

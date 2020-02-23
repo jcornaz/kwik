@@ -1,9 +1,9 @@
 package com.github.jcornaz.kwik.evaluator
 
-import com.github.jcornaz.kwik.fuzzer.api.OldFuzzer
-import com.github.jcornaz.kwik.generator.api.randomSequence
 import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
-import com.github.jcornaz.kwik.fuzzer.api.simplifier.findSimplestFalsification
+import com.github.jcornaz.kwik.fuzzer.api.Fuzzer
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.tree.findSimplestFalsification
+import com.github.jcornaz.kwik.generator.api.randomSequence
 
 
 /**
@@ -19,33 +19,30 @@ import com.github.jcornaz.kwik.fuzzer.api.simplifier.findSimplestFalsification
  */
 @ExperimentalKwikFuzzer
 fun <T> forAny(
-    fuzzer: OldFuzzer<T>,
+    fuzzer: Fuzzer<T>,
     iterations: Int = kwikDefaultIterations,
     seed: Long = nextSeed(),
     block: (T) -> Unit
 ) {
     require(iterations > 0) { "Iterations must be > 0, but was: $iterations" }
 
-    val inputIterator = fuzzer.generator.randomSequence(seed).iterator()
-    val unsatisfiedGuarantees = fuzzer.guarantees.toMutableList()
     var iterationDone = 0
 
-    do {
-        val input = inputIterator.next()
+    randomSequence(seed) { fuzzer.generate(it) }
+        .take(iterations)
+        .forEach { tree ->
 
-        unsatisfiedGuarantees.removeSatisfying(input)
-
-        try {
-            block(input)
-        } catch (throwable: Throwable) {
-            val simplerInput = fuzzer.simplifier.findSimplestFalsification(input) {
-                runCatching { block(it) }.isSuccess
+            try {
+                block(tree.root)
+            } catch (throwable: Throwable) {
+                val simplerInput = tree.findSimplestFalsification {
+                    runCatching { block(it) }.isSuccess
+                }
+                throw FalsifiedPropertyError(iterationDone + 1, iterations, seed, listOf(simplerInput), throwable)
             }
-            throw FalsifiedPropertyError(iterationDone + 1, iterations, seed, listOf(simplerInput), throwable)
-        }
 
-        ++iterationDone
-    } while (iterationDone < iterations || unsatisfiedGuarantees.isNotEmpty())
+            ++iterationDone
+        }
 }
 
 private fun <T> MutableList<(T) -> Boolean>.removeSatisfying(input: T) {
