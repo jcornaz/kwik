@@ -9,7 +9,7 @@ import com.github.jcornaz.kwik.generator.api.ExperimentalKwikGeneratorApi
  */
 @ExperimentalKwikGeneratorApi
 tailrec fun <T> SimplificationTree<T>.findSimplestFalsification(satisfy: (T) -> Boolean): T {
-    val branchIterator = branches.filterNot { satisfy(it.root) }.iterator()
+    val branchIterator = children.filterNot { satisfy(it.root) }.iterator()
 
     if (!branchIterator.hasNext()) return root
 

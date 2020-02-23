@@ -19,7 +19,7 @@ class SimplificationTreeTest {
     @Test
     fun buildsBranchesFromSimplifierFunction() {
         val branches = simplificationTree(42) { sequenceOf(1, 2, 3) }
-            .branches.map { it.root }.toList()
+            .children.map { it.root }.toList()
 
         assertEquals(listOf(1, 2, 3), branches)
     }

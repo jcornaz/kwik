@@ -12,7 +12,7 @@ class SimplestValueTest {
     @Test
     fun hasNoBranch() {
         repeat(100) {
-            assertTrue(simplestValue(Random.nextInt()).branches.none())
+            assertTrue(simplestValue(Random.nextInt()).children.none())
         }
     }
 

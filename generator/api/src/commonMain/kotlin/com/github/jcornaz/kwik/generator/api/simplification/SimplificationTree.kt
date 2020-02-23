@@ -8,12 +8,12 @@ import kotlin.random.Random
  * Lazy tree of sample.
  *
  * The [root] is the most complex value of the tree.
- * The [branches] returns a sequences of value simpler than [root], order from the simplest to the most complex.
+ * The [children] returns a sequences of value simpler than [root], ordered from the simplest to the most complex.
  */
 @ExperimentalKwikGeneratorApi
 class SimplificationTree<out T>(
     val root: T,
-    val branches: Sequence<SimplificationTree<T>>
+    val children: Sequence<SimplificationTree<T>>
 )
 
 /**
@@ -24,7 +24,7 @@ fun <T> simplestValue(root: T): SimplificationTree<T> =
     SimplificationTree(root, emptySequence())
 
 /**
- * Returns a [SimplificationTree] with [root] and lazily build branches by invoking [simplify]
+ * Returns a [SimplificationTree] with [root] and lazily build children by invoking [simplify]
  */
 @ExperimentalKwikGeneratorApi
 fun <T> simplificationTree(root: T, simplify: (T) -> Sequence<T>): SimplificationTree<T> =
@@ -40,7 +40,7 @@ fun <T> Generator<T>.withSimplification(simplify: (T) -> Sequence<T>): Generator
 private class Simplifier<out T>(
     private val generator: Generator<T>,
     private val simplify: (T) -> Sequence<T>
-): Generator<T> {
+) : Generator<T> {
 
     @ExperimentalKwikGeneratorApi
     override fun generateSampleTree(random: Random): SimplificationTree<T> =

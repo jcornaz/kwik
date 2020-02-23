@@ -16,7 +16,7 @@ class WithSimplifierTest {
                 sequenceOf(1, 2, 3)
             }
             .generateSampleTree(Random)
-            .branches
+            .children
             .map { it.root }
             .toList()
 
