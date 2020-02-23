@@ -1,9 +1,9 @@
 package com.github.jcornaz.kwik.fuzzer.api.simplifier.tree
 
-import com.github.jcornaz.kwik.generator.api.ExperimentalKwikGeneratorApi
+import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
 import kotlin.test.assertEquals
 
-@ExperimentalKwikGeneratorApi
+@ExperimentalKwikFuzzer
 fun <T> assertTreeEquals(expected: SimplificationTree<T>, actual: SimplificationTree<T>) {
     assertEquals(expected.root, actual.root)
     val actualBranches = actual.children.toList()

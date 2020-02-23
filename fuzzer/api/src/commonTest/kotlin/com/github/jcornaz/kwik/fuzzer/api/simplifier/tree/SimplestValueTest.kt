@@ -1,12 +1,12 @@
 package com.github.jcornaz.kwik.fuzzer.api.simplifier.tree
 
-import com.github.jcornaz.kwik.generator.api.ExperimentalKwikGeneratorApi
+import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-@ExperimentalKwikGeneratorApi
+@ExperimentalKwikFuzzer
 class SimplestValueTest {
 
     @Test
