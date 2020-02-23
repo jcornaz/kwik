@@ -23,7 +23,7 @@ class FuzzerFilterTest {
 
             assertEquals(
                 generator.filter { it != value }.randomSequence(seed).take(100).toList(),
-                generator.toFuzzer(dontSimplify()).filter { it != value }.generator.randomSequence(seed).take(100).toList()
+                generator.toOldFuzzer(dontSimplify()).filter { it != value }.generator.randomSequence(seed).take(100).toList()
             )
         }
     }
@@ -38,7 +38,7 @@ class FuzzerFilterTest {
 
             assertEquals(
                 generator.filterNot { it == value }.randomSequence(seed).take(100).toList(),
-                generator.toFuzzer(dontSimplify()).filterNot { it == value }.generator.randomSequence(seed).take(100).toList()
+                generator.toOldFuzzer(dontSimplify()).filterNot { it == value }.generator.randomSequence(seed).take(100).toList()
             )
         }
     }
@@ -46,7 +46,7 @@ class FuzzerFilterTest {
     @Test
     fun applyFilterToSimplifier() {
         val simplerValues = Generator.create { it.nextInt() }
-            .toFuzzer(simplifier {
+            .toOldFuzzer(simplifier {
                 sequenceOf(
                     1,
                     2,
@@ -64,7 +64,7 @@ class FuzzerFilterTest {
     @Test
     fun applyFilterNotToSimplifier() {
         val simplerValues = Generator.create { it.nextInt() }
-            .toFuzzer(simplifier {
+            .toOldFuzzer(simplifier {
                 sequenceOf(
                     1,
                     2,

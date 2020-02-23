@@ -13,8 +13,8 @@ class FuzzerPairTest {
     @Test
     fun combinesGenerators() {
         val pair = Arbitrary.pair(
-            Generator.of(1).toFuzzer(dontSimplify()),
-            Generator.of(2).toFuzzer(dontSimplify())
+            Generator.of(1).toOldFuzzer(dontSimplify()),
+            Generator.of(2).toOldFuzzer(dontSimplify())
         )
 
         assertEquals(1 to 2, pair.generator.generate(Random))
@@ -25,12 +25,12 @@ class FuzzerPairTest {
         val generator = Generator.create { it.nextInt() }
 
         val pair = Arbitrary.pair(
-            generator.toFuzzer(simplifier {
+            generator.toOldFuzzer(simplifier {
                 sequenceOf(
                     it - 7
                 )
             }),
-            generator.toFuzzer(simplifier {
+            generator.toOldFuzzer(simplifier {
                 sequenceOf(
                     it - 8
                 )

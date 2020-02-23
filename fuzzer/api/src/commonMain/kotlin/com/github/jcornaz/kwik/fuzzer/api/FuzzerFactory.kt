@@ -7,28 +7,28 @@ import com.github.jcornaz.kwik.fuzzer.api.simplifier.pair
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.triple
 
 /**
- * Returns a [SimpleFuzzer] for pair of [A] and [B].
+ * Returns a [OldFuzzer] for pair of [A] and [B].
  *
  * @param first Fuzzer for the first element of the pairs
  * @param second Fuzzer for the second element of the pairs
  */
 @ExperimentalKwikFuzzer
-fun <A, B> Arbitrary.pair(first: SimpleFuzzer<A>, second: SimpleFuzzer<B>): SimpleFuzzer<Pair<A, B>> =
-    SimpleFuzzer(
+fun <A, B> Arbitrary.pair(first: OldFuzzer<A>, second: OldFuzzer<B>): OldFuzzer<Pair<A, B>> =
+    OldFuzzer(
         generator = first.generator.combineWith(second.generator),
         simplifier = Simplifier.pair(first.simplifier, second.simplifier)
     )
 
 /**
- * Returns a [SimpleFuzzer] for triple of [A], [B] and [C].
+ * Returns a [OldFuzzer] for triple of [A], [B] and [C].
  *
  * @param first Fuzzer for the first element of the pairs
  * @param second Fuzzer for the second element of the pairs
  * @param third Fuzzer for the third element of the pairs
  */
 @ExperimentalKwikFuzzer
-fun <A, B, C> Arbitrary.triple(first: SimpleFuzzer<A>, second: SimpleFuzzer<B>, third: SimpleFuzzer<C>): SimpleFuzzer<Triple<A, B, C>> =
-    SimpleFuzzer(
+fun <A, B, C> Arbitrary.triple(first: OldFuzzer<A>, second: OldFuzzer<B>, third: OldFuzzer<C>): OldFuzzer<Triple<A, B, C>> =
+    OldFuzzer(
         generator = Generator.create { random ->
             Triple(
                 first.generator.generate(random),

@@ -13,9 +13,9 @@ class FuzzerTripleTest {
     @Test
     fun combinesGenerators() {
         val triple = Arbitrary.triple(
-            Generator.of(1).toFuzzer(dontSimplify()),
-            Generator.of(2).toFuzzer(dontSimplify()),
-            Generator.of(3).toFuzzer(dontSimplify())
+            Generator.of(1).toOldFuzzer(dontSimplify()),
+            Generator.of(2).toOldFuzzer(dontSimplify()),
+            Generator.of(3).toOldFuzzer(dontSimplify())
         )
 
         assertEquals(Triple(1, 2, 3), triple.generator.generate(Random))
@@ -26,17 +26,17 @@ class FuzzerTripleTest {
         val generator = Generator.create { it.nextInt() }
 
         val pair = Arbitrary.triple(
-            generator.toFuzzer(simplifier {
+            generator.toOldFuzzer(simplifier {
                 sequenceOf(
                     it - 1
                 )
             }),
-            generator.toFuzzer(simplifier {
+            generator.toOldFuzzer(simplifier {
                 sequenceOf(
                     it - 2
                 )
             }),
-            generator.toFuzzer(simplifier {
+            generator.toOldFuzzer(simplifier {
                 sequenceOf(
                     it - 3
                 )

@@ -1,7 +1,7 @@
 package com.github.jcornaz.kwik.evaluator
 
 import com.github.jcornaz.kwik.fuzzer.api.ensureAtLeastOne
-import com.github.jcornaz.kwik.fuzzer.api.toFuzzer
+import com.github.jcornaz.kwik.fuzzer.api.toOldFuzzer
 import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.randomSequence
 import com.github.jcornaz.kwik.generator.stdlib.ints
@@ -22,7 +22,7 @@ class ForAnyTest {
     fun perform200EvaluationsByDefault() {
         var invocations = 0
 
-        forAny(Generator.ints().toFuzzer(dontSimplify())) {
+        forAny(Generator.ints().toOldFuzzer(dontSimplify())) {
             ++invocations
         }
 
@@ -34,7 +34,7 @@ class ForAnyTest {
         var invocations = 0
 
         assertFailsWith<AssertionError> {
-            forAny(Generator.ints().toFuzzer(dontSimplify())) {
+            forAny(Generator.ints().toOldFuzzer(dontSimplify())) {
                 ++invocations
                 fail()
             }
@@ -52,7 +52,7 @@ class ForAnyTest {
 
             val values = mutableListOf<Int>()
 
-            forAny(generator.toFuzzer(dontSimplify()), iterations = 100, seed = seed) {
+            forAny(generator.toOldFuzzer(dontSimplify()), iterations = 100, seed = seed) {
                 values += it
             }
 
@@ -63,7 +63,7 @@ class ForAnyTest {
     @Test
     fun wrapErrorIntoFalsifiedPropertyError() {
         val exception = assertFailsWith<FalsifiedPropertyError> {
-            forAny(Generator.of(12).toFuzzer(dontSimplify()), iterations = 42, seed = 24) {
+            forAny(Generator.of(12).toOldFuzzer(dontSimplify()), iterations = 42, seed = 24) {
                 throw CustomException("my message")
             }
         }
@@ -86,7 +86,7 @@ class ForAnyTest {
     @Test
     fun failsForZeroIteration() {
         assertFailsWith<IllegalArgumentException> {
-            forAny(Generator.ints().toFuzzer(dontSimplify()), iterations = 0) { }
+            forAny(Generator.ints().toOldFuzzer(dontSimplify()), iterations = 0) { }
         }
     }
 
@@ -96,7 +96,7 @@ class ForAnyTest {
 
         forAny(
             Generator.create { iterations + 1 }
-                .toFuzzer(dontSimplify())
+                .toOldFuzzer(dontSimplify())
                 .ensureAtLeastOne { it >= 100 },
             iterations = 10
         ) { ++iterations }
@@ -111,7 +111,7 @@ class ForAnyTest {
 
         forAny(
             Generator.create { iterations + 1 }
-                .toFuzzer(dontSimplify())
+                .toOldFuzzer(dontSimplify())
                 .ensureAtLeastOne { it >= 100 }
                 .ensureAtLeastOne { it >= 10 },
             iterations = 10
@@ -126,7 +126,7 @@ class ForAnyTest {
 
         forAny(
             Generator.create { iterations + 1 }
-                .toFuzzer(dontSimplify())
+                .toOldFuzzer(dontSimplify())
                 .ensureAtLeastOne { it >= 10 }
                 .ensureAtLeastOne { it >= 100 },
             iterations = 10
@@ -141,7 +141,7 @@ class ForAnyTest {
 
         forAny(
             Generator.create { 42 }
-                .toFuzzer(dontSimplify())
+                .toOldFuzzer(dontSimplify())
                 .ensureAtLeastOne { it > 10 }
             ,
             iterations = 123
@@ -157,7 +157,7 @@ class ForAnyTest {
         val exception = assertFailsWith<FalsifiedPropertyError> {
             forAny(
                 Generator.create { 42 }
-                    .toFuzzer(dontSimplify())
+                    .toOldFuzzer(dontSimplify())
                     .ensureAtLeastOne { it > 10 },
                 iterations = 123,
                 seed = 78
@@ -183,7 +183,7 @@ class ForAnyTest {
         val exception = assertFailsWith<FalsifiedPropertyError> {
             forAny(
                 Generator.create { 42 }
-                    .toFuzzer(object :
+                    .toOldFuzzer(object :
                         Simplifier<Int> {
                         override fun simplify(value: Int): Sequence<Int> = when(value) {
                             0 -> emptySequence()
