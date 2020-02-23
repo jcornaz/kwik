@@ -5,6 +5,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
+@ExperimentalKwikGeneratorApi
 class FilterTest : AbstractGeneratorTest() {
     override val generator: Generator<*> = Generator.create { it.nextInt() }.filter { true }
 
@@ -18,6 +19,7 @@ class FilterTest : AbstractGeneratorTest() {
     }
 }
 
+@ExperimentalKwikGeneratorApi
 class FilterNotTest : AbstractGeneratorTest() {
     override val generator: Generator<*> = Generator.create { it.nextInt() }.filterNot { false }
 

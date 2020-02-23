@@ -9,8 +9,7 @@ internal fun <T> SimplificationTree<T>.filter(predicate: (T) -> Boolean): Simpli
 
     val newChildrenList = newChildren.toList()
 
-    if (newChildrenList.size < 2) return newChildren.singleOrNull()
-    if (newChildrenList.size == 1) return newChildren.single()
+    if (newChildrenList.size <= 1) return newChildren.singleOrNull()
 
     val lastChild = newChildrenList.last()
 
@@ -19,3 +18,10 @@ internal fun <T> SimplificationTree<T>.filter(predicate: (T) -> Boolean): Simpli
         newChildrenList.subList(0, newChildrenList.size - 1).asSequence() + lastChild.children
     )
 }
+
+@ExperimentalKwikGeneratorApi
+internal fun <T, R> SimplificationTree<T>.map(transform: (T) -> R): SimplificationTree<R> =
+    SimplificationTree(
+        root = transform(root),
+        children = children.map { it.map(transform) }
+    )
