@@ -96,7 +96,8 @@ class PairTest {
         }
 
         val result = Simplifier.pair(simplifier, simplifier)
-            .findSimplestFalsification(100 to 100) { (first, _) ->
+            .tree(100 to 100)
+            .findSimplestFalsification { (first, _) ->
                 first < 12
             }
 

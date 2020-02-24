@@ -2,7 +2,7 @@ package com.github.jcornaz.kwik.evaluator
 
 import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
 import com.github.jcornaz.kwik.fuzzer.api.Fuzzer
-import com.github.jcornaz.kwik.fuzzer.api.simplifier.tree.findSimplestFalsification
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.findSimplestFalsification
 import com.github.jcornaz.kwik.generator.api.randomSequence
 
 
@@ -33,7 +33,7 @@ fun <T> forAny(
         .forEach { tree ->
 
             try {
-                block(tree.root)
+                block(tree.item)
             } catch (throwable: Throwable) {
                 val simplerInput = tree.findSimplestFalsification {
                     runCatching { block(it) }.isSuccess

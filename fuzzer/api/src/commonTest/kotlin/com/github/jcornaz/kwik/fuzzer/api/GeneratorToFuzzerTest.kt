@@ -2,9 +2,9 @@ package com.github.jcornaz.kwik.fuzzer.api
 
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.dontSimplify
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.simplifier
-import com.github.jcornaz.kwik.fuzzer.api.simplifier.tree.SimplificationTree
-import com.github.jcornaz.kwik.fuzzer.api.simplifier.tree.assertTreeEquals
-import com.github.jcornaz.kwik.fuzzer.api.simplifier.tree.simplestValue
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.RoseTree
+import com.github.jcornaz.kwik.fuzzer.api.tree.assertTreeEquals
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.roseTreeOf
 import com.github.jcornaz.kwik.generator.api.Generator
 import kotlin.random.Random
 import kotlin.test.Test
@@ -23,7 +23,7 @@ class GeneratorToFuzzerTest {
 
             assertEquals(
                 generator.generate(Random(seed)),
-                fuzzer.generate(Random(seed)).root
+                fuzzer.generate(Random(seed)).item
             )
         }
     }
@@ -38,7 +38,14 @@ class GeneratorToFuzzerTest {
         val fuzzer = generator.toFuzzer(simplifier)
 
         assertTreeEquals(
-            SimplificationTree(12, sequenceOf(1, 2, 3, 4).map { simplestValue(it) }),
+            RoseTree(
+                12,
+                sequenceOf(
+                    1,
+                    2,
+                    3,
+                    4
+                ).map { roseTreeOf(it) }),
             fuzzer.generate(Random)
         )
     }

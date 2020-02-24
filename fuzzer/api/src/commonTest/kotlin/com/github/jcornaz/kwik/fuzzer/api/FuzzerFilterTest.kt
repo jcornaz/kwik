@@ -15,7 +15,7 @@ class FuzzerFilterTest {
 
     private fun <T> Fuzzer<T>.list(seed: Long, count: Int): List<T> =
         randomSequence(seed) { generate(it) }
-            .map { it.root }
+            .map { it.item }
             .take(count)
             .toList()
 
@@ -57,7 +57,7 @@ class FuzzerFilterTest {
             })
             .filter { it % 2 == 0 }
             .generate(Random)
-            .children.map { it.root }
+            .children.map { it.item }
             .toList()
 
         assertEquals(listOf(2, 4), simplerValues)
@@ -71,7 +71,7 @@ class FuzzerFilterTest {
             })
             .filterNot { it % 2 == 0 }
             .generate(Random)
-            .children.map { it.root }
+            .children.map { it.item }
             .toList()
 
         assertEquals(listOf(1, 3), simplerValues)

@@ -1,8 +1,8 @@
 package com.github.jcornaz.kwik.fuzzer.api
 
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.Simplifier
-import com.github.jcornaz.kwik.fuzzer.api.simplifier.tree.SimplificationTree
-import com.github.jcornaz.kwik.fuzzer.api.simplifier.tree.simplificationTree
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.RoseTree
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.buildRoseTree
 import com.github.jcornaz.kwik.generator.api.Generator
 import kotlin.random.Random
 
@@ -16,7 +16,7 @@ import kotlin.random.Random
  */
 @ExperimentalKwikFuzzer
 interface Fuzzer<out T> {
-    fun generate(random: Random): SimplificationTree<T>
+    fun generate(random: Random): RoseTree<T>
 }
 
 @Deprecated("Use fuzzer instead")
@@ -49,6 +49,9 @@ private class SimpleFuzzer<T>(
     val generator: Generator<T>,
     val simplifier: Simplifier<T>
 ) : Fuzzer<T> {
-    override fun generate(random: Random): SimplificationTree<T> =
-        simplificationTree(generator.generate(random), simplifier::simplify)
+    override fun generate(random: Random): RoseTree<T> =
+        buildRoseTree(
+            generator.generate(random),
+            simplifier::simplify
+        )
 }

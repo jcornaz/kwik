@@ -1,6 +1,7 @@
-package com.github.jcornaz.kwik.fuzzer.api.simplifier.tree
+package com.github.jcornaz.kwik.fuzzer.api.tree
 
 import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.roseTreeOf
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -12,7 +13,7 @@ class SimplestValueTest {
     @Test
     fun hasNoBranch() {
         repeat(100) {
-            assertTrue(simplestValue(Random.nextInt()).children.none())
+            assertTrue(roseTreeOf(Random.nextInt()).children.none())
         }
     }
 
@@ -20,9 +21,9 @@ class SimplestValueTest {
     fun hasValueAsRoot() {
         repeat(100) {
             val value = Random.nextInt()
-            assertEquals(value, simplestValue(
+            assertEquals(value, roseTreeOf(
                 value
-            ).root)
+            ).item)
         }
     }
 }

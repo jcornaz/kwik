@@ -5,13 +5,17 @@ import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
 /**
  * Find the simplest value [T] for which [satisfy] returns false.
  *
- * If there is no simpler value than [initialValue] for which [satisfy] returns false, then [initialValue] is returned.
+ * If there is no value for which [satisfy] returns false, then the root is returned.
  */
 @ExperimentalKwikFuzzer
-tailrec fun <T> Simplifier<T>.findSimplestFalsification(initialValue: T, satisfy: (T) -> Boolean): T {
-    val simplerValuesIterator = simplify(initialValue).filterNot(satisfy).iterator()
+tailrec fun <T> RoseTree<T>.findSimplestFalsification(satisfy: (T) -> Boolean): T {
+    val branchIterator = children.filterNot { satisfy(it.item) }.iterator()
 
-    if (!simplerValuesIterator.hasNext()) return initialValue
+    if (!branchIterator.hasNext()) return item
 
-    return findSimplestFalsification(simplerValuesIterator.next(), satisfy)
+    return branchIterator.next().findSimplestFalsification(satisfy)
 }
+
+@ExperimentalKwikFuzzer
+internal fun <T> Simplifier<T>.tree(rootItem: T): RoseTree<T> =
+    buildRoseTree(rootItem, this::simplify)

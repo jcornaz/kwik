@@ -1,6 +1,9 @@
-package com.github.jcornaz.kwik.fuzzer.api.simplifier.tree
+package com.github.jcornaz.kwik.fuzzer.api.tree
 
 import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.RoseTree
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.filter
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.roseTreeOf
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
@@ -10,18 +13,22 @@ class FilterTest {
 
     @Test
     fun returnsNullIfRootDoesNotSatisfyPredicate() {
-        assertNull(simplestValue(32).filter { it < 10 })
+        assertNull(roseTreeOf(32).filter { it < 10 })
     }
 
     @Test
     fun returnsSameIfSatisfyingLeaf() {
-        val tree = simplestValue(321).filter { it > 0 }
-        assertTreeEquals(simplestValue(321), assertNotNull(tree))
+        val tree = roseTreeOf(321).filter { it > 0 }
+        assertTreeEquals(
+            roseTreeOf(
+                321
+            ), assertNotNull(tree)
+        )
     }
 
     @Test
     fun filterChildren() {
-        val tree = SimplificationTree(
+        val tree = RoseTree(
             1,
             sequenceOf(
                 2,
@@ -29,60 +36,60 @@ class FilterTest {
                 4,
                 5,
                 6
-            ).map { simplestValue(it) })
+            ).map { roseTreeOf(it) })
 
         assertTreeEquals(
-            SimplificationTree(
+            RoseTree(
                 1,
                 sequenceOf(
                     3,
                     5
-                ).map { simplestValue(it) }),
+                ).map { roseTreeOf(it) }),
             assertNotNull(tree.filter { it % 2 != 0 })
         )
     }
 
     @Test
     fun keepsDeepTreeOfChildren() {
-        val tree = SimplificationTree(
+        val tree = RoseTree(
             0,
             sequenceOf(
-                simplestValue(2),
-                simplestValue(3),
-                SimplificationTree(
+                roseTreeOf(2),
+                roseTreeOf(3),
+                RoseTree(
                     4,
                     sequenceOf(
-                        simplestValue(11),
-                        simplestValue(12)
+                        roseTreeOf(11),
+                        roseTreeOf(12)
                     )
                 ),
-                simplestValue(5),
-                SimplificationTree(
+                roseTreeOf(5),
+                RoseTree(
                     6,
                     sequenceOf(
-                        simplestValue(42),
-                        simplestValue(43)
+                        roseTreeOf(42),
+                        roseTreeOf(43)
                     )
                 ),
-                simplestValue(7)
+                roseTreeOf(7)
             )
         )
 
         assertTreeEquals(
-            expected = SimplificationTree(
+            expected = RoseTree(
                 0,
                 sequenceOf(
-                    simplestValue(2),
-                    SimplificationTree(
+                    roseTreeOf(2),
+                    RoseTree(
                         4,
                         sequenceOf(
-                            simplestValue(12)
+                            roseTreeOf(12)
                         )
                     ),
-                    SimplificationTree(
+                    RoseTree(
                         6,
                         sequenceOf(
-                            simplestValue(42)
+                            roseTreeOf(42)
                         )
                     )
                 )

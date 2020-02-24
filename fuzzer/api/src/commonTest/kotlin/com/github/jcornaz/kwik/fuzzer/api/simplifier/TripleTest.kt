@@ -127,7 +127,8 @@ class TripleTest {
         }
 
         val result = Simplifier.triple(simplifier, simplifier, simplifier)
-            .findSimplestFalsification(Triple(101, 102, 103)) { (first, _, third) ->
+            .tree(Triple(101, 102, 103))
+            .findSimplestFalsification { (first, _, third) ->
                 first < 12 || third < 42
             }
 
