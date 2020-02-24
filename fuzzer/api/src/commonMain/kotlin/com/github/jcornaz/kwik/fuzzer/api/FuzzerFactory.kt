@@ -1,10 +1,10 @@
 package com.github.jcornaz.kwik.fuzzer.api
 
-import com.github.jcornaz.kwik.generator.api.Generator
-import com.github.jcornaz.kwik.generator.api.combineWith
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.Simplifier
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.pair
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.triple
+import com.github.jcornaz.kwik.generator.api.Generator
+import com.github.jcornaz.kwik.generator.api.combineWith
 
 /**
  * Returns a [OldFuzzer] for pair of [A] and [B].
@@ -27,7 +27,11 @@ fun <A, B> Arbitrary.pair(first: OldFuzzer<A>, second: OldFuzzer<B>): OldFuzzer<
  * @param third Fuzzer for the third element of the pairs
  */
 @ExperimentalKwikFuzzer
-fun <A, B, C> Arbitrary.triple(first: OldFuzzer<A>, second: OldFuzzer<B>, third: OldFuzzer<C>): OldFuzzer<Triple<A, B, C>> =
+fun <A, B, C> Arbitrary.triple(
+    first: OldFuzzer<A>,
+    second: OldFuzzer<B>,
+    third: OldFuzzer<C>
+): OldFuzzer<Triple<A, B, C>> =
     OldFuzzer(
         generator = Generator.create { random ->
             Triple(

@@ -1,9 +1,9 @@
 package com.github.jcornaz.kwik.fuzzer.api.tree
 
 import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
-import com.github.jcornaz.kwik.fuzzer.api.simplifier.buildRoseTree
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.simplificationTree
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.findSimplestFalsification
-import com.github.jcornaz.kwik.fuzzer.api.simplifier.roseTreeOf
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.simplificationTreeOf
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -15,7 +15,7 @@ class SimplificationTest {
     fun returnsInitialValueIfThereIsNoSimplerValue() {
         repeat(100) {
             val initialValue = Random.nextInt()
-            assertEquals(initialValue, roseTreeOf(
+            assertEquals(initialValue, simplificationTreeOf(
                 initialValue
             ).findSimplestFalsification { Random.nextBoolean() })
         }
@@ -27,7 +27,7 @@ class SimplificationTest {
             val initialValue = Random.nextInt()
 
             val tree =
-                buildRoseTree(initialValue) {
+                simplificationTree(initialValue) {
                     sequenceOf(1, 2, 3, 4)
                 }
 
@@ -41,7 +41,7 @@ class SimplificationTest {
         repeat(100) {
             val initialValue = Random.nextInt(1, 100)
             val tree =
-                buildRoseTree(initialValue) { value ->
+                simplificationTree(initialValue) { value ->
                     if (value == 0) emptySequence() else sequenceOf(0, 1, 3)
                 }
             assertEquals(0, tree.findSimplestFalsification { false })
@@ -53,7 +53,7 @@ class SimplificationTest {
         repeat(100) {
             val initialValue = Random.nextInt()
             val tree =
-                buildRoseTree<Int?>(
+                simplificationTree<Int?>(
                     initialValue
                 ) { value ->
                     if (value == null) emptySequence() else sequenceOf(null)
@@ -68,7 +68,7 @@ class SimplificationTest {
         repeat(1000) {
             val initialValue = Random.nextInt(100, 200)
             val tree =
-                buildRoseTree(initialValue) { value ->
+                simplificationTree(initialValue) { value ->
                     when (value) {
                         0 -> emptySequence()
                         1 -> sequenceOf(0)

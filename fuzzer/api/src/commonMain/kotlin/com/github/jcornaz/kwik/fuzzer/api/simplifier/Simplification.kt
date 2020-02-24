@@ -8,7 +8,7 @@ import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
  * If there is no value for which [satisfy] returns false, then the root is returned.
  */
 @ExperimentalKwikFuzzer
-tailrec fun <T> RoseTree<T>.findSimplestFalsification(satisfy: (T) -> Boolean): T {
+tailrec fun <T> SimplificationTree<T>.findSimplestFalsification(satisfy: (T) -> Boolean): T {
     val branchIterator = children.filterNot { satisfy(it.item) }.iterator()
 
     if (!branchIterator.hasNext()) return item
@@ -17,5 +17,5 @@ tailrec fun <T> RoseTree<T>.findSimplestFalsification(satisfy: (T) -> Boolean): 
 }
 
 @ExperimentalKwikFuzzer
-internal fun <T> Simplifier<T>.tree(rootItem: T): RoseTree<T> =
-    buildRoseTree(rootItem, this::simplify)
+internal fun <T> Simplifier<T>.tree(rootItem: T): SimplificationTree<T> =
+    simplificationTree(rootItem, this::simplify)

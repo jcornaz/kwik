@@ -1,8 +1,8 @@
 package com.github.jcornaz.kwik.fuzzer.api.tree
 
 import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
-import com.github.jcornaz.kwik.fuzzer.api.simplifier.RoseTree
-import com.github.jcornaz.kwik.fuzzer.api.simplifier.buildRoseTree
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.SimplificationTree
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.simplificationTree
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -14,7 +14,7 @@ class SimplificationTreeTest {
     fun rootIsGivenValue() {
         repeat(100) {
             val value = Random.nextInt()
-            assertEquals(value, buildRoseTree(
+            assertEquals(value, simplificationTree(
                 value
             ) { emptySequence() }.item)
         }
@@ -22,7 +22,7 @@ class SimplificationTreeTest {
 
     @Test
     fun buildsBranchesFromSimplifierFunction() {
-        val branches = buildRoseTree(42) {
+        val branches = simplificationTree(42) {
             sequenceOf(
                 1,
                 2,
@@ -37,7 +37,7 @@ class SimplificationTreeTest {
     @Test
     fun buildsTreeFromSimplifierFunction() {
         val tree =
-            buildRoseTree(4) { value ->
+            simplificationTree(4) { value ->
                 when (value) {
                     0 -> emptySequence()
                     1 -> sequenceOf(0)
@@ -47,14 +47,14 @@ class SimplificationTreeTest {
 
         assertTreeEquals(
             actual = tree,
-            expected = RoseTree(
+            expected = SimplificationTree(
                 4,
                 sequenceOf(
-                    RoseTree(
+                    SimplificationTree(
                         2, sequenceOf(
-                            RoseTree(
+                            SimplificationTree(
                                 1, sequenceOf(
-                                    RoseTree(
+                                    SimplificationTree(
                                         0,
                                         emptySequence()
                                     )
@@ -62,21 +62,21 @@ class SimplificationTreeTest {
                             )
                         )
                     ),
-                    RoseTree(
+                    SimplificationTree(
                         3, sequenceOf(
-                            RoseTree(
+                            SimplificationTree(
                                 1, sequenceOf(
-                                    RoseTree(
+                                    SimplificationTree(
                                         0,
                                         emptySequence()
                                     )
                                 )
                             ),
-                            RoseTree(
+                            SimplificationTree(
                                 2, sequenceOf(
-                                    RoseTree(
+                                    SimplificationTree(
                                         1, sequenceOf(
-                                            RoseTree(
+                                            SimplificationTree(
                                                 0,
                                                 emptySequence()
                                             )

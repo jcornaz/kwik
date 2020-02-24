@@ -1,6 +1,6 @@
 package com.github.jcornaz.kwik.fuzzer.api
 
-import com.github.jcornaz.kwik.fuzzer.api.simplifier.RoseTree
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.SimplificationTree
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.filter
 import kotlin.random.Random
 
@@ -29,8 +29,8 @@ private class FilterFuzzer<out T>(
     private val source: Fuzzer<T>,
     private val predicate: (T) -> Boolean
 ) : Fuzzer<T> {
-    override fun generate(random: Random): RoseTree<T> {
-        var result: RoseTree<T>?
+    override fun generate(random: Random): SimplificationTree<T> {
+        var result: SimplificationTree<T>?
 
         do {
             result = source.generate(random).filter(predicate)

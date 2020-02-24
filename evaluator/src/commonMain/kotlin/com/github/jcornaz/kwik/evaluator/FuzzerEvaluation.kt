@@ -44,11 +44,3 @@ fun <T> forAny(
             ++iterationDone
         }
 }
-
-private fun <T> MutableList<(T) -> Boolean>.removeSatisfying(input: T) {
-    val iterator = listIterator()
-    while (iterator.hasNext()) {
-        if (iterator.next().invoke(input))
-            iterator.remove()
-    }
-}

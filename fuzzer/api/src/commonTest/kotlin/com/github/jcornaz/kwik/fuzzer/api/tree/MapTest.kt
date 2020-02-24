@@ -1,9 +1,9 @@
 package com.github.jcornaz.kwik.fuzzer.api.tree
 
 import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
-import com.github.jcornaz.kwik.fuzzer.api.simplifier.RoseTree
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.SimplificationTree
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.map
-import com.github.jcornaz.kwik.fuzzer.api.simplifier.roseTreeOf
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.simplificationTreeOf
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -12,39 +12,39 @@ class MapTest {
 
     @Test
     fun transformsRoot() {
-        assertEquals("1", roseTreeOf(1).map { it.toString() }.item)
+        assertEquals("1", simplificationTreeOf(1).map { it.toString() }.item)
     }
 
     @Test
     fun transformsChildren() {
         assertTreeEquals(
-            expected = RoseTree(
+            expected = SimplificationTree(
                 "2",
                 sequenceOf(
-                    roseTreeOf("3"),
-                    roseTreeOf("4"),
-                    RoseTree(
+                    simplificationTreeOf("3"),
+                    simplificationTreeOf("4"),
+                    SimplificationTree(
                         "5", sequenceOf(
-                            roseTreeOf("42"),
-                            roseTreeOf("43")
+                            simplificationTreeOf("42"),
+                            simplificationTreeOf("43")
                         )
                     ),
-                    roseTreeOf("6")
+                    simplificationTreeOf("6")
 
                 )
             ),
-            actual = RoseTree(
+            actual = SimplificationTree(
                 1,
                 sequenceOf(
-                    roseTreeOf(2),
-                    roseTreeOf(3),
-                    RoseTree(
+                    simplificationTreeOf(2),
+                    simplificationTreeOf(3),
+                    SimplificationTree(
                         4, sequenceOf(
-                            roseTreeOf(41),
-                            roseTreeOf(42)
+                            simplificationTreeOf(41),
+                            simplificationTreeOf(42)
                         )
                     ),
-                    roseTreeOf(5)
+                    simplificationTreeOf(5)
 
                 )
             ).map { (it + 1).toString() }
