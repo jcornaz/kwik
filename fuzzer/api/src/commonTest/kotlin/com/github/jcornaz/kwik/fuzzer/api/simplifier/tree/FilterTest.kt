@@ -9,7 +9,7 @@ import kotlin.test.assertNull
 class FilterTest {
 
     @Test
-    fun returnsNullIfRootWithoutBranchDoesNotSatisfyPredicate() {
+    fun returnsNullIfRootDoesNotSatisfyPredicate() {
         assertNull(simplestValue(32).filter { it < 10 })
     }
 
@@ -43,48 +43,9 @@ class FilterTest {
     }
 
     @Test
-    fun returnsSatifingChildIfRootDoesntSatisfyPredicate() {
-        val tree = SimplificationTree(
-            1,
-            sequenceOf(simplestValue(2))
-        )
-
-        assertTreeEquals(
-            simplestValue(2),
-            assertNotNull(tree.filter { it % 2 == 0 })
-        )
-    }
-
-    @Test
-    fun createsNewTreeFromMultipleSatisfyingPredicate() {
-        val tree = SimplificationTree(
-            1,
-            sequenceOf(
-                simplestValue(2),
-                simplestValue(3),
-                simplestValue(4),
-                simplestValue(5),
-                simplestValue(6),
-                simplestValue(7)
-            )
-        )
-
-        assertTreeEquals(
-            expected = SimplificationTree(
-                6,
-                sequenceOf(
-                    simplestValue(2),
-                    simplestValue(4)
-                )
-            ),
-            actual = assertNotNull(tree.filter { it % 2 == 0 })
-        )
-    }
-
-    @Test
     fun keepsDeepTreeOfChildren() {
         val tree = SimplificationTree(
-            1,
+            0,
             sequenceOf(
                 simplestValue(2),
                 simplestValue(3),
@@ -109,18 +70,21 @@ class FilterTest {
 
         assertTreeEquals(
             expected = SimplificationTree(
-                6,
+                0,
                 sequenceOf(
                     simplestValue(2),
                     SimplificationTree(
                         4,
                         sequenceOf(
-                            simplestValue(
-                                12
-                            )
+                            simplestValue(12)
                         )
                     ),
-                    simplestValue(42)
+                    SimplificationTree(
+                        6,
+                        sequenceOf(
+                            simplestValue(42)
+                        )
+                    )
                 )
             ),
             actual = assertNotNull(tree.filter { it % 2 == 0 })

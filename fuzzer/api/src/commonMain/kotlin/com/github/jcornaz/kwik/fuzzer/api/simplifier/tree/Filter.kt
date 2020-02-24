@@ -4,21 +4,11 @@ import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
 
 @ExperimentalKwikFuzzer
 internal fun <T> SimplificationTree<T>.filter(predicate: (T) -> Boolean): SimplificationTree<T>? {
-    val newChildren = children.mapNotNull { it.filter(predicate) }
-    if (predicate(root)) return SimplificationTree(
-        root,
-        newChildren
-    )
-
-    val newChildrenList = newChildren.toList()
-
-    if (newChildrenList.size <= 1) return newChildren.singleOrNull()
-
-    val lastChild = newChildrenList.last()
+    if (!predicate(root)) return null
 
     return SimplificationTree(
-        lastChild.root,
-        newChildrenList.subList(0, newChildrenList.size - 1).asSequence() + lastChild.children
+        root = root,
+        children = children.mapNotNull { it.filter(predicate) }
     )
 }
 

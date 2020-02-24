@@ -1,17 +1,23 @@
 package com.github.jcornaz.kwik.fuzzer.api
 
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.dontSimplify
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.simplifier
 import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.filter
 import com.github.jcornaz.kwik.generator.api.filterNot
 import com.github.jcornaz.kwik.generator.api.randomSequence
-import com.github.jcornaz.kwik.fuzzer.api.simplifier.dontSimplify
-import com.github.jcornaz.kwik.fuzzer.api.simplifier.simplifier
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @ExperimentalKwikFuzzer
 class FuzzerFilterTest {
+
+    private fun <T> Fuzzer<T>.list(seed: Long, count: Int): List<T> =
+        randomSequence(seed) { generate(it) }
+            .map { it.root }
+            .take(count)
+            .toList()
 
     @Test
     fun applyFilterToGenerator() {
@@ -23,7 +29,7 @@ class FuzzerFilterTest {
 
             assertEquals(
                 generator.filter { it != value }.randomSequence(seed).take(100).toList(),
-                generator.toOldFuzzer(dontSimplify()).filter { it != value }.generator.randomSequence(seed).take(100).toList()
+                generator.toFuzzer(dontSimplify()).filter { it != value }.list(seed, 100)
             )
         }
     }
@@ -38,7 +44,7 @@ class FuzzerFilterTest {
 
             assertEquals(
                 generator.filterNot { it == value }.randomSequence(seed).take(100).toList(),
-                generator.toOldFuzzer(dontSimplify()).filterNot { it == value }.generator.randomSequence(seed).take(100).toList()
+                generator.toFuzzer(dontSimplify()).filterNot { it == value }.list(seed, 100)
             )
         }
     }
@@ -46,17 +52,13 @@ class FuzzerFilterTest {
     @Test
     fun applyFilterToSimplifier() {
         val simplerValues = Generator.create { it.nextInt() }
-            .toOldFuzzer(simplifier {
-                sequenceOf(
-                    1,
-                    2,
-                    3,
-                    4
-                )
+            .toFuzzer(simplifier {
+                sequenceOf(1, 2, 3, 4)
             })
             .filter { it % 2 == 0 }
-            .simplifier
-            .simplify(0).toList()
+            .generate(Random)
+            .children.map { it.root }
+            .toList()
 
         assertEquals(listOf(2, 4), simplerValues)
     }
@@ -64,17 +66,13 @@ class FuzzerFilterTest {
     @Test
     fun applyFilterNotToSimplifier() {
         val simplerValues = Generator.create { it.nextInt() }
-            .toOldFuzzer(simplifier {
-                sequenceOf(
-                    1,
-                    2,
-                    3,
-                    4
-                )
+            .toFuzzer(simplifier {
+                sequenceOf(1, 2, 3, 4)
             })
             .filterNot { it % 2 == 0 }
-            .simplifier
-            .simplify(0).toList()
+            .generate(Random)
+            .children.map { it.root }
+            .toList()
 
         assertEquals(listOf(1, 3), simplerValues)
     }

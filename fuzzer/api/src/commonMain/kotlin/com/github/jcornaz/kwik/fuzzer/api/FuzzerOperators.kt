@@ -1,9 +1,8 @@
 package com.github.jcornaz.kwik.fuzzer.api
 
-import com.github.jcornaz.kwik.fuzzer.api.simplifier.filter
-import com.github.jcornaz.kwik.fuzzer.api.simplifier.filterNot
-import com.github.jcornaz.kwik.generator.api.filter
-import com.github.jcornaz.kwik.generator.api.filterNot
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.tree.SimplificationTree
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.tree.filter
+import kotlin.random.Random
 
 /**
  * Returns a fuzzer that evaluates only elements matching the given [predicate].
@@ -12,11 +11,8 @@ import com.github.jcornaz.kwik.generator.api.filterNot
  * Use it with caution and always favor customizing or creating fuzzer if possible.
  */
 @ExperimentalKwikFuzzer
-fun <T> OldFuzzer<T>.filter(predicate: (T) -> Boolean): OldFuzzer<T> =
-    copy(
-        generator = generator.filter(predicate),
-        simplifier = simplifier.filter(predicate)
-    )
+fun <T> Fuzzer<T>.filter(predicate: (T) -> Boolean): Fuzzer<T> =
+    FilterFuzzer(this, predicate)
 
 /**
  * Returns a fuzzer that evaluates only elements not matching the given [predicate].
@@ -25,8 +21,21 @@ fun <T> OldFuzzer<T>.filter(predicate: (T) -> Boolean): OldFuzzer<T> =
  * Use it with caution and always favor customizing or creating fuzzer if possible.
  */
 @ExperimentalKwikFuzzer
-fun <T> OldFuzzer<T>.filterNot(predicate: (T) -> Boolean): OldFuzzer<T> =
-    copy(
-        generator = generator.filterNot(predicate),
-        simplifier = simplifier.filterNot(predicate)
-    )
+fun <T> Fuzzer<T>.filterNot(predicate: (T) -> Boolean): Fuzzer<T> =
+    filter { !predicate(it) }
+
+@ExperimentalKwikFuzzer
+private class FilterFuzzer<out T>(
+    private val source: Fuzzer<T>,
+    private val predicate: (T) -> Boolean
+) : Fuzzer<T> {
+    override fun generate(random: Random): SimplificationTree<T> {
+        var result: SimplificationTree<T>?
+
+        do {
+            result = source.generate(random).filter(predicate)
+        } while (result == null)
+
+        return result
+    }
+}
