@@ -15,7 +15,7 @@ Unreleased_
 -----------
 
 Added
-,,,,,
+.....
 
 Reintroduce ``core`` core module that add all transitive dependencies necessary for property based testing.
 
@@ -43,6 +43,11 @@ that must be satisfied at least once during evaluation.
 * ``Arbitrary`` an empty object type that can be used to find ``Fuzzer`` factories (regardless of the module they come from)
 
 * ``Arbitrary.pair`` and ``Arbitrary.triple`` to combine fuzzers.
+
+Dependencies Updated
+....................
+
+* Kotlin (from ``1.3.61`` to ``1.3.70``)
 
 .. endUnreleasedBlock
 
