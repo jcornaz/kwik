@@ -10,10 +10,10 @@ import java.util.*
 
 plugins {
     `maven-publish`
-    kotlin("multiplatform") version "1.3.61"
+    kotlin("multiplatform") version "1.3.70"
     id("org.ajoberstar.reckon") version "0.12.0"
     id("com.github.ben-manes.versions") version "0.28.0"
-    id("io.gitlab.arturbosch.detekt") version "1.5.1"
+    id("io.gitlab.arturbosch.detekt") version "1.6.0"
     id("com.jfrog.bintray") version "1.8.4" apply false
     id("kr.motd.sphinx") version "2.6.1"
 }
