@@ -2,10 +2,17 @@ package com.github.jcornaz.kwik.fuzzer.api.simplifier
 
 import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
 
+
+/**
+ * Returns a [Simplifier] that calls [simplify] in order to get simpler value.
+ *
+ * @param simplify A function that return a sequence of values *simpler* than its input.
+ *                 The elements in the sequence must be ordered from simplest to most complex
+ */
 @ExperimentalKwikFuzzer
 fun <T> simplifier(simplify: (T) -> Sequence<T>): Simplifier<T> = object : Simplifier<T> {
-    override fun tree(value: T): SimplificationTree<T> =
-        simplificationTree(value, simplify)
+    override fun simplify(value: T): Sequence<SimplificationTree<T>> =
+        simplify(value).map { simplificationTree(it, simplify) }
 }
 
 /**
@@ -21,8 +28,8 @@ fun <A, B> Simplifier.Companion.pair(
 ): Simplifier<Pair<A, B>> =
     simplifier { (firstValue, secondValue) ->
         sequence {
-            val i1 = first.tree(firstValue).children.map { it.item }.map { it to secondValue }.iterator()
-            val i2 = second.tree(secondValue).children.map { it.item }.map { firstValue to it }.iterator()
+            val i1 = first.simplify(firstValue).map { it.item }.map { it to secondValue }.iterator()
+            val i2 = second.simplify(secondValue).map { it.item }.map { firstValue to it }.iterator()
 
             while (i1.hasNext() || i2.hasNext()) {
                 if (i1.hasNext()) yield(i1.next())
@@ -46,17 +53,17 @@ fun <A, B, C> Simplifier.Companion.triple(
 ): Simplifier<Triple<A, B, C>> =
     simplifier { (firstValue, secondValue, thirdValue) ->
         sequence {
-            val i1 = first.tree(firstValue).children
+            val i1 = first.simplify(firstValue)
                 .map { it.item }
                 .map { Triple(it, secondValue, thirdValue) }
                 .iterator()
 
-            val i2 = second.tree(secondValue).children
+            val i2 = second.simplify(secondValue)
                 .map { it.item }
                 .map { Triple(firstValue, it, thirdValue) }
                 .iterator()
 
-            val i3 = third.tree(thirdValue).children
+            val i3 = third.simplify(thirdValue)
                 .map { it.item }
                 .map { Triple(firstValue, secondValue, it) }
                 .iterator()

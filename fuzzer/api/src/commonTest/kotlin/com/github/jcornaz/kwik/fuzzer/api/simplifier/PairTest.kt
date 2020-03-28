@@ -28,7 +28,7 @@ class PairTest {
                 3 to 'Z',
                 10 to 'C'
             ),
-            actual = pair.tree(10 to 'Z').children.map { it.item }.toList()
+            actual = pair.simplify(10 to 'Z').map { it.item }.toList()
         )
     }
 
@@ -40,7 +40,7 @@ class PairTest {
         )
         assertEquals(
             expected = 0,
-            actual = pair.tree(1 to 'A').children.count()
+            actual = pair.simplify(1 to 'A').count()
         )
     }
 
@@ -61,7 +61,7 @@ class PairTest {
                 2 to 'Z',
                 3 to 'Z'
             ),
-            actual = pair.tree(10 to 'Z').children.map { it.item }.toList()
+            actual = pair.simplify(10 to 'Z').map { it.item }.toList()
         )
     }
 
@@ -79,7 +79,7 @@ class PairTest {
                 'Z' to 2,
                 'Z' to 3
             ),
-            actual = pair.tree('Z' to 10).children.map { it.item }.toList()
+            actual = pair.simplify('Z' to 10).map { it.item }.toList()
         )
     }
 

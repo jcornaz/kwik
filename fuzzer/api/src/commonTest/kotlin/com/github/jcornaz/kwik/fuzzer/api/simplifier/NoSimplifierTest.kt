@@ -11,7 +11,7 @@ class NoSimplifierTest {
     @Test
     fun alwaysReturnAnEmptySequence() {
         repeat(100) {
-            assertTrue(dontSimplify<Int>().tree(Random.nextInt()).children.none())
+            assertTrue(dontSimplify<Int>().simplify(Random.nextInt()).none())
         }
     }
 }

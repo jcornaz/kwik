@@ -30,7 +30,7 @@ class TripleTest {
                 Triple(10, 'B', 42.0),
                 Triple(10, 'Z', 3.33)
             ),
-            actual = pair.tree(Triple(10, 'Z', 42.0)).children.map { it.item }.toList()
+            actual = pair.simplify(Triple(10, 'Z', 42.0)).map { it.item }.toList()
         )
     }
 
@@ -44,7 +44,7 @@ class TripleTest {
         )
         assertEquals(
             expected = 0,
-            actual = triple.tree(Triple(1, 'a', 0.0)).children.count()
+            actual = triple.simplify(Triple(1, 'a', 0.0)).count()
         )
     }
 
@@ -66,7 +66,7 @@ class TripleTest {
                 Triple(2, 'Z', 42.0),
                 Triple(3, 'Z', 42.0)
             ),
-            actual = pair.tree(Triple(10, 'Z', 42.0)).children.map { it.item }.toList()
+            actual = pair.simplify(Triple(10, 'Z', 42.0)).map { it.item }.toList()
         )
     }
 
@@ -87,7 +87,7 @@ class TripleTest {
                 Triple('Z', 2, 42.0),
                 Triple('Z', 3, 42.0)
             ),
-            actual = pair.tree(Triple('Z', 10, 42.0)).children.map { it.item }.toList()
+            actual = pair.simplify(Triple('Z', 10, 42.0)).map { it.item }.toList()
         )
     }
 
@@ -109,7 +109,7 @@ class TripleTest {
                 Triple(42.0, 'Z', 2),
                 Triple(42.0, 'Z', 3)
             ),
-            actual = pair.tree(Triple(42.0, 'Z', 10)).children.map { it.item }.toList()
+            actual = pair.simplify(Triple(42.0, 'Z', 10)).map { it.item }.toList()
         )
     }
 

@@ -15,8 +15,8 @@ class SimplifierFilterTest {
 
         val list = simplifier
             .filter { it % 2 != 0 }
-            .tree(100)
-            .children.map { it.item }
+            .simplify(100)
+            .map { it.item }
             .toList()
 
         assertEquals(listOf(99, 97, 95), list)
@@ -31,8 +31,8 @@ class SimplifierFilterTest {
 
         val list = simplifier
             .filterNot { it % 2 == 0 }
-            .tree(100)
-            .children.map { it.item }
+            .simplify(100)
+            .map { it.item }
             .toList()
 
         assertEquals(listOf(99, 97, 95), list)

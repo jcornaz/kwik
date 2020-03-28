@@ -31,7 +31,8 @@ fun <T> simplificationTreeOf(item: T): SimplificationTree<T> =
 fun <T> simplificationTree(rootItem: T, simplify: (T) -> Sequence<T>): SimplificationTree<T> =
     SimplificationTree(
         item = rootItem,
-        children = simplify(rootItem).map { simplificationTree(it, simplify) })
+        children = simplify(rootItem).map { simplificationTree(it, simplify) }
+    )
 
 @ExperimentalKwikFuzzer
 internal fun <T> SimplificationTree<T>.filter(predicate: (T) -> Boolean): SimplificationTree<T>? {

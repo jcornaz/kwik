@@ -12,10 +12,18 @@ import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
 @ExperimentalKwikFuzzer
 interface Simplifier<T> {
 
+
     /**
-     * Returns a [SimplificationTree] with [value] being the root of the tree
+     * Returns a sequence of [SimplificationTree] each of them having a root simpler than [value]
      */
-    fun tree(value: T): SimplificationTree<T>
+    fun simplify(value: T): Sequence<SimplificationTree<T>>
 
     companion object
 }
+
+/**
+ * Returns a [SimplificationTree] with [value] being the root of the tree
+ */
+@ExperimentalKwikFuzzer
+internal fun <T> Simplifier<T>.tree(value: T): SimplificationTree<T> =
+    SimplificationTree(value, simplify(value))

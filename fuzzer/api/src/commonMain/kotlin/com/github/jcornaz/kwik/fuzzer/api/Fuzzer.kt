@@ -2,6 +2,7 @@ package com.github.jcornaz.kwik.fuzzer.api
 
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.SimplificationTree
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.Simplifier
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.tree
 import com.github.jcornaz.kwik.generator.api.Generator
 import kotlin.random.Random
 
