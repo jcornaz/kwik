@@ -276,11 +276,20 @@ inline fun <reified A, reified B, reified C, reified D> checkForAll(
  * Pair of argument.
  *
  * Used by [forAll] of higher arity to let the [forAll] of argument being able to display the argument list.
+ *
+ * @property first First argument
+ * @property second Second argument
  */
 data class ArgumentPair<A, B>(val first: A, val second: B)
 
 /**
  * Exception thrown when a property is falsified
+ *
+ * @property attempts Number of attempts after which the falsification was found
+ * @property iterations Number of iteration that was requested
+ * @property seed Seed used for the random generation
+ * @property arguments Argument list that cause a falsification
+ * @property cause Error thrown by the system under test (if any)
  */
 data class FalsifiedPropertyError(
     val attempts: Int,
