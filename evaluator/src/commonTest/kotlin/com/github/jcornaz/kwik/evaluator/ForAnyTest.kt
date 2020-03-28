@@ -1,8 +1,8 @@
 package com.github.jcornaz.kwik.evaluator
 
 import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
-import com.github.jcornaz.kwik.fuzzer.api.simplifier.Simplifier
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.dontSimplify
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.simplifier
 import com.github.jcornaz.kwik.fuzzer.api.toFuzzer
 import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.randomSequence
@@ -110,9 +110,8 @@ class ForAnyTest {
         val exception = assertFailsWith<FalsifiedPropertyError> {
             forAny(
                 Generator.create { 42 }
-                    .toFuzzer(object :
-                        Simplifier<Int> {
-                        override fun simplify(value: Int): Sequence<Int> = when (value) {
+                    .toFuzzer(simplifier { value ->
+                        when (value) {
                             0 -> emptySequence()
                             1 -> sequenceOf(0)
                             else -> sequenceOf(value / 2, value - 1)

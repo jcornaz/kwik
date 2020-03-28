@@ -3,7 +3,10 @@ package com.github.jcornaz.kwik.fuzzer.api.simplifier
 import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
 
 @ExperimentalKwikFuzzer
-internal fun <T> simplifier(simplify: (T) -> Sequence<T>): Simplifier<T> = object : Simplifier<T> {
+fun <T> simplifier(simplify: (T) -> Sequence<T>): Simplifier<T> = object : Simplifier<T> {
+    override fun tree(value: T): SimplificationTree<T> =
+        simplificationTree(value, simplify)
+
     override fun simplify(value: T): Sequence<T> = simplify(value)
 }
 

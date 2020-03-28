@@ -10,11 +10,11 @@ import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
  */
 @ExperimentalKwikFuzzer
 @Suppress("UNCHECKED_CAST")
-fun <T> dontSimplify(): Simplifier<T> = NoSimplifier as Simplifier<T>
+fun <T> dontSimplify(): Simplifier<T> = DontSimplify()
 
 @ExperimentalKwikFuzzer
-private object NoSimplifier : Simplifier<Any?> {
+private class DontSimplify<T> : Simplifier<T> {
 
-    @ExperimentalKwikFuzzer
-    override fun simplify(value: Any?): Sequence<Any?> = emptySequence()
+    override fun tree(value: T): SimplificationTree<T> =
+        simplificationTreeOf(value)
 }

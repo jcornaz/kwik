@@ -9,16 +9,14 @@ class SimplifierFilterTest {
 
     @Test
     fun filterApplyFilterToSequences() {
-        val simplifier = object : Simplifier<Int> {
-
-            @ExperimentalKwikFuzzer
-            override fun simplify(value: Int): Sequence<Int> =
-                sequenceOf(1, 2, 3, 4, 5).map { value - it }
+        val simplifier = simplifier<Int> { value ->
+            sequenceOf(1, 2, 3, 4, 5).map { value - it }
         }
 
         val list = simplifier
             .filter { it % 2 != 0 }
-            .simplify(100)
+            .tree(100)
+            .children.map { it.item }
             .toList()
 
         assertEquals(listOf(99, 97, 95), list)
@@ -27,16 +25,14 @@ class SimplifierFilterTest {
 
     @Test
     fun filterApplyFilterNotToSequences() {
-        val simplifier = object : Simplifier<Int> {
-
-            @ExperimentalKwikFuzzer
-            override fun simplify(value: Int): Sequence<Int> =
-                sequenceOf(1, 2, 3, 4, 5).map { value - it }
+        val simplifier = simplifier<Int> { value ->
+            sequenceOf(1, 2, 3, 4, 5).map { value - it }
         }
 
         val list = simplifier
             .filterNot { it % 2 == 0 }
-            .simplify(100)
+            .tree(100)
+            .children.map { it.item }
             .toList()
 
         assertEquals(listOf(99, 97, 95), list)

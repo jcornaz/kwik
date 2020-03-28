@@ -16,8 +16,17 @@ interface Simplifier<T> {
      * Returns a sequence of values that are simpler than [value].
      *
      * The result sequence must be finite and should returns values ordered from simpler to more complex.
+     *
+     * TODO Remove once all implementers have been migrated
      */
-    fun simplify(value: T): Sequence<T>
+    @Deprecated("Use tree instead", ReplaceWith("tree(value).children.map { it.item }"))
+    fun simplify(value: T): Sequence<T> =
+        tree(value).children.map { it.item }
+
+    /**
+     * Returns a [SimplificationTree] with [value] being the root of the tree
+     */
+    fun tree(value: T): SimplificationTree<T>
 
     companion object
 }
