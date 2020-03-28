@@ -10,15 +10,12 @@ class TripleTest {
     @Test
     fun simplifyFirstThenSecondThenThird() {
         val first = simplifier<Int> {
-            assertEquals(10, it)
             sequenceOf(1, 2)
         }
         val second = simplifier<Char> {
-            assertEquals('Z', it)
             sequenceOf('A', 'B')
         }
         val third = simplifier<Double> {
-            assertEquals(42.0, it)
             sequenceOf(3.14, 3.33)
         }
 
@@ -33,7 +30,7 @@ class TripleTest {
                 Triple(10, 'B', 42.0),
                 Triple(10, 'Z', 3.33)
             ),
-            actual = pair.simplify(Triple(10, 'Z', 42.0)).toList()
+            actual = pair.tree(Triple(10, 'Z', 42.0)).children.map { it.item }.toList()
         )
     }
 
@@ -47,18 +44,18 @@ class TripleTest {
         )
         assertEquals(
             expected = 0,
-            actual = triple.simplify(Triple(1, 'a', 0.0)).count()
+            actual = triple.tree(Triple(1, 'a', 0.0)).children.count()
         )
     }
 
     @Test
     fun simplifyFirstIfSecondHasNoMoreSimplerValue() {
         val first = simplifier<Int> {
-            assertEquals(10, it)
             sequenceOf(1, 2, 3)
         }
 
-        val pair = Simplifier.triple(first,
+        val pair = Simplifier.triple(
+            first,
             dontSimplify<Char>(),
             dontSimplify<Double>()
         )
@@ -69,14 +66,13 @@ class TripleTest {
                 Triple(2, 'Z', 42.0),
                 Triple(3, 'Z', 42.0)
             ),
-            actual = pair.simplify(Triple(10, 'Z', 42.0)).toList()
+            actual = pair.tree(Triple(10, 'Z', 42.0)).children.map { it.item }.toList()
         )
     }
 
     @Test
     fun simplifySecondIfFirstAndThirdHaveNoMoreSimplerValue() {
         val second = simplifier<Int> {
-            assertEquals(10, it)
             sequenceOf(1, 2, 3)
         }
 
@@ -91,20 +87,21 @@ class TripleTest {
                 Triple('Z', 2, 42.0),
                 Triple('Z', 3, 42.0)
             ),
-            actual = pair.simplify(Triple('Z', 10, 42.0)).toList()
+            actual = pair.tree(Triple('Z', 10, 42.0)).children.map { it.item }.toList()
         )
     }
 
     @Test
     fun simplifyThirdIfFirstAndSecondHaveNoMoreSimplerValue() {
         val third = simplifier<Int> {
-            assertEquals(10, it)
             sequenceOf(1, 2, 3)
         }
 
         val pair = Simplifier.triple(
             dontSimplify<Double>(),
-            dontSimplify<Char>(), third)
+            dontSimplify<Char>(),
+            third
+        )
 
         assertEquals(
             expected = listOf(
@@ -112,7 +109,7 @@ class TripleTest {
                 Triple(42.0, 'Z', 2),
                 Triple(42.0, 'Z', 3)
             ),
-            actual = pair.simplify(Triple(42.0, 'Z', 10)).toList()
+            actual = pair.tree(Triple(42.0, 'Z', 10)).children.map { it.item }.toList()
         )
     }
 

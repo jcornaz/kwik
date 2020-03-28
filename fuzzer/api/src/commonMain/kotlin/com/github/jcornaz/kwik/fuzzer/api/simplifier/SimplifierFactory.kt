@@ -6,8 +6,6 @@ import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
 fun <T> simplifier(simplify: (T) -> Sequence<T>): Simplifier<T> = object : Simplifier<T> {
     override fun tree(value: T): SimplificationTree<T> =
         simplificationTree(value, simplify)
-
-    override fun simplify(value: T): Sequence<T> = simplify(value)
 }
 
 /**
@@ -23,8 +21,8 @@ fun <A, B> Simplifier.Companion.pair(
 ): Simplifier<Pair<A, B>> =
     simplifier { (firstValue, secondValue) ->
         sequence {
-            val i1 = first.simplify(firstValue).map { it to secondValue }.iterator()
-            val i2 = second.simplify(secondValue).map { firstValue to it }.iterator()
+            val i1 = first.tree(firstValue).children.map { it.item }.map { it to secondValue }.iterator()
+            val i2 = second.tree(secondValue).children.map { it.item }.map { firstValue to it }.iterator()
 
             while (i1.hasNext() || i2.hasNext()) {
                 if (i1.hasNext()) yield(i1.next())
@@ -48,9 +46,20 @@ fun <A, B, C> Simplifier.Companion.triple(
 ): Simplifier<Triple<A, B, C>> =
     simplifier { (firstValue, secondValue, thirdValue) ->
         sequence {
-            val i1 = first.simplify(firstValue).map { Triple(it, secondValue, thirdValue) }.iterator()
-            val i2 = second.simplify(secondValue).map { Triple(firstValue, it, thirdValue) }.iterator()
-            val i3 = third.simplify(thirdValue).map { Triple(firstValue, secondValue, it) }.iterator()
+            val i1 = first.tree(firstValue).children
+                .map { it.item }
+                .map { Triple(it, secondValue, thirdValue) }
+                .iterator()
+
+            val i2 = second.tree(secondValue).children
+                .map { it.item }
+                .map { Triple(firstValue, it, thirdValue) }
+                .iterator()
+
+            val i3 = third.tree(thirdValue).children
+                .map { it.item }
+                .map { Triple(firstValue, secondValue, it) }
+                .iterator()
 
             while (i1.hasNext() || i2.hasNext() || i3.hasNext()) {
                 if (i1.hasNext()) yield(i1.next())

@@ -2,7 +2,6 @@ package com.github.jcornaz.kwik.fuzzer.api
 
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.SimplificationTree
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.Simplifier
-import com.github.jcornaz.kwik.fuzzer.api.simplifier.simplificationTree
 import com.github.jcornaz.kwik.generator.api.Generator
 import kotlin.random.Random
 
@@ -37,5 +36,5 @@ private class SimpleFuzzer<T>(
     val simplifier: Simplifier<T>
 ) : Fuzzer<T> {
     override fun generate(random: Random): SimplificationTree<T> =
-        simplificationTree(generator.generate(random), simplifier::simplify)
+        simplifier.tree(generator.generate(random))
 }

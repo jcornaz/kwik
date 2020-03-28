@@ -10,11 +10,10 @@ class PairTest {
     @Test
     fun simplifyFirstThenSecond() {
         val first = simplifier<Int> {
-            assertEquals(10, it)
             sequenceOf(1, 2, 3)
         }
+
         val second = simplifier<Char> {
-            assertEquals('Z', it)
             sequenceOf('A', 'B', 'C')
         }
 
@@ -29,7 +28,7 @@ class PairTest {
                 3 to 'Z',
                 10 to 'C'
             ),
-            actual = pair.simplify(10 to 'Z').toList()
+            actual = pair.tree(10 to 'Z').children.map { it.item }.toList()
         )
     }
 
@@ -41,18 +40,18 @@ class PairTest {
         )
         assertEquals(
             expected = 0,
-            actual = pair.simplify(1 to 'A').count()
+            actual = pair.tree(1 to 'A').children.count()
         )
     }
 
     @Test
     fun simplifyFirstIfSecondHasNoMoreSimplerValue() {
         val first = simplifier<Int> {
-            assertEquals(10, it)
             sequenceOf(1, 2, 3)
         }
 
-        val pair = Simplifier.pair(first,
+        val pair = Simplifier.pair(
+            first,
             dontSimplify<Char>()
         )
 
@@ -62,14 +61,13 @@ class PairTest {
                 2 to 'Z',
                 3 to 'Z'
             ),
-            actual = pair.simplify(10 to 'Z').toList()
+            actual = pair.tree(10 to 'Z').children.map { it.item }.toList()
         )
     }
 
     @Test
     fun simplifySecondIfFirstHasNoMoreSimplerValue() {
         val second = simplifier<Int> {
-            assertEquals(10, it)
             sequenceOf(1, 2, 3)
         }
 
@@ -81,7 +79,7 @@ class PairTest {
                 'Z' to 2,
                 'Z' to 3
             ),
-            actual = pair.simplify('Z' to 10).toList()
+            actual = pair.tree('Z' to 10).children.map { it.item }.toList()
         )
     }
 

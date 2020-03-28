@@ -8,7 +8,7 @@ import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
 @ExperimentalKwikFuzzer
 fun <T> Simplifier<T>.filter(predicate: (T) -> Boolean): Simplifier<T> =
     simplifier {
-        this@filter.simplify(it).filter(predicate)
+        this@filter.tree(it).children.map { it.item }.filter(predicate)
     }
 
 /**
@@ -17,5 +17,5 @@ fun <T> Simplifier<T>.filter(predicate: (T) -> Boolean): Simplifier<T> =
 @ExperimentalKwikFuzzer
 fun <T> Simplifier<T>.filterNot(predicate: (T) -> Boolean): Simplifier<T> =
     simplifier {
-        this@filterNot.simplify(it).filterNot(predicate)
+        this@filterNot.tree(it).children.map { it.item }.filterNot(predicate)
     }

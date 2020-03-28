@@ -15,7 +15,3 @@ tailrec fun <T> SimplificationTree<T>.findSimplestFalsification(satisfy: (T) -> 
 
     return branchIterator.next().findSimplestFalsification(satisfy)
 }
-
-@ExperimentalKwikFuzzer
-internal fun <T> Simplifier<T>.tree(rootItem: T): SimplificationTree<T> =
-    simplificationTree(rootItem, this::simplify)
