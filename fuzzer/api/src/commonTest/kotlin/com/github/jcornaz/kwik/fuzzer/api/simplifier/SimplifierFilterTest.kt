@@ -62,7 +62,7 @@ class SimplifierFilterNotTest {
         }
 
         val list = simplifier
-            .filterNot { it % 2 != 0 }
+            .filterNot { it % 2 == 0 }
             .simplify(100)
             .flatMap { tree -> tree.children.map { it.item } }
             .toList()
