@@ -39,16 +39,16 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ~/.gradle
-          key: gradle-cache-linux-java${{ matrix.java }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/*.kt*') }}
-          restore-keys: gradle-cache-linux-java${{ matrix.java }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          key: gradle-cache-ubuntu-java${{ matrix.java }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/*.kt*') }}
+          restore-keys: gradle-cache-ubuntu-java${{ matrix.java }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
 
       - name: Konan cache
         if: job.status == 'success' && matrix.java == 8
         uses: actions/cache@v1
         with:
           path: ~/.konan
-          key: konan-cache-linux-${{ hashFiles('build.gradle.kts') }}
-          restore-keys: konan-cache-linux
+          key: konan-cache-ubuntu-${{ hashFiles('build.gradle.kts') }}
+          restore-keys: konan-cache-ubuntu
 
       - name: JVM tests
         run: ./gradlew jvmTest
@@ -116,7 +116,7 @@ jobs:
         run: ./gradlew -p example check -Dinclude=true
 
   release:
-    runs-on: linux-latest
+    runs-on: ubuntu-latest
     timeout-minutes: 5
     needs: [verify_linux, verify_windows]
 
