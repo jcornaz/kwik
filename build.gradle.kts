@@ -10,7 +10,7 @@ import java.util.*
 
 plugins {
     `maven-publish`
-    kotlin("multiplatform") version "1.3.70"
+    kotlin("multiplatform") version "1.3.71"
     id("org.ajoberstar.reckon") version "0.12.0"
     id("com.github.ben-manes.versions") version "0.28.0"
     id("io.gitlab.arturbosch.detekt") version "1.7.2"

@@ -11,15 +11,13 @@ and this project adheres to `Semantic Versioning`_.
 
 .. startUnreleasedBlock
 
-Unreleased_
------------
+0.5.0_ - 2020-03-29
+-------------------
 
 Added
 .....
 
 Reintroduce ``core`` core module that add all transitive dependencies necessary for property based testing.
-
-**Until Kwik reach the stable release 1.0.0 you should depend ONLY on that module. Other modules may be renamed, reorganized or removed.**
 
 Fuzzer
 ,,,,,,
@@ -47,7 +45,7 @@ that must be satisfied at least once during evaluation.
 Dependencies Updated
 ....................
 
-* Kotlin (from ``1.3.61`` to ``1.3.70``)
+* Kotlin (from ``1.3.61`` to ``1.3.71``)
 
 .. endUnreleasedBlock
 
@@ -334,7 +332,7 @@ Added
 * ``withSample`` and ``withNull`` to inject constants values to be always tested
 * ``zip`` operator to combine two given generators
 
-.. _Unreleased: https://github.com/jcornaz/kwik/compare/0.4.0...master
+.. _0.5.0: https://github.com/jcornaz/kwik/compare/0.4.0...0.5.0
 .. _0.4.0: https://github.com/jcornaz/kwik/compare/0.3.0...0.4.0
 .. _0.3.0: https://github.com/jcornaz/kwik/compare/0.3.0-alpha.1...0.3.0
 .. _0.3.0-alpha.1: https://github.com/jcornaz/kwik/compare/0.2.0...0.3.0-alpha.1
