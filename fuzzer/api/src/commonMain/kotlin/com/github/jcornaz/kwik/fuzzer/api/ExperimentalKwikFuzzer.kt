@@ -1,8 +1,14 @@
 package com.github.jcornaz.kwik.fuzzer.api
 
 /**
- * The fuzzer system and related abstractions are extremely experimental and can be completely reworked between
- * two releases without any announcement or migration aid.
+ * Annotation to denote experimental fuzzer API
  */
-@Experimental(Experimental.Level.WARNING)
+@RequiresOptIn(
+    message = """
+        The fuzzer system and related abstractions are still extremely experimental and may be reworked
+        without any announcement or migration aid.     
+    """,
+    level = RequiresOptIn.Level.WARNING
+)
+@Retention(AnnotationRetention.BINARY)
 annotation class ExperimentalKwikFuzzer

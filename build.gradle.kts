@@ -149,7 +149,7 @@ subprojects {
 
                 @Suppress("SuspiciousCollectionReassignment")
                 freeCompilerArgs += listOf(
-                    "-Xuse-experimental=kotlin.Experimental"
+                    "-Xopt-in=kotlin.RequiresOptIn"
                 )
             }
         }
