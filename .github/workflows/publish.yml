@@ -2,10 +2,12 @@ name: Publish
 
 on:
   push:
-    branches:
-      - publication-test
     tags:
       - '*'
+
+  pull_request:
+    paths:
+      - '.github/workflows/publish.yml'
 
 jobs:
   publish:
@@ -38,14 +40,14 @@ jobs:
         with:
           path: ~/.gradle
           key: gradle-cache-${{ matrix.os }}-java8-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/*.kt*') }}
-          restore-keys: |
-            gradle-cache-${{ matrix.os }}-java8-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: gradle-cache-${{ matrix.os }}-java8-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
 
-      - name: Check kwik
-        run: ./gradlew check --rerun-tasks
-
-      - name: Check example
-        run: ./gradlew -p example check -Dinclude=true
+      - name: Konan cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.konan
+          key: konan-cache-${{ matrix.os }}-${{ hashFiles('build.gradle.kts') }}
+          restore-keys: konan-cache-${{ matrix.os }}
 
       - name: Upload artifacts
         run: ./gradlew bintrayUpload

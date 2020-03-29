@@ -144,7 +144,6 @@ subprojects {
     }
 
     tasks {
-
         withType<KotlinCompile<*>> {
             kotlinOptions {
 
@@ -163,10 +162,6 @@ subprojects {
 
         val check by existing {
             dependsOn("publishToMavenLocal")
-        }
-
-        val bintrayUpload by existing {
-            dependsOn(check)
         }
     }
 }
@@ -189,7 +184,6 @@ tasks {
         warningsAsErrors = true
 
         setSourceDirectory("$rootDir/docs")
-        inputs.file("$rootDir/CHANGELOG.rst")
         inputs.file("$rootDir/README.rst")
         inputs.dir("$rootDir/example")
 
