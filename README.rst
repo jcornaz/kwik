@@ -4,7 +4,7 @@ Kwik
 .. image:: https://img.shields.io/badge/License-Apache%202.0-blue.svg
     :target: https://raw.githubusercontent.com/jcornaz/kwik/develop/LICENSE
 
-.. image:: https://img.shields.io/badge/status-incubating-orange.svg
+.. image:: https://img.shields.io/badge/status-experimental-yellow.svg
     :target: https://gist.githubusercontent.com/jcornaz/46736c3d1f21b4c929bd97549b7406b2/raw/ProjectStatusFlow
 
 .. image:: https://github.com/jcornaz/kwik/workflows/Build/badge.svg
@@ -16,8 +16,8 @@ Kwik
 .. image:: https://badges.gitter.im/kwik-test/community.svg
     :target: https://gitter.im/kwik-test/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badg
 
-.. image:: https://img.shields.io/badge/dynamic/json.svg?color=blue&label=version&query=name&url=https%3A%2F%2Fapi.bintray.com%2Fpackages%2Fkwik%2Fstable%2Fkwik%2Fversions%2F_latest
-    :target: https://bintray.com/kwik/stable/kwik/_latestVersion
+.. image:: https://api.bintray.com/packages/kwik/stable/kwik/images/download.svg
+    :target: https://bintray.com/kwik/stable/kwik/0.5.0
 
 .. afterBadges
 
