@@ -50,8 +50,8 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ~/.konan
-          key: konan-cache-ubuntu-${{ hashFiles('build.gradle.kts') }}
-          restore-keys: konan-cache-ubuntu
+          key: konan-cache-ubuntu-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('*.kts') }}
+          restore-keys: konan-cache-ubuntu-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
 
       - name: Check Kwik
         if: job.status == 'success' && matrix.java == 8
@@ -106,8 +106,8 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ~/.konan
-          key: konan-cache-windows-${{ hashFiles('build.gradle.kts') }}
-          restore-keys: konan-cache-windows
+          key: konan-cache-windows-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('*.kts') }}
+          restore-keys: konan-cache-windows-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
 
       - name: Check kwik
         run: ./gradlew check
