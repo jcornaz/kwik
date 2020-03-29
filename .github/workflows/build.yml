@@ -42,6 +42,9 @@ jobs:
           key: gradle-cache-ubuntu-java${{ matrix.java }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/*.kt*') }}
           restore-keys: gradle-cache-ubuntu-java${{ matrix.java }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
 
+      - name: JVM tests
+        run: ./gradlew jvmTest
+
       - name: Konan cache
         if: job.status == 'success' && matrix.java == 8
         uses: actions/cache@v1
@@ -49,9 +52,6 @@ jobs:
           path: ~/.konan
           key: konan-cache-ubuntu-${{ hashFiles('build.gradle.kts') }}
           restore-keys: konan-cache-ubuntu
-
-      - name: JVM tests
-        run: ./gradlew jvmTest
 
       - name: Check Kwik
         if: job.status == 'success' && matrix.java == 8
