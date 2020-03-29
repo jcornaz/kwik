@@ -1,0 +1,149 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - master
+      - next-release
+      - '*.*'
+
+  pull_request:
+    branches:
+      - master
+      - next-release
+      - '*.*'
+
+jobs:
+  verify_linux:
+
+    strategy:
+      matrix:
+        java: [8, 11, 14]
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Validate gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.java }}
+
+      - name: Gradle cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.gradle
+          key: gradle-cache-linux-java${{ matrix.java }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/*.kt*') }}
+          restore-keys: gradle-cache-linux-java${{ matrix.java }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+
+      - name: Konan cache
+        if: job.status == 'success' && matrix.java == 8
+        uses: actions/cache@v1
+        with:
+          path: ~/.konan
+          key: konan-cache-linux-${{ hashFiles('build.gradle.kts') }}
+          restore-keys: konan-cache-linux
+
+      - name: JVM tests
+        run: ./gradlew jvmTest
+
+      - name: Check Kwik
+        if: job.status == 'success' && matrix.java == 8
+        run: ./gradlew check
+
+      - name: Check example
+        if: job.status == 'success' && matrix.java == 8
+        run: ./gradlew -p example check -Dinclude=true
+
+      - name: Publish detekt report
+        if: matrix.java == 8
+        uses: actions/upload-artifact@v1
+        with:
+          name: detekt-report
+          path: build/reports/detekt/detekt.html
+
+      - name: Publish test results
+        if: matrix.java == 8
+        uses: actions/upload-artifact@v1
+        with:
+          name: test-report
+          path: build/reports/allTests/
+
+      - name: Publish documentation
+        if: job.status == 'success' && matrix.java == 8
+        uses: actions/upload-artifact@v1
+        with:
+          name: documentation
+          path: build/site/
+
+  verify_windows:
+    runs-on: windows-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 8
+
+      - name: Gradle cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.gradle
+          key: gradle-cache-windows-java8-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/*.kt*') }}
+          restore-keys: gradle-cache-windows-java8-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+
+      - name: Konan cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.konan
+          key: konan-cache-windows-${{ hashFiles('build.gradle.kts') }}
+          restore-keys: konan-cache-windows
+
+      - name: Check kwik
+        run: ./gradlew check
+
+      - name: Check example
+        run: ./gradlew -p example check -Dinclude=true
+
+  release:
+    runs-on: linux-latest
+    timeout-minutes: 5
+    needs: [verify_linux, verify_windows]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Fetch tags
+        run: git fetch --tags
+
+      - name: Install Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - name: Node modules cache
+        uses: actions/cache@v1
+        with:
+          path: ./node_modules
+          key: node-modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Install release tooling
+        run: npm install
+
+      - name: Publish
+        run: npm run semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

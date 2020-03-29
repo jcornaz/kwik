@@ -144,7 +144,6 @@ subprojects {
     }
 
     tasks {
-
         withType<KotlinCompile<*>> {
             kotlinOptions {
 
@@ -163,10 +162,6 @@ subprojects {
 
         val check by existing {
             dependsOn("publishToMavenLocal")
-        }
-
-        val bintrayUpload by existing {
-            dependsOn(check)
         }
     }
 }
