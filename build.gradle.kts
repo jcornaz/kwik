@@ -4,8 +4,8 @@ import com.jfrog.bintray.gradle.BintrayExtension
 import com.jfrog.bintray.gradle.BintrayPlugin
 import kr.motd.gradle.sphinx.gradle.SphinxTask
 import org.codehaus.plexus.util.Os
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile
 import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile
 import java.util.*
 
 plugins {
@@ -161,8 +161,12 @@ subprojects {
             }
         }
 
+        val check by existing {
+            dependsOn("publishToMavenLocal")
+        }
+
         val bintrayUpload by existing {
-            dependsOn("check")
+            dependsOn(check)
         }
     }
 }
