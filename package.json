@@ -1,0 +1,33 @@
+{
+  "scripts": {
+    "semantic-release": "semantic-release"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jcornaz/kwik.git"
+  },
+  "devDependencies": {
+    "semantic-release": "^17.0.4"
+  },
+  "release": {
+    "tagFormat": "${version}",
+    "branches": [
+      "master",
+      {
+        "name": "next-release",
+        "prerelease": "alpha"
+      }
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/github",
+        {
+          "successComment": ":tada: This ${issue.pull_request ? 'PR is included' : 'issue has been resolved'} in version ${nextRelease.version} :tada:\n\nThe release is available on ${branch.prerelease ? 'https://dl.bintray.com/kwik/preview' : 'jcenter'}",
+          "releasedLabels": false
+        }
+      ]
+    ]
+  }
+}
