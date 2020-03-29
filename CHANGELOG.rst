@@ -9,7 +9,6 @@ and this project adheres to `Semantic Versioning`_.
 .. _Keep a Changelog: https://keepachangelog.com/en/1.0.0
 .. _Semantic Versioning: https://semver.org/spec/v2.0.0.html
 
-.. startUnreleasedBlock
 
 0.5.0_ - 2020-03-29
 -------------------
@@ -47,7 +46,6 @@ Dependencies Updated
 
 * Kotlin (from ``1.3.61`` to ``1.3.71``)
 
-.. endUnreleasedBlock
 
 0.4.0_ - 2020-02-08
 -------------------
