@@ -10,6 +10,8 @@ import java.util.*
 
 plugins {
     `maven-publish`
+    jacoco
+    java
     kotlin("multiplatform") version "1.3.71"
     id("org.ajoberstar.reckon") version "0.12.0"
     id("com.github.ben-manes.versions") version "0.28.0"
@@ -25,12 +27,12 @@ reckon {
 
 detekt {
     input = files(
-        subprojects.flatMap { project ->
-            listOf(
-                "${project.projectDir}/src/commonMain/kotlin",
-                "${project.projectDir}/src/jvmMain/kotlin"
-            )
-        }
+            subprojects.flatMap { project ->
+                listOf(
+                        "${project.projectDir}/src/commonMain/kotlin",
+                        "${project.projectDir}/src/jvmMain/kotlin"
+                )
+            }
     )
     buildUponDefaultConfig = true
     config = files("$rootDir/detekt-config.yml")
@@ -49,6 +51,8 @@ subprojects {
     apply(plugin = "org.jetbrains.kotlin.multiplatform")
     apply<BintrayPlugin>()
     apply<MavenPublishPlugin>()
+    apply<JacocoPlugin>()
+    apply<JavaPlugin>()
 
     kotlin {
         jvm()
@@ -148,9 +152,7 @@ subprojects {
             kotlinOptions {
 
                 @Suppress("SuspiciousCollectionReassignment")
-                freeCompilerArgs += listOf(
-                    "-Xopt-in=kotlin.RequiresOptIn"
-                )
+                freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
             }
         }
 
@@ -162,6 +164,19 @@ subprojects {
 
         val check by existing {
             dependsOn("publishToMavenLocal")
+        }
+
+        withType<JacocoReport> {
+            dependsOn("jvmTest")
+
+            classDirectories.setFrom(File("$buildDir/classes/kotlin/jvm").walkBottomUp().toSet())
+            sourceDirectories.setFrom(files("src/commonMain/kotlin", "src/commonMain/kotlin"))
+            executionData.setFrom(files("${buildDir}/jacoco/jvmTest.exec"))
+
+            reports {
+                xml.isEnabled = true
+                html.isEnabled = true
+            }
         }
     }
 }
@@ -201,9 +216,33 @@ tasks {
         mustRunAfter(subprojects.flatMap { it.tasks.withType(Test::class) })
     }
 
+    val jacocoTestReport by existing(JacocoReport::class) {
+        val modules = subprojects.filterNot { it.name == "core" || it.name.endsWith("test") }
+
+        dependsOn(modules.map { "${it.path}:jvmTest" })
+
+        classDirectories.setFrom(
+                modules.asSequence()
+                        .flatMap {
+                            File("${it.buildDir}/classes/kotlin/jvm/").walkBottomUp()
+                        }
+                        .toSet()
+        )
+
+        sourceDirectories.setFrom(files(modules.flatMap {
+            listOf("${it.projectDir}/src/commonMain/kotlin", "${it.projectDir}/src/jvmMain/kotlin")
+        }))
+        executionData.setFrom(files(modules.map { "${it.buildDir}/jacoco/jvmTest.exec" }))
+
+        reports {
+            xml.isEnabled = true
+            html.isEnabled = true
+        }
+    }
+
     val check by existing {
         dependsOn(sphinx)
 
-        finalizedBy(testReport)
+        finalizedBy(testReport, jacocoTestReport)
     }
 }
