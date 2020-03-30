@@ -45,6 +45,12 @@ jobs:
       - name: JVM tests
         run: ./gradlew jvmTest
 
+      - name: Upload Code coverage reports
+        if: job.status == 'success' && matrix.java == 8
+        run: |
+          cat codecov.yml | curl --data-binary @- https://codecov.io/validate
+          bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}
+
       - name: Konan cache
         if: job.status == 'success' && matrix.java == 8
         uses: actions/cache@v1
