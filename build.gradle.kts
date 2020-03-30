@@ -10,8 +10,6 @@ import java.util.*
 
 plugins {
     `maven-publish`
-    jacoco
-    java
     kotlin("multiplatform") version "1.3.71"
     id("org.ajoberstar.reckon") version "0.12.0"
     id("com.github.ben-manes.versions") version "0.28.0"
@@ -162,12 +160,16 @@ subprojects {
             }
         }
 
+        val jvmTest by existing {
+            finalizedBy("jacocoTestReport")
+        }
+
         val check by existing {
             dependsOn("publishToMavenLocal")
         }
 
-        withType<JacocoReport> {
-            dependsOn("jvmTest")
+        val jacocoTestReport by existing(JacocoReport::class) {
+            dependsOn(jvmTest)
 
             classDirectories.setFrom(File("$buildDir/classes/kotlin/jvm").walkBottomUp().toSet())
             sourceDirectories.setFrom(files("src/commonMain/kotlin", "src/commonMain/kotlin"))
@@ -215,30 +217,6 @@ tasks {
         dependsOn.clear()
         mustRunAfter(subprojects.flatMap { it.tasks.withType(Test::class) })
     }
-
-//    val jacocoTestReport by existing(JacocoReport::class) {
-//        val modules = subprojects.filterNot { it.name == "core" || it.name.endsWith("test") }
-//
-//        dependsOn(modules.map { "${it.path}:jvmTest" })
-//
-//        classDirectories.setFrom(
-//                modules.asSequence()
-//                        .flatMap {
-//                            File("${it.buildDir}/classes/kotlin/jvm/").walkBottomUp()
-//                        }
-//                        .toSet()
-//        )
-//
-//        sourceDirectories.setFrom(files(modules.flatMap {
-//            listOf("${it.projectDir}/src/commonMain/kotlin", "${it.projectDir}/src/jvmMain/kotlin")
-//        }))
-//        executionData.setFrom(files(modules.map { "${it.buildDir}/jacoco/jvmTest.exec" }))
-//
-//        reports {
-//            xml.isEnabled = true
-//            html.isEnabled = true
-//        }
-//    }
 
     val check by existing {
         dependsOn(sphinx)
