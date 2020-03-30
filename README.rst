@@ -10,6 +10,9 @@ Kwik
 .. image:: https://github.com/jcornaz/kwik/workflows/Build/badge.svg
     :target: https://github.com/jcornaz/kwik/actions
 
+.. image:: https://codecov.io/gh/jcornaz/kwik/branch/master/graph/badge.svg
+  :target: https://codecov.io/gh/jcornaz/kwik
+
 .. image:: https://readthedocs.org/projects/kwik/badge/?version=latest
     :target: https://kwik.readthedocs.io/en/latest/?badge=latest
 
