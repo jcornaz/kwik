@@ -51,14 +51,6 @@ jobs:
           cat codecov.yml | curl --data-binary @- https://codecov.io/validate
           bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}
 
-      - name: Konan cache
-        if: job.status == 'success' && matrix.java == 8
-        uses: actions/cache@v1
-        with:
-          path: ~/.konan
-          key: konan-cache-ubuntu-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('*.kts') }}
-          restore-keys: konan-cache-ubuntu-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
-
       - name: Check Kwik
         if: job.status == 'success' && matrix.java == 8
         run: ./gradlew check
@@ -107,13 +99,6 @@ jobs:
           path: ~/.gradle
           key: gradle-cache-windows-java8-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/*.kt*') }}
           restore-keys: gradle-cache-windows-java8-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
-
-      - name: Konan cache
-        uses: actions/cache@v1
-        with:
-          path: ~/.konan
-          key: konan-cache-windows-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('*.kts') }}
-          restore-keys: konan-cache-windows-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
 
       - name: Check kwik
         run: ./gradlew check

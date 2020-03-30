@@ -42,13 +42,6 @@ jobs:
           key: gradle-cache-${{ matrix.os }}-java8-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/*.kt*') }}
           restore-keys: gradle-cache-${{ matrix.os }}-java8-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
 
-      - name: Konan cache
-        uses: actions/cache@v1
-        with:
-          path: ~/.konan
-          key: konan-cache-${{ matrix.os }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('*.kts') }}
-          restore-keys: konan-cache-${{ matrix.os }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
-
       - name: Upload artifacts
         run: ./gradlew bintrayUpload
         env:
