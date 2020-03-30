@@ -216,33 +216,33 @@ tasks {
         mustRunAfter(subprojects.flatMap { it.tasks.withType(Test::class) })
     }
 
-    val jacocoTestReport by existing(JacocoReport::class) {
-        val modules = subprojects.filterNot { it.name == "core" || it.name.endsWith("test") }
-
-        dependsOn(modules.map { "${it.path}:jvmTest" })
-
-        classDirectories.setFrom(
-                modules.asSequence()
-                        .flatMap {
-                            File("${it.buildDir}/classes/kotlin/jvm/").walkBottomUp()
-                        }
-                        .toSet()
-        )
-
-        sourceDirectories.setFrom(files(modules.flatMap {
-            listOf("${it.projectDir}/src/commonMain/kotlin", "${it.projectDir}/src/jvmMain/kotlin")
-        }))
-        executionData.setFrom(files(modules.map { "${it.buildDir}/jacoco/jvmTest.exec" }))
-
-        reports {
-            xml.isEnabled = true
-            html.isEnabled = true
-        }
-    }
+//    val jacocoTestReport by existing(JacocoReport::class) {
+//        val modules = subprojects.filterNot { it.name == "core" || it.name.endsWith("test") }
+//
+//        dependsOn(modules.map { "${it.path}:jvmTest" })
+//
+//        classDirectories.setFrom(
+//                modules.asSequence()
+//                        .flatMap {
+//                            File("${it.buildDir}/classes/kotlin/jvm/").walkBottomUp()
+//                        }
+//                        .toSet()
+//        )
+//
+//        sourceDirectories.setFrom(files(modules.flatMap {
+//            listOf("${it.projectDir}/src/commonMain/kotlin", "${it.projectDir}/src/jvmMain/kotlin")
+//        }))
+//        executionData.setFrom(files(modules.map { "${it.buildDir}/jacoco/jvmTest.exec" }))
+//
+//        reports {
+//            xml.isEnabled = true
+//            html.isEnabled = true
+//        }
+//    }
 
     val check by existing {
         dependsOn(sphinx)
 
-        finalizedBy(testReport, jacocoTestReport)
+        finalizedBy(testReport)
     }
 }

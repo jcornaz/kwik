@@ -43,7 +43,10 @@ jobs:
           restore-keys: gradle-cache-ubuntu-java${{ matrix.java }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
 
       - name: JVM tests
-        run: ./gradlew jvmTest
+        run: ./gradlew jvmTest jacocoTestReport
+
+      - name: Upload Code coverage reports
+        run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}
 
       - name: Konan cache
         if: job.status == 'success' && matrix.java == 8
