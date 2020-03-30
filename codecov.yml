@@ -29,6 +29,5 @@ coverage:
 
     patch:
       default:
-        target: number
         threshold: 90%
         if_not_found: failure
