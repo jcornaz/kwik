@@ -10,10 +10,10 @@ coverage:
   status:
     project:
       default:
-        target: 90%
+        target: 81%
 
       generator:
-        target: 90%
+        target: 87%
         paths:
           - generator/
 
@@ -23,7 +23,7 @@ coverage:
           - fuzzer/
 
       evaluator:
-        target: 90%
+        target: 61%
         paths:
           - evaluator/
 
