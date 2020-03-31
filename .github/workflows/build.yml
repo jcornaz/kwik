@@ -70,7 +70,7 @@ jobs:
       - name: Publish code coverage reports
         if: matrix.java == 8
         run: |
-          cat codecov.yml | curl --data-binary @- https://codecov.io/validate
+          cat codecov.yml | curl -X POST --data-binary @codecov.yml https://codecov.io/validate
           bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}
 
       - name: Publish documentation
