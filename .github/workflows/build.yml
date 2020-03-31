@@ -45,12 +45,6 @@ jobs:
       - name: JVM tests
         run: ./gradlew jvmTest
 
-      - name: Upload Code coverage reports
-        if: job.status == 'success' && matrix.java == 8
-        run: |
-          cat codecov.yml | curl --data-binary @- https://codecov.io/validate
-          bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}
-
       - name: Check Kwik
         if: job.status == 'success' && matrix.java == 8
         run: ./gradlew check
@@ -72,6 +66,12 @@ jobs:
         with:
           name: test-report
           path: build/reports/allTests/
+
+      - name: Publish code coverage reports
+        if: matrix.java == 8
+        run: |
+          cat codecov.yml | curl -X POST --data-binary @codecov.yml https://codecov.io/validate
+          bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}
 
       - name: Publish documentation
         if: job.status == 'success' && matrix.java == 8
