@@ -29,5 +29,5 @@ coverage:
 
     patch:
       default:
-        target: 80%
+        target: 90%
         only_pulls: true
