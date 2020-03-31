@@ -171,8 +171,8 @@ subprojects {
         val jacocoTestReport by existing(JacocoReport::class) {
             dependsOn(jvmTest)
 
-            classDirectories.setFrom(File("$buildDir/classes/kotlin/jvm").walkBottomUp().toSet())
-            sourceDirectories.setFrom(files("src/commonMain/kotlin", "src/commonMain/kotlin"))
+            classDirectories.setFrom(File("$buildDir/classes/kotlin/jvm/main").walkBottomUp().toSet())
+            sourceDirectories.setFrom(files("src/commonMain/kotlin", "src/jvmMain/kotlin"))
             executionData.setFrom(files("${buildDir}/jacoco/jvmTest.exec"))
 
             reports {

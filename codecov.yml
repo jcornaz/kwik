@@ -29,5 +29,5 @@ coverage:
 
     patch:
       default:
-        threshold: 90%
-        if_not_found: failure
+        threshold: 80%
+        only_pulls: true
