@@ -2,6 +2,10 @@ package com.github.jcornaz.kwik.generator.api
 
 import kotlin.random.Random
 
+internal fun foo() {
+  println("Hello world")
+}
+
 /**
  * Random data generator capable of producing test data for property testing.
  */
