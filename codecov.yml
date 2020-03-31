@@ -10,24 +10,24 @@ coverage:
   status:
     project:
       default:
-        threshold: 85%
+        target: 90%
 
       generator:
-        threshold: 80%
+        target: 90%
         paths:
           - generator/
 
       fuzzer:
-        threshold: 90%
+        target: 90%
         paths:
           - fuzzer/
 
       evaluator:
-        threshold: 85%
+        target: 90%
         paths:
           - evaluator/
 
     patch:
       default:
-        threshold: 80%
+        target: 80%
         only_pulls: true
