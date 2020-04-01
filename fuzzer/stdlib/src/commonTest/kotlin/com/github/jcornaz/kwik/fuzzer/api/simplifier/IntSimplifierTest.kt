@@ -15,22 +15,22 @@ class IntSimplifierTest {
 
     @Test
     fun zeroIsTheSimplestValue() {
-        assertTrue(Simplifier.int().simplify(0).none())
+        assertTrue(Simplifier.int.simplify(0).none())
     }
 
     @Test
     fun zeroIsSimplerThanOne() {
-        assertEquals(0, Simplifier.int().simplify(1).single())
+        assertEquals(0, Simplifier.int.simplify(1).single())
     }
 
     @Test
     fun zeroIsSimplerThanMinusOne() {
-        assertTrue(Simplifier.int().simplify(-1).any { it == 0 })
+        assertTrue(Simplifier.int.simplify(-1).any { it == 0 })
     }
 
     @Test
     fun positiveIsSimplerThanNegative() {
-        val simplifier = Simplifier.int()
+        val simplifier = Simplifier.int
 
         Generator.frequency(
             1.0 to Generator.of(-2, -1),
@@ -52,7 +52,7 @@ class IntSimplifierTest {
             .randomSequence(0)
             .take(200)
             .forEach { value ->
-                assertTrue(Simplifier.int().simplify(value).any())
+                assertTrue(Simplifier.int.simplify(value).any())
             }
     }
 
@@ -65,9 +65,23 @@ class IntSimplifierTest {
             .randomSequence(0)
             .take(200)
             .forEach { value ->
-                assertTrue(Simplifier.int().simplify(value).all {
+                assertTrue(Simplifier.int.simplify(value).all {
                     (it == abs(value)) || (abs(it) < abs(value))
                 })
+            }
+    }
+
+    @Test
+    fun returnsDistinctSequence() {
+        Generator.frequency(
+            2.0 to Generator.of((-2)..2),
+            1.0 to anyInt
+        )
+            .randomSequence(0)
+            .take(200)
+            .forEach { value ->
+                val set = HashSet<Int>()
+                assertTrue(Simplifier.int.simplify(value).also { println(it.toList()) }.all(set::add))
             }
     }
 
@@ -81,7 +95,7 @@ class IntSimplifierTest {
             .take(200)
             .forEach { initialValue ->
                 val simplestValue =
-                    Simplifier.int()
+                    Simplifier.int
                         .findSimplestFalsification(initialValue) { it in passRange }
 
                 if (initialValue < 0) {

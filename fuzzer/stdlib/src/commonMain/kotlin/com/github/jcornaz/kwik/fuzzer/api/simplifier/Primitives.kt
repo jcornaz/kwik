@@ -11,7 +11,11 @@ import kotlin.math.absoluteValue
  * positive values are also considered simpler than their negative counterpart.
  */
 @ExperimentalKwikFuzzer
-fun Simplifier.Companion.int(): Simplifier<Int> = simplifier { value ->
+val Simplifier.Companion.int: Simplifier<Int>
+    get() = intSimplifier
+
+@ExperimentalKwikFuzzer
+private val intSimplifier = simplifier<Int> { value ->
     when (value) {
         0 -> emptySequence()
         1 -> sequenceOf(0)
@@ -21,7 +25,9 @@ fun Simplifier.Companion.int(): Simplifier<Int> = simplifier { value ->
 
             if (value < 0) yield(value.absoluteValue)
 
-            yield(if (value < 0) value + 1 else value - 1)
+            if (value.absoluteValue > 2)
+                yield(if (value < 0) value + 1 else value - 1)
         }
     }
 }
+
