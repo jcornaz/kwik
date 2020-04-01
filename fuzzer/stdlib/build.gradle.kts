@@ -3,12 +3,7 @@ kotlin {
         commonMain {
             dependencies {
                 api(project(":fuzzer-api"))
-            }
-        }
-
-        commonTest {
-            dependencies {
-                implementation(project(":generator-api"))
+                implementation(project(":generator-stdlib"))
             }
         }
     }

@@ -1,6 +1,8 @@
-package com.github.jcornaz.kwik.fuzzer.api.simplifier
+package com.github.jcornaz.kwik.fuzzer.stdlib.simplifier
 
 import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.Simplifier
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.simplifier
 import kotlin.math.absoluteValue
 
 /**
@@ -30,4 +32,3 @@ private val intSimplifier = simplifier<Int> { value ->
         }
     }
 }
-

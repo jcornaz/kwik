@@ -1,6 +1,8 @@
-package com.github.jcornaz.kwik.fuzzer.api.simplifier
+package com.github.jcornaz.kwik.fuzzer.stdlib.simplifier
 
 import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.Simplifier
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.findSimplestFalsification
 import com.github.jcornaz.kwik.generator.api.*
 import kotlin.math.abs
 import kotlin.random.Random
