@@ -14,7 +14,8 @@ import kotlin.math.absoluteValue
 fun Simplifier.Companion.int(): Simplifier<Int> = simplifier { value ->
     when (value) {
         0 -> emptySequence()
-        -1, 1 -> sequenceOf(0)
+        1 -> sequenceOf(0)
+        -1 -> sequenceOf(0, 1)
         else -> sequence {
             yield(value / 2)
 

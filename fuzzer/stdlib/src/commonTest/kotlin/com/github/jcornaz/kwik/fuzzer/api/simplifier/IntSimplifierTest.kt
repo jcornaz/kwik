@@ -1,6 +1,9 @@
 package com.github.jcornaz.kwik.fuzzer.api.simplifier
 
 import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
+import com.github.jcornaz.kwik.generator.api.Generator
+import com.github.jcornaz.kwik.generator.api.randomSequence
+import com.github.jcornaz.kwik.generator.stdlib.negativeInts
 import kotlin.math.abs
 import kotlin.random.Random
 import kotlin.test.Test
@@ -21,17 +24,20 @@ class IntSimplifierTest {
     }
 
     @Test
-    fun zeroIsSimplerThanMinuteOne() {
-        assertEquals(0, Simplifier.int().simplify(-1).single())
+    fun zeroIsSimplerThanMinusOne() {
+        assertTrue(Simplifier.int().simplify(-1).any { it == 0 })
     }
 
     @Test
     fun positiveIsSimplerThanNegative() {
-        repeat(1000) {
-            val value = Random.nextInt(Int.MIN_VALUE, -1)
+        val simplifier = Simplifier.int()
 
-            assertTrue(Simplifier.int().simplify(value).any { it == abs(value) })
-        }
+        Generator.negativeInts()
+            .randomSequence(0)
+            .take(200)
+            .forEach { value ->
+                assertTrue(simplifier.simplify(value).any { it == abs(value) })
+            }
     }
 
     @Test

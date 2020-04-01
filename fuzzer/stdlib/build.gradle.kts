@@ -5,5 +5,11 @@ kotlin {
                 api(project(":fuzzer-api"))
             }
         }
+
+        commonTest {
+            dependencies {
+                implementation(project(":generator-stdlib"))
+            }
+        }
     }
 }
