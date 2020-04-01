@@ -5,6 +5,10 @@ on:
     tags:
       - '*'
 
+  create:
+    tags:
+      - '*'
+
   pull_request:
     paths:
       - '.github/workflows/publish.yml'
