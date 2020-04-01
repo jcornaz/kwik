@@ -33,6 +33,22 @@ class ArbitraryIntTest {
     }
 
     @Test
+    fun hasSameDefaultMinThanGenerator() {
+        assertEquals(
+            Generator.ints(max = 34).drawSample(),
+            Arbitrary.int(max = 34).generator.drawSample()
+        )
+    }
+
+    @Test
+    fun hasSameDefaultMaxThanGenerator() {
+        assertEquals(
+            Generator.ints(min = 34).drawSample(),
+            Arbitrary.int(min = 34).generator.drawSample()
+        )
+    }
+
+    @Test
     fun doesNotHaveAnyGuarantee() {
         assertTrue(Arbitrary.int().guarantees.isEmpty())
     }
