@@ -1,9 +1,7 @@
 package com.github.jcornaz.kwik.fuzzer.api.simplifier
 
 import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
-import com.github.jcornaz.kwik.generator.api.Generator
-import com.github.jcornaz.kwik.generator.api.randomSequence
-import com.github.jcornaz.kwik.generator.stdlib.negativeInts
+import com.github.jcornaz.kwik.generator.api.*
 import kotlin.math.abs
 import kotlin.random.Random
 import kotlin.test.Test
@@ -12,6 +10,8 @@ import kotlin.test.assertTrue
 
 @ExperimentalKwikFuzzer
 class IntSimplifierTest {
+    private val anyInt = Generator.create(Random::nextInt)
+    private val anyNegativeInt = Generator.create { it.nextInt(Int.MIN_VALUE, -1) }
 
     @Test
     fun zeroIsTheSimplestValue() {
@@ -32,7 +32,10 @@ class IntSimplifierTest {
     fun positiveIsSimplerThanNegative() {
         val simplifier = Simplifier.int()
 
-        Generator.negativeInts()
+        Generator.frequency(
+            1.0 to Generator.of(-2, -1),
+            2.0 to anyNegativeInt
+        )
             .randomSequence(0)
             .take(200)
             .forEach { value ->
@@ -42,43 +45,50 @@ class IntSimplifierTest {
 
     @Test
     fun nonZeroValueHaveSimplerValues() {
-        repeat(1000) {
-            val value = if (Random.nextBoolean())
-                Random.nextInt(Int.MIN_VALUE, -1)
-            else
-                Random.nextInt(1, Int.MAX_VALUE)
-
-            assertTrue(Simplifier.int().simplify(value).any())
-        }
+        Generator.frequency(
+            1.0 to Generator.of(-2, -1, 1, 2),
+            2.0 to anyInt.filterNot { it == 0 }
+        )
+            .randomSequence(0)
+            .take(200)
+            .forEach { value ->
+                assertTrue(Simplifier.int().simplify(value).any())
+            }
     }
 
     @Test
     fun simplerValuesAreCloserToZero() {
-        repeat(1000) {
-            val value = if (Random.nextBoolean())
-                Random.nextInt(Int.MIN_VALUE, -1)
-            else
-                Random.nextInt(1, Int.MAX_VALUE)
-
-            assertTrue(Simplifier.int().simplify(value).all {
-                (it == abs(value)) || (abs(it) < abs(value))
-            })
-        }
+        Generator.frequency(
+            1.0 to Generator.of(-2, -1, 1, 2),
+            2.0 to anyInt.filterNot { it == 0 }
+        )
+            .randomSequence(0)
+            .take(200)
+            .forEach { value ->
+                assertTrue(Simplifier.int().simplify(value).all {
+                    (it == abs(value)) || (abs(it) < abs(value))
+                })
+            }
     }
 
     @Test
     fun allowToFindSimplerFalsifyingValue() {
-        repeat(1000) {
-            val initialValue = if (Random.nextBoolean())
-                Random.nextInt(Int.MIN_VALUE, -1338)
-            else
-                Random.nextInt(43, Int.MAX_VALUE)
+        val passRange = (-42)..1337
 
-            val simplerValue = Simplifier.int().findSimplestFalsification(initialValue) {
-                it in (-1337)..42
+        Generator.create { it.nextInt(Int.MIN_VALUE, passRange.first - 1) }
+            .plus(Generator.create { it.nextInt(passRange.last + 1, Int.MAX_VALUE) })
+            .randomSequence(0)
+            .take(200)
+            .forEach { initialValue ->
+                val simplestValue =
+                    Simplifier.int()
+                        .findSimplestFalsification(initialValue) { it in passRange }
+
+                if (initialValue < 0) {
+                    assertEquals(-43, simplestValue)
+                } else {
+                    assertEquals(1338, simplestValue)
+                }
             }
-
-            assertTrue(simplerValue == 43 || simplerValue == -1338)
-        }
     }
 }

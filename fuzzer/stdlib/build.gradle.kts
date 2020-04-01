@@ -8,7 +8,7 @@ kotlin {
 
         commonTest {
             dependencies {
-                implementation(project(":generator-stdlib"))
+                implementation(project(":generator-api"))
             }
         }
     }
