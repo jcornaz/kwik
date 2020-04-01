@@ -32,4 +32,4 @@ fun Arbitrary.int(min: Int = Int.MIN_VALUE, max: Int = Int.MAX_VALUE): Fuzzer<In
 fun Arbitrary.int(): Fuzzer<Int> = anyInt
 
 @ExperimentalKwikFuzzer
-private val anyInt: Fuzzer<Int> = Generator.ints().toFuzzer(Simplifier.int)
+private val anyInt: Fuzzer<Int> by lazy { Generator.ints().toFuzzer(Simplifier.int) }

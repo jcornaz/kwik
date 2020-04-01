@@ -83,7 +83,7 @@ class IntSimplifierTest {
             .take(200)
             .forEach { value ->
                 val set = HashSet<Int>()
-                assertTrue(Simplifier.int.simplify(value).also { println(it.toList()) }.all(set::add))
+                assertTrue(Simplifier.int.simplify(value).all(set::add))
             }
     }
 

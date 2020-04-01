@@ -2,7 +2,6 @@ package com.github.jcornaz.kwik.fuzzer.stdlib.simplifier
 
 import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.Simplifier
-import com.github.jcornaz.kwik.fuzzer.api.simplifier.simplifier
 import kotlin.math.absoluteValue
 
 /**
@@ -14,11 +13,11 @@ import kotlin.math.absoluteValue
  */
 @ExperimentalKwikFuzzer
 val Simplifier.Companion.int: Simplifier<Int>
-    get() = intSimplifier
+    get() = IntSimplifier
 
 @ExperimentalKwikFuzzer
-private val intSimplifier = simplifier<Int> { value ->
-    when (value) {
+private object IntSimplifier : Simplifier<Int> {
+    override fun simplify(value: Int): Sequence<Int> = when (value) {
         0 -> emptySequence()
         1 -> sequenceOf(0)
         -1 -> sequenceOf(0, 1)
