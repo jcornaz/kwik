@@ -4,6 +4,7 @@ import com.jfrog.bintray.gradle.BintrayExtension
 import com.jfrog.bintray.gradle.BintrayPlugin
 import kr.motd.gradle.sphinx.gradle.SphinxTask
 import org.codehaus.plexus.util.Os
+import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile
 import java.util.*
@@ -16,6 +17,7 @@ plugins {
     id("io.gitlab.arturbosch.detekt") version "1.10.0"
     id("com.jfrog.bintray") version "1.8.5" apply false
     id("kr.motd.sphinx") version "2.9.0"
+    id("org.jetbrains.dokka") version "0.10.1"
 }
 
 reckon {
@@ -25,12 +27,12 @@ reckon {
 
 detekt {
     input = files(
-            subprojects.flatMap { project ->
-                listOf(
-                        "${project.projectDir}/src/commonMain/kotlin",
-                        "${project.projectDir}/src/jvmMain/kotlin"
-                )
-            }
+        subprojects.flatMap { project ->
+            listOf(
+                "${project.projectDir}/src/commonMain/kotlin",
+                "${project.projectDir}/src/jvmMain/kotlin"
+            )
+        }
     )
     buildUponDefaultConfig = true
     config = files("$rootDir/detekt-config.yml")
@@ -47,6 +49,7 @@ allprojects {
 
 subprojects {
     apply(plugin = "org.jetbrains.kotlin.multiplatform")
+    apply(plugin = "org.jetbrains.dokka")
     apply<BintrayPlugin>()
     apply<MavenPublishPlugin>()
     apply<JacocoPlugin>()
@@ -218,8 +221,19 @@ tasks {
         mustRunAfter(subprojects.flatMap { it.tasks.withType(Test::class) })
     }
 
+    val dokka by existing(DokkaTask::class) {
+        subProjects = subprojects.map { it.name }
+
+        multiplatform {
+            val common by creating
+            val jvm by creating
+            val linux by creating
+            val windows by creating
+        }
+    }
+
     val check by existing {
-        dependsOn(sphinx)
+        dependsOn(dokka, sphinx)
 
         finalizedBy(testReport)
     }
