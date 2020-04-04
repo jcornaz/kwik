@@ -15,7 +15,7 @@ plugins {
     id("com.github.ben-manes.versions") version "0.28.0"
     id("io.gitlab.arturbosch.detekt") version "1.7.2"
     id("com.jfrog.bintray") version "1.8.4" apply false
-    id("kr.motd.sphinx") version "2.6.1"
+    id("kr.motd.sphinx") version "2.9.0"
 }
 
 reckon {
