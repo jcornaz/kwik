@@ -198,7 +198,7 @@ tasks {
     }
 
     val sphinx by existing(SphinxTask::class) {
-        warningsAsErrors = true
+        setWarningsAsErrors(true)
 
         setSourceDirectory("$rootDir/docs")
         inputs.file("$rootDir/README.rst")
