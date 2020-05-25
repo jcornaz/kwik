@@ -7,7 +7,7 @@
     "url": "git+https://github.com/jcornaz/kwik.git"
   },
   "devDependencies": {
-    "semantic-release": "17.0.7"
+    "semantic-release": "17.0.8"
   },
   "release": {
     "tagFormat": "${version}",
