@@ -20,7 +20,7 @@ Kwik
     :target: https://gitter.im/kwik-test/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badg
 
 .. image:: https://api.bintray.com/packages/kwik/stable/kwik/images/download.svg
-    :target: https://bintray.com/kwik/stable/kwik/0.6.0
+    :target: https://bintray.com/kwik/stable/kwik
 
 .. afterBadges
 
