@@ -1,0 +1,6 @@
+titleOnly: true
+
+scopes:
+  - generator
+  - evaluator
+  - fuzzer
