@@ -2,22 +2,21 @@ Kwik
 ====
 
 .. image:: https://img.shields.io/badge/License-Apache%202.0-blue.svg
-    :target: https://raw.githubusercontent.com/jcornaz/kwik/develop/LICENSE
+    :target: https://raw.githubusercontent.com/jcornaz/kwik/main/LICENSE
 
 .. image:: https://img.shields.io/badge/status-experimental-yellow.svg
-    :target: https://gist.githubusercontent.com/jcornaz/46736c3d1f21b4c929bd97549b7406b2/raw/ProjectStatusFlow
 
 .. image:: https://github.com/jcornaz/kwik/workflows/Build/badge.svg
     :target: https://github.com/jcornaz/kwik/actions
 
 .. image:: https://codecov.io/gh/jcornaz/kwik/branch/main/graph/badge.svg
-  :target: https://codecov.io/gh/jcornaz/kwik
+    :target: https://codecov.io/gh/jcornaz/kwik
 
 .. image:: https://readthedocs.org/projects/kwik/badge/?version=latest
     :target: https://kwik.readthedocs.io/en/latest/?badge=latest
 
 .. image:: https://badges.gitter.im/kwik-test/community.svg
-    :target: https://gitter.im/kwik-test/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badg
+    :target: https://gitter.im/kwik-test/community
 
 .. image:: https://api.bintray.com/packages/kwik/stable/kwik/images/download.svg
     :target: https://bintray.com/kwik/stable/kwik
