@@ -4,8 +4,6 @@ Kwik
 .. image:: https://img.shields.io/badge/License-Apache%202.0-blue.svg
     :target: https://raw.githubusercontent.com/jcornaz/kwik/main/LICENSE
 
-.. image:: https://img.shields.io/badge/status-experimental-yellow.svg
-
 .. image:: https://github.com/jcornaz/kwik/workflows/Build/badge.svg
     :target: https://github.com/jcornaz/kwik/actions
 
