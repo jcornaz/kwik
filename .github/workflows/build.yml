@@ -3,15 +3,14 @@ name: Build
 on:
   push:
     branches:
-      - master
-      - next-release
-      - '*.*'
+      - main
+      - alpha
+      - beta
+      - rc
 
   pull_request:
     branches:
-      - master
-      - next-release
-      - '*.*'
+      - '*'
 
 jobs:
   verify_linux:

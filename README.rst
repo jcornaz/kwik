@@ -10,7 +10,7 @@ Kwik
 .. image:: https://github.com/jcornaz/kwik/workflows/Build/badge.svg
     :target: https://github.com/jcornaz/kwik/actions
 
-.. image:: https://codecov.io/gh/jcornaz/kwik/branch/master/graph/badge.svg
+.. image:: https://codecov.io/gh/jcornaz/kwik/branch/main/graph/badge.svg
   :target: https://codecov.io/gh/jcornaz/kwik
 
 .. image:: https://readthedocs.org/projects/kwik/badge/?version=latest
@@ -132,4 +132,4 @@ Contribute
 
 See `how to contribute`_
 
-.. _`how to contribute`: https://github.com/jcornaz/kwik/blob/master/CONTRIBUTING.md
+.. _`how to contribute`: https://github.com/jcornaz/kwik/blob/main/CONTRIBUTING.md

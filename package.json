@@ -12,10 +12,18 @@
   "release": {
     "tagFormat": "${version}",
     "branches": [
-      "master",
+      "main",
       {
-        "name": "next-release",
-        "prerelease": "alpha"
+        "name": "alpha",
+        "prerelease": true
+      },
+      {
+        "name": "beta",
+        "prerelease": true
+      },
+      {
+        "name": "rc",
+        "prerelease": true
       }
     ],
     "plugins": [
