@@ -4,9 +4,8 @@ on:
   push:
     branches:
       - main
-      - alpha
-      - beta
-      - rc
+      - next
+      - '*.*.x'
 
   pull_request:
     branches:
