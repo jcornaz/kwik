@@ -21,11 +21,12 @@
     "plugins": [
       "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
       [
-        "@semantic-release/github",
+        "@semantic-release/git",
         {
-          "successComment": ":tada: This ${issue.pull_request ? 'PR is included' : 'issue has been resolved'} in version ${nextRelease.version} :tada:\n\nThe release is available on ${branch.prerelease ? 'https://dl.bintray.com/kwik/preview' : 'jcenter'}",
-          "releasedLabels": false
+          "message": "chore(release): ${nextRelease.version}\n\n${nextRelease.notes}",
+          "assets": ["CHANGELOG.md"]
         }
       ]
     ]
