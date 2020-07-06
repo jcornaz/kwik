@@ -1,6 +1,7 @@
 titleOnly: true
 
 scopes:
+  - deps
   - generator
   - evaluator
   - fuzzer
