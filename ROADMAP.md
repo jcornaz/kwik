@@ -1,11 +1,8 @@
 # The road map for version 1.0.0
 
-After using kwik for a while as well as using and/or reviewing similar tools such as `elm-test` (in elm), `quickcheck` (in rust) and `Kotest` (in Kotlin),
-I got a quite clear idea of the future I want for `kwik`.
-
 This document details the direction `kwik` is taking and the `API` it would provide when reaching version `1.0.0`.
 
-## How it would look like
+## How it will look like
 
 ### Basic test
 
