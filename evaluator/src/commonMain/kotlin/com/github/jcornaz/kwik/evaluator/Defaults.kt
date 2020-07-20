@@ -14,7 +14,7 @@ val kwikDefaultIterations: Int
             ?: 200
 
 /**
- * Obtain a new seed for used in [forAll]
+ * Obtain a new seed to be used in [forAll]
  *
  * Can return a different value at each call
  *
@@ -22,7 +22,6 @@ val kwikDefaultIterations: Int
  * (if system property 'kwik.seed' or environment variable 'KWIK_ITERATIONS' is set)
  */
 fun nextSeed(): Long {
-    println("nextSeed (kwik.seed: ${getProperty("kwik.seed")})")
     return getProperty("kwik.seed")?.toLongOrNull()
         ?: getEnv("KWIK_ITERATIONS")?.toLongOrNull()
         ?: Random.nextLong()
