@@ -13,7 +13,7 @@ const val DAY_NANOSECONDS = 86400000000000L
  */
 fun Generator.Companion.instants(min: Instant, max: Instant): Generator<Instant> {
     require(min.isBefore(max)) {
-        "Max must be after than min but min was $min and max was $max"
+        "Max must be after min but min was $min and max was $max"
     }
     return create { random ->
         Instant.ofEpochMilli(random.nextLong(from = min.toEpochMilli(), until = max.toEpochMilli()))
@@ -25,7 +25,7 @@ fun Generator.Companion.instants(min: Instant, max: Instant): Generator<Instant>
  */
 fun Generator.Companion.dates(min: Date, max: Date): Generator<Date> {
     require(min.before(max)) {
-        "Max must be after than min but min was $min and max was $max"
+        "Max must be a after min but min was $min and max was $max"
     }
     return create { random ->
         Date(random.nextLong(from = min.time, until = max.time))
@@ -37,7 +37,7 @@ fun Generator.Companion.dates(min: Date, max: Date): Generator<Date> {
  */
 fun Generator.Companion.durations(min: Duration, max: Duration): Generator<Duration> {
     require(min <= max) {
-        "Min duration is bigger than max duration, min was $min and max was $max"
+        "Min duration is longer than max duration, min was $min and max was $max"
     }
     return create { random ->
         Duration.ofNanos(random.nextLong(from = min.toNanos(), until = max.toNanos()))
