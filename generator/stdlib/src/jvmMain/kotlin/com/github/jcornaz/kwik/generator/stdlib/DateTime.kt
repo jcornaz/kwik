@@ -4,9 +4,8 @@ import com.github.jcornaz.kwik.generator.api.Generator
 import java.time.Duration
 import java.time.Instant
 import java.time.LocalTime
-import java.util.*
 
-const val DAY_NANOSECONDS = 86400000000000L
+private const val DAY_NANOSECONDS = 86400000000000L
 
 /**
  * Returns a generator of [Instant] between [min] (inclusive) and [max] (exclusive) instants
@@ -17,18 +16,6 @@ fun Generator.Companion.instants(min: Instant, max: Instant): Generator<Instant>
     }
     return create { random ->
         Instant.ofEpochMilli(random.nextLong(from = min.toEpochMilli(), until = max.toEpochMilli()))
-    }
-}
-
-/**
- * Returns a generator of [Date] between [min] (inclusive) and [max] (exclusive) dates
- */
-fun Generator.Companion.dates(min: Date, max: Date): Generator<Date> {
-    require(min.before(max)) {
-        "Max must be a after min but min was $min and max was $max"
-    }
-    return create { random ->
-        Date(random.nextLong(from = min.time, until = max.time))
     }
 }
 
