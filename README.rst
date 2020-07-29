@@ -49,7 +49,7 @@ The project is incubating and its API is subject to changes.
 
 Please give it a try and write a feedback in the issues_ or discuss on gitter_.
 
-If you wan more details about the future of kwik, here's a roadmap_
+For mode details about the future of kwik, here's a roadmap_.
 
 .. _issues: https://github.com/jcornaz/kwik/issues
 .. _gitter: https://gitter.im/kwik-test/community
