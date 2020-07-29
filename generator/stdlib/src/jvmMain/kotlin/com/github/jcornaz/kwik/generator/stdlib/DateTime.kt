@@ -6,8 +6,6 @@ import java.time.Duration
 import java.time.Instant
 import java.time.LocalTime
 
-private const val DAY_NANOSECONDS = 86400000000000L
-
 /**
  * Returns a generator of [Instant] between [min] and [max] (inclusive)
  */
@@ -47,20 +45,28 @@ fun Generator.Companion.durations(min: Duration, max: Duration): Generator<Durat
     }
 }
 
-/**
- * Returns a generator of [LocalTime]
- */
-fun Generator.Companion.localTimes(): Generator<LocalTime> =
-    create { random -> LocalTime.ofNanoOfDay(random.nextLong(0, DAY_NANOSECONDS)) }
 
 /**
- * Returns a generator of [Instant] between [min] (inclusive) and [max] (exclusive) instants
+ * Returns a generator of [LocalTime] between [min] (inclusive) and [max] (exclusive) localTimes
  */
-fun Generator.Companion.localTimes(min: LocalTime, max: LocalTime): Generator<LocalTime> {
-    require(min.isBefore(max)) {
-        "Max must be after than min but min was $min and max was $max"
+
+fun Generator.Companion.localTimes(
+    min: LocalTime = LocalTime.MIN,
+    max: LocalTime = LocalTime.MAX
+): Generator<LocalTime> {
+    require(max >= min) {
+        "Max must be equal or after min but min was $min and max was $max"
     }
+
+    val range = min..max
+
+    val samples = mutableListOf(min, max)
+
+    if (LocalTime.NOON in range && LocalTime.NOON !in samples) {
+        samples += LocalTime.NOON
+    }
+
     return create { random ->
         LocalTime.ofNanoOfDay(random.nextLong(min.toNanoOfDay(), max.toNanoOfDay()))
-    }
+    }.withSamples(samples)
 }

@@ -94,9 +94,57 @@ class LocalTimeGeneratorTest : AbstractGeneratorTest() {
     override val generator: Generator<LocalTime> = Generator.localTimes()
 
     @Test
-    fun failForInvalidMax() {
+    fun failForInvalidRange() {
         assertFailsWith<IllegalArgumentException> {
             Generator.localTimes(LocalTime.MAX, LocalTime.MIN)
         }
+    }
+
+    @Test
+    fun produceInsideGivenRange() {
+        val min = LocalTime.NOON
+        val max = min.plusHours(2)
+        assertTrue(Generator.localTimes(min = min, max = max).randomSequence(0).take(50).all { it >= min && it <= max })
+    }
+
+    @Test
+    fun doNotProduceNoonIfNotInRange() {
+        val min = LocalTime.NOON.plusHours(2)
+        assertTrue(Generator.localTimes(min = min).randomSequence(0).take(50).none { it == LocalTime.NOON })
+    }
+
+    @Test
+    fun doNotProduceGlobalMaxIfNotInRange() {
+        val max = LocalTime.MAX.minusHours(1)
+        assertTrue(Generator.localTimes(max = max).randomSequence(0).take(50).none { it == LocalTime.MAX })
+    }
+
+    @Test
+    fun doNotProduceGlobalMinIfNotInRange() {
+        val min = LocalTime.MIN.plusHours(1)
+        assertTrue(Generator.localTimes(min = min).randomSequence(0).take(50).none { it == LocalTime.MIN })
+    }
+
+    @Test
+    fun generateGlobalMax() {
+        assertTrue(Generator.localTimes().randomSequence(0).take(50).any { it == LocalTime.MAX })
+    }
+
+
+    @Test
+    fun generateGlobalMin() {
+        assertTrue(Generator.localTimes().randomSequence(0).take(50).any { it == LocalTime.MIN })
+    }
+
+    @Test
+    fun generateMax() {
+        val max = LocalTime.NOON.plusHours(1)
+        assertTrue(Generator.localTimes(max = max).randomSequence(0).take(50).any { it == max })
+    }
+
+    @Test
+    fun generateMin() {
+        val min = LocalTime.NOON.plusHours(1)
+        assertTrue(Generator.localTimes(min = min).randomSequence(0).take(50).any { it == min })
     }
 }
