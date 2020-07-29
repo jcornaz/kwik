@@ -74,3 +74,12 @@ The random generation would still be seeded. But the seed could only be set via 
 `map`, `filter`, `andThen` (aka flatmap), `combine` and `merge` would be the main building block that should allow easy and safe creation of a wide variety of fuzzers.
 
 `withSamples` and common aliases such as `withNull`, `withNaN`, etc. proved to be very useful and would be ported in the new api.
+
+## Major tasks
+
+* [ ] Mark the old API as Obsolete and remove experimental flag for the new API (#185) 
+* [ ] Introduce TestResult with a minimal api (#85)
+* [ ] Provide a fuzzer API that can be used the same way as generator are currently used 
+* [ ] Provide decent support for input simplification (aka shrinking) (#62, #173, #174, #64)
+* [ ] Move the concept of 'sample' from generators to fuzzers (#186)
+* [ ] Deprecate old API and document how to migrate the new API (the more can be automated via Kotlin's deprecation system, the better)
