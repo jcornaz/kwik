@@ -1,0 +1,15 @@
+{
+    "header": "List of notable changes.\n\nThis project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).",
+    "preMajor": true,
+    "types": [
+        {"type": "feat", "section": "Features"},
+        {"type": "stable", "section": "Experimental API promoted to stable"},
+        {"type": "deprecate", "section": "Deprecations"},
+        {"type": "fix", "section": "Bug fixes"},
+        {"type": "perf", "section": "Performance improvements"},
+        {"type": "chore", "hidden": true},
+        {"type": "docs", "hidden": true},
+        {"type": "refactor", "hidden": true},
+        {"type": "test", "hidden": true}
+    ]
+}
