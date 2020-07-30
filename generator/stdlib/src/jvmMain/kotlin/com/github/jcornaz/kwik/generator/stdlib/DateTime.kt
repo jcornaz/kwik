@@ -6,6 +6,8 @@ import java.time.Duration
 import java.time.Instant
 import java.time.LocalTime
 
+private const val MAX_NANOSECONDS = 1_000_000_000L
+
 /**
  * Returns a generator of [Instant] between [min] and [max] (inclusive)
  */
@@ -25,29 +27,46 @@ fun Generator.Companion.instants(
         samples += Instant.EPOCH
     }
 
+    // TODO: fix nanoseconds precision
     return create { random ->
         Instant.ofEpochSecond(
             random.nextLong(from = min.epochSecond, until = max.epochSecond),
-            random.nextLong(from = 0, until = 1_000_000_000L)
+            random.nextLong(from = 0, until = MAX_NANOSECONDS)
         )
     }.withSamples(samples)
 }
 
 /**
- * Returns a generator of [Duration] between [min] (inclusive) and [max] (exclusive) durations
+ * Returns a generator of [Duration] between [min] and [max] (inclusive)
  */
-fun Generator.Companion.durations(min: Duration, max: Duration): Generator<Duration> {
+fun Generator.Companion.durations(
+    min: Duration = Duration.ofSeconds(Long.MIN_VALUE),
+    max: Duration = Duration.ofSeconds(Long.MAX_VALUE, 999_999_999L)
+): Generator<Duration> {
     require(min <= max) {
-        "Min duration is longer than max duration, min was $min and max was $max"
+        "Min must be shorter than max but min was $min and max was $max"
     }
+
+    val range = min..max
+
+    val samples = mutableListOf(min, max)
+
+    if (Duration.ZERO in range && Duration.ZERO !in samples) {
+        samples += Duration.ZERO
+    }
+
+    // TODO: fix nanoseconds precision
     return create { random ->
-        Duration.ofNanos(random.nextLong(from = min.toNanos(), until = max.toNanos()))
-    }
+        Duration.ofSeconds(
+            random.nextLong(from = min.seconds, until = max.seconds),
+            random.nextLong(from = 0, until = MAX_NANOSECONDS)
+        )
+    }.withSamples(samples)
 }
 
 
 /**
- * Returns a generator of [LocalTime] between [min] (inclusive) and [max] (exclusive) localTimes
+ * Returns a generator of [LocalTime] between [min] and [max] (inclusive)
  */
 
 fun Generator.Companion.localTimes(
