@@ -7,7 +7,9 @@ import java.time.Instant
 import java.time.LocalTime
 import java.time.temporal.ChronoField
 
-private const val MAX_NANOSECONDS = 1_000_000_000
+private const val MAX_NANOSECONDS = 999_999_999
+private val MIN_DURATION = Duration.ofSeconds(Long.MIN_VALUE)
+private val MAX_DURATION = Duration.ofSeconds(Long.MAX_VALUE, MAX_NANOSECONDS.toLong())
 
 /**
  * Returns a generator of [Instant] between [min] and [max] (inclusive)
@@ -45,7 +47,7 @@ fun Generator.Companion.instants(
 
         instant.with(
             ChronoField.NANO_OF_SECOND,
-            random.nextLong(from = minNano.toLong(), until = maxNano.toLong())
+            random.nextLong(from = minNano.toLong(), until = maxNano.toLong() + 1)
         )
     }.withSamples(samples)
 }
@@ -54,8 +56,8 @@ fun Generator.Companion.instants(
  * Returns a generator of [Duration] between [min] and [max] (inclusive)
  */
 fun Generator.Companion.durations(
-    min: Duration = Duration.ofSeconds(Long.MIN_VALUE),
-    max: Duration = Duration.ofSeconds(Long.MAX_VALUE, 999_999_999L)
+    min: Duration = MIN_DURATION,
+    max: Duration = MAX_DURATION
 ): Generator<Duration> {
     require(min <= max) {
         "Min must be shorter than max but min was $min and max was $max"
@@ -84,7 +86,7 @@ fun Generator.Companion.durations(
             if (duration.seconds == max.seconds) max.nano
             else MAX_NANOSECONDS
 
-        duration.withNanos(random.nextInt(from = minNano, until = maxNano))
+        duration.withNanos(random.nextInt(from = minNano, until = maxNano + 1))
     }.withSamples(samples)
 }
 
