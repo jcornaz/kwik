@@ -5,8 +5,9 @@ import com.github.jcornaz.kwik.generator.api.withSamples
 import java.time.Duration
 import java.time.Instant
 import java.time.LocalTime
+import java.time.temporal.ChronoField
 
-private const val MAX_NANOSECONDS = 1_000_000_000L
+private const val MAX_NANOSECONDS = 1_000_000_000
 
 /**
  * Returns a generator of [Instant] between [min] and [max] (inclusive)
@@ -27,11 +28,24 @@ fun Generator.Companion.instants(
         samples += Instant.EPOCH
     }
 
-    // TODO: fix nanoseconds precision
     return create { random ->
-        Instant.ofEpochSecond(
-            random.nextLong(from = min.epochSecond, until = max.epochSecond),
-            random.nextLong(from = 0, until = MAX_NANOSECONDS)
+        val seconds =
+            if (min.epochSecond == max.epochSecond) min.epochSecond
+            else random.nextLong(from = min.epochSecond, until = max.epochSecond)
+
+        val instant = Instant.ofEpochSecond(seconds)
+
+        val minNano =
+            if (instant.epochSecond == min.epochSecond) min.nano
+            else 0
+
+        val maxNano =
+            if (instant.epochSecond == instant.epochSecond) max.nano
+            else MAX_NANOSECONDS
+
+        instant.with(
+            ChronoField.NANO_OF_SECOND,
+            random.nextLong(from = minNano.toLong(), until = maxNano.toLong())
         )
     }.withSamples(samples)
 }
@@ -55,12 +69,22 @@ fun Generator.Companion.durations(
         samples += Duration.ZERO
     }
 
-    // TODO: fix nanoseconds precision
     return create { random ->
-        Duration.ofSeconds(
-            random.nextLong(from = min.seconds, until = max.seconds),
-            random.nextLong(from = 0, until = MAX_NANOSECONDS)
-        )
+        val seconds =
+            if (min.seconds == max.seconds) min.seconds
+            else random.nextLong(from = min.seconds, until = max.seconds)
+
+        val duration = Duration.ofSeconds(seconds)
+
+        val minNano =
+            if (duration.seconds == min.seconds) min.nano
+            else 0
+
+        val maxNano =
+            if (duration.seconds == max.seconds) max.nano
+            else MAX_NANOSECONDS
+
+        duration.withNanos(random.nextInt(from = minNano, until = maxNano))
     }.withSamples(samples)
 }
 
