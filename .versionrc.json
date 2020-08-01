@@ -3,7 +3,7 @@
     "preMajor": true,
     "types": [
         {"type": "feat", "section": "Features"},
-        {"type": "stable", "section": "Experimental API promoted to stable"},
+        {"type": "stable", "section": "Stabilization"},
         {"type": "deprecate", "section": "Deprecations"},
         {"type": "fix", "section": "Bug fixes"},
         {"type": "perf", "section": "Performance improvements"},
