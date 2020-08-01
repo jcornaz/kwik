@@ -101,3 +101,24 @@ jobs:
 
       - name: Check example
         run: ./gradlew -p example check -Dinclude=true
+
+  release-dry-run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Fetch tags
+        run: git fetch --tags
+
+      - name: Setup NodeJS
+        uses: actions/setup-node@v2.1.1
+        with:
+          node-version: '14'
+
+      - name: Release dry-run
+        run: npx standard-version --dry-run

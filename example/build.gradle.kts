@@ -16,8 +16,7 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.6.0")
 
-    testImplementation("com.github.jcornaz.kwik:kwik-evaluator-jvm:+")
-    testImplementation("com.github.jcornaz.kwik:kwik-generator-stdlib-jvm:+")
+    testImplementation("com.github.jcornaz.kwik:kwik-core-jvm:+")
 }
 
 //region Configure Kotlin JVM compilation
