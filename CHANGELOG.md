@@ -1,10 +1,20 @@
-# Change log
+# Changelog
 
-List of notable changes to this project.
+All notable changes to this project are documented in this file.
 
-The format is based on [Keep a
-Changelog](https://keepachangelog.com/en/1.0.0), and this project
-adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [0.6.1](https://github.com/jcornaz/kwik/compare/0.6.0...0.6.1) - 2020-07-20
+
+## Bug fixes
+
+* Remove noisy prints of "nextSeed" in the console
+
+## [0.6.0](https://github.com/jcornaz/kwik/compare/0.5.0...0.6.0) - 2020-04-01
+
+### Features
+
+* Add arbitrary ints (with shrinking support) ([#152](https://github.com/jcornaz/kwik/issues/152)) ([795201e](https://github.com/jcornaz/kwik/commit/795201ed50a5fb17a22009cc88b68ac7fc08f3d5))
 
 ## [0.5.0](https://github.com/jcornaz/kwik/compare/0.4.0...0.5.0) - 2020-03-29
 

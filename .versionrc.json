@@ -1,5 +1,5 @@
 {
-    "header": "List of notable changes.\n\nThis project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).",
+    "header": "# Changelog\n\nAll notable changes to this project are documented in this file.\n\nThis project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).",
     "preMajor": true,
     "types": [
         {"type": "feat", "section": "Features"},
