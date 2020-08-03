@@ -43,14 +43,14 @@ forAny(Arb.pair(Arb.int(), Arb.int())) { (x, y) ->
 
 As demonstrated in the 2 previous examples, a `TestResult` api would be provided to let the user formulate expectation and control the evaluation.
 
-This is heavily inspired from `TestResult` in rust's `quickcheck` and `Expectation` in `elm-test`.
+This is heavily inspired from `TestResult` in rust's [quickcheck](https://github.com/BurntSushi/quickcheck) and `Expectation` in elm's [elm-test](https://github.com/elm-explorations/test).
 
-An api for fluent formulation of expectation would be provided. Mostly inspired from `Kluent`, with slight different naming using `always` and `never` instead of `should` and `shouldNot`.
+An api for fluent formulation of expectation would be provided. Mostly inspired from [Kluent](https://github.com/MarkusAmshove/Kluent), with slight different naming using `always` and `never` instead of `should` and `shouldNot`.
 
 The different naming has two advantages:
 
 * Don't cause confusion in codebases where `kwik` would cohabit with a fluent assertion library such as Kluent, Kotest or similar.
-* Emphasis the *invariant* flavor of the test. Since it is not an example, but a rule that should always (or never) be true.
+* Emphasis the *invariant* flavor of the test. Since it is not an example, but a rule that should always (or never) be satisfied.
 
 ### Configuration
 
@@ -67,7 +67,7 @@ forAny(Arb.int(), iterations = 10..100) { x ->
 
 The actual number of iterations depends then on the global configuration. The code only defines the sensible limits in regard of the system under test.
 
-The random generation would still be seeded. But the seed could only be set via system property or environment variable. Not from code.
+The random generation would still be seeded. But the seed will only be configurable via system property or environment variable. Not from code anymore.
 
 ### Composing and configuring fuzzers
 
