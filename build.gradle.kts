@@ -19,6 +19,7 @@ plugins {
     id("kr.motd.sphinx") version "2.9.0"
 }
 
+
 detekt {
     input = files(
         subprojects.flatMap { project ->
@@ -32,8 +33,11 @@ detekt {
     config = files("$rootDir/detekt-config.yml")
 }
 
+val currentVersion = rootDir.resolve("VERSION").readText().trim()
+
 allprojects {
     group = "com.github.jcornaz.kwik"
+    version = currentVersion
 
     repositories {
         mavenCentral()
@@ -119,7 +123,6 @@ subprojects {
             userOrg = "kwik"
             name = "kwik"
             repo = when {
-                '+' in project.version.toString() -> "dev"
                 '-' in project.version.toString() -> "preview"
                 else -> "stable"
             }
