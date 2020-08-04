@@ -4,6 +4,18 @@ All notable changes to this project are documented in this file.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.2](https://github.com/jcornaz/kwik/compare/0.6.1...0.6.2) (2020-08-04)
+
+### Features
+
+* Add Duration, Instant and LocalTime generators ([#181](https://github.com/jcornaz/kwik/issues/181)) ([9843a8f](https://github.com/jcornaz/kwik/commit/9843a8f947011fc003df7f6703ec07d90bf5c6fa))
+  
+  Thanks to @alvaroReina
+
+### Documentation
+
+* Add a roadmap ([#180](https://github.com/jcornaz/kwik/issues/180)) ([d0276dd](https://github.com/jcornaz/kwik/commit/d0276dd0b32bdaaf5a176900a93be79d0befded1))
+
 ## [0.6.1](https://github.com/jcornaz/kwik/compare/0.6.0...0.6.1) - 2020-07-20
 
 ## Bug fixes
