@@ -13,16 +13,10 @@ plugins {
     `maven-publish`
     id("org.jetbrains.kotlin.multiplatform") version "1.4.0-rc"
     id("org.jetbrains.dokka") version "1.4.0-rc"
-    id("org.ajoberstar.reckon") version "0.12.0"
     id("com.github.ben-manes.versions") version "0.29.0"
     id("io.gitlab.arturbosch.detekt") version "1.10.0"
     id("com.jfrog.bintray") version "1.8.5" apply false
     id("kr.motd.sphinx") version "2.9.0"
-}
-
-reckon {
-    scopeFromProp()
-    stageFromProp("alpha", "beta", "rc", "final")
 }
 
 detekt {
@@ -46,6 +40,9 @@ allprojects {
         jcenter()
     }
 }
+
+// Hack so that we can configure all subprojects from this file
+kotlin { jvm() }
 
 subprojects {
     apply(plugin = "org.jetbrains.kotlin.multiplatform")
@@ -221,19 +218,8 @@ tasks {
         mustRunAfter(subprojects.flatMap { it.tasks.withType(Test::class) })
     }
 
-    val dokka by existing(DokkaTask::class) {
-        subProjects = subprojects.map { it.name }
-
-        multiplatform {
-            val common by creating
-            val jvm by creating
-            val linux by creating
-            val windows by creating
-        }
-    }
-
     val check by existing {
-        dependsOn(dokka, sphinx)
+        dependsOn(sphinx)
 
         finalizedBy(testReport)
     }
