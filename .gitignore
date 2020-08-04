@@ -1,19 +1,17 @@
-# Log file
-*.log
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-
-# Build
+# Gradle
 .gradle/
 build/
-out/
-/docs/_build/
-/node_modules/
 
-# IDE
+# IntelliJ
 .idea/
+out/
 *.iml
+
+# Documentation
+/docs/_build/
+
+# JVM
+hs_err_pid*
 
 # Operating systems
 .DS_Store
