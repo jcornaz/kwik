@@ -4,7 +4,7 @@ All notable changes to this project are documented in this file.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.6.2](https://github.com/jcornaz/kwik/compare/0.6.1...0.6.2) (2020-08-04)
+## [0.6.2](https://github.com/jcornaz/kwik/compare/0.6.1...v0.6.2) (2020-08-04)
 
 ### Features
 
