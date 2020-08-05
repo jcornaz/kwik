@@ -108,10 +108,7 @@ subprojects {
         with(pkg) {
             userOrg = "kwik"
             name = "kwik"
-            repo = when {
-                '-' in project.version.toString() -> "preview"
-                else -> "stable"
-            }
+            repo = if ('-' in project.version.toString()) "preview" else "stable"
 
             setLicenses("Apache-2.0")
 
@@ -146,6 +143,20 @@ subprojects {
         withType<KotlinJvmCompile> {
             kotlinOptions {
                 jvmTarget = "1.8"
+            }
+        }
+
+        dokkaHtml {
+            dokkaSourceSets {
+                register("commonMain")
+                register("jvmMain")
+                register("linuxMain")
+                register("windowsMain")
+
+                configureEach {
+                    skipDeprecated = true
+                    includes = listOf("README.md")
+                }
             }
         }
 
