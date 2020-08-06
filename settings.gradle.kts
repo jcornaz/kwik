@@ -1,7 +1,11 @@
 rootProject.name = "kwik"
 
-enableFeaturePreview("GRADLE_METADATA")
-
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        jcenter()
+    }
+}
 
 include("core")
 
