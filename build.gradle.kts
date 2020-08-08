@@ -17,7 +17,7 @@ plugins {
     id("io.gitlab.arturbosch.detekt") version "1.10.0"
     id("com.jfrog.bintray") version "1.8.5" apply false
     id("kr.motd.sphinx") version "2.9.0"
-    id("org.jetbrains.dokka") version "0.10.1"
+    id("org.jetbrains.dokka") version "0.11.0-dev-59"
 }
 
 reckon {
