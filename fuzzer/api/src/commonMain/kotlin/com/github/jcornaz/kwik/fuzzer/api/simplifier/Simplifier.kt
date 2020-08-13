@@ -9,8 +9,9 @@ import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
  * The definition of what "simpler" means is defined by the implementer of this interface.
  * For instance one may consider `1` simpler than `-189034789235`.
  */
+@Suppress("UndocumentedPublicClass")
 @ExperimentalKwikFuzzer
-interface Simplifier<T> {
+fun interface Simplifier<T> {
 
     /**
      * Returns a sequence of values that are simpler than [value].

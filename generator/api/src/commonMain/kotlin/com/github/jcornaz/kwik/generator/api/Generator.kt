@@ -5,7 +5,8 @@ import kotlin.random.Random
 /**
  * Random data generator capable of producing test data for property testing.
  */
-interface Generator<out T> {
+@Suppress("UndocumentedPublicClass")
+fun interface Generator<out T> {
 
     /**
      * Returns a random value using the given [random].
