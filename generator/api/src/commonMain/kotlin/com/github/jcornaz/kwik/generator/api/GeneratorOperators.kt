@@ -20,7 +20,7 @@ fun <T, R> Generator<T>.map(transform: (T) -> R): Generator<R> =
  * ```
  */
 fun <T, R> Generator<T>.andThen(transform: (T) -> Generator<R>): Generator<R> =
-    Generator.create { generate(it).let(transform).generate(it) }
+    Generator.create { transform(generate(it)).generate(it) }
 
 /**
  * @Deprecated Use `andThen` operator instead
