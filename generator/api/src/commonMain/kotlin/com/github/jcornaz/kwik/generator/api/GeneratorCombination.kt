@@ -91,7 +91,8 @@ fun <T> Generator.Companion.frequency(
     return when (list.size) {
         0 -> throw IllegalArgumentException("No generator (with weight > 0) to use for frequency-based generation")
         1 -> list.single().second
-        2 -> list.let { (source1, source2) ->
+        2 -> {
+            val (source1, source2) = list
             DualGenerator(
                 source1 = source1.second,
                 source2 = source2.second,
