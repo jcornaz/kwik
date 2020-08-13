@@ -45,7 +45,7 @@ class ForAnyTest {
 
     @Test
     fun takeInputsFromGenerator() {
-        val generator = Generator.create { it.nextInt() }
+        val generator = Generator { it: Random -> it.nextInt() }
 
         repeat(10) {
             val seed = Random.nextLong()
@@ -95,7 +95,7 @@ class ForAnyTest {
         var iterations = 0
 
         forAny(
-            Generator.create { iterations + 1 }
+            Generator { it: Random -> iterations + 1 }
                 .toFuzzer(dontSimplify())
                 .ensureAtLeastOne { it >= 100 },
             iterations = 10
@@ -110,7 +110,7 @@ class ForAnyTest {
         var iterations = 0
 
         forAny(
-            Generator.create { iterations + 1 }
+            Generator { it: Random -> iterations + 1 }
                 .toFuzzer(dontSimplify())
                 .ensureAtLeastOne { it >= 100 }
                 .ensureAtLeastOne { it >= 10 },
@@ -125,7 +125,7 @@ class ForAnyTest {
         var iterations = 0
 
         forAny(
-            Generator.create { iterations + 1 }
+            Generator { it: Random -> iterations + 1 }
                 .toFuzzer(dontSimplify())
                 .ensureAtLeastOne { it >= 10 }
                 .ensureAtLeastOne { it >= 100 },
@@ -140,7 +140,7 @@ class ForAnyTest {
         var iteration = 0
 
         forAny(
-            Generator.create { 42 }
+            Generator { it: Random -> 42 }
                 .toFuzzer(dontSimplify())
                 .ensureAtLeastOne { it > 10 }
             ,
@@ -156,7 +156,7 @@ class ForAnyTest {
 
         val exception = assertFailsWith<FalsifiedPropertyError> {
             forAny(
-                Generator.create { 42 }
+                Generator { it: Random -> 42 }
                     .toFuzzer(dontSimplify())
                     .ensureAtLeastOne { it > 10 },
                 iterations = 123,
@@ -182,7 +182,7 @@ class ForAnyTest {
     fun simplifyInputToGetSimplerInputFalsifingTheProperty() {
         val exception = assertFailsWith<FalsifiedPropertyError> {
             forAny(
-                Generator.create { 42 }
+                Generator { it: Random -> 42 }
                     .toFuzzer(object :
                         Simplifier<Int> {
                         override fun simplify(value: Int): Sequence<Int> = when(value) {

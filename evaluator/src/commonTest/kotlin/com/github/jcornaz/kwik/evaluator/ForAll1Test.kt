@@ -1,6 +1,7 @@
 package com.github.jcornaz.kwik.evaluator
 
 import com.github.jcornaz.kwik.generator.api.Generator
+import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -8,7 +9,7 @@ import kotlin.test.assertTrue
 
 class ForAll1Test : AbstractRunnerTest() {
 
-    private val testGenerator = Generator.create { it.nextInt() }
+    private val testGenerator = Generator { it: Random -> it.nextInt() }
 
     override fun evaluate(iterations: Int, seed: Long, invocation: PropertyEvaluationContext.() -> Boolean) {
         forAll(testGenerator, iterations, seed) { invocation() }
@@ -19,7 +20,7 @@ class ForAll1Test : AbstractRunnerTest() {
         val exception = assertFailsWith<FalsifiedPropertyError> {
             var i = 0
             forAll<Int>(
-                Generator.create { 42 },
+                Generator { it: Random -> 42 },
                 iterations = 123,
                 seed = 78
             ) { ++i < 12 }
@@ -40,7 +41,7 @@ class ForAll1Test : AbstractRunnerTest() {
         var iterations = 0
 
         forAll(
-            Generator.create { ++iterations },
+            Generator { it: Random -> ++iterations },
             iterations = 10
         ) { x ->
             ensureAtLeastOne { x >= 100 }
@@ -55,7 +56,7 @@ class ForAll1Test : AbstractRunnerTest() {
         var iterations = 0
 
         forAll(
-            Generator.create { ++iterations },
+            Generator { it: Random -> ++iterations },
             iterations = 10
         ) { x ->
             ensureAtLeastOne { x >= 100 }
@@ -71,7 +72,7 @@ class ForAll1Test : AbstractRunnerTest() {
         var iterations = 0
 
         forAll(
-            Generator.create { ++iterations },
+            Generator { it: Random -> ++iterations },
             iterations = 10
         ) { x ->
             ensureAtLeastOne { x >= 10 }
@@ -87,7 +88,7 @@ class ForAll1Test : AbstractRunnerTest() {
         var iteration = 0
 
         forAll(
-            Generator.create { 42 },
+            Generator { it: Random -> 42 },
             iterations = 123
         ) { x ->
             ++iteration
@@ -103,7 +104,7 @@ class ForAll1Test : AbstractRunnerTest() {
         var iteration = 0
         val exception = assertFailsWith<FalsifiedPropertyError> {
             forAll(
-                Generator.create { 42 },
+                Generator { it: Random -> 42 },
                 iterations = 123,
                 seed = 78
             ) { x ->
@@ -129,7 +130,7 @@ class ForAll1Test : AbstractRunnerTest() {
         val exception = assertFailsWith<FalsifiedPropertyError> {
             var i = 0
             forAll<Int>(
-                Generator.create { 42 },
+                Generator { it: Random -> 42 },
                 iterations = 123,
                 seed = 78
             ) {
@@ -162,7 +163,7 @@ class ForAll1Test : AbstractRunnerTest() {
 
     @Test
     fun isPredictable() {
-        val gen = Generator.create { it.nextInt() }
+        val gen = Generator { it: Random -> it.nextInt() }
 
         val pass1 = mutableListOf<Int>()
         val pass2 = mutableListOf<Int>()

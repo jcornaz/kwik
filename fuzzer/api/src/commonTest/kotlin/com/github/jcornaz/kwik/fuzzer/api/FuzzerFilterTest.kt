@@ -1,11 +1,11 @@
 package com.github.jcornaz.kwik.fuzzer.api
 
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.Simplifier
 import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.filter
 import com.github.jcornaz.kwik.generator.api.filterNot
 import com.github.jcornaz.kwik.generator.api.randomSequence
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.dontSimplify
-import com.github.jcornaz.kwik.fuzzer.api.simplifier.simplifier
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -15,7 +15,7 @@ class FuzzerFilterTest {
 
     @Test
     fun applyFilterToGenerator() {
-        val generator = Generator.create { it.nextInt(0, 10) }
+        val generator = Generator { it: Random -> it.nextInt(0, 10) }
 
         repeat(10) {
             val seed = Random.nextLong()
@@ -30,7 +30,7 @@ class FuzzerFilterTest {
 
     @Test
     fun applyFilterNotToGenerator() {
-        val generator = Generator.create { it.nextInt(0, 10) }
+        val generator = Generator { it: Random -> it.nextInt(0, 10) }
 
         repeat(10) {
             val seed = Random.nextLong()
@@ -45,8 +45,8 @@ class FuzzerFilterTest {
 
     @Test
     fun applyFilterToSimplifier() {
-        val simplerValues = Generator.create { it.nextInt() }
-            .toFuzzer(simplifier {
+        val simplerValues = Generator { it: Random -> it.nextInt() }
+            .toFuzzer(Simplifier { it: Int ->
                 sequenceOf(
                     1,
                     2,
@@ -63,8 +63,8 @@ class FuzzerFilterTest {
 
     @Test
     fun applyFilterNotToSimplifier() {
-        val simplerValues = Generator.create { it.nextInt() }
-            .toFuzzer(simplifier {
+        val simplerValues = Generator { it: Random -> it.nextInt() }
+            .toFuzzer(Simplifier { it: Int ->
                 sequenceOf(
                     1,
                     2,

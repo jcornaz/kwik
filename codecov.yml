@@ -10,7 +10,7 @@ coverage:
   status:
     project:
       default:
-        target: 80%
+        target: 79%
 
       generator:
         target: 86%

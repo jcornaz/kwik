@@ -2,9 +2,10 @@ package com.github.jcornaz.kwik.generator.stdlib
 
 import com.github.jcornaz.kwik.generator.api.Generator
 import java.util.*
+import kotlin.random.Random
 
 /**
  * Returns a generator of [UUID]
  */
 fun Generator.Companion.uuids(): Generator<UUID> =
-    create { random ->  UUID(random.nextLong(), random.nextLong()) }
+    Generator { random: Random -> UUID(random.nextLong(), random.nextLong()) }

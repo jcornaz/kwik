@@ -1,14 +1,15 @@
 package com.github.jcornaz.kwik.generator.api
 
 import com.github.jcornaz.kwik.generator.test.AbstractGeneratorTest
+import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
 class CombineTest : AbstractGeneratorTest() {
 
     override val generator: Generator<*> = Generator.combine(
-        Generator.create { it.nextInt() },
-        Generator.create { it.nextDouble() }
+        Generator { it: Random -> it.nextInt() },
+        Generator { it: Random -> it.nextDouble() }
     )
 
     @Test
@@ -19,8 +20,8 @@ class CombineTest : AbstractGeneratorTest() {
     @Test
     fun combineDifferentValues() {
         val gen = Generator.combine(
-            Generator.create { it.nextInt() },
-            Generator.create { it.nextInt() }
+            Generator { it: Random -> it.nextInt() },
+            Generator { it: Random -> it.nextInt() }
         )
 
         assertTrue(gen.randomSequence(123).take(200).count { (a, b) -> a != b } > 150)
@@ -31,8 +32,8 @@ class CombineWithTransformTest : AbstractGeneratorTest() {
 
     override val generator: Generator<*> =
         Generator.combine(
-            Generator.create { it.nextInt() },
-            Generator.create { it.nextDouble() }
+            Generator { it: Random -> it.nextInt() },
+            Generator { it: Random -> it.nextDouble() }
         ) { x, y -> CombinedValues(x, y) }
 
     @Test
@@ -43,8 +44,8 @@ class CombineWithTransformTest : AbstractGeneratorTest() {
     @Test
     fun combineDifferentValues() {
         val gen = Generator.combine(
-            Generator.create { it.nextInt() }.withSamples(1, 2),
-            Generator.create { it.nextDouble() }.withSamples(3.0, 4.0)
+            Generator { it: Random -> it.nextInt() }.withSamples(1, 2),
+            Generator { it: Random -> it.nextDouble() }.withSamples(3.0, 4.0)
         ) { a, b -> CombinedValues(a, b) }
 
         assertTrue(gen.randomSequence(0).take(200).count { (a, b) -> a != b.toInt() } > 150)
@@ -56,7 +57,7 @@ class CombineWithTransformTest : AbstractGeneratorTest() {
 class CombineWithTest : AbstractGeneratorTest() {
 
     override val generator: Generator<*> =
-        Generator.create { it.nextInt() }.combineWith(Generator.create { it.nextDouble() })
+        Generator { it: Random -> it.nextInt() }.combineWith(Generator { it: Random -> it.nextDouble() })
 
     @Test
     fun combineTheValues() {
@@ -65,7 +66,7 @@ class CombineWithTest : AbstractGeneratorTest() {
 
     @Test
     fun combineDifferentValues() {
-        val gen = Generator.create { it.nextInt() }.combineWith(Generator.create { it.nextInt() })
+        val gen = Generator { it: Random -> it.nextInt() }.combineWith(Generator { it: Random -> it.nextInt() })
 
         assertTrue(gen.randomSequence(123).take(200).count { (a, b) -> a != b } > 150)
     }
@@ -74,8 +75,8 @@ class CombineWithTest : AbstractGeneratorTest() {
 class CombineWithWithTransformTest : AbstractGeneratorTest() {
 
     override val generator: Generator<*> =
-        Generator.create { it.nextInt() }
-            .combineWith(Generator.create { it.nextDouble() }) { x, y ->
+        Generator { it: Random -> it.nextInt() }
+            .combineWith(Generator { it: Random -> it.nextDouble() }) { x, y ->
                 CombinedValues(
                     x,
                     y
@@ -89,8 +90,8 @@ class CombineWithWithTransformTest : AbstractGeneratorTest() {
 
     @Test
     fun combineDifferentValues() {
-        val gen = Generator.create { it.nextInt() }
-            .combineWith(Generator.create { it.nextInt() }) { a, b -> a to b }
+        val gen = Generator { it: Random -> it.nextInt() }
+            .combineWith(Generator { it: Random -> it.nextInt() }) { a, b -> a to b }
 
         assertTrue(gen.randomSequence(123).take(200).count { (a, b) -> a != b } > 150)
     }

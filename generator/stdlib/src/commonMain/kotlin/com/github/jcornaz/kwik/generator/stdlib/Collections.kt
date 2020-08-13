@@ -2,6 +2,7 @@ package com.github.jcornaz.kwik.generator.stdlib
 
 import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.andThen
+import kotlin.random.Random
 
 private const val MAX_EXTRA_ADDITIONAL_ATTEMPT = 10_000
 
@@ -34,7 +35,7 @@ private fun <T> Generator.Companion.lists(
 
     if (size == 0) return of(listOf(emptyList()))
 
-    return create { random ->
+    return Generator { random: Random ->
         List(size) { elementGen.generate(random) }
     }
 }
@@ -86,25 +87,23 @@ fun <T> Generator.Companion.sets(
 private fun <T> Generator.Companion.sets(
     elementGen: Generator<T>,
     size: Int
-): Generator<Set<T>> {
-    return create { random ->
-        val set = HashSet<T>(size)
+): Generator<Set<T>> = Generator { random: Random ->
+    val set = HashSet<T>(size)
 
-        repeat(size) {
-            set += elementGen.generate(random)
-        }
-
-        var extraAttempt = 0
-        while (set.size < size && extraAttempt < MAX_EXTRA_ADDITIONAL_ATTEMPT) {
-            set += elementGen.generate(random)
-            ++extraAttempt
-        }
-
-        if (set.size < size)
-            error("Failed to create a set with the requested minimum of element")
-
-        return@create set
+    repeat(size) {
+        set += elementGen.generate(random)
     }
+
+    var extraAttempt = 0
+    while (set.size < size && extraAttempt < MAX_EXTRA_ADDITIONAL_ATTEMPT) {
+        set += elementGen.generate(random)
+        ++extraAttempt
+    }
+
+    if (set.size < size)
+        error("Failed to create a set with the requested minimum of element")
+
+    set
 }
 
 /**
@@ -155,7 +154,7 @@ private fun <K, V> Generator.Companion.maps(
     keyGen: Generator<K>,
     valueGen: Generator<V>,
     size: Int
-): Generator<Map<K, V>> = create { random ->
+): Generator<Map<K, V>> = Generator { random: Random ->
     val map = HashMap<K, V>(size)
 
     repeat(size) {
@@ -171,7 +170,7 @@ private fun <K, V> Generator.Companion.maps(
     if (map.size < size)
         error("Failed to create a set with the requested minimum of element")
 
-    return@create map
+    map
 }
 
 /**

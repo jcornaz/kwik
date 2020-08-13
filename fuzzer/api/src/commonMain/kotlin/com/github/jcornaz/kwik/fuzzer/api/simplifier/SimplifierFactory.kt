@@ -5,10 +5,12 @@ import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
 /**
  * Returns a simplifier that use the given [simplify] function to find simpler values
  */
+@Deprecated(
+    message = "Since Generator is a fun interface, one can create an instance of like for any other fun interface",
+    replaceWith = ReplaceWith("Simplifier(simplify)")
+)
 @ExperimentalKwikFuzzer
-fun <T> simplifier(simplify: (T) -> Sequence<T>): Simplifier<T> = object : Simplifier<T> {
-    override fun simplify(value: T): Sequence<T> = simplify(value)
-}
+fun <T> simplifier(simplify: (T) -> Sequence<T>): Simplifier<T> = Simplifier(simplify)
 
 /**
  * Create a [Simplifier] that can simplify pairs.
@@ -21,7 +23,7 @@ fun <A, B> Simplifier.Companion.pair(
     first: Simplifier<A>,
     second: Simplifier<B>
 ): Simplifier<Pair<A, B>> =
-    simplifier { (firstValue, secondValue) ->
+    Simplifier { (firstValue, secondValue): Pair<A, B> ->
         sequence {
             val i1 = first.simplify(firstValue).map { it to secondValue }.iterator()
             val i2 = second.simplify(secondValue).map { firstValue to it }.iterator()
@@ -46,7 +48,7 @@ fun <A, B, C> Simplifier.Companion.triple(
     second: Simplifier<B>,
     third: Simplifier<C>
 ): Simplifier<Triple<A, B, C>> =
-    simplifier { (firstValue, secondValue, thirdValue) ->
+    Simplifier { (firstValue, secondValue, thirdValue): Triple<A, B, C> ->
         sequence {
             val i1 = first.simplify(firstValue).map { Triple(it, secondValue, thirdValue) }.iterator()
             val i2 = second.simplify(secondValue).map { Triple(firstValue, it, thirdValue) }.iterator()
