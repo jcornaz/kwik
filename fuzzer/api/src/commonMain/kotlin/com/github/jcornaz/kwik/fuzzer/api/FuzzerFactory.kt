@@ -5,6 +5,7 @@ import com.github.jcornaz.kwik.generator.api.combineWith
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.Simplifier
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.pair
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.triple
+import kotlin.random.Random
 
 /**
  * Returns a [Fuzzer] for pair of [A] and [B].
@@ -29,7 +30,7 @@ fun <A, B> Arbitrary.pair(first: Fuzzer<A>, second: Fuzzer<B>): Fuzzer<Pair<A, B
 @ExperimentalKwikFuzzer
 fun <A, B, C> Arbitrary.triple(first: Fuzzer<A>, second: Fuzzer<B>, third: Fuzzer<C>): Fuzzer<Triple<A, B, C>> =
     Fuzzer(
-        generator = Generator.create { random ->
+        generator = Generator { random: Random ->
             Triple(
                 first.generator.generate(random),
                 second.generator.generate(random),

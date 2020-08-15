@@ -4,25 +4,18 @@ import com.jfrog.bintray.gradle.BintrayExtension
 import com.jfrog.bintray.gradle.BintrayPlugin
 import kr.motd.gradle.sphinx.gradle.SphinxTask
 import org.codehaus.plexus.util.Os
-import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile
 import java.util.*
 
 plugins {
     `maven-publish`
-    id("org.jetbrains.kotlin.multiplatform") version "1.3.72"
-    id("org.ajoberstar.reckon") version "0.12.0"
+    id("org.jetbrains.kotlin.multiplatform") version "1.4.0"
+    id("org.jetbrains.dokka") version "1.4.0-rc"
     id("com.github.ben-manes.versions") version "0.29.0"
     id("io.gitlab.arturbosch.detekt") version "1.11.0"
     id("com.jfrog.bintray") version "1.8.5" apply false
     id("kr.motd.sphinx") version "2.9.0"
-    id("org.jetbrains.dokka") version "0.10.1"
-}
-
-reckon {
-    scopeFromProp()
-    stageFromProp("alpha", "beta", "rc", "final")
 }
 
 detekt {
@@ -38,14 +31,20 @@ detekt {
     config = files("$rootDir/detekt-config.yml")
 }
 
+val currentVersion = rootDir.resolve("VERSION").readText().trim()
+
 allprojects {
     group = "com.github.jcornaz.kwik"
+    version = currentVersion
 
     repositories {
         mavenCentral()
         jcenter()
     }
 }
+
+// Hack so that we can configure all subprojects from this file
+kotlin { jvm() }
 
 subprojects {
     apply(plugin = "org.jetbrains.kotlin.multiplatform")
@@ -61,22 +60,10 @@ subprojects {
         mingwX64("windows")
 
         sourceSets {
-            commonMain {
-                dependencies {
-                    api(kotlin("stdlib-common"))
-                }
-            }
-
             commonTest {
                 dependencies {
                     api(kotlin("test-common"))
                     api(kotlin("test-annotations-common"))
-                }
-            }
-
-            val jvmMain by existing {
-                dependencies {
-                    implementation(kotlin("stdlib"))
                 }
             }
 
@@ -122,7 +109,6 @@ subprojects {
             userOrg = "kwik"
             name = "kwik"
             repo = when {
-                '+' in project.version.toString() -> "dev"
                 '-' in project.version.toString() -> "preview"
                 else -> "stable"
             }
@@ -221,19 +207,8 @@ tasks {
         mustRunAfter(subprojects.flatMap { it.tasks.withType(Test::class) })
     }
 
-    val dokka by existing(DokkaTask::class) {
-        subProjects = subprojects.map { it.name }
-
-        multiplatform {
-            val common by creating
-            val jvm by creating
-            val linux by creating
-            val windows by creating
-        }
-    }
-
     val check by existing {
-        dependsOn(dokka, sphinx)
+        dependsOn(sphinx)
 
         finalizedBy(testReport)
     }

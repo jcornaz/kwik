@@ -1,6 +1,9 @@
 {
     "header": "# Changelog\n\nAll notable changes to this project are documented in this file.\n\nThis project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).\n",
     "preMajor": true,
+    "bumpFiles": [
+        { "filename": "VERSION", "type": "plain-text" }
+    ],
     "types": [
         {"type": "feat", "section": "Features"},
         {"type": "stable", "section": "Stabilization"},

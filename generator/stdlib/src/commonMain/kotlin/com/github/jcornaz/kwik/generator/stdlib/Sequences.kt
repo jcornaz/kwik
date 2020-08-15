@@ -3,6 +3,7 @@ package com.github.jcornaz.kwik.generator.stdlib
 import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.andThen
 import com.github.jcornaz.kwik.generator.api.randomSequence
+import kotlin.random.Random
 
 /**
  * Returns a generator of [Sequence] where element count are between [minSize] and [maxSize] (inclusive)
@@ -23,7 +24,7 @@ fun <T> Generator.Companion.sequences(
 private fun <T> Generator.Companion.sequences(
     elementGen: Generator<T>,
     size: Int
-): Generator<Sequence<T>> = create { random ->
+): Generator<Sequence<T>> = Generator { random: Random ->
     elementGen.randomSequence(random.nextLong()).take(size)
 }
 

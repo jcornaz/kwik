@@ -1,5 +1,7 @@
 package com.github.jcornaz.kwik.generator.api
 
+import kotlin.random.Random
+
 private const val DEFAULT_SAMPLE_PROBABILITY = 0.2
 
 /**
@@ -7,7 +9,7 @@ private const val DEFAULT_SAMPLE_PROBABILITY = 0.2
  * the original generator.
  */
 fun <T, R> Generator<T>.map(transform: (T) -> R): Generator<R> =
-    Generator.create { transform(generate(it)) }
+    Generator { it: Random -> transform(generate(it)) }
 
 /**
  * Returns a new generator backed by [this] generator and applying the given [transform] function
@@ -20,7 +22,7 @@ fun <T, R> Generator<T>.map(transform: (T) -> R): Generator<R> =
  * ```
  */
 fun <T, R> Generator<T>.andThen(transform: (T) -> Generator<R>): Generator<R> =
-    Generator.create { transform(generate(it)).generate(it) }
+    Generator { it: Random -> transform(generate(it)).generate(it) }
 
 /**
  * @Deprecated Use `andThen` operator instead
@@ -35,10 +37,10 @@ fun <T, R> Generator<T>.flatMap(transform: (T) -> Generator<R>): Generator<R> = 
  * Use it with caution and always favor customizing or creating generators if possible.
  */
 fun <T> Generator<T>.filter(predicate: (T) -> Boolean): Generator<T> =
-    Generator.create { random ->
+    Generator { random: Random ->
         var value = generate(random)
 
-        while(!predicate(value))
+        while (!predicate(value))
             value = generate(random)
 
         value

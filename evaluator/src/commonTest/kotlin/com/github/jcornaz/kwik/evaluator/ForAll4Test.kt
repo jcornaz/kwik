@@ -1,6 +1,7 @@
 package com.github.jcornaz.kwik.evaluator
 
 import com.github.jcornaz.kwik.generator.api.Generator
+import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -8,10 +9,10 @@ import kotlin.test.assertTrue
 
 class ForAll4Test : AbstractRunnerTest() {
 
-    private val testGenerator1 = Generator.create { it.nextInt() }
-    private val testGenerator2 = Generator.create { it.nextDouble() }
-    private val testGenerator3 = Generator.create { it.nextLong() }
-    private val testGenerator4 = Generator.create { it.nextFloat() }
+    private val testGenerator1 = Generator { it: Random -> it.nextInt() }
+    private val testGenerator2 = Generator { it: Random -> it.nextDouble() }
+    private val testGenerator3 = Generator { it: Random -> it.nextLong() }
+    private val testGenerator4 = Generator { it: Random -> it.nextFloat() }
 
     override fun evaluate(iterations: Int, seed: Long, invocation: PropertyEvaluationContext.() -> Boolean) {
         forAll(
@@ -31,10 +32,10 @@ class ForAll4Test : AbstractRunnerTest() {
         val exception = assertFailsWith<FalsifiedPropertyError> {
             var i = 0
             forAll(
-                Generator.create { 42 },
-                Generator.create { -4.1 },
-                Generator.create { 100L },
-                Generator.create { "hello world" },
+                Generator { it: Random -> 42 },
+                Generator { it: Random -> -4.1 },
+                Generator { it: Random -> 100L },
+                Generator { it: Random -> "hello world" },
                 iterations = 123, seed = 78
             ) { _, _, _, _ -> ++i < 12 }
         }
@@ -57,10 +58,10 @@ class ForAll4Test : AbstractRunnerTest() {
         val exception = assertFailsWith<FalsifiedPropertyError> {
             var i = 0
             forAll(
-                Generator.create { 42 },
-                Generator.create { -4.1 },
-                Generator.create { 100L },
-                Generator.create { "hello world" },
+                Generator { it: Random -> 42 },
+                Generator { it: Random -> -4.1 },
+                Generator { it: Random -> 100L },
+                Generator { it: Random -> "hello world" },
                 iterations = 123, seed = 78
             ) { _, _, _, _ ->
                 if (++i >= 12) error("failed")

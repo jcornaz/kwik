@@ -3,6 +3,7 @@ package com.github.jcornaz.kwik.generator.stdlib
 import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.randomSequence
 import com.github.jcornaz.kwik.generator.test.AbstractGeneratorTest
+import kotlin.random.Random
 import kotlin.test.*
 
 class SetGeneratorTest : AbstractGeneratorTest() {
@@ -78,7 +79,7 @@ class SetGeneratorTest : AbstractGeneratorTest() {
 
     @Test
     fun failsWhenMinSizeIsNotPossible() {
-        val elementGenerator = Generator.create { it.nextInt(0, 3) }
+        val elementGenerator = Generator { it: Random -> it.nextInt(0, 3) }
 
         assertFails {
             Generator.sets(elementGenerator, minSize = 4).randomSequence(0).first()

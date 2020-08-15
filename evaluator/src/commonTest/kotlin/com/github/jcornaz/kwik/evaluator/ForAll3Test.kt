@@ -1,6 +1,7 @@
 package com.github.jcornaz.kwik.evaluator
 
 import com.github.jcornaz.kwik.generator.api.Generator
+import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -8,9 +9,9 @@ import kotlin.test.assertTrue
 
 class ForAll3Test : AbstractRunnerTest() {
 
-    private val testGenerator1 = Generator.create { it.nextInt() }
-    private val testGenerator2 = Generator.create { it.nextDouble() }
-    private val testGenerator3 = Generator.create { it.nextLong() }
+    private val testGenerator1 = Generator { it: Random -> it.nextInt() }
+    private val testGenerator2 = Generator { it: Random -> it.nextDouble() }
+    private val testGenerator3 = Generator { it: Random -> it.nextLong() }
 
     override fun evaluate(iterations: Int, seed: Long, invocation: PropertyEvaluationContext.() -> Boolean) {
         forAll(
@@ -27,9 +28,9 @@ class ForAll3Test : AbstractRunnerTest() {
         val exception = assertFailsWith<FalsifiedPropertyError> {
             var i = 0
             forAll(
-                Generator.create { 42 },
-                Generator.create { -4.1 },
-                Generator.create { 100L },
+                Generator { it: Random -> 42 },
+                Generator { it: Random -> -4.1 },
+                Generator { it: Random -> 100L },
                 iterations = 123, seed = 78
             ) { _, _, _ -> ++i < 12 }
         }
@@ -51,9 +52,9 @@ class ForAll3Test : AbstractRunnerTest() {
         val exception = assertFailsWith<FalsifiedPropertyError> {
             var i = 0
             forAll(
-                Generator.create { 42 },
-                Generator.create { -4.1 },
-                Generator.create { 100L },
+                Generator { it: Random -> 42 },
+                Generator { it: Random -> -4.1 },
+                Generator { it: Random -> 100L },
                 iterations = 123, seed = 78
             ) { _, _, _ ->
                 if (++i >= 12 ) error("failed")

@@ -76,7 +76,7 @@ abstract class AbstractRunnerTest {
 
     @Test
     fun canSkipEvaluation() {
-        Generator.create { it.nextInt() }
+        Generator { it: Random -> it.nextInt() }
 
         val values = mutableSetOf<Int>()
         var invocations = 0

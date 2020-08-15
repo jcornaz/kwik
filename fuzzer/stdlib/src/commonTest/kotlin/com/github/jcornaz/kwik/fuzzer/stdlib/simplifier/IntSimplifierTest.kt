@@ -12,8 +12,8 @@ import kotlin.test.assertTrue
 
 @ExperimentalKwikFuzzer
 class IntSimplifierTest {
-    private val anyInt = Generator.create(Random::nextInt)
-    private val anyNegativeInt = Generator.create { it.nextInt(Int.MIN_VALUE, -1) }
+    private val anyInt = Generator(Random::nextInt)
+    private val anyNegativeInt = Generator { it: Random -> it.nextInt(Int.MIN_VALUE, -1) }
 
     @Test
     fun zeroIsTheSimplestValue() {
@@ -91,8 +91,8 @@ class IntSimplifierTest {
     fun allowToFindSimplerFalsifyingValue() {
         val passRange = (-42)..1337
 
-        Generator.create { it.nextInt(Int.MIN_VALUE, passRange.first - 1) }
-            .plus(Generator.create { it.nextInt(passRange.last + 1, Int.MAX_VALUE) })
+        Generator { it: Random -> it.nextInt(Int.MIN_VALUE, passRange.first - 1) }
+            .plus(Generator { it: Random -> it.nextInt(passRange.last + 1, Int.MAX_VALUE) })
             .randomSequence(0)
             .take(200)
             .forEach { initialValue ->

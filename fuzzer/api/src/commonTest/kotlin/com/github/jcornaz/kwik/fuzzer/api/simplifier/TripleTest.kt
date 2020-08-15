@@ -9,15 +9,15 @@ class TripleTest {
 
     @Test
     fun simplifyFirstThenSecondThenThird() {
-        val first = simplifier<Int> {
+        val first = Simplifier { it: Int ->
             assertEquals(10, it)
             sequenceOf(1, 2)
         }
-        val second = simplifier<Char> {
+        val second = Simplifier { it: Char ->
             assertEquals('Z', it)
             sequenceOf('A', 'B')
         }
-        val third = simplifier<Double> {
+        val third = Simplifier { it: Double ->
             assertEquals(42.0, it)
             sequenceOf(3.14, 3.33)
         }
@@ -53,7 +53,7 @@ class TripleTest {
 
     @Test
     fun simplifyFirstIfSecondHasNoMoreSimplerValue() {
-        val first = simplifier<Int> {
+        val first = Simplifier { it: Int ->
             assertEquals(10, it)
             sequenceOf(1, 2, 3)
         }
@@ -75,7 +75,7 @@ class TripleTest {
 
     @Test
     fun simplifySecondIfFirstAndThirdHaveNoMoreSimplerValue() {
-        val second = simplifier<Int> {
+        val second = Simplifier { it: Int ->
             assertEquals(10, it)
             sequenceOf(1, 2, 3)
         }
@@ -97,7 +97,7 @@ class TripleTest {
 
     @Test
     fun simplifyThirdIfFirstAndSecondHaveNoMoreSimplerValue() {
-        val third = simplifier<Int> {
+        val third = Simplifier { it: Int ->
             assertEquals(10, it)
             sequenceOf(1, 2, 3)
         }
@@ -118,7 +118,7 @@ class TripleTest {
 
     @Test
     fun allAreSimplifiedWhenTryingToFindSimplestFalsification() {
-        val simplifier = simplifier<Int> { value ->
+        val simplifier = Simplifier { value: Int ->
             when (value) {
                 0 -> emptySequence()
                 1 -> sequenceOf(0)

@@ -5,6 +5,7 @@ package com.github.jcornaz.kwik.generator.stdlib
 import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.filterNot
 import com.github.jcornaz.kwik.generator.api.withSamples
+import kotlin.random.Random
 
 /**
  * Returns a generator of String of length between [minLength] and [maxLength] (inclusive)
@@ -23,7 +24,7 @@ fun Generator.Companion.strings(
 
     val characters = (charset - exclude).toList()
 
-    val generator = create { rng ->
+    val generator = Generator { rng: Random ->
         String(CharArray(rng.nextInt(minLength, maxLength + 1)) { characters.random(rng) })
     }
 

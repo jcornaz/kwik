@@ -46,7 +46,7 @@ class SequenceGeneratorTest : AbstractGeneratorTest() {
 
     @Test
     fun generateAllElementsOfElementGenerator() {
-        val elemGen = Generator.create { it.nextInt(0, 10) }
+        val elemGen = Generator { it: Random -> it.nextInt(0, 10) }
         val elements = mutableSetOf<Int>()
 
         repeat(100) {

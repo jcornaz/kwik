@@ -66,7 +66,7 @@ class ArbitraryIntTest {
 
     @Test
     fun simplifierIsFiltered() {
-        Generator.create { it.nextInt(-100, 100) }
+        Generator { it: Random -> it.nextInt(-100, 100) }
             .randomSequence(0)
             .take(1000)
             .forEach { initialValue ->

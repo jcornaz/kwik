@@ -5,6 +5,7 @@ import com.github.jcornaz.kwik.generator.api.frequency
 import com.github.jcornaz.kwik.generator.api.map
 import com.github.jcornaz.kwik.generator.api.plus
 import com.github.jcornaz.kwik.generator.api.withSamples
+import kotlin.random.Random
 import kotlin.random.nextInt
 import kotlin.random.nextLong
 
@@ -19,7 +20,7 @@ fun Generator.Companion.ints(min: Int = Int.MIN_VALUE, max: Int = Int.MAX_VALUE)
     val range = min..max
     val samples = listOf(0, 1, -1, min, max).filter { it in range }
 
-    return create { it.nextInt(range) }.withSamples(samples, probability = 0.3)
+    return Generator { it: Random -> it.nextInt(range) }.withSamples(samples, probability = 0.3)
 }
 
 /**
@@ -64,7 +65,7 @@ fun Generator.Companion.longs(min: Long = Long.MIN_VALUE, max: Long = Long.MAX_V
     val range = min..max
     val samples = listOf(0, 1, -1, min, max).filter { it in range }
 
-    return create { it.nextLong(range) }.withSamples(samples, probability = 0.3)
+    return Generator { it: Random -> it.nextLong(range) }.withSamples(samples, probability = 0.3)
 }
 
 /**
@@ -156,8 +157,8 @@ fun Generator.Companion.doubles(
     val until = (max + Double.MIN_VALUE).takeIf { it.isFinite() } ?: max
 
     val generators = mutableListOf(
-        0.3 to create { it.nextDouble(min, until) },
-        0.2 to create { it.nextDouble(-100.0, 100.0).coerceIn(min, max) },
+        0.3 to Generator { it: Random -> it.nextDouble(min, until) },
+        0.2 to Generator { it: Random -> it.nextDouble(-100.0, 100.0).coerceIn(min, max) },
         0.1 to of(min, max)
     )
 
@@ -171,7 +172,7 @@ fun Generator.Companion.doubles(
         generators += 0.1 to of(1.0)
 
     if (min <= 1.0 && max >= 0.0)
-        generators += 0.1 to create { it.nextDouble().coerceIn(min, max) }
+        generators += 0.1 to Generator { it: Random -> it.nextDouble().coerceIn(min, max) }
 
     return frequency(generators)
 }
@@ -208,7 +209,7 @@ fun Generator.Companion.nonZeroDoubles(
 /**
  * Returns a generator of booleans
  */
-fun Generator.Companion.booleans(): Generator<Boolean> = create { it.nextBoolean() }
+fun Generator.Companion.booleans(): Generator<Boolean> = Generator { it: Random -> it.nextBoolean() }
 
 /**
  * Returns a generator including [Double.NaN] in the samples

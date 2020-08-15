@@ -6,6 +6,7 @@ import java.time.Duration
 import java.time.Instant
 import java.time.LocalTime
 import java.time.temporal.ChronoField
+import kotlin.random.Random
 
 private const val MAX_NANOSECONDS = 999_999_999
 private val MIN_DURATION = Duration.ofSeconds(Long.MIN_VALUE)
@@ -30,7 +31,7 @@ fun Generator.Companion.instants(
         samples += Instant.EPOCH
     }
 
-    return create { random ->
+    return Generator { random: Random ->
         val seconds =
             if (min.epochSecond == max.epochSecond) min.epochSecond
             else random.nextLong(from = min.epochSecond, until = max.epochSecond)
@@ -71,7 +72,7 @@ fun Generator.Companion.durations(
         samples += Duration.ZERO
     }
 
-    return create { random ->
+    return Generator { random: Random ->
         val seconds =
             if (min.seconds == max.seconds) min.seconds
             else random.nextLong(from = min.seconds, until = max.seconds)
@@ -111,7 +112,7 @@ fun Generator.Companion.localTimes(
         samples += LocalTime.NOON
     }
 
-    return create { random ->
+    return Generator { random: Random ->
         LocalTime.ofNanoOfDay(random.nextLong(min.toNanoOfDay(), max.toNanoOfDay()))
     }.withSamples(samples)
 }

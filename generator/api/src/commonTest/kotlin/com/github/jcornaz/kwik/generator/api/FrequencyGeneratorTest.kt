@@ -1,6 +1,7 @@
 package com.github.jcornaz.kwik.generator.api
 
 import com.github.jcornaz.kwik.generator.test.AbstractGeneratorTest
+import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -8,8 +9,8 @@ import kotlin.test.assertTrue
 
 class FrequencyGeneratorTest : AbstractGeneratorTest() {
     override val generator: Generator<Int> = Generator.frequency(
-        1.0 to Generator.create { it.nextInt(0, 100) },
-        2.0 to Generator.create { it.nextInt(-100, 0) }
+        1.0 to Generator { it: Random -> it.nextInt(0, 100) },
+        2.0 to Generator { it: Random -> it.nextInt(-100, 0) }
     )
 
     @Test
@@ -23,9 +24,9 @@ class FrequencyGeneratorTest : AbstractGeneratorTest() {
     fun failsIfAProbabilityIsBellow0() {
         assertFailsWith<IllegalArgumentException> {
             Generator.frequency(
-                1.0 to Generator.create { it.nextInt(0, 10) },
-                2.0 to Generator.create { it.nextInt(10, 20) },
-                -1.0 to Generator.create { it.nextInt(20, 30) }
+                1.0 to Generator { it: Random -> it.nextInt(0, 10) },
+                2.0 to Generator { it: Random -> it.nextInt(10, 20) },
+                -1.0 to Generator { it: Random -> it.nextInt(20, 30) }
             )
         }
     }
@@ -34,16 +35,16 @@ class FrequencyGeneratorTest : AbstractGeneratorTest() {
     fun failsIfWeightSumIsZero() {
         assertFailsWith<IllegalArgumentException> {
             Generator.frequency(
-                0.0 to Generator.create { it.nextInt(0, 10) },
-                0.0 to Generator.create { it.nextInt(10, 20) },
-                0.0 to Generator.create { it.nextInt(20, 30) }
+                0.0 to Generator { it: Random -> it.nextInt(0, 10) },
+                0.0 to Generator { it: Random -> it.nextInt(10, 20) },
+                0.0 to Generator { it: Random -> it.nextInt(20, 30) }
             )
         }
     }
 
     @Test
     fun canGenerateFromSingleSource() {
-        val source = Generator.create { it.nextInt() }
+        val source = Generator { it: Random -> it.nextInt() }
         val result = Generator.frequency(42.0 to source)
 
         assertEquals(
@@ -55,8 +56,8 @@ class FrequencyGeneratorTest : AbstractGeneratorTest() {
     @Test
     fun generatesFromAllSources() {
         val generator = Generator.frequency(
-            1.0 to Generator.create { it.nextInt(0, 10) },
-            1.0 to Generator.create { it.nextInt(100, 200) }
+            1.0 to Generator { it: Random -> it.nextInt(0, 10) },
+            1.0 to Generator { it: Random -> it.nextInt(100, 200) }
         )
 
         val randomValues = generator.randomSequence(0).take(1000)
@@ -67,9 +68,9 @@ class FrequencyGeneratorTest : AbstractGeneratorTest() {
     @Test
     fun generatesUsingGivenProbability() {
         val generator = Generator.frequency(
-            0.5 to Generator.create { it.nextInt(0, 50) },
-            0.2 to Generator.create { it.nextInt(50, 70) },
-            0.3 to Generator.create { it.nextInt(70, 100) }
+            0.5 to Generator { it: Random -> it.nextInt(0, 50) },
+            0.2 to Generator { it: Random -> it.nextInt(50, 70) },
+            0.3 to Generator { it: Random -> it.nextInt(70, 100) }
         )
 
         val sequence = generator.randomSequence(0).take(1000)
@@ -83,8 +84,8 @@ class FrequencyGeneratorTest : AbstractGeneratorTest() {
     @Test
     fun generatesUsingGivenProbabilityWith2Sources() {
         val generator = Generator.frequency(
-            0.8 to Generator.create { it.nextInt(0, 80) },
-            0.2 to Generator.create { it.nextInt(80, 100) }
+            0.8 to Generator { it: Random -> it.nextInt(0, 80) },
+            0.2 to Generator { it: Random -> it.nextInt(80, 100) }
         )
 
         val sequence = generator.randomSequence(0).take(1000)
@@ -97,8 +98,8 @@ class FrequencyGeneratorTest : AbstractGeneratorTest() {
     @Test
     fun doesNotGenerateFromWeightOfZero() {
         val generator = Generator.frequency(
-            0.1 to Generator.create { it.nextInt(0, 100) },
-            0.0 to Generator.create { it.nextInt(100, 200) }
+            0.1 to Generator { it: Random -> it.nextInt(0, 100) },
+            0.0 to Generator { it: Random -> it.nextInt(100, 200) }
         )
 
         assertTrue(generator.randomSequence(0).take(1000).none { it > 100 })

@@ -9,11 +9,11 @@ class PairTest {
 
     @Test
     fun simplifyFirstThenSecond() {
-        val first = simplifier<Int> {
+        val first = Simplifier { it: Int ->
             assertEquals(10, it)
             sequenceOf(1, 2, 3)
         }
-        val second = simplifier<Char> {
+        val second = Simplifier { it: Char ->
             assertEquals('Z', it)
             sequenceOf('A', 'B', 'C')
         }
@@ -47,7 +47,7 @@ class PairTest {
 
     @Test
     fun simplifyFirstIfSecondHasNoMoreSimplerValue() {
-        val first = simplifier<Int> {
+        val first = Simplifier { it: Int ->
             assertEquals(10, it)
             sequenceOf(1, 2, 3)
         }
@@ -68,7 +68,7 @@ class PairTest {
 
     @Test
     fun simplifySecondIfFirstHasNoMoreSimplerValue() {
-        val second = simplifier<Int> {
+        val second = Simplifier { it: Int ->
             assertEquals(10, it)
             sequenceOf(1, 2, 3)
         }
@@ -87,7 +87,7 @@ class PairTest {
 
     @Test
     fun bothAreSimplifiedWhenTryingToFindSimplestFalsification() {
-        val simplifier = simplifier<Int> { value ->
+        val simplifier = Simplifier { value: Int ->
             when (value) {
                 0 -> emptySequence()
                 1 -> sequenceOf(0)

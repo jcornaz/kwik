@@ -16,6 +16,9 @@ Kwik
 .. image:: https://badges.gitter.im/kwik-test/community.svg
     :target: https://gitter.im/kwik-test/community
 
+.. image:: https://img.shields.io/badge/kotlin-1.4-informational
+    :target: https://kotl.in
+    
 .. image:: https://api.bintray.com/packages/kwik/stable/kwik/images/download.svg
     :target: https://bintray.com/kwik/stable/kwik
 
@@ -104,6 +107,8 @@ The known alternatives either:
 
 Setup
 -----
+
+**NOTE: Since version 0.7.0 kwik requires Kotlin 1.4!**
 
 Example of setup using gradle.
 

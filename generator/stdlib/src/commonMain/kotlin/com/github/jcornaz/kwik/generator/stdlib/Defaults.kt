@@ -2,6 +2,7 @@ package com.github.jcornaz.kwik.generator.stdlib
 
 import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.withNull
+import kotlin.random.Random
 
 /**
  * Returns default [Generator] for the type [T].
@@ -18,6 +19,6 @@ inline fun <reified T> Generator.Companion.default(): Generator<T> = when (T::cl
     Double::class -> doubles() as Generator<T>
     Boolean::class -> booleans() as Generator<T>
     String::class -> strings() as Generator<T>
-    Any::class -> create { Any() } as Generator<T>
+    Any::class -> Generator { it: Random -> Any() } as Generator<T>
     else -> throw IllegalArgumentException("No default generator for ${T::class}")
 }
