@@ -12,6 +12,7 @@ out/
 
 # JVM
 hs_err_pid*
+*.hprof
 
 # Operating systems
 .DS_Store
