@@ -10,7 +10,7 @@ import java.util.*
 
 plugins {
     `maven-publish`
-    id("org.jetbrains.kotlin.multiplatform") version "1.4.0-rc"
+    id("org.jetbrains.kotlin.multiplatform") version "1.4.0"
     id("org.jetbrains.dokka") version "1.4.0-rc"
     id("com.github.ben-manes.versions") version "0.29.0"
     id("io.gitlab.arturbosch.detekt") version "1.11.0"
