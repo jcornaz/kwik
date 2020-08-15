@@ -11,7 +11,7 @@ import java.util.*
 
 plugins {
     `maven-publish`
-    id("org.jetbrains.kotlin.multiplatform") version "1.3.72"
+    id("org.jetbrains.kotlin.multiplatform") version "1.4.0"
     id("org.ajoberstar.reckon") version "0.12.0"
     id("com.github.ben-manes.versions") version "0.29.0"
     id("io.gitlab.arturbosch.detekt") version "1.11.0"
