@@ -4,6 +4,25 @@ All notable changes to this project are documented in this file.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0](https://github.com/jcornaz/kwik/compare/v0.6.2...v0.7.0) (2020-08-15)
+
+
+### ⚠ BREAKING CHANGES
+
+* Kwik now requires Kotlin 1.4.0 or newer
+
+### Features
+
+* Make Generator and Simplifier fun interfaces ([6454e57](https://github.com/jcornaz/kwik/commit/6454e57f85d67abdf4450e5bd4cbb869b6707c14))
+
+
+* Migrate to Kotlin 1.4 ([295c18e](https://github.com/jcornaz/kwik/commit/295c18eaef52c4da17096f592cd29722854df7f3))
+
+
+### Deprecations
+
+* `Generator.create` and `simplifier` ([11aa0ae](https://github.com/jcornaz/kwik/commit/11aa0ae1e8d04a0d18b44996745d9a231c3468d9))
+
 ## [0.6.2](https://github.com/jcornaz/kwik/compare/0.6.1...v0.6.2) (2020-08-04)
 
 ### Features
