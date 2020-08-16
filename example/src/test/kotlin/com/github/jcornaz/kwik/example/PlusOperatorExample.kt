@@ -9,6 +9,7 @@ import com.github.jcornaz.kwik.generator.api.withSamples
 import com.github.jcornaz.kwik.generator.stdlib.doubles
 import com.github.jcornaz.kwik.generator.stdlib.enum
 import com.github.jcornaz.kwik.generator.stdlib.ints
+import com.github.jcornaz.kwik.generator.stdlib.strings
 import com.github.jcornaz.kwik.generator.stdlib.withNaN
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -68,7 +69,7 @@ class PlusOperatorTest {
     }
 
     //region Create a custom generator
-    val customGenerator1 = Generator.create { rng ->
+    val customGenerator1 = Generator { rng ->
         CustomClass(rng.nextInt(), rng.nextInt())
     }
     //endregion
@@ -86,7 +87,8 @@ class PlusOperatorTest {
     //region Add samples
     val generator = Generator.ints().withSamples(13, 42)
 
-    val generatorWithNull = Generator.ints().withNull()
+    // since ``null`` and ``NaN`` are common edge-case, there are dedicated ``withNull`` and ``withNaN`` operators.
+    val generatorWithNull = Generator.strings().withNull()
     val generatorWithNaN = Generator.doubles().withNaN()
     //endregion
 }
