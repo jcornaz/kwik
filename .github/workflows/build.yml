@@ -34,7 +34,7 @@ jobs:
           java-version: ${{ matrix.java }}
 
       - name: Gradle cache
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ~/.gradle
           key: gradle-cache-ubuntu-java${{ matrix.java }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/*.kt*') }}
@@ -90,17 +90,17 @@ jobs:
           java-version: 8
 
       - name: Gradle cache
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ~/.gradle
           key: gradle-cache-windows-java8-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/*.kt*') }}
           restore-keys: gradle-cache-windows-java8-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
 
       - name: Check kwik
-        run: ./gradlew check
+        run: ./gradlew check --no-daemon
 
       - name: Check example
-        run: ./gradlew -p example check -Dinclude=true
+        run: ./gradlew -p example check --no-daemon -Dinclude=true
 
   release-dry-run:
     runs-on: ubuntu-latest

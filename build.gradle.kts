@@ -219,7 +219,7 @@ tasks {
     }
 
     val check by existing {
-        dependsOn(sphinx)
+        dependsOn(dokkaHtmlMultimodule, sphinx)
 
         finalizedBy(testReport)
     }

@@ -20,23 +20,20 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Validate gradle wrapper
-        uses: gradle/wrapper-validation-action@v1
-
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
           java-version: 8
 
       - name: Gradle cache
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ~/.gradle
           key: gradle-cache-${{ matrix.os }}-java8-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/*.kt*') }}
           restore-keys: gradle-cache-${{ matrix.os }}-java8-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
 
       - name: Upload artifacts
-        run: ./gradlew bintrayUpload
+        run: ./gradlew bintrayUpload --no-daemon
         env:
           BINTRAY_USER: ${{ secrets.BINTRAY_USER }}
           BINTRAY_KEY: ${{ secrets.BINTRAY_KEY }}
