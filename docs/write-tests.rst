@@ -97,8 +97,7 @@ Create a custom generator
 But what if we want to test with input types which are not supported by Kwik, like domain-specific ones?
 
 For this we can create a generator by implementing the interface ``Generator``.
-
-But most of the time it may be simpler to call ``Generator.create``:
+And since that interface is a Kotlin ``fun interface``, (aka SAM)  one can create a custom generator like this:
 
 .. literalinclude:: ../example/src/test/kotlin/com/github/jcornaz/kwik/example/PlusOperatorExample.kt
     :language: kotlin
@@ -115,17 +114,15 @@ For enums or finite set of values we can use ``Generator.enum()`` and ``Generato
     :end-before: //endregion
 
 .. note::
-    You may reuse existing operator to build new ones. This can be done by calling ``Genarator.genarate(Random)`` of other
+    You may reuse existing operators to build new ones. This can be done by calling ``Genarator.genarate(Random)`` on other
     operators, or by using the available :ref:`operators <operators>`
 
 Add samples
 -----------
 
-Testing against random value is great. But often some value have more interest to be tested than others.
+Testing against random values is great. But often some values have more interest to be tested than others.
 
 These edge-cases can be added to a generator with the function ``withSamples``.
-
-And since ``null`` and ``NaN`` are two quite common edge-case, there are dedicated ``withNull`` and ``withNaN`` operators.
 
 .. literalinclude:: ../example/src/test/kotlin/com/github/jcornaz/kwik/example/PlusOperatorExample.kt
     :language: kotlin
