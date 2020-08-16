@@ -19,18 +19,6 @@ fun interface Generator<out T> {
     companion object {
 
         /**
-         * Create a simple random [Generator].
-         *
-         * @param next Function that will be invoked to get a new random parameter.
-         *             The function should use the given [Random] generator to ensure predictability of the values
-         */
-        @Deprecated(
-            message = "Since Generator is a fun interface, one can instantiate it like for any other fun interface",
-            replaceWith = ReplaceWith("Generator(next)")
-        )
-        fun <T> create(next: (Random) -> T): Generator<T> = Generator(next)
-
-        /**
          * Create a random [Generator] generating values out of the given [samples]
          */
         fun <T> of(samples: Iterable<T>): Generator<T> {
@@ -38,7 +26,7 @@ fun interface Generator<out T> {
 
             require(list.isNotEmpty()) { "No given sample" }
 
-            return Generator { it: Random -> list.random(it) }
+            return Generator { list.random(it) }
         }
 
         /**
