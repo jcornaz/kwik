@@ -3,16 +3,6 @@ package com.github.jcornaz.kwik.fuzzer.api.simplifier
 import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
 
 /**
- * Returns a simplifier that use the given [simplify] function to find simpler values
- */
-@Deprecated(
-    message = "Since Generator is a fun interface, one can create an instance of like for any other fun interface",
-    replaceWith = ReplaceWith("Simplifier(simplify)")
-)
-@ExperimentalKwikFuzzer
-fun <T> simplifier(simplify: (T) -> Sequence<T>): Simplifier<T> = Simplifier(simplify)
-
-/**
  * Create a [Simplifier] that can simplify pairs.
  *
  * @param first Simplifier for the first elements of the pairs

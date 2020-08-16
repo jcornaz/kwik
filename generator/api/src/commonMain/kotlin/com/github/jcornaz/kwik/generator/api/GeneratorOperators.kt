@@ -9,26 +9,7 @@ private const val DEFAULT_SAMPLE_PROBABILITY = 0.2
  * the original generator.
  */
 fun <T, R> Generator<T>.map(transform: (T) -> R): Generator<R> =
-    Generator { it: Random -> transform(generate(it)) }
-
-/**
- * Returns a new generator backed by [this] generator and applying the given [transform] function
- * to each element emitted by the original generator.
- *
- * Example:
- *
- * ```kotlin
- * fun listGen() = Generator.positiveInts().andThen { size -> Generator.lists<String>(size) }
- * ```
- */
-fun <T, R> Generator<T>.andThen(transform: (T) -> Generator<R>): Generator<R> =
-    Generator { it: Random -> transform(generate(it)).generate(it) }
-
-/**
- * @Deprecated Use `andThen` operator instead
- */
-@Deprecated("Use `andThen` operator instead", ReplaceWith("andThen(transform)"))
-fun <T, R> Generator<T>.flatMap(transform: (T) -> Generator<R>): Generator<R> = andThen(transform)
+    Generator { transform(generate(it)) }
 
 /**
  * Returns a generator that generates only elements matching the given predicate.
@@ -45,6 +26,29 @@ fun <T> Generator<T>.filter(predicate: (T) -> Boolean): Generator<T> =
 
         value
     }
+
+/**
+ * Returns a new generator backed by [this] generator and applying the given [transform] function
+ * to each element emitted by the original generator.
+ *
+ * Example:
+ *
+ * ```kotlin
+ * fun listGen() = Generator.positiveInts().andThen { size -> Generator.lists<String>(size) }
+ * ```
+ */
+fun <T, R> Generator<T>.andThen(transform: (T) -> Generator<R>): Generator<R> =
+    Generator { transform(generate(it)).generate(it) }
+
+/**
+ * @Deprecated Use `andThen` operator instead
+ */
+@Deprecated(
+    "Use `andThen` operator instead",
+    ReplaceWith("andThen(transform)"),
+    DeprecationLevel.ERROR
+)
+fun <T, R> Generator<T>.flatMap(transform: (T) -> Generator<R>): Generator<R> = andThen(transform)
 
 /**
  * Returns a generator containing all elements except the ones matching the given predicate.
