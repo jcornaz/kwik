@@ -9,10 +9,16 @@
   "labels": ["chore"],
   "packageRules": [
     {
+      "groupName": "Kotlin",
       "packagePatterns": [
         "^org.jetbrains.kotlin:"
-      ],
-      "groupName": "Kotlin"
+      ]
+    },
+    {
+      "groupName": "Dokka",
+      "packagePatterns": [
+        "^org.jetbrains.dokka:"
+      ]
     }
   ]
 }
