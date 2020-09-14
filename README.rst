@@ -13,9 +13,6 @@ Kwik
 .. image:: https://readthedocs.org/projects/kwik/badge/?version=latest
     :target: https://kwik.readthedocs.io/en/latest/?badge=latest
 
-.. image:: https://badges.gitter.im/kwik-test/community.svg
-    :target: https://gitter.im/kwik-test/community
-
 .. image:: https://img.shields.io/badge/kotlin-1.4-informational
     :target: https://kotl.in
     
