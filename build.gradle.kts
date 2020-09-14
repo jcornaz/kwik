@@ -12,7 +12,7 @@ plugins {
     `maven-publish`
     id("org.jetbrains.kotlin.multiplatform") version "1.4.0"
     id("org.jetbrains.dokka") version "1.4.0-rc"
-    id("com.github.ben-manes.versions") version "0.30.0"
+    id("com.github.ben-manes.versions") version "0.33.0"
     id("io.gitlab.arturbosch.detekt") version "1.12.0"
     id("com.jfrog.bintray") version "1.8.5" apply false
     id("kr.motd.sphinx") version "2.9.0"
