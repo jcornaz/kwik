@@ -46,19 +46,25 @@ Primitives
     Generate booleans
 
 
-Strings
+Text
 -------
 
-``Generator.strings(minLength = 0, maxLength = 50, charset = StringCharsets.printable, exclude = emptySet())``
+``Generator.characters(charset = CharSets.printable, exclude = emptySet())``
     Generate strings. Use the parameter ``charset`` and ``exclude`` to customize the characters which can be used.
 
-    Generation include empty ("") and blank (" ") strings as samples.
+    Generation includes space (' ') as a sample.
 
-    .. note:: ``StringCharsets`` provide few common set of characters such as ``alpha``, ``alphaNumeric`` and others
+    .. note:: ``CharSets`` provide few common set of characters such as ``alpha``, ``alphaNumeric`` and others
 
-        It is there to help quickly configure the String generator.
+        It is there to help quickly configure the Character generator.
 
         By default, it will generate any printable characters.
+
+``Generator.strings(minLength = 0, maxLength = 50, charGenerator = Generator.characters())``
+    Generate strings. Use the parameter ``charGenerator`` to provide a character generator which is used to make the
+    string.
+
+    Generation includes empty ("") string as a sample.
 
 Collections
 -----------
