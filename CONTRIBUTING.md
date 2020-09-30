@@ -7,10 +7,6 @@ Feedback and pull requests are very welcome.
 Feel free to create feature request and bug report in the [issues](https://github.com/jcornaz/kwik/issues).
 Only make sure that your request/report is not the duplicate of an exiting issue.
 
-You may also come discuss or ask for help on
-[gitter](https://gitter.im/kwik-test/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badg)
-
-
 ## Choose an issue to work on
 
 Issues marked [up-for-grabs](https://github.com/jcornaz/kwik/issues?q=is%3Aissue+is%3Aopen+label%3A%22up+for+grabs%22)
