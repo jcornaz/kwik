@@ -38,6 +38,13 @@ class StringGeneratorTest : AbstractGeneratorTest() {
     }
 
     @Test
+    fun dontGenerateExcludedChars() {
+        val values = Generator.strings(exclude = setOf('a', 'b', 'c')).randomSequence(0).take(1000)
+
+        assertTrue(values.none { string -> string.any { it == 'a' || it == 'b' || it == 'c' } })
+    }
+
+    @Test
     fun bigMinLengthIsPossible() {
         val generator = Generator.strings(minLength = 1000)
 
@@ -86,6 +93,13 @@ class NonEmptyStringGeneratorTest : AbstractGeneratorTest() {
     }
 
     @Test
+    fun dontGenerateExcludedChars() {
+        val values = Generator.nonEmptyStrings(exclude = setOf('a', 'b', 'c')).randomSequence(0).take(1000)
+
+        assertTrue(values.none { string -> string.any { it == 'a' || it == 'b' || it == 'c' } })
+    }
+
+    @Test
     fun generateOfManyLength() {
         val lengths = mutableSetOf<Int>()
 
@@ -124,6 +138,13 @@ class NonBlankStringGeneratorTest : AbstractGeneratorTest() {
     @Test
     fun doesNotGenerateBlank() {
         assertTrue(Generator.nonBlankStrings().randomSequence(0).take(1000).none { it.isBlank() })
+    }
+
+    @Test
+    fun dontGenerateExcludedChars() {
+        val values = Generator.nonBlankStrings(exclude = setOf('a', 'b', 'c')).randomSequence(0).take(1000)
+
+        assertTrue(values.none { string -> string.any { it == 'a' || it == 'b' || it == 'c' } })
     }
 
     @Test
