@@ -51,10 +51,6 @@ fun Generator.Companion.strings(
  * @param charset Set of character to be used in generated strings
  * @param exclude Characters to exclude from generated strings
  */
-@Deprecated(
-    "Use `nonEmptyStrings(maxLength, charGenerator)` instead",
-    ReplaceWith("nonEmptyStrings(maxLength, charGenerator)")
-)
 fun Generator.Companion.nonEmptyStrings(
     maxLength: Int = KWIK_DEFAULT_MAX_SIZE,
     charset: Set<Char> = CharSets.printable,
