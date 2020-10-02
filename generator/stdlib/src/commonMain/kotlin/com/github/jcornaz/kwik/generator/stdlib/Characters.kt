@@ -4,6 +4,12 @@ import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.withSamples
 import kotlin.random.Random
 
+/**
+ * Returns a generator of [Char]
+ *
+ * @param charset Set of character to be used
+ * @param exclude Characters to exclude
+ */
 fun Generator.Companion.characters(
     charset: Set<Char> = CharSets.printable,
     exclude: Set<Char> = emptySet()
