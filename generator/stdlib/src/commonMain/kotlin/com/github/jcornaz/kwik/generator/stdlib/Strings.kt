@@ -16,25 +16,31 @@ import kotlin.random.Random
 fun Generator.Companion.strings(
     minLength: Int = 0,
     maxLength: Int = maxOf(minLength, KWIK_DEFAULT_MAX_SIZE),
-    charset: Set<Char> = StringCharSets.printable,
+    charset: Set<Char> = CharSets.printable,
     exclude: Set<Char> = emptySet()
+) = strings(minLength, maxLength, characters(charset, exclude))
+
+/**
+ * Returns a generator of String of length between [minLength] and [maxLength] (inclusive)
+ *
+ * @param charGenerator A generator of characters which will be used to construct the strings
+ */
+fun Generator.Companion.strings(
+    minLength: Int = 0,
+    maxLength: Int = maxOf(minLength, KWIK_DEFAULT_MAX_SIZE),
+    charGenerator: Generator<Char> = Generator.characters(),
 ): Generator<String> {
     require(minLength >= 0) { "Invalid minLength: $minLength" }
     require(maxLength >= minLength) { "Invalid maxLength: $minLength (minLength=$minLength)" }
 
-    val characters = (charset - exclude).toList()
-
     val generator = Generator { rng: Random ->
-        String(CharArray(rng.nextInt(minLength, maxLength + 1)) { characters.random(rng) })
+        CharArray(rng.nextInt(minLength, maxLength + 1)) { charGenerator.generate(rng) }.concatToString()
     }
 
     val samples = mutableListOf<String>()
 
     if (minLength == 0)
         samples += ""
-
-    if (' ' in characters && minLength <= 1 && maxLength >= 1)
-        samples += " "
 
     return generator.withSamples(samples)
 }
@@ -47,9 +53,20 @@ fun Generator.Companion.strings(
  */
 fun Generator.Companion.nonEmptyStrings(
     maxLength: Int = KWIK_DEFAULT_MAX_SIZE,
-    charset: Set<Char> = StringCharSets.printable,
+    charset: Set<Char> = CharSets.printable,
     exclude: Set<Char> = emptySet()
-): Generator<String> = strings(1, maxLength, charset, exclude)
+): Generator<String> = nonEmptyStrings(maxLength, characters(charset, exclude))
+
+/**
+ * Returns a generator of String of length between 1 and [maxLength] (inclusive)
+ *
+ * @param charGenerator A generator of characters which will be used to construct the strings
+ */
+fun Generator.Companion.nonEmptyStrings(
+    maxLength: Int = KWIK_DEFAULT_MAX_SIZE,
+    charGenerator: Generator<Char> = Generator.characters(),
+): Generator<String> = strings(1, maxLength, charGenerator)
+
 
 /**
  * Returns a generator of non-blank String of length between 1 and [maxLength] (inclusive)
@@ -59,13 +76,25 @@ fun Generator.Companion.nonEmptyStrings(
  */
 fun Generator.Companion.nonBlankStrings(
     maxLength: Int = KWIK_DEFAULT_MAX_SIZE,
-    charset: Set<Char> = StringCharSets.printable,
+    charset: Set<Char> = CharSets.printable,
     exclude: Set<Char> = emptySet()
-): Generator<String> = nonEmptyStrings(maxLength, charset, exclude).filterNot { it.isBlank() }
+): Generator<String> = nonEmptyStrings(maxLength, characters(charset, exclude)).filterNot { it.isBlank() }
+
+/**
+ * Returns a generator of non-blank String of length between 1 and [maxLength] (inclusive)
+ *
+ * @param charGenerator A generator of characters which will be used to construct the strings
+ */
+fun Generator.Companion.nonBlankStrings(
+    maxLength: Int = KWIK_DEFAULT_MAX_SIZE,
+    charGenerator: Generator<Char> = Generator.characters(),
+): Generator<String> = nonEmptyStrings(maxLength, charGenerator).filterNot { it.isBlank() }
+
 
 /**
  * Common set of character to be used with string generators
  */
+@Deprecated("Replaced by CharSets", replaceWith = ReplaceWith("CharSets"))
 object StringCharSets {
 
     /** All printable characters */
