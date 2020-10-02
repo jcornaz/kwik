@@ -13,10 +13,6 @@ import kotlin.random.Random
  * @param charset Set of character to be used in generated strings
  * @param exclude Characters to exclude from generated strings
  */
-@Deprecated(
-    "Use `strings(minLength, maxLength, charGenerator)` instead",
-    ReplaceWith("strings(minLength, maxLength, charGenerator)")
-)
 fun Generator.Companion.strings(
     minLength: Int = 0,
     maxLength: Int = maxOf(minLength, KWIK_DEFAULT_MAX_SIZE),
@@ -132,4 +128,3 @@ object StringCharSets {
      */
     val alphaNum: Set<Char> = alpha + numeric
 }
-
