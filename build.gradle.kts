@@ -13,7 +13,7 @@ plugins {
     id("org.jetbrains.kotlin.multiplatform") version "1.4.10"
     id("org.jetbrains.dokka") version "1.4.10"
     id("com.github.ben-manes.versions") version "0.33.0"
-    id("io.gitlab.arturbosch.detekt") version "1.14.0"
+    id("io.gitlab.arturbosch.detekt") version "1.14.1"
     id("com.jfrog.bintray") version "1.8.5" apply false
     id("kr.motd.sphinx") version "2.9.0"
 }
