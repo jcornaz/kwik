@@ -21,6 +21,7 @@ fun <T : Comparable<T>> Generator.Companion.ranges(elementGen: Generator<T>): Ge
  *
  * @param elementGen A generator producing T, which will create the start and end elements of the range
  */
+@Suppress("InvalidRange")
 fun Generator.Companion.intRanges(elementGen: Generator<Int> = ints()): Generator<ClosedRange<Int>> =
     ranges(elementGen).withSamples(
         1..0,
@@ -33,6 +34,7 @@ fun Generator.Companion.intRanges(elementGen: Generator<Int> = ints()): Generato
  *
  * @param elementGen A generator producing T, which will create the start and end elements of the range
  */
+@Suppress("InvalidRange")
 fun Generator.Companion.charRanges(elementGen: Generator<Char> = characters()): Generator<ClosedRange<Char>> =
     ranges(elementGen).withSamples(
         'B'..'A',
@@ -45,6 +47,7 @@ fun Generator.Companion.charRanges(elementGen: Generator<Char> = characters()): 
  *
  * @param elementGen A generator producing T, which will create the start and end elements of the range
  */
+@Suppress("InvalidRange")
 fun Generator.Companion.longRanges(elementGen: Generator<Long> = longs()): Generator<ClosedRange<Long>> =
     ranges(elementGen).withSamples(
         1L..0L,

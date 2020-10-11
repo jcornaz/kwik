@@ -45,9 +45,6 @@ potential-bugs:
     excludes: "**/test/**,**/androidTest/**,**/*.Test.kt,**/*.Spec.kt,**/*.Spek.kt"
   UnsafeCast:
     active: true
-  InvalidRange:
-    active: true
-    excludes: "**/Ranges.kt"
 
 style:
   active: true
