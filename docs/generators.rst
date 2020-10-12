@@ -106,6 +106,21 @@ Sequences
 
     Note that there is also a ``nonEmptySequences`` alternative
 
+Ranges
+------
+
+``Generator.ranges(elementGen)``
+    Generate ranges. ``elementGen`` can be used to define the generator of the elements.
+
+``Generator.intRanges(elementGen = Generator.ints())``
+    Generates ``ClosedRanged<Int>``. Includes empty and singleton ranges as samples
+
+``Generator.longRanges(elementGen = Generator.longs())``
+    Generates ``ClosedRanged<Long>``. Includes empty and singleton ranges as samples
+
+``Generator.charRanges(elementGen = Generator.characters())``
+    Generates ``ClosedRanged<Char>``. Includes empty and singleton ranges as samples
+
 Enums
 -----
 
