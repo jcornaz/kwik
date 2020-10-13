@@ -3,9 +3,7 @@ package com.github.jcornaz.kwik.generator.stdlib
 import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.randomSequence
 import com.github.jcornaz.kwik.generator.test.AbstractGeneratorTest
-import java.time.Duration
-import java.time.Instant
-import java.time.LocalTime
+import java.time.*
 import kotlin.test.Test
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
@@ -218,5 +216,73 @@ class LocalTimeGeneratorTest : AbstractGeneratorTest() {
     fun generateMin() {
         val min = LocalTime.NOON.plusHours(1)
         assertTrue(Generator.localTimes(min = min).randomSequence(0).take(50).any { it == min })
+    }
+}
+
+
+class LocalDateGeneratorTest : AbstractGeneratorTest() {
+
+    override val generator: Generator<LocalDate> = Generator.localDates()
+
+    @Test
+    fun `fail for invalid range`() {
+        assertFailsWith<IllegalArgumentException> {
+            Generator.localDates(LocalDate.MAX, LocalDate.MIN)
+        }
+    }
+
+
+    @Test
+    fun `produce inside given range`() {
+        val min = LocalDate.EPOCH
+        val max = min.plusWeeks(2)
+        assertTrue(Generator.localDates(min = min, max = max).randomSequence(0).take(50).all { it >= min && it <= max })
+    }
+
+    @Test
+    fun `do not produce value if not in range`() {
+        val min = LocalDate.EPOCH.plusDays(2)
+        val max = LocalDate.EPOCH.plusWeeks(2)
+        assertTrue(Generator.localDates(min = min, max = max).randomSequence(0).take(50).none { it == LocalDate.EPOCH })
+    }
+
+    @Test
+    fun `do not produce global max if not in range`() {
+        val max = LocalDate.MAX.minusDays(1)
+        assertTrue(Generator.localDates(max = max).randomSequence(0).take(50).none { it == LocalDate.MAX })
+    }
+
+    @Test
+    fun `do not produce global min if not in range`() {
+        val min = LocalDate.MIN.plusDays(1)
+        assertTrue(Generator.localDates(min = min).randomSequence(0).take(50).none { it == LocalDate.MIN })
+    }
+
+    @Test
+    fun `generate epoch`() {
+        assertTrue(Generator.localDates().randomSequence(0).take(50).any { it == LocalDate.EPOCH })
+    }
+
+    @Test
+    fun `generate global max`() {
+        assertTrue(Generator.localDates().randomSequence(0).take(50).any { it == LocalDate.MAX })
+    }
+
+
+    @Test
+    fun `generate global min`() {
+        assertTrue(Generator.localDates().randomSequence(0).take(50).any { it == LocalDate.MIN })
+    }
+
+    @Test
+    fun `generate max`() {
+        val max = LocalDate.EPOCH.plusDays(1)
+        assertTrue(Generator.localDates(max = max).randomSequence(0).take(50).any { it == max })
+    }
+
+    @Test
+    fun `generate min`() {
+        val min = LocalDate.EPOCH.plusDays(1)
+        assertTrue(Generator.localDates(min = min).randomSequence(0).take(50).any { it == min })
     }
 }

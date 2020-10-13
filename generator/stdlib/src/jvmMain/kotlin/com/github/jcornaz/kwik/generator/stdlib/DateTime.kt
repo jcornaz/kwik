@@ -4,6 +4,7 @@ import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.withSamples
 import java.time.Duration
 import java.time.Instant
+import java.time.LocalDate
 import java.time.LocalTime
 import java.time.temporal.ChronoField
 import kotlin.random.Random
@@ -19,9 +20,7 @@ fun Generator.Companion.instants(
     min: Instant = Instant.MIN,
     max: Instant = Instant.MAX
 ): Generator<Instant> {
-    require(max >= min) {
-        "Max must be equal or after min but min was $min and max was $max"
-    }
+    requireMaxEqualOrHigherThanMin(max, min)
 
     val range = min..max
 
@@ -100,9 +99,7 @@ fun Generator.Companion.localTimes(
     min: LocalTime = LocalTime.MIN,
     max: LocalTime = LocalTime.MAX
 ): Generator<LocalTime> {
-    require(max >= min) {
-        "Max must be equal or after min but min was $min and max was $max"
-    }
+    requireMaxEqualOrHigherThanMin(max, min)
 
     val range = min..max
 
@@ -115,4 +112,33 @@ fun Generator.Companion.localTimes(
     return Generator { random: Random ->
         LocalTime.ofNanoOfDay(random.nextLong(min.toNanoOfDay(), max.toNanoOfDay()))
     }.withSamples(samples)
+}
+
+/**
+ * Returns a generator of [LocalDate] between [min] and [max] (inclusive)
+ */
+
+fun Generator.Companion.localDates(
+    min: LocalDate = LocalDate.MIN,
+    max: LocalDate = LocalDate.MAX
+): Generator<LocalDate> {
+    requireMaxEqualOrHigherThanMin(max, min)
+
+    val range = min..max
+
+    val samples = mutableListOf(min, max)
+
+    if (LocalDate.EPOCH in range && LocalDate.EPOCH !in samples) {
+        samples += LocalDate.EPOCH
+    }
+
+    return Generator { random: Random ->
+        LocalDate.ofEpochDay(random.nextLong(min.toEpochDay(), max.toEpochDay()))
+    }.withSamples(samples)
+}
+
+private fun <T> requireMaxEqualOrHigherThanMin(max: Comparable<T>, min: T) {
+    require(max >= min) {
+        "Max must be equal or after min but min was $min and max was $max"
+    }
 }
