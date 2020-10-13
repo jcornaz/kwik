@@ -244,7 +244,7 @@ class LocalDateGeneratorTest : AbstractGeneratorTest() {
     }
 
     @Test
-    fun `do not produce value if not in range`() {
+    fun `do not EPOCH value if not in range`() {
         val min = EPOCH.plusDays(2)
         val max = EPOCH.plusWeeks(2)
         assertTrue(Generator.localDates(min = min, max = max).randomSequence(0).take(50).none { it == EPOCH })
@@ -271,7 +271,6 @@ class LocalDateGeneratorTest : AbstractGeneratorTest() {
     fun `generate global max`() {
         assertTrue(Generator.localDates().randomSequence(0).take(50).any { it == LocalDate.MAX })
     }
-
 
     @Test
     fun `generate global min`() {

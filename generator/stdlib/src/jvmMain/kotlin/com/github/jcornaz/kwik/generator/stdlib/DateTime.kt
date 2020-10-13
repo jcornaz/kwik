@@ -119,7 +119,6 @@ fun Generator.Companion.localTimes(
 /**
  * Returns a generator of [LocalDate] between [min] and [max] (inclusive)
  */
-
 fun Generator.Companion.localDates(
     min: LocalDate = LocalDate.MIN,
     max: LocalDate = LocalDate.MAX
@@ -144,4 +143,3 @@ private fun <T> requireMaxEqualOrHigherThanMin(max: Comparable<T>, min: T) {
         "Max must be equal or after min but min was $min and max was $max"
     }
 }
-

@@ -140,7 +140,7 @@ Java Time API
 ``Generator.instants(min: Instant.MIN, max: Instant.MAX)``
     Generates Instants (with nano seconds), includes the samples: ``Instant.EPOCH`` (1970-01-01T00:00:00.000Z), ``min`` and ``max``
 
-``Generator.duration(min, max)``
+``Generator.durations(min, max)``
     Generates Durations (with nano seconds), Includes the samples: ``Duration.ZERO``, ``min`` and ``max``
 
 ``Generator.localTimes(min: LocalTime.MIN, max: LocalTime.MAX)``
