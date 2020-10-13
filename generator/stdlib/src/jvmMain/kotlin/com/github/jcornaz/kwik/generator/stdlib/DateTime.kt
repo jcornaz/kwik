@@ -12,6 +12,8 @@ import kotlin.random.Random
 private const val MAX_NANOSECONDS = 999_999_999
 private val MIN_DURATION = Duration.ofSeconds(Long.MIN_VALUE)
 private val MAX_DURATION = Duration.ofSeconds(Long.MAX_VALUE, MAX_NANOSECONDS.toLong())
+private val EPOCH: LocalDate = LocalDate.ofEpochDay(0) // can be replaced by LocalDate.EPOCH with Java 9
+
 
 /**
  * Returns a generator of [Instant] between [min] and [max] (inclusive)
@@ -128,8 +130,8 @@ fun Generator.Companion.localDates(
 
     val samples = mutableListOf(min, max)
 
-    if (LocalDate.EPOCH in range && LocalDate.EPOCH !in samples) {
-        samples += LocalDate.EPOCH
+    if (EPOCH in range && EPOCH !in samples) {
+        samples += EPOCH
     }
 
     return Generator { random: Random ->
@@ -142,3 +144,4 @@ private fun <T> requireMaxEqualOrHigherThanMin(max: Comparable<T>, min: T) {
         "Max must be equal or after min but min was $min and max was $max"
     }
 }
+
