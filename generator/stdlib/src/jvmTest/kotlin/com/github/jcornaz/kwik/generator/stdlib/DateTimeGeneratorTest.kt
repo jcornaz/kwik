@@ -12,7 +12,8 @@ import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
 private const val MAX_NANOSECONDS = 999_999_999L
-private val EPOCH: LocalDate = LocalDate.ofEpochDay(0) // can be replaced by LocalDate.EPOCH with Java 9
+// can be replaced by LocalDate.EPOCH with Java 9
+private val EPOCH: LocalDate = LocalDate.ofEpochDay(0)
 
 class DurationGeneratorTest : AbstractGeneratorTest() {
     override val generator: Generator<Duration> = Generator.durations(Duration.ZERO, Duration.ofDays(100))
