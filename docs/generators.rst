@@ -134,3 +134,17 @@ Java
 
 ``Generator.uuids()``
     Create a generator for UUID
+
+Java Time API
+-------------
+``Generator.instants(min: Instant.MIN, max: Instant.MAX)``
+    Generates Instants (with nano seconds), includes the samples: ``Instant.EPOCH`` (1970-01-01T00:00:00.000Z), ``min`` and ``max``
+
+``Generator.durations(min, max)``
+    Generates Durations (with nano seconds), Includes the samples: ``Duration.ZERO``, ``min`` and ``max``
+
+``Generator.localTimes(min: LocalTime.MIN, max: LocalTime.MAX)``
+    Generates LocalTimes (with nano seconds), Includes the samples: ``LocalTime.NOON``, ``min`` and ``max``
+
+``Generator.localDates(min: LocalDate.MIN, max: LocalDate.MAX)``
+    Generates LocalDates, includes the samples: ``LocalDate.EPOCH`` (1970-01-01), ``min`` and ``max``
