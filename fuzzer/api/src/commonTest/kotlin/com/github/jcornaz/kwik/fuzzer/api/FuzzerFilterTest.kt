@@ -1,7 +1,6 @@
 package com.github.jcornaz.kwik.fuzzer.api
 
 import com.github.jcornaz.kwik.ExperimentalKwikApi
-import com.github.jcornaz.kwik.fuzzer.api.simplifier.Simplifier
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.dontSimplify
 import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.filter
@@ -16,7 +15,7 @@ class FuzzerFilterTest {
 
     @Test
     fun applyFilterToGenerator() {
-        val generator = Generator { it: Random -> it.nextInt(0, 10) }
+        val generator = Generator { it.nextInt(0, 10) }
 
         repeat(10) {
             val seed = Random.nextLong()
@@ -32,7 +31,7 @@ class FuzzerFilterTest {
 
     @Test
     fun applyFilterNotToGenerator() {
-        val generator = Generator { it: Random -> it.nextInt(0, 10) }
+        val generator = Generator { it.nextInt(0, 10) }
 
         repeat(10) {
             val seed = Random.nextLong()
@@ -48,15 +47,10 @@ class FuzzerFilterTest {
 
     @Test
     fun applyFilterToSimplifier() {
-        val simplerValues = Generator { it: Random -> it.nextInt() }
-            .toFuzzer(Simplifier { it: Int ->
-                sequenceOf(
-                    1,
-                    2,
-                    3,
-                    4
-                )
-            })
+        val simplerValues = Generator { it.nextInt() }
+            .toFuzzer {
+                sequenceOf(1, 2, 3, 4)
+            }
             .filter { it % 2 == 0 }
             .simplifier
             .simplify(0).toList()
@@ -66,15 +60,10 @@ class FuzzerFilterTest {
 
     @Test
     fun applyFilterNotToSimplifier() {
-        val simplerValues = Generator { it: Random -> it.nextInt() }
-            .toFuzzer(Simplifier { it: Int ->
-                sequenceOf(
-                    1,
-                    2,
-                    3,
-                    4
-                )
-            })
+        val simplerValues = Generator { it.nextInt() }
+            .toFuzzer {
+                sequenceOf(1, 2, 3, 4)
+            }
             .filterNot { it % 2 == 0 }
             .simplifier
             .simplify(0).toList()

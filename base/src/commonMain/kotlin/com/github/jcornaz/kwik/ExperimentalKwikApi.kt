@@ -1,15 +1,9 @@
 package com.github.jcornaz.kwik
 
-@RequiresOptIn(
-    """
-    This is Kwik internal API. It should not be used directly.
-    It can be changed or removed at any time without prior notice.
-    """,
-    level = RequiresOptIn.Level.ERROR
-)
-@Retention(AnnotationRetention.BINARY)
-annotation class InternalKwikApi
-
+/**
+ * This annotation denotes Kwik's experimental API. It might not be complete,
+ * and there is a good change that breaking changes will be made in the future.
+ */
 @RequiresOptIn(
     """
     This is highly experimental API. It might not be complete,
