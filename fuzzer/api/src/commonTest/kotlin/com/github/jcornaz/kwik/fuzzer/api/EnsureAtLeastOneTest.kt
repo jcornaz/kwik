@@ -1,12 +1,13 @@
 package com.github.jcornaz.kwik.fuzzer.api
 
-import com.github.jcornaz.kwik.generator.api.Generator
+import com.github.jcornaz.kwik.ExperimentalKwikApi
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.dontSimplify
+import com.github.jcornaz.kwik.generator.api.Generator
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-@ExperimentalKwikFuzzer
+@ExperimentalKwikApi
 class EnsureAtLeastOneTest {
 
     @Test

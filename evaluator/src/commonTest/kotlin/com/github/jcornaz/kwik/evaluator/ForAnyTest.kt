@@ -1,13 +1,13 @@
 package com.github.jcornaz.kwik.evaluator
 
+import com.github.jcornaz.kwik.ExperimentalKwikApi
 import com.github.jcornaz.kwik.fuzzer.api.ensureAtLeastOne
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.Simplifier
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.dontSimplify
 import com.github.jcornaz.kwik.fuzzer.api.toFuzzer
 import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.randomSequence
 import com.github.jcornaz.kwik.generator.stdlib.ints
-import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
-import com.github.jcornaz.kwik.fuzzer.api.simplifier.Simplifier
-import com.github.jcornaz.kwik.fuzzer.api.simplifier.dontSimplify
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -15,7 +15,7 @@ import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 import kotlin.test.fail
 
-@ExperimentalKwikFuzzer
+@ExperimentalKwikApi
 class ForAnyTest {
 
     @Test
@@ -142,8 +142,7 @@ class ForAnyTest {
         forAny(
             Generator { it: Random -> 42 }
                 .toFuzzer(dontSimplify())
-                .ensureAtLeastOne { it > 10 }
-            ,
+                .ensureAtLeastOne { it > 10 },
             iterations = 123
         ) { ++iteration }
 
@@ -185,7 +184,7 @@ class ForAnyTest {
                 Generator { it: Random -> 42 }
                     .toFuzzer(object :
                         Simplifier<Int> {
-                        override fun simplify(value: Int): Sequence<Int> = when(value) {
+                        override fun simplify(value: Int): Sequence<Int> = when (value) {
                             0 -> emptySequence()
                             1 -> sequenceOf(0)
                             else -> sequenceOf(value / 2, value - 1)

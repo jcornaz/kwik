@@ -1,20 +1,15 @@
 package com.github.jcornaz.kwik.fuzzer.api.simplifier
 
-import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
+import com.github.jcornaz.kwik.ExperimentalKwikApi
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-@ExperimentalKwikFuzzer
+@ExperimentalKwikApi
 class SimplifierFilterTest {
 
     @Test
     fun filterApplyFilterToSequences() {
-        val simplifier = object : Simplifier<Int> {
-
-            @ExperimentalKwikFuzzer
-            override fun simplify(value: Int): Sequence<Int> =
-                sequenceOf(1, 2, 3, 4, 5).map { value - it }
-        }
+        val simplifier = Simplifier<Int> { value -> sequenceOf(1, 2, 3, 4, 5).map { value - it } }
 
         val list = simplifier
             .filter { it % 2 != 0 }
@@ -27,12 +22,7 @@ class SimplifierFilterTest {
 
     @Test
     fun filterApplyFilterNotToSequences() {
-        val simplifier = object : Simplifier<Int> {
-
-            @ExperimentalKwikFuzzer
-            override fun simplify(value: Int): Sequence<Int> =
-                sequenceOf(1, 2, 3, 4, 5).map { value - it }
-        }
+        val simplifier = Simplifier<Int> { value -> sequenceOf(1, 2, 3, 4, 5).map { value - it } }
 
         val list = simplifier
             .filterNot { it % 2 == 0 }

@@ -7,6 +7,7 @@ package com.github.jcornaz.kwik
     """,
     level = RequiresOptIn.Level.ERROR
 )
+@Retention(AnnotationRetention.BINARY)
 annotation class InternalKwikApi
 
 @RequiresOptIn(
@@ -14,6 +15,7 @@ annotation class InternalKwikApi
     This is highly experimental API. It might not be complete,
     and there is a good change that breaking changes will be made in the future.
     """,
-    level = RequiresOptIn.Level.ERROR
+    level = RequiresOptIn.Level.WARNING
 )
+@Retention(AnnotationRetention.BINARY)
 annotation class ExperimentalKwikApi

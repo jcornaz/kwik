@@ -1,7 +1,7 @@
 package com.github.jcornaz.kwik.fuzzer.stdlib
 
+import com.github.jcornaz.kwik.ExperimentalKwikApi
 import com.github.jcornaz.kwik.fuzzer.api.Arbitrary
-import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.Simplifier
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.filter
 import com.github.jcornaz.kwik.fuzzer.stdlib.simplifier.int
@@ -13,7 +13,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-@ExperimentalKwikFuzzer
+@ExperimentalKwikApi
 class ArbitraryIntTest {
 
     @Test
