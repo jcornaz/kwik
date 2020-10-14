@@ -170,7 +170,7 @@ fun Generator.Companion.localDateTimes(
         val maxNano =
             if (seconds == maxSeconds) max.nano
             else MAX_NANOSECONDS
-        val nanos = random.nextInt(minNano, maxNano)
+        val nanos = random.nextInt(minNano, maxNano + 1)
 
         LocalDateTime.ofEpochSecond(seconds, nanos, ZoneOffset.UTC)
     }.withSamples(samples)
