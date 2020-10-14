@@ -7,6 +7,7 @@
   "assignees": ["jcornaz"],
   "reviewers": ["jcornaz"],
   "labels": ["chore"],
+  "enabledManagers": ["gradle", "github-actions"],
   "packageRules": [
     {
       "groupName": "Kotlin",
