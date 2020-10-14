@@ -6,7 +6,7 @@ import kr.motd.gradle.sphinx.gradle.SphinxTask
 import org.codehaus.plexus.util.Os
 import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile
-import java.util.*
+import java.util.Date
 
 plugins {
     `maven-publish`
@@ -74,6 +74,10 @@ subprojects {
                 }
             }
         }
+    }
+
+    configure<JacocoPluginExtension> {
+        toolVersion = "0.8.6"
     }
 
     publishing {
