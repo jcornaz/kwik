@@ -20,9 +20,9 @@ You may (but don't have to) write a message in the issue to say you are working 
 
 ## Build from source
 
-Make sure that the environment variable `JAVA_HOME` points to a JDK installation (version 8, 11 or 14)
+Make sure that the environment variable `JAVA_HOME` points to a JDK installation (version 8, 11 or 15)
 
-This project use a standard [gradle](https://gradle.org/) setup. Here are the most important tasks you may want to run:
+This project uses [gradle](https://gradle.org/). Here are the most important tasks you may want to run:
 
 * `./gradlew jvmTest` Compile sources and run unit tests in the JVM (Best first task for a fresh clone)
 * `./gradlew check -PwarningAsError` Build and test/check everything

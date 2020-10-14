@@ -90,6 +90,10 @@ subprojects {
         }
     }
 
+    configure<JacocoPluginExtension> {
+        toolVersion = "0.8.6"
+    }
+
     publishing {
         publications.withType<MavenPublication>().apply {
             val metadata by getting {

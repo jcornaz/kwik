@@ -4,6 +4,15 @@ All notable changes to this project are documented in this file.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+### [0.8.2](https://github.com/jcornaz/kwik/compare/v0.8.1...v0.8.2) (2020-10-13)
+
+
+### Features
+
+* Generator for LocalDate ([#220](https://github.com/jcornaz/kwik/issues/220)) ([388afa7](https://github.com/jcornaz/kwik/commit/388afa71ee39bfc9cbf725efdae270adef49aa0c))
+  
+  Thanks to @mmiikkkkaa
+
 ### [0.8.1](https://github.com/jcornaz/kwik/compare/v0.8.0...v0.8.1) (2020-10-12)
 
 
