@@ -46,19 +46,25 @@ Primitives
     Generate booleans
 
 
-Strings
+Text
 -------
 
-``Generator.strings(minLength = 0, maxLength = 50, charset = StringCharsets.printable, exclude = emptySet())``
+``Generator.characters(charset = CharSets.printable, exclude = emptySet())``
     Generate strings. Use the parameter ``charset`` and ``exclude`` to customize the characters which can be used.
 
-    Generation include empty ("") and blank (" ") strings as samples.
+    Generation includes space (' ') as a sample.
 
-    .. note:: ``StringCharsets`` provide few common set of characters such as ``alpha``, ``alphaNumeric`` and others
+    .. note:: ``CharSets`` provide few common set of characters such as ``alpha``, ``alphaNumeric`` and others
 
-        It is there to help quickly configure the String generator.
+        It is there to help quickly configure the Character generator.
 
         By default, it will generate any printable characters.
+
+``Generator.strings(minLength = 0, maxLength = 50, charGenerator = Generator.characters())``
+    Generate strings. Use the parameter ``charGenerator`` to provide a character generator which is used to make the
+    string.
+
+    Generation includes empty ("") string as a sample.
 
 Collections
 -----------
@@ -100,6 +106,21 @@ Sequences
 
     Note that there is also a ``nonEmptySequences`` alternative
 
+Ranges
+------
+
+``Generator.ranges(elementGen)``
+    Generate ranges. ``elementGen`` can be used to define the generator of the elements.
+
+``Generator.intRanges(elementGen = Generator.ints())``
+    Generates ``ClosedRanged<Int>``. Includes empty and singleton ranges as samples
+
+``Generator.longRanges(elementGen = Generator.longs())``
+    Generates ``ClosedRanged<Long>``. Includes empty and singleton ranges as samples
+
+``Generator.charRanges(elementGen = Generator.characters())``
+    Generates ``ClosedRanged<Char>``. Includes empty and singleton ranges as samples
+
 Enums
 -----
 
@@ -113,3 +134,17 @@ Java
 
 ``Generator.uuids()``
     Create a generator for UUID
+
+Java Time API
+-------------
+``Generator.instants(min: Instant.MIN, max: Instant.MAX)``
+    Generates Instants (with nano seconds), includes the samples: ``Instant.EPOCH`` (1970-01-01T00:00:00.000Z), ``min`` and ``max``
+
+``Generator.durations(min, max)``
+    Generates Durations (with nano seconds), Includes the samples: ``Duration.ZERO``, ``min`` and ``max``
+
+``Generator.localTimes(min: LocalTime.MIN, max: LocalTime.MAX)``
+    Generates LocalTimes (with nano seconds), Includes the samples: ``LocalTime.NOON``, ``min`` and ``max``
+
+``Generator.localDates(min: LocalDate.MIN, max: LocalDate.MAX)``
+    Generates LocalDates, includes the samples: ``LocalDate.EPOCH`` (1970-01-01), ``min`` and ``max``

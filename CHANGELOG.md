@@ -4,6 +4,49 @@ All notable changes to this project are documented in this file.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+### [0.8.2](https://github.com/jcornaz/kwik/compare/v0.8.1...v0.8.2) (2020-10-13)
+
+
+### Features
+
+* Generator for LocalDate ([#220](https://github.com/jcornaz/kwik/issues/220)) ([388afa7](https://github.com/jcornaz/kwik/commit/388afa71ee39bfc9cbf725efdae270adef49aa0c))
+  
+  Thanks to @mmiikkkkaa
+
+### [0.8.1](https://github.com/jcornaz/kwik/compare/v0.8.0...v0.8.1) (2020-10-12)
+
+
+### Features
+
+* Generators for ranges ([#216](https://github.com/jcornaz/kwik/issues/216)) ([d3956d3](https://github.com/jcornaz/kwik/commit/d3956d3a60d7761bd025e9ca7349613782208932))
+  
+  Thanks to @Kantis
+
+## [0.8.0](https://github.com/jcornaz/kwik/compare/v0.7.0...v0.8.0) (2020-10-02)
+
+
+### ⚠ BREAKING CHANGES
+
+* Deprecated functions have been removed (`Generator.create` and `simplifier`). The deprecation level has also been raised to "error" for `Generator.flatMap`. Make sure you're not using any deprecated members before updating.
+
+### Features
+
+* Add character generator ([#215](https://github.com/jcornaz/kwik/issues/215)) ([2e8b7a6](https://github.com/jcornaz/kwik/commit/2e8b7a65fa06576805211c04bad71d82db4cd101))
+  And let the string generator be configured using a character generator.
+
+  Thanks to @Kantis
+
+### Removed
+
+* Remove deprecated members ([#198](https://github.com/jcornaz/kwik/issues/198)) ([393e3eb](https://github.com/jcornaz/kwik/commit/393e3eb14f0e0162005e835390670770d77324f4))
+
+
+### Documentation
+
+* Recomands to use fun interface capabilities to create a generator (instead of the deprecated `create` method) ([#197](https://github.com/jcornaz/kwik/issues/197)) ([8ab7b38](https://github.com/jcornaz/kwik/commit/8ab7b388722321d149dc6dd4e2240b8be69a3e01))
+* Remove gitter badge ([da4d049](https://github.com/jcornaz/kwik/commit/da4d049e0a80db7322dcb08d34a334e5ed862843))
+
+
 ## [0.7.0](https://github.com/jcornaz/kwik/compare/v0.6.2...v0.7.0) (2020-08-15)
 
 
