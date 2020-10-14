@@ -45,7 +45,7 @@ jobs:
 
       - name: Check Kwik
         if: job.status == 'success' && matrix.java == 8
-        run: ./gradlew check
+        run: ./gradlew check -PwarningAsError
 
       - name: Check example
         if: job.status == 'success' && matrix.java == 8

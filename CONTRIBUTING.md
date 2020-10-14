@@ -24,11 +24,10 @@ Make sure that the environment variable `JAVA_HOME` points to a JDK installation
 
 This project use a standard [gradle](https://gradle.org/) setup. Here are the most important tasks you may want to run:
 
-* `./gradlew check` Build and test/check everything (Best first task for a fresh clone).
-* `./gradlew test` Compile sources and run unit tests
+* `./gradlew jvmTest` Compile sources and run unit tests in the JVM (Best first task for a fresh clone)
+* `./gradlew check -PwarningAsError` Build and test/check everything
 * `./gradlew sphinx` Generate documentation (result will be in `build/site/index.html`)
 * `./gradlew detekt` Run a static code analysis and report code smells (may fail if too many code smells are found)
-
 
 ## Coding standard
 
@@ -49,7 +48,7 @@ Run the static code analysis (`./gradlew detekt`) to get a reports of the code s
 * Write automated tests covering the new feature or fix
   * if you are not sure how to test your changes, open the pull request as Draft.
     I'll gladly help you to write the tests.
-* Make sure the build passes (run `./gradlew check`)
+* Make sure the build passes (run `./gradlew check -PwarningAsError`)
 * Write a description
   * explain what problem is solved (with a reference to an existing issue if applicable)
   * help to read and understand the code changes
@@ -57,6 +56,6 @@ Run the static code analysis (`./gradlew detekt`) to get a reports of the code s
 * Update documentation if necessary
   * Documentation sources are in folder `docs`
   * you can generate it locally with `./gradlew sphinx`
-  * locally generated documentation will be available in `build/site/index.html`
+  * the locally generated documentation will be available in `build/site/index.html`
 
 In case you are not sure about something, it is better to open a pull request early (as a draft) and discuss it ;-)

@@ -67,6 +67,7 @@ subprojects {
         targets.all {
             compilations.all {
                 kotlinOptions {
+                    allWarningsAsErrors = findProperty("warningAsError") != null
                     freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
                 }
             }
