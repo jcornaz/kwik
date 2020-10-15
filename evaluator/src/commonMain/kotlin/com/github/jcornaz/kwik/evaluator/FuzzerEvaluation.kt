@@ -1,9 +1,9 @@
 package com.github.jcornaz.kwik.evaluator
 
+import com.github.jcornaz.kwik.ExperimentalKwikApi
 import com.github.jcornaz.kwik.fuzzer.api.Fuzzer
-import com.github.jcornaz.kwik.generator.api.randomSequence
-import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.findSimplestFalsification
+import com.github.jcornaz.kwik.generator.api.randomSequence
 
 
 /**
@@ -17,7 +17,7 @@ import com.github.jcornaz.kwik.fuzzer.api.simplifier.findSimplestFalsification
  * @param block Function invoked multiple times with random inputs to assess a property of the System under test.
  *                 Must return a throw an exception if the property is falsified.
  */
-@ExperimentalKwikFuzzer
+@ExperimentalKwikApi
 fun <T> forAny(
     fuzzer: Fuzzer<T>,
     iterations: Int = kwikDefaultIterations,

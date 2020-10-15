@@ -1,11 +1,11 @@
 package com.github.jcornaz.kwik.fuzzer.api.simplifier
 
-import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
+import com.github.jcornaz.kwik.ExperimentalKwikApi
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
-@ExperimentalKwikFuzzer
+@ExperimentalKwikApi
 class NoSimplifierTest {
 
     @Test

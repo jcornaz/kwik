@@ -1,6 +1,6 @@
 package com.github.jcornaz.kwik.fuzzer.api.simplifier
 
-import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
+import com.github.jcornaz.kwik.ExperimentalKwikApi
 
 /**
  * Create a [Simplifier] that can simplify pairs.
@@ -8,7 +8,7 @@ import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
  * @param first Simplifier for the first elements of the pairs
  * @param second Simplifier for the second elements of the pairs
  */
-@ExperimentalKwikFuzzer
+@ExperimentalKwikApi
 fun <A, B> Simplifier.Companion.pair(
     first: Simplifier<A>,
     second: Simplifier<B>
@@ -32,7 +32,7 @@ fun <A, B> Simplifier.Companion.pair(
  * @param second Simplifier for the second elements of the pairs
  * @param third Simplifier for the third elements of the pairs
  */
-@ExperimentalKwikFuzzer
+@ExperimentalKwikApi
 fun <A, B, C> Simplifier.Companion.triple(
     first: Simplifier<A>,
     second: Simplifier<B>,

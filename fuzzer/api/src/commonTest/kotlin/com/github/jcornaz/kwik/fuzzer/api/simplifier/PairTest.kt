@@ -1,10 +1,10 @@
 package com.github.jcornaz.kwik.fuzzer.api.simplifier
 
-import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
+import com.github.jcornaz.kwik.ExperimentalKwikApi
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-@ExperimentalKwikFuzzer
+@ExperimentalKwikApi
 class PairTest {
 
     @Test

@@ -1,16 +1,20 @@
 package com.github.jcornaz.kwik.fuzzer.stdlib.simplifier
 
-import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
+import com.github.jcornaz.kwik.ExperimentalKwikApi
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.Simplifier
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.findSimplestFalsification
-import com.github.jcornaz.kwik.generator.api.*
+import com.github.jcornaz.kwik.generator.api.Generator
+import com.github.jcornaz.kwik.generator.api.filterNot
+import com.github.jcornaz.kwik.generator.api.frequency
+import com.github.jcornaz.kwik.generator.api.plus
+import com.github.jcornaz.kwik.generator.api.randomSequence
 import kotlin.math.abs
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-@ExperimentalKwikFuzzer
+@ExperimentalKwikApi
 class IntSimplifierTest {
     private val anyInt = Generator(Random::nextInt)
     private val anyNegativeInt = Generator { it: Random -> it.nextInt(Int.MIN_VALUE, -1) }

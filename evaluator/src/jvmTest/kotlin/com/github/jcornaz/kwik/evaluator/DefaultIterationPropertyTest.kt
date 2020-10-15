@@ -1,17 +1,17 @@
 package com.github.jcornaz.kwik.evaluator
 
-import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
+import com.github.jcornaz.kwik.ExperimentalKwikApi
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.dontSimplify
 import com.github.jcornaz.kwik.fuzzer.api.toFuzzer
 import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.stdlib.ints
-import com.github.jcornaz.kwik.fuzzer.api.simplifier.dontSimplify
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
+@ExperimentalKwikApi
 class DefaultIterationPropertyTest {
 
     @Test
-    @ExperimentalKwikFuzzer
     fun forAnyUseKwikIterationsSystemPropertyByDefault() {
         var count = 0
 

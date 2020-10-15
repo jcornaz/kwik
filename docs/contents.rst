@@ -10,4 +10,5 @@ Welcome to Kwik's documentation!
     write-tests
     generators
     operators
+    experimental-api
     Github <https://github.com/jcornaz/kwik>
