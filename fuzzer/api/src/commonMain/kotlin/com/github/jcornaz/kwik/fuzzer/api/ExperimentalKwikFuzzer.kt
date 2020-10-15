@@ -11,5 +11,4 @@ package com.github.jcornaz.kwik.fuzzer.api
     level = RequiresOptIn.Level.WARNING
 )
 @Retention(AnnotationRetention.BINARY)
-@Deprecated("The ExperimentalKwikFuzzer annotation has been replaced by ExperimentalKwikApi")
 annotation class ExperimentalKwikFuzzer
