@@ -148,3 +148,6 @@ Java Time API
 
 ``Generator.localDates(min: LocalDate.MIN, max: LocalDate.MAX)``
     Generates LocalDates, includes the samples: ``LocalDate.EPOCH`` (1970-01-01), ``min`` and ``max``
+
+``Generator.localDateTimes(min: LocalDateTime.MIN, max: LocalDateTime.MAX)``
+    Generates LocalDateTimes, includes the samples: ``LocalDate.EPOCH.atStartOfDay`` (1970-01-01T00:00:00.000Z), ``min`` and ``max``
