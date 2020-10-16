@@ -1,6 +1,6 @@
 package com.github.jcornaz.kwik.fuzzer.stdlib.simplifier
 
-import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
+import com.github.jcornaz.kwik.ExperimentalKwikApi
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.Simplifier
 import kotlin.math.absoluteValue
 
@@ -11,11 +11,11 @@ import kotlin.math.absoluteValue
  * the closest to zero, the simpler.
  * positive values are also considered simpler than their negative counterpart.
  */
-@ExperimentalKwikFuzzer
+@ExperimentalKwikApi
 val Simplifier.Companion.int: Simplifier<Int>
     get() = IntSimplifier
 
-@ExperimentalKwikFuzzer
+@ExperimentalKwikApi
 private object IntSimplifier : Simplifier<Int> {
     override fun simplify(value: Int): Sequence<Int> = when (value) {
         0 -> emptySequence()

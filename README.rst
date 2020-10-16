@@ -13,9 +13,6 @@ Kwik
 .. image:: https://readthedocs.org/projects/kwik/badge/?version=latest
     :target: https://kwik.readthedocs.io/en/latest/?badge=latest
 
-.. image:: https://badges.gitter.im/kwik-test/community.svg
-    :target: https://gitter.im/kwik-test/community
-
 .. image:: https://img.shields.io/badge/kotlin-1.4-informational
     :target: https://kotl.in
     
@@ -105,10 +102,14 @@ The known alternatives either:
 * Do not allow enough freedom and safety to customize existing generators
 * Force the user to add unwanted dependencies in the classpath
 
+Requirements
+------------
+
+* Kotlin version: 1.4.0 or newer
+* JDK version: 8, 11 or 15
+
 Setup
 -----
-
-**NOTE: Since version 0.7.0 kwik requires Kotlin 1.4!**
 
 Example of setup using gradle.
 

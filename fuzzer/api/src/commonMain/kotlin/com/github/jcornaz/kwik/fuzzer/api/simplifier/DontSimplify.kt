@@ -1,6 +1,6 @@
 package com.github.jcornaz.kwik.fuzzer.api.simplifier
 
-import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
+import com.github.jcornaz.kwik.ExperimentalKwikApi
 
 /**
  * Returns a [Simplifier] that consider every input of [Simplifier.simplify] to be already the smallest value possible,
@@ -8,13 +8,11 @@ import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
  *
  * As an effect, it disable simplifying.
  */
-@ExperimentalKwikFuzzer
+@ExperimentalKwikApi
 @Suppress("UNCHECKED_CAST")
 fun <T> dontSimplify(): Simplifier<T> = NoSimplifier as Simplifier<T>
 
-@ExperimentalKwikFuzzer
+@ExperimentalKwikApi
 private object NoSimplifier : Simplifier<Any?> {
-
-    @ExperimentalKwikFuzzer
     override fun simplify(value: Any?): Sequence<Any?> = emptySequence()
 }

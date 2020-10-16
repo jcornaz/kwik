@@ -7,12 +7,19 @@
   "assignees": ["jcornaz"],
   "reviewers": ["jcornaz"],
   "labels": ["chore"],
+  "enabledManagers": ["gradle", "github-actions"],
   "packageRules": [
     {
+      "groupName": "Kotlin",
       "packagePatterns": [
         "^org.jetbrains.kotlin:"
-      ],
-      "groupName": "Kotlin"
+      ]
+    },
+    {
+      "groupName": "Dokka",
+      "packagePatterns": [
+        "^org.jetbrains.dokka:"
+      ]
     }
   ]
 }

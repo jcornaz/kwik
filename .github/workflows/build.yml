@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - next
+      - next-major
       - '*.*.x'
 
   pull_request:
@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        java: [8, 11, 14]
+        java: [8, 11, 15]
 
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -45,7 +45,7 @@ jobs:
 
       - name: Check Kwik
         if: job.status == 'success' && matrix.java == 8
-        run: ./gradlew check
+        run: ./gradlew check -PwarningAsError
 
       - name: Check example
         if: job.status == 'success' && matrix.java == 8
@@ -53,14 +53,14 @@ jobs:
 
       - name: Publish detekt report
         if: matrix.java == 8
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: detekt-report
           path: build/reports/detekt/detekt.html
 
       - name: Publish test results
         if: matrix.java == 8
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: test-report
           path: build/reports/allTests/
@@ -71,7 +71,7 @@ jobs:
 
       - name: Publish documentation
         if: job.status == 'success' && matrix.java == 8
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: documentation
           path: build/site/
@@ -116,7 +116,7 @@ jobs:
         run: git fetch --tags
 
       - name: Setup NodeJS
-        uses: actions/setup-node@v2.1.1
+        uses: actions/setup-node@v2.1.2
         with:
           node-version: '14'
 

@@ -1,11 +1,11 @@
 package com.github.jcornaz.kwik.fuzzer.api.simplifier
 
-import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
+import com.github.jcornaz.kwik.ExperimentalKwikApi
 
 /**
  * Returns a simplifier that will return only values matching [predicate] when simplifying.
  */
-@ExperimentalKwikFuzzer
+@ExperimentalKwikApi
 fun <T> Simplifier<T>.filter(predicate: (T) -> Boolean): Simplifier<T> =
     Simplifier { it: T ->
         this@filter.simplify(it).filter(predicate)
@@ -14,7 +14,7 @@ fun <T> Simplifier<T>.filter(predicate: (T) -> Boolean): Simplifier<T> =
 /**
  * Returns a simplifier that will never return values matching [predicate] when simplifying.
  */
-@ExperimentalKwikFuzzer
+@ExperimentalKwikApi
 fun <T> Simplifier<T>.filterNot(predicate: (T) -> Boolean): Simplifier<T> =
     Simplifier { it: T ->
         this@filterNot.simplify(it).filterNot(predicate)

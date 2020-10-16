@@ -3,6 +3,7 @@ kotlin {
         commonMain {
             dependencies {
                 api(project(":generator-api"))
+                api(project(":api"))
             }
         }
     }
