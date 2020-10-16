@@ -18,7 +18,7 @@ import com.github.jcornaz.kwik.generator.api.randomSequence
  *                 Must return a throw an exception if the property is falsified.
  */
 @ExperimentalKwikApi
-fun <T> forAny(
+public fun <T> forAny(
     fuzzer: Fuzzer<T>,
     iterations: Int = kwikDefaultIterations,
     seed: Long = nextSeed(),

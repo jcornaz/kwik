@@ -12,7 +12,7 @@ import kotlin.math.absoluteValue
  * positive values are also considered simpler than their negative counterpart.
  */
 @ExperimentalKwikApi
-val Simplifier.Companion.int: Simplifier<Int>
+public val Simplifier.Companion.int: Simplifier<Int>
     get() = IntSimplifier
 
 @ExperimentalKwikApi

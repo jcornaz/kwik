@@ -12,4 +12,4 @@ package com.github.jcornaz.kwik
     level = RequiresOptIn.Level.WARNING
 )
 @Retention(AnnotationRetention.BINARY)
-annotation class ExperimentalKwikApi
+public annotation class ExperimentalKwikApi

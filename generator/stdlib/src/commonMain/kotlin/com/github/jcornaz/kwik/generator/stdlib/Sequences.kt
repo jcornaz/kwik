@@ -10,7 +10,7 @@ import kotlin.random.Random
  *
  * @param elementGen Generator to use for elements in the list
  */
-fun <T> Generator.Companion.sequences(
+public fun <T> Generator.Companion.sequences(
     elementGen: Generator<T>,
     minSize: Int = 0,
     maxSize: Int = maxOf(minSize, KWIK_DEFAULT_MAX_SIZE)
@@ -33,7 +33,7 @@ private fun <T> Generator.Companion.sequences(
  *
  * Use a default generator for the elements. See [Generator.Companion.default]
  */
-inline fun <reified T> Generator.Companion.sequences(
+public inline fun <reified T> Generator.Companion.sequences(
     minSize: Int = 0,
     maxSize: Int = maxOf(minSize, KWIK_DEFAULT_MAX_SIZE)
 ): Generator<Sequence<T>> = sequences(Generator.default(), minSize, maxSize)
@@ -43,7 +43,7 @@ inline fun <reified T> Generator.Companion.sequences(
  *
  * @param elementGen Generator to use for elements in the list
  */
-fun <T> Generator.Companion.nonEmptySequences(
+public fun <T> Generator.Companion.nonEmptySequences(
     elementGen: Generator<T>,
     maxSize: Int = maxOf(1, KWIK_DEFAULT_MAX_SIZE)
 ): Generator<Sequence<T>> = sequences(elementGen, 1, maxSize)
@@ -53,6 +53,6 @@ fun <T> Generator.Companion.nonEmptySequences(
  *
  * Use a default generator for the elements. See [Generator.Companion.default]
  */
-inline fun <reified T> Generator.Companion.nonEmptySequences(
+public inline fun <reified T> Generator.Companion.nonEmptySequences(
     maxSize: Int = maxOf(1, KWIK_DEFAULT_MAX_SIZE)
 ): Generator<Sequence<T>> = sequences(Generator.default(), 1, maxSize)

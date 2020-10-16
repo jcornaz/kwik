@@ -12,7 +12,7 @@ import com.github.jcornaz.kwik.generator.api.withSamples
  * @param <T> The type of the ClosedRange
  * @param elementGen A generator producing T, which will create the start and end elements of the range
  */
-fun <T : Comparable<T>> Generator.Companion.ranges(elementGen: Generator<T>): Generator<ClosedRange<T>> =
+public fun <T : Comparable<T>> Generator.Companion.ranges(elementGen: Generator<T>): Generator<ClosedRange<T>> =
     Generator { rng -> elementGen.generate(rng)..elementGen.generate(rng) }
 
 
@@ -22,7 +22,7 @@ fun <T : Comparable<T>> Generator.Companion.ranges(elementGen: Generator<T>): Ge
  * @param elementGen A generator producing T, which will create the start and end elements of the range
  */
 @Suppress("InvalidRange")
-fun Generator.Companion.intRanges(elementGen: Generator<Int> = ints()): Generator<ClosedRange<Int>> =
+public fun Generator.Companion.intRanges(elementGen: Generator<Int> = ints()): Generator<ClosedRange<Int>> =
     ranges(elementGen).withSamples(
         1..0,
         0..0
@@ -35,7 +35,7 @@ fun Generator.Companion.intRanges(elementGen: Generator<Int> = ints()): Generato
  * @param elementGen A generator producing T, which will create the start and end elements of the range
  */
 @Suppress("InvalidRange")
-fun Generator.Companion.charRanges(elementGen: Generator<Char> = characters()): Generator<ClosedRange<Char>> =
+public fun Generator.Companion.charRanges(elementGen: Generator<Char> = characters()): Generator<ClosedRange<Char>> =
     ranges(elementGen).withSamples(
         'B'..'A',
         'A'..'A'
@@ -48,7 +48,7 @@ fun Generator.Companion.charRanges(elementGen: Generator<Char> = characters()): 
  * @param elementGen A generator producing T, which will create the start and end elements of the range
  */
 @Suppress("InvalidRange")
-fun Generator.Companion.longRanges(elementGen: Generator<Long> = longs()): Generator<ClosedRange<Long>> =
+public fun Generator.Companion.longRanges(elementGen: Generator<Long> = longs()): Generator<ClosedRange<Long>> =
     ranges(elementGen).withSamples(
         1L..0L,
         0L..0L

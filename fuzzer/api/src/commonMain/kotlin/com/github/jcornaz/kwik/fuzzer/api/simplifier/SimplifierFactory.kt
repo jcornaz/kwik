@@ -9,7 +9,7 @@ import com.github.jcornaz.kwik.ExperimentalKwikApi
  * @param second Simplifier for the second elements of the pairs
  */
 @ExperimentalKwikApi
-fun <A, B> Simplifier.Companion.pair(
+public fun <A, B> Simplifier.Companion.pair(
     first: Simplifier<A>,
     second: Simplifier<B>
 ): Simplifier<Pair<A, B>> =
@@ -33,7 +33,7 @@ fun <A, B> Simplifier.Companion.pair(
  * @param third Simplifier for the third elements of the pairs
  */
 @ExperimentalKwikApi
-fun <A, B, C> Simplifier.Companion.triple(
+public fun <A, B, C> Simplifier.Companion.triple(
     first: Simplifier<A>,
     second: Simplifier<B>,
     third: Simplifier<C>

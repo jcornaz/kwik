@@ -3,6 +3,7 @@ kotlin {
         commonTest {
             dependencies {
                 implementation(project(":generator-test"))
+                api(project(":api"))
             }
         }
     }

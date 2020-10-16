@@ -11,7 +11,7 @@ import com.github.jcornaz.kwik.generator.api.withNull
  * The returned generator never returns null. You might consider call [withNull] if the requested type is nullable.
  */
 @Suppress("UNCHECKED_CAST")
-inline fun <reified T> Generator.Companion.default(): Generator<T> = when (T::class) {
+public inline fun <reified T> Generator.Companion.default(): Generator<T> = when (T::class) {
     Int::class -> ints() as Generator<T>
     Long::class -> longs() as Generator<T>
     Float::class -> floats() as Generator<T>

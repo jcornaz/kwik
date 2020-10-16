@@ -7,7 +7,7 @@ import kotlin.random.Random
  * Default number of iterations for [forAll]
  */
 @Suppress("MagicNumber")
-val kwikDefaultIterations: Int
+public val kwikDefaultIterations: Int
     get() =
         getProperty("kwik.iterations")?.toIntOrNull()
             ?: getEnv("KWIK_ITERATIONS")?.toIntOrNull()
@@ -21,7 +21,7 @@ val kwikDefaultIterations: Int
  * May return the same value at each call
  * (if system property 'kwik.seed' or environment variable 'KWIK_ITERATIONS' is set)
  */
-fun nextSeed(): Long {
+public fun nextSeed(): Long {
     return getProperty("kwik.seed")?.toLongOrNull()
         ?: getEnv("KWIK_ITERATIONS")?.toLongOrNull()
         ?: Random.nextLong()
