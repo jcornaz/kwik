@@ -280,7 +280,7 @@ public inline fun <reified A, reified B, reified C, reified D> checkForAll(
  * @property first First argument
  * @property second Second argument
  */
-public data class ArgumentPair<A, B>(val first: A, val second: B)
+public data class ArgumentPair<A, B>(public val first: A, public val second: B)
 
 /**
  * Exception thrown when a property is falsified
@@ -292,11 +292,11 @@ public data class ArgumentPair<A, B>(val first: A, val second: B)
  * @property cause Error thrown by the system under test (if any)
  */
 public data class FalsifiedPropertyError(
-    val attempts: Int,
-    val iterations: Int,
-    val seed: Long,
-    val arguments: List<Any?>,
-    override val cause: Throwable? = null
+    public val attempts: Int,
+    public val iterations: Int,
+    public val seed: Long,
+    public val arguments: List<Any?>,
+    public override val cause: Throwable? = null
 ) : AssertionError(buildString {
     append("Property falsified after $attempts tests (out of $iterations)\n")
 

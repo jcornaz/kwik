@@ -16,7 +16,7 @@ import com.github.jcornaz.kwik.generator.api.Generator
  */
 @ExperimentalKwikApi
 public data class Fuzzer<T>(
-    val generator: Generator<T>,
-    val simplifier: Simplifier<T>,
-    val guarantees: List<(T) -> Boolean> = emptyList()
+    public val generator: Generator<T>,
+    public val simplifier: Simplifier<T>,
+    public val guarantees: List<(T) -> Boolean> = emptyList()
 )
