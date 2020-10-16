@@ -64,14 +64,20 @@ public fun <T> Generator<T>.filterNot(predicate: (T) -> Boolean): Generator<T> =
  * Returns a new generator that has a good [probability] to generate a value from the given [samples],
  * and generate from source the rest of the time.
  */
-public fun <T> Generator<T>.withSamples(vararg samples: T, probability: Double = DEFAULT_SAMPLE_PROBABILITY): Generator<T> =
+public fun <T> Generator<T>.withSamples(
+    vararg samples: T,
+    probability: Double = DEFAULT_SAMPLE_PROBABILITY
+): Generator<T> =
     withSamples(samples.asList(), probability)
 
 /**
  * Returns a new generator that has a good [probability] to generate a value from the given [samples],
  * and generate from source the rest of the time.
  */
-public fun <T> Generator<T>.withSamples(samples: Iterable<T>, probability: Double = DEFAULT_SAMPLE_PROBABILITY): Generator<T> {
+public fun <T> Generator<T>.withSamples(
+    samples: Iterable<T>,
+    probability: Double = DEFAULT_SAMPLE_PROBABILITY
+): Generator<T> {
     require(probability > 0.0 && probability < 1.0) {
         "Invalid sample probability: $probability. Must be greater than 0 and smaller than 1"
     }

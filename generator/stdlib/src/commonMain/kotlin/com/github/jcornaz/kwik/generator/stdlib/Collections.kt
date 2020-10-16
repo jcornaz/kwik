@@ -63,7 +63,9 @@ public inline fun <reified T> Generator.Companion.lists(
 /**
  * Returns a generator of non-empty [List] using a default generator for the elements
  */
-public inline fun <reified T> Generator.Companion.nonEmptyLists(maxSize: Int = KWIK_DEFAULT_MAX_SIZE): Generator<List<T>> =
+public inline fun <reified T> Generator.Companion.nonEmptyLists(
+    maxSize: Int = KWIK_DEFAULT_MAX_SIZE
+): Generator<List<T>> =
     lists(Generator.default(), 1, maxSize)
 
 /**
@@ -128,7 +130,9 @@ public inline fun <reified T> Generator.Companion.sets(
 /**
  * Returns a generator of non-empty [Set] using a default generator for the elements
  */
-public inline fun <reified T> Generator.Companion.nonEmptySets(maxSize: Int = KWIK_DEFAULT_MAX_SIZE): Generator<Set<T>> =
+public inline fun <reified T> Generator.Companion.nonEmptySets(
+    maxSize: Int = KWIK_DEFAULT_MAX_SIZE
+): Generator<Set<T>> =
     sets(Generator.default(), 1, maxSize)
 
 /**
@@ -146,7 +150,7 @@ public fun <K, V> Generator.Companion.maps(
     maxSize: Int = maxOf(minSize, KWIK_DEFAULT_MAX_SIZE)
 ): Generator<Map<K, V>> {
     requireValidSizes(minSize, maxSize)
-    
+
     return ints(minSize, maxSize).andThen { maps(keyGen, valueGen, size = it) }
 }
 

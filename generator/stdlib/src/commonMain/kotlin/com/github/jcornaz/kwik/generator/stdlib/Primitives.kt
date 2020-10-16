@@ -133,7 +133,10 @@ public fun Generator.Companion.negativeFloats(min: Float = -Float.MAX_VALUE): Ge
  *
  * Contains the samples: -1, 1, [min] and [max]
  */
-public fun Generator.Companion.nonZeroFloats(min: Float = -Float.MAX_VALUE, max: Float = Float.MAX_VALUE): Generator<Float> =
+public fun Generator.Companion.nonZeroFloats(
+    min: Float = -Float.MAX_VALUE,
+    max: Float = Float.MAX_VALUE,
+): Generator<Float> =
     negativeFloats(min) + floats(Float.MIN_VALUE, max)
 
 /**
