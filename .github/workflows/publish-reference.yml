@@ -10,7 +10,7 @@ on:
       - '*'
 
 jobs:
-  publish:
+  publish-reference:
     runs-on: ubuntu-latest
 
     steps:

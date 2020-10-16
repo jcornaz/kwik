@@ -6,7 +6,7 @@ on:
       - '*'
 
 jobs:
-  publish:
+  publish-artifacts:
 
     strategy:
       matrix:
