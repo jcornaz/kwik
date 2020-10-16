@@ -8,7 +8,7 @@ private const val DEFAULT_SAMPLE_PROBABILITY = 0.2
  * Returns a generator containing the results of applying the given transform function to each element emitted by
  * the original generator.
  */
-fun <T, R> Generator<T>.map(transform: (T) -> R): Generator<R> =
+public fun <T, R> Generator<T>.map(transform: (T) -> R): Generator<R> =
     Generator { transform(generate(it)) }
 
 /**
@@ -17,7 +17,7 @@ fun <T, R> Generator<T>.map(transform: (T) -> R): Generator<R> =
  * **Usage of this operator slows down the property tests**
  * Use it with caution and always favor customizing or creating generators if possible.
  */
-fun <T> Generator<T>.filter(predicate: (T) -> Boolean): Generator<T> =
+public fun <T> Generator<T>.filter(predicate: (T) -> Boolean): Generator<T> =
     Generator { random: Random ->
         var value = generate(random)
 
@@ -37,7 +37,7 @@ fun <T> Generator<T>.filter(predicate: (T) -> Boolean): Generator<T> =
  * fun listGen() = Generator.positiveInts().andThen { size -> Generator.lists<String>(size) }
  * ```
  */
-fun <T, R> Generator<T>.andThen(transform: (T) -> Generator<R>): Generator<R> =
+public fun <T, R> Generator<T>.andThen(transform: (T) -> Generator<R>): Generator<R> =
     Generator { transform(generate(it)).generate(it) }
 
 /**
@@ -48,7 +48,7 @@ fun <T, R> Generator<T>.andThen(transform: (T) -> Generator<R>): Generator<R> =
     ReplaceWith("andThen(transform)"),
     DeprecationLevel.ERROR
 )
-fun <T, R> Generator<T>.flatMap(transform: (T) -> Generator<R>): Generator<R> = andThen(transform)
+public fun <T, R> Generator<T>.flatMap(transform: (T) -> Generator<R>): Generator<R> = andThen(transform)
 
 /**
  * Returns a generator containing all elements except the ones matching the given predicate.
@@ -56,7 +56,7 @@ fun <T, R> Generator<T>.flatMap(transform: (T) -> Generator<R>): Generator<R> = 
  * **Usage of this operator slows down the property tests**
  * Use it with caution and always favor customizing or creating generators if possible.
  */
-fun <T> Generator<T>.filterNot(predicate: (T) -> Boolean): Generator<T> =
+public fun <T> Generator<T>.filterNot(predicate: (T) -> Boolean): Generator<T> =
     filter { !predicate(it) }
 
 
@@ -64,14 +64,14 @@ fun <T> Generator<T>.filterNot(predicate: (T) -> Boolean): Generator<T> =
  * Returns a new generator that has a good [probability] to generate a value from the given [samples],
  * and generate from source the rest of the time.
  */
-fun <T> Generator<T>.withSamples(vararg samples: T, probability: Double = DEFAULT_SAMPLE_PROBABILITY): Generator<T> =
+public fun <T> Generator<T>.withSamples(vararg samples: T, probability: Double = DEFAULT_SAMPLE_PROBABILITY): Generator<T> =
     withSamples(samples.asList(), probability)
 
 /**
  * Returns a new generator that has a good [probability] to generate a value from the given [samples],
  * and generate from source the rest of the time.
  */
-fun <T> Generator<T>.withSamples(samples: Iterable<T>, probability: Double = DEFAULT_SAMPLE_PROBABILITY): Generator<T> {
+public fun <T> Generator<T>.withSamples(samples: Iterable<T>, probability: Double = DEFAULT_SAMPLE_PROBABILITY): Generator<T> {
     require(probability > 0.0 && probability < 1.0) {
         "Invalid sample probability: $probability. Must be greater than 0 and smaller than 1"
     }
@@ -90,5 +90,5 @@ fun <T> Generator<T>.withSamples(samples: Iterable<T>, probability: Double = DEF
  *
  * The "random" values always start by `null` so that it always appear at least once.
  */
-fun <T> Generator<T>.withNull(probability: Double = DEFAULT_SAMPLE_PROBABILITY): Generator<T?> =
+public fun <T> Generator<T>.withNull(probability: Double = DEFAULT_SAMPLE_PROBABILITY): Generator<T?> =
     withSamples(listOf(null), probability)

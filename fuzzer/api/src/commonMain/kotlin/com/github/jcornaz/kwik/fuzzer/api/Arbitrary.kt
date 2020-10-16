@@ -5,4 +5,4 @@ package com.github.jcornaz.kwik.fuzzer.api
  *
  * So that one can use [Arbitrary] to easily find any [Fuzzer] factory, regardless on the module it comes from.
  */
-object Arbitrary
+public object Arbitrary

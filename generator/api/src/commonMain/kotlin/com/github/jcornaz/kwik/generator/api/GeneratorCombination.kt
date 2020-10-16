@@ -6,7 +6,7 @@ import kotlin.random.Random
  * Returns a generator of values built from the elements of `this` generator and the [other] generator
  * using the provided [transform] function applied to each pair of elements.
  */
-fun <A, B, R> Generator<A>.combineWith(
+public fun <A, B, R> Generator<A>.combineWith(
     other: Generator<B>,
     transform: (A, B) -> R
 ): Generator<R> =
@@ -15,7 +15,7 @@ fun <A, B, R> Generator<A>.combineWith(
 /**
  * Returns a generator of values built from the elements of `this` generator and the [other] generator
  */
-fun <A, B> Generator<A>.combineWith(
+public fun <A, B> Generator<A>.combineWith(
     other: Generator<B>
 ): Generator<Pair<A, B>> =
     Generator.combine(this, other, ::Pair)
@@ -24,7 +24,7 @@ fun <A, B> Generator<A>.combineWith(
  * Returns a generator of combining the elements of [generator1] and [generator2]
  * using the provided [transform] function applied to each pair of elements.
  */
-fun <A, B, R> Generator.Companion.combine(
+public fun <A, B, R> Generator.Companion.combine(
     generator1: Generator<A>,
     generator2: Generator<B>,
     transform: (A, B) -> R
@@ -34,7 +34,7 @@ fun <A, B, R> Generator.Companion.combine(
 /**
  * Returns a generator of combining the elements of [generator1] and [generator2]
  */
-fun <A, B> Generator.Companion.combine(
+public fun <A, B> Generator.Companion.combine(
     generator1: Generator<A>,
     generator2: Generator<B>
 ): Generator<Pair<A, B>> =
@@ -52,7 +52,7 @@ private class CombinedGenerators<A, B, R>(
 /**
  * Returns a generator merging values of with the [other] generator
  */
-operator fun <T> Generator<T>.plus(other: Generator<T>): Generator<T> =
+public operator fun <T> Generator<T>.plus(other: Generator<T>): Generator<T> =
     MergedGenerators(this, other)
 
 private class MergedGenerators<T>(
@@ -79,7 +79,7 @@ private class MergedGenerators<T>(
  * @throws IllegalArgumentException
  *         if [weightedGenerators] is empty, contains negative weights or the sum of the weight is zero
  */
-fun <T> Generator.Companion.frequency(
+public fun <T> Generator.Companion.frequency(
     weightedGenerators: Iterable<Pair<Double, Generator<T>>>
 ): Generator<T> {
     val list = weightedGenerators.asSequence()
@@ -119,7 +119,7 @@ fun <T> Generator.Companion.frequency(
  * @throws IllegalArgumentException
  *         if [weightedGenerators] is empty, contains negative weights or the sum of the weight is zero
  */
-fun <T> Generator.Companion.frequency(
+public fun <T> Generator.Companion.frequency(
     vararg weightedGenerators: Pair<Double, Generator<T>>
 ): Generator<T> = frequency(weightedGenerators.asList())
 

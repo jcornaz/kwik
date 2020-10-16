@@ -66,6 +66,7 @@ subprojects {
         @Suppress("SuspiciousCollectionReassignment")
         targets.all {
             compilations.all {
+                explicitApi()
                 kotlinOptions {
                     allWarningsAsErrors = findProperty("warningAsError") != null
                     freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"

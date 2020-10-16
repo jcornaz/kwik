@@ -13,19 +13,19 @@ import kotlin.random.Random
  * @param charset Set of character to be used in generated strings
  * @param exclude Characters to exclude from generated strings
  */
-fun Generator.Companion.strings(
+public fun Generator.Companion.strings(
     minLength: Int = 0,
     maxLength: Int = maxOf(minLength, KWIK_DEFAULT_MAX_SIZE),
     charset: Set<Char> = CharSets.printable,
     exclude: Set<Char> = emptySet()
-) = strings(minLength, maxLength, characters(charset, exclude))
+): Generator<String> = strings(minLength, maxLength, characters(charset, exclude))
 
 /**
  * Returns a generator of String of length between [minLength] and [maxLength] (inclusive)
  *
  * @param charGenerator A generator of characters which will be used to construct the strings
  */
-fun Generator.Companion.strings(
+public fun Generator.Companion.strings(
     minLength: Int = 0,
     maxLength: Int = maxOf(minLength, KWIK_DEFAULT_MAX_SIZE),
     charGenerator: Generator<Char> = Generator.characters(),
@@ -51,7 +51,7 @@ fun Generator.Companion.strings(
  * @param charset Set of character to be used in generated strings
  * @param exclude Characters to exclude from generated strings
  */
-fun Generator.Companion.nonEmptyStrings(
+public fun Generator.Companion.nonEmptyStrings(
     maxLength: Int = KWIK_DEFAULT_MAX_SIZE,
     charset: Set<Char> = CharSets.printable,
     exclude: Set<Char> = emptySet()
@@ -62,7 +62,7 @@ fun Generator.Companion.nonEmptyStrings(
  *
  * @param charGenerator A generator of characters which will be used to construct the strings
  */
-fun Generator.Companion.nonEmptyStrings(
+public fun Generator.Companion.nonEmptyStrings(
     maxLength: Int = KWIK_DEFAULT_MAX_SIZE,
     charGenerator: Generator<Char> = Generator.characters(),
 ): Generator<String> = strings(1, maxLength, charGenerator)
@@ -74,7 +74,7 @@ fun Generator.Companion.nonEmptyStrings(
  * @param charset Set of character to be used in generated strings
  * @param exclude Characters to exclude from generated strings
  */
-fun Generator.Companion.nonBlankStrings(
+public fun Generator.Companion.nonBlankStrings(
     maxLength: Int = KWIK_DEFAULT_MAX_SIZE,
     charset: Set<Char> = CharSets.printable,
     exclude: Set<Char> = emptySet()
@@ -85,7 +85,7 @@ fun Generator.Companion.nonBlankStrings(
  *
  * @param charGenerator A generator of characters which will be used to construct the strings
  */
-fun Generator.Companion.nonBlankStrings(
+public fun Generator.Companion.nonBlankStrings(
     maxLength: Int = KWIK_DEFAULT_MAX_SIZE,
     charGenerator: Generator<Char> = Generator.characters(),
 ): Generator<String> = nonEmptyStrings(maxLength, charGenerator).filterNot { it.isBlank() }
@@ -95,28 +95,28 @@ fun Generator.Companion.nonBlankStrings(
  * Common set of character to be used with string generators
  */
 @Deprecated("Replaced by CharSets", replaceWith = ReplaceWith("CharSets"))
-object StringCharSets {
+public object StringCharSets {
 
     /** All printable characters */
     @Suppress("MagicNumber")
-    val printable: Set<Char> = (32..127).mapTo(HashSet()) { it.toChar() }
+    public val printable: Set<Char> = (32..127).mapTo(HashSet()) { it.toChar() }
 
     /** Numeric characters (0-9) */
-    val numeric: Set<Char> = ('0'..'9').toHashSet()
+    public val numeric: Set<Char> = ('0'..'9').toHashSet()
 
     /** Lowercase alphabetic characters */
-    val alphaLowerCase: Set<Char> = ('a'..'z').toHashSet()
+    public val alphaLowerCase: Set<Char> = ('a'..'z').toHashSet()
 
     /** Uppercase alphabetic characters */
-    val alphaUpperCase: Set<Char> = ('A'..'Z').toHashSet()
+    public val alphaUpperCase: Set<Char> = ('A'..'Z').toHashSet()
 
     /** Alphabetic characters (lower and upper cases)*/
-    val alpha: Set<Char> = alphaLowerCase + alphaUpperCase
+    public val alpha: Set<Char> = alphaLowerCase + alphaUpperCase
 
     /**
      * Alphabetic and numeric characters
      *
      * Equivalent of [alpha] + [numeric]
      */
-    val alphaNum: Set<Char> = alpha + numeric
+    public val alphaNum: Set<Char> = alpha + numeric
 }

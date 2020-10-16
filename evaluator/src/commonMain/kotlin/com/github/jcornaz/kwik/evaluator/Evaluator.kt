@@ -15,7 +15,7 @@ import com.github.jcornaz.kwik.generator.stdlib.default
  * @param property Function invoked multiple times with random inputs to assess a property of the System under test.
  *                 Must return a boolean (true = satisfied, false = falsified)
  */
-fun <T> forAll(
+public fun <T> forAll(
     generator: Generator<T>,
     iterations: Int = kwikDefaultIterations,
     seed: Long = nextSeed(),
@@ -106,7 +106,7 @@ private fun extractArgumentList(argument: Any?): List<Any?> {
  * @param property Function invoked multiple times with random inputs to assess a property of the System under test.
  *                 Must return a boolean (true = satisfied, false = falsified)
  */
-inline fun <reified T> forAll(
+public inline fun <reified T> forAll(
     iterations: Int = kwikDefaultIterations,
     seed: Long = nextSeed(),
     crossinline property: PropertyEvaluationContext.(T) -> Boolean
@@ -124,7 +124,7 @@ inline fun <reified T> forAll(
  * @param property Function invoked multiple times with random inputs to assess a property of the System under test.
  *                 Must perform assertions and throw an exception if falsified
  */
-inline fun <reified T> checkForAll(
+public inline fun <reified T> checkForAll(
     generator: Generator<T> = Generator.default(),
     iterations: Int = kwikDefaultIterations,
     seed: Long = nextSeed(),
@@ -144,13 +144,13 @@ inline fun <reified T> checkForAll(
  * @param property Function invoked multiple times with random inputs to assess a property of the System under test.
  *                 Must return a boolean (true = satisfied, false = falsified)
  */
-inline fun <reified A, reified B> forAll(
+public inline fun <reified A, reified B> forAll(
     generatorA: Generator<A> = Generator.default(),
     generatorB: Generator<B> = Generator.default(),
     iterations: Int = kwikDefaultIterations,
     seed: Long = nextSeed(),
     crossinline property: PropertyEvaluationContext.(A, B) -> Boolean
-) = forAll(generatorA.combineWith(generatorB, ::ArgumentPair), iterations, seed) { (a, b) ->
+): Unit = forAll(generatorA.combineWith(generatorB, ::ArgumentPair), iterations, seed) { (a, b) ->
     property(a, b)
 }
 
@@ -166,7 +166,7 @@ inline fun <reified A, reified B> forAll(
  * @param property Function invoked multiple times with random inputs to assess a property of the System under test.
  *                 Must perform assertions and throw an exception if falsified
  */
-inline fun <reified A, reified B> checkForAll(
+public inline fun <reified A, reified B> checkForAll(
     generatorA: Generator<A> = Generator.default(),
     generatorB: Generator<B> = Generator.default(),
     iterations: Int = kwikDefaultIterations,
@@ -187,7 +187,7 @@ inline fun <reified A, reified B> checkForAll(
  * @param property Function invoked multiple times with random inputs to assess a property of the System under test.
  *                 Must return a boolean (true = satisfied, false = falsified)
  */
-inline fun <reified A, reified B, reified C> forAll(
+public inline fun <reified A, reified B, reified C> forAll(
     generatorA: Generator<A> = Generator.default(),
     generatorB: Generator<B> = Generator.default(),
     generatorC: Generator<C> = Generator.default(),
@@ -210,7 +210,7 @@ inline fun <reified A, reified B, reified C> forAll(
  * @param property Function invoked multiple times with random inputs to assess a property of the System under test.
  *                 Must perform assertions and throw an exception if falsified
  */
-inline fun <reified A, reified B, reified C> checkForAll(
+public inline fun <reified A, reified B, reified C> checkForAll(
     generatorA: Generator<A> = Generator.default(),
     generatorB: Generator<B> = Generator.default(),
     generatorC: Generator<C> = Generator.default(),
@@ -232,7 +232,7 @@ inline fun <reified A, reified B, reified C> checkForAll(
  * @param property Function invoked multiple times with random inputs to assess a property of the System under test.
  *                 Must return a boolean (true = satisfied, false = falsified)
  */
-inline fun <reified A, reified B, reified C, reified D> forAll(
+public inline fun <reified A, reified B, reified C, reified D> forAll(
     generatorA: Generator<A> = Generator.default(),
     generatorB: Generator<B> = Generator.default(),
     generatorC: Generator<C> = Generator.default(),
@@ -259,7 +259,7 @@ inline fun <reified A, reified B, reified C, reified D> forAll(
  * @param property Function invoked multiple times with random inputs to assess a property of the System under test.
  *                 Must perform assertions and throw an exception if falsified
  */
-inline fun <reified A, reified B, reified C, reified D> checkForAll(
+public inline fun <reified A, reified B, reified C, reified D> checkForAll(
     generatorA: Generator<A> = Generator.default(),
     generatorB: Generator<B> = Generator.default(),
     generatorC: Generator<C> = Generator.default(),
@@ -280,7 +280,7 @@ inline fun <reified A, reified B, reified C, reified D> checkForAll(
  * @property first First argument
  * @property second Second argument
  */
-data class ArgumentPair<A, B>(val first: A, val second: B)
+public data class ArgumentPair<A, B>(val first: A, val second: B)
 
 /**
  * Exception thrown when a property is falsified
@@ -291,7 +291,7 @@ data class ArgumentPair<A, B>(val first: A, val second: B)
  * @property arguments Argument list that cause a falsification
  * @property cause Error thrown by the system under test (if any)
  */
-data class FalsifiedPropertyError(
+public data class FalsifiedPropertyError(
     val attempts: Int,
     val iterations: Int,
     val seed: Long,

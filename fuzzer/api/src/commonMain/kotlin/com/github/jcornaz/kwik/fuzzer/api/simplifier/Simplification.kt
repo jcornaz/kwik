@@ -8,7 +8,7 @@ import com.github.jcornaz.kwik.ExperimentalKwikApi
  * If there is no simpler value than [initialValue] for which [satisfy] returns false, then [initialValue] is returned.
  */
 @ExperimentalKwikApi
-tailrec fun <T> Simplifier<T>.findSimplestFalsification(initialValue: T, satisfy: (T) -> Boolean): T {
+public tailrec fun <T> Simplifier<T>.findSimplestFalsification(initialValue: T, satisfy: (T) -> Boolean): T {
     val simplerValuesIterator = simplify(initialValue).filterNot(satisfy).iterator()
 
     if (!simplerValuesIterator.hasNext()) return initialValue

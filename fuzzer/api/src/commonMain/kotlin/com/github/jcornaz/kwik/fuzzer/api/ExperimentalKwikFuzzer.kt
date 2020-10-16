@@ -12,4 +12,4 @@ package com.github.jcornaz.kwik.fuzzer.api
 )
 @Retention(AnnotationRetention.BINARY)
 @Deprecated("Has been replaced by the 'ExperimentalKwikApi' annotation")
-annotation class ExperimentalKwikFuzzer
+public annotation class ExperimentalKwikFuzzer

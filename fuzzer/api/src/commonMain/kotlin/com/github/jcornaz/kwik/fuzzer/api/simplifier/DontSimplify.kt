@@ -10,7 +10,7 @@ import com.github.jcornaz.kwik.ExperimentalKwikApi
  */
 @ExperimentalKwikApi
 @Suppress("UNCHECKED_CAST")
-fun <T> dontSimplify(): Simplifier<T> = NoSimplifier as Simplifier<T>
+public fun <T> dontSimplify(): Simplifier<T> = NoSimplifier as Simplifier<T>
 
 @ExperimentalKwikApi
 private object NoSimplifier : Simplifier<Any?> {

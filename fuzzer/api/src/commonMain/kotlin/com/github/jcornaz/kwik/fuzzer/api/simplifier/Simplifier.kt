@@ -11,14 +11,14 @@ import com.github.jcornaz.kwik.ExperimentalKwikApi
  */
 @Suppress("UndocumentedPublicClass")
 @ExperimentalKwikApi
-fun interface Simplifier<T> {
+public fun interface Simplifier<T> {
 
     /**
      * Returns a sequence of values that are simpler than [value].
      *
      * The result sequence must be finite and should returns values ordered from simpler to more complex.
      */
-    fun simplify(value: T): Sequence<T>
+    public fun simplify(value: T): Sequence<T>
 
-    companion object
+    public companion object
 }
