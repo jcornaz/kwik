@@ -4,9 +4,7 @@ import com.jfrog.bintray.gradle.BintrayExtension
 import com.jfrog.bintray.gradle.BintrayPlugin
 import kr.motd.gradle.sphinx.gradle.SphinxTask
 import org.codehaus.plexus.util.Os
-import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile
-import java.util.*
+import java.util.Date
 
 plugins {
     `maven-publish`
@@ -55,9 +53,25 @@ subprojects {
     apply<JavaPlugin>()
 
     kotlin {
-        jvm()
+        jvm {
+            compilations.all {
+                kotlinOptions {
+                    jvmTarget = "1.8"
+                }
+            }
+        }
         linuxX64("linux")
         mingwX64("windows")
+
+        @Suppress("SuspiciousCollectionReassignment")
+        targets.all {
+            compilations.all {
+                kotlinOptions {
+                    allWarningsAsErrors = findProperty("warningAsError") != null
+                    freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+                }
+            }
+        }
 
         sourceSets {
             commonTest {
@@ -74,6 +88,10 @@ subprojects {
                 }
             }
         }
+    }
+
+    configure<JacocoPluginExtension> {
+        toolVersion = "0.8.6"
     }
 
     publishing {
@@ -135,20 +153,6 @@ subprojects {
     }
 
     tasks {
-        withType<KotlinCompile<*>> {
-            kotlinOptions {
-
-                @Suppress("SuspiciousCollectionReassignment")
-                freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
-            }
-        }
-
-        withType<KotlinJvmCompile> {
-            kotlinOptions {
-                jvmTarget = "1.8"
-            }
-        }
-
         val jvmTest by existing {
             finalizedBy("jacocoTestReport")
         }

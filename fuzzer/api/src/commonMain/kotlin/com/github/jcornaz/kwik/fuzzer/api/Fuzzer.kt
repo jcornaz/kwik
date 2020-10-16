@@ -1,5 +1,6 @@
 package com.github.jcornaz.kwik.fuzzer.api
 
+import com.github.jcornaz.kwik.ExperimentalKwikApi
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.Simplifier
 import com.github.jcornaz.kwik.generator.api.Generator
 
@@ -13,7 +14,7 @@ import com.github.jcornaz.kwik.generator.api.Generator
  * @property guarantees The guarantees that can force the property evaluation to run as long as necessary
  *   to make sure that all guarantees are fulfilled
  */
-@ExperimentalKwikFuzzer
+@ExperimentalKwikApi
 data class Fuzzer<T>(
     val generator: Generator<T>,
     val simplifier: Simplifier<T>,

@@ -1,6 +1,6 @@
 package com.github.jcornaz.kwik.fuzzer.api.simplifier
 
-import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
+import com.github.jcornaz.kwik.ExperimentalKwikApi
 
 /**
  * A simplifier is capable of taking a value to return a sequence of values
@@ -10,7 +10,7 @@ import com.github.jcornaz.kwik.fuzzer.api.ExperimentalKwikFuzzer
  * For instance one may consider `1` simpler than `-189034789235`.
  */
 @Suppress("UndocumentedPublicClass")
-@ExperimentalKwikFuzzer
+@ExperimentalKwikApi
 fun interface Simplifier<T> {
 
     /**

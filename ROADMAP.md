@@ -77,7 +77,6 @@ The random generation would still be seeded. But the seed will only be configura
 
 ## Major tasks
 
-* [ ] Mark the old API as Obsolete and remove experimental flag for the new API (#185) 
 * [ ] Introduce TestResult with a minimal api (#85)
 * [ ] Provide a fuzzer API that can be used the same way as generator are currently used 
 * [ ] Provide decent support for input simplification (aka shrinking) (#62, #173, #174, #64)

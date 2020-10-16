@@ -7,6 +7,7 @@ pluginManagement {
     }
 }
 
+include("api")
 include("core")
 
 include("generator-api")
