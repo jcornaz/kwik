@@ -176,10 +176,10 @@ class InstantGeneratorTest : AbstractGeneratorTest() {
     }
 
     @Test
-    fun generateValuesInMaxBorderRegion() {
+    fun `generate instants with max seconds included`() {
         val min = Instant.ofEpochSecond(1)
         val max = Instant.ofEpochSecond(2, MAX_NANOSECONDS)
-        assertTrue(Generator.instants(min = min, max = max).randomSequence(0).take(50).any { it.epochSecond == max.epochSecond && it != max })
+        assertTrue(Generator.instants(min = min, max = max).randomSequence(0).take(50).filterNot { it == max }.any { it.epochSecond == max.epochSecond })
     }
 }
 
