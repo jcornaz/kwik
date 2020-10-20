@@ -16,7 +16,7 @@ import com.github.jcornaz.kwik.generator.stdlib.ints
  * The generated inputs have high probability to be [Int.MIN_VALUE], [Int.MAX_VALUE], `-1`, `1` or `0`
  */
 @ExperimentalKwikApi
-fun Arbitrary.int(min: Int = Int.MIN_VALUE, max: Int = Int.MAX_VALUE): Fuzzer<Int> {
+public fun Arbitrary.int(min: Int = Int.MIN_VALUE, max: Int = Int.MAX_VALUE): Fuzzer<Int> {
     val range = min..max
 
     return Generator.ints(min, max)
@@ -29,7 +29,7 @@ fun Arbitrary.int(min: Int = Int.MIN_VALUE, max: Int = Int.MAX_VALUE): Fuzzer<In
  * The generated inputs have high probability to be [Int.MIN_VALUE], [Int.MAX_VALUE], `-1`, `1` or `0`
  */
 @ExperimentalKwikApi
-fun Arbitrary.int(): Fuzzer<Int> = anyInt
+public fun Arbitrary.int(): Fuzzer<Int> = anyInt
 
 @ExperimentalKwikApi
 private val anyInt: Fuzzer<Int> by lazy { Generator.ints().toFuzzer(Simplifier.int) }

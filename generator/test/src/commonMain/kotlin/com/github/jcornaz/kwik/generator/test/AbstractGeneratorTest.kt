@@ -6,18 +6,18 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
-abstract class AbstractGeneratorTest {
-    abstract val generator: Generator<*>
+public abstract class AbstractGeneratorTest {
+    public abstract val generator: Generator<*>
 
     @Test
-    open fun isPredictable() {
+    public open fun isPredictable() {
         repeat(100) {
             assertEquals(generator.generate(Random(it.toLong())), generator.generate(Random(it.toLong())))
         }
     }
 
     @Test
-    open fun isRandom() {
+    public open fun isRandom() {
         val generation1 = (0 until 100).map { generator.generate(Random) }
         val generation2 = (0 until 100).map { generator.generate(Random) }
 

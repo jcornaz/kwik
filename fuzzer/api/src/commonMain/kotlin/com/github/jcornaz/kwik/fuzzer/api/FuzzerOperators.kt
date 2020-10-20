@@ -14,7 +14,7 @@ import com.github.jcornaz.kwik.generator.api.filterNot
  * You may pass a [simplifier]. Otherwise the resulting fuzzer will not support input simplification.
  */
 @ExperimentalKwikApi
-fun <T> Generator<T>.toFuzzer(simplifier: Simplifier<T>): Fuzzer<T> =
+public fun <T> Generator<T>.toFuzzer(simplifier: Simplifier<T>): Fuzzer<T> =
     Fuzzer(this, simplifier)
 
 /**
@@ -22,7 +22,7 @@ fun <T> Generator<T>.toFuzzer(simplifier: Simplifier<T>): Fuzzer<T> =
  * so that the [predicate] evaluate to `true` at least once.
  */
 @ExperimentalKwikApi
-fun <T> Fuzzer<T>.ensureAtLeastOne(predicate: (T) -> Boolean): Fuzzer<T> =
+public fun <T> Fuzzer<T>.ensureAtLeastOne(predicate: (T) -> Boolean): Fuzzer<T> =
     copy(guarantees = guarantees + predicate)
 
 /**
@@ -32,7 +32,7 @@ fun <T> Fuzzer<T>.ensureAtLeastOne(predicate: (T) -> Boolean): Fuzzer<T> =
  * Use it with caution and always favor customizing or creating fuzzer if possible.
  */
 @ExperimentalKwikApi
-fun <T> Fuzzer<T>.filter(predicate: (T) -> Boolean): Fuzzer<T> =
+public fun <T> Fuzzer<T>.filter(predicate: (T) -> Boolean): Fuzzer<T> =
     copy(
         generator = generator.filter(predicate),
         simplifier = simplifier.filter(predicate)
@@ -45,7 +45,7 @@ fun <T> Fuzzer<T>.filter(predicate: (T) -> Boolean): Fuzzer<T> =
  * Use it with caution and always favor customizing or creating fuzzer if possible.
  */
 @ExperimentalKwikApi
-fun <T> Fuzzer<T>.filterNot(predicate: (T) -> Boolean): Fuzzer<T> =
+public fun <T> Fuzzer<T>.filterNot(predicate: (T) -> Boolean): Fuzzer<T> =
     copy(
         generator = generator.filterNot(predicate),
         simplifier = simplifier.filterNot(predicate)

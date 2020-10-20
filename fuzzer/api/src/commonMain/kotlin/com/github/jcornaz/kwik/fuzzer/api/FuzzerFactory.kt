@@ -15,7 +15,7 @@ import kotlin.random.Random
  * @param second Fuzzer for the second element of the pairs
  */
 @ExperimentalKwikApi
-fun <A, B> Arbitrary.pair(first: Fuzzer<A>, second: Fuzzer<B>): Fuzzer<Pair<A, B>> =
+public fun <A, B> Arbitrary.pair(first: Fuzzer<A>, second: Fuzzer<B>): Fuzzer<Pair<A, B>> =
     Fuzzer(
         generator = first.generator.combineWith(second.generator),
         simplifier = Simplifier.pair(first.simplifier, second.simplifier)
@@ -29,7 +29,7 @@ fun <A, B> Arbitrary.pair(first: Fuzzer<A>, second: Fuzzer<B>): Fuzzer<Pair<A, B
  * @param third Fuzzer for the third element of the pairs
  */
 @ExperimentalKwikApi
-fun <A, B, C> Arbitrary.triple(first: Fuzzer<A>, second: Fuzzer<B>, third: Fuzzer<C>): Fuzzer<Triple<A, B, C>> =
+public fun <A, B, C> Arbitrary.triple(first: Fuzzer<A>, second: Fuzzer<B>, third: Fuzzer<C>): Fuzzer<Triple<A, B, C>> =
     Fuzzer(
         generator = Generator { random: Random ->
             Triple(

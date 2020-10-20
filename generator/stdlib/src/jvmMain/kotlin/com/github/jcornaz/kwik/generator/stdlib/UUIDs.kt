@@ -7,5 +7,5 @@ import kotlin.random.Random
 /**
  * Returns a generator of [UUID]
  */
-fun Generator.Companion.uuids(): Generator<UUID> =
+public fun Generator.Companion.uuids(): Generator<UUID> =
     Generator { random: Random -> UUID(random.nextLong(), random.nextLong()) }

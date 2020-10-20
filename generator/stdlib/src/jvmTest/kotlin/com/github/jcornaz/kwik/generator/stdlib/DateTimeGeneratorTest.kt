@@ -181,6 +181,30 @@ class InstantGeneratorTest : AbstractGeneratorTest() {
         val max = Instant.ofEpochSecond(2, MAX_NANOSECONDS)
         assertTrue(Generator.instants(min = min, max = max).randomSequence(0).take(50).filterNot { it == max }.any { it.epochSecond == max.epochSecond })
     }
+  
+    @Test
+    fun `generate values within complete nanos range if epochsecond is not min boundary`() {
+        val minNanoBoundary = MAX_NANOSECONDS - 10
+        val min = Instant.ofEpochSecond(100, minNanoBoundary)
+        val max = Instant.ofEpochSecond(102, MAX_NANOSECONDS)
+        assertTrue(Generator.instants(min = min, max = max)
+            .randomSequence(0)
+            .take(50)
+            .filter { it.epochSecond > min.epochSecond }
+            .any { it.nano < minNanoBoundary })
+    }
+
+    @Test
+    fun `generate values within complete nanos range if epochsecond is not max boundary`() {
+        val maxNanoBoundary = 10L
+        val min = Instant.ofEpochSecond(100, 0)
+        val max = Instant.ofEpochSecond(102, maxNanoBoundary)
+        assertTrue(Generator.instants(min = min, max = max)
+            .randomSequence(0)
+            .take(50)
+            .filter { it.epochSecond < max.epochSecond }
+            .any { it.nano > maxNanoBoundary })
+    }
 }
 
 class LocalTimeGeneratorTest : AbstractGeneratorTest() {

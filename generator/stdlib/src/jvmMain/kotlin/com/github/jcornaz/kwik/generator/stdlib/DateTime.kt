@@ -21,7 +21,7 @@ private val EPOCH_WITH_TIME: LocalDateTime = EPOCH.atStartOfDay()
 /**
  * Returns a generator of [Instant] between [min] and [max] (inclusive)
  */
-fun Generator.Companion.instants(
+public fun Generator.Companion.instants(
     min: Instant = Instant.MIN,
     max: Instant = Instant.MAX
 ): Generator<Instant> {
@@ -62,7 +62,7 @@ fun Generator.Companion.instants(
 /**
  * Returns a generator of [Duration] between [min] and [max] (inclusive)
  */
-fun Generator.Companion.durations(
+public fun Generator.Companion.durations(
     min: Duration = MIN_DURATION,
     max: Duration = MAX_DURATION
 ): Generator<Duration> {
@@ -104,8 +104,7 @@ fun Generator.Companion.durations(
 /**
  * Returns a generator of [LocalTime] between [min] and [max] (inclusive)
  */
-
-fun Generator.Companion.localTimes(
+public fun Generator.Companion.localTimes(
     min: LocalTime = LocalTime.MIN,
     max: LocalTime = LocalTime.MAX
 ): Generator<LocalTime> {
@@ -127,7 +126,7 @@ fun Generator.Companion.localTimes(
 /**
  * Returns a generator of [LocalDate] between [min] and [max] (inclusive)
  */
-fun Generator.Companion.localDates(
+public fun Generator.Companion.localDates(
     min: LocalDate = LocalDate.MIN,
     max: LocalDate = LocalDate.MAX
 ): Generator<LocalDate> {
@@ -149,7 +148,7 @@ fun Generator.Companion.localDates(
 /**
  * Returns a generator of [LocalDateTime] between [min] and [max] (inclusive)
  */
-fun Generator.Companion.localDateTimes(
+public fun Generator.Companion.localDateTimes(
     min: LocalDateTime = LocalDateTime.MIN,
     max: LocalDateTime = LocalDateTime.MAX
 ): Generator<LocalDateTime> {

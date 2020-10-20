@@ -10,7 +10,7 @@ import kotlin.random.Random
  * @param charset Set of character to be used
  * @param exclude Characters to exclude
  */
-fun Generator.Companion.characters(
+public fun Generator.Companion.characters(
     charset: Set<Char> = CharSets.printable,
     exclude: Set<Char> = emptySet()
 ): Generator<Char> {
@@ -28,28 +28,28 @@ fun Generator.Companion.characters(
 /**
  * Common set of character to be used with generators
  */
-object CharSets {
+public object CharSets {
 
     /** All printable characters */
     @Suppress("MagicNumber")
-    val printable: Set<Char> = (32..127).mapTo(HashSet()) { it.toChar() }
+    public val printable: Set<Char> = (32..127).mapTo(HashSet()) { it.toChar() }
 
     /** Numeric characters (0-9) */
-    val numeric: Set<Char> = ('0'..'9').toHashSet()
+    public val numeric: Set<Char> = ('0'..'9').toHashSet()
 
     /** Lowercase alphabetic characters */
-    val alphaLowerCase: Set<Char> = ('a'..'z').toHashSet()
+    public val alphaLowerCase: Set<Char> = ('a'..'z').toHashSet()
 
     /** Uppercase alphabetic characters */
-    val alphaUpperCase: Set<Char> = ('A'..'Z').toHashSet()
+    public val alphaUpperCase: Set<Char> = ('A'..'Z').toHashSet()
 
     /** Alphabetic characters (lower and upper cases)*/
-    val alpha: Set<Char> = alphaLowerCase + alphaUpperCase
+    public val alpha: Set<Char> = alphaLowerCase + alphaUpperCase
 
     /**
      * Alphabetic and numeric characters
      *
      * Equivalent of [alpha] + [numeric]
      */
-    val alphaNum: Set<Char> = alpha + numeric
+    public val alphaNum: Set<Char> = alpha + numeric
 }

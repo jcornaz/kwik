@@ -9,7 +9,6 @@ import java.util.Date
 plugins {
     `maven-publish`
     id("org.jetbrains.kotlin.multiplatform") version "1.4.10"
-    id("org.jetbrains.dokka") version "1.4.10"
     id("com.github.ben-manes.versions") version "0.33.0"
     id("io.gitlab.arturbosch.detekt") version "1.14.1"
     id("com.jfrog.bintray") version "1.8.5" apply false
@@ -46,7 +45,6 @@ kotlin { jvm() }
 
 subprojects {
     apply(plugin = "org.jetbrains.kotlin.multiplatform")
-    apply(plugin = "org.jetbrains.dokka")
     apply<BintrayPlugin>()
     apply<MavenPublishPlugin>()
     apply<JacocoPlugin>()
@@ -66,6 +64,7 @@ subprojects {
         @Suppress("SuspiciousCollectionReassignment")
         targets.all {
             compilations.all {
+                explicitApi()
                 kotlinOptions {
                     allWarningsAsErrors = findProperty("warningAsError") != null
                     freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
