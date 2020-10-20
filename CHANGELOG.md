@@ -4,6 +4,32 @@ All notable changes to this project are documented in this file.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+### [0.8.3](https://github.com/jcornaz/kwik/compare/v0.8.2...v0.8.3) (2020-10-20)
+
+
+### Features
+
+* `ExperimentalKwikApi` annotation ([#224](https://github.com/jcornaz/kwik/issues/224)) ([6a629c3](https://github.com/jcornaz/kwik/commit/6a629c3fd0473dc6f342aa878bcec0bbddde694a))
+* Generator for LocalDateTime ([#223](https://github.com/jcornaz/kwik/issues/223)) ([4422e1a](https://github.com/jcornaz/kwik/commit/4422e1aef67926a5d0d2e5f68f9b881042829c19))
+  
+  Thanks to @mmiikkkkaa 
+
+
+### Deprecations
+
+* The experimental annotation '@ExperimentalKwikFuzzer' has been deprecated in favor of the new '@ExperimentalKwikApi' annotation ([03362bb](https://github.com/jcornaz/kwik/commit/03362bb95d8aa7fbf39daa92c9b93ff8f07f2f97))
+
+
+### Bug fixes
+
+* Incomplete domain of Java Instant generation ([#228](https://github.com/jcornaz/kwik/issues/228)) ([6ed57fc](https://github.com/jcornaz/kwik/commit/6ed57fc21b2958bbd259cc873b68ae220f17bec4))
+  
+  Thanks to @mmiikkkkaa 
+
+* Missing values near boundary for instant and duration generators ([#229](https://github.com/jcornaz/kwik/issues/229)) ([68a6fb9](https://github.com/jcornaz/kwik/commit/68a6fb9f4023f4ca5ce9df0b4d3ce53dd51a35c3))
+  
+  Thanks to @mmiikkkkaa
+
 ### [0.8.2](https://github.com/jcornaz/kwik/compare/v0.8.1...v0.8.2) (2020-10-13)
 
 
