@@ -47,7 +47,7 @@ public fun Generator.Companion.instants(
             else 0
 
         val maxNano =
-            if (instant.epochSecond == instant.epochSecond) max.nano
+            if (instant.epochSecond == max.epochSecond) max.nano
             else MAX_NANOSECONDS
 
         instant.with(
