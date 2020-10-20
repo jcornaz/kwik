@@ -38,7 +38,9 @@ public fun Generator.Companion.instants(
     return Generator { random: Random ->
         val seconds =
             if (min.epochSecond == max.epochSecond) min.epochSecond
-            else random.nextLong(from = min.epochSecond, until = max.epochSecond)
+            // also include the max value (since "until" is not inclusive) by add 1
+            // (since Instant.MAX.epoch second is always lower than Long.MAX_VALUE there no overflow error possible)
+            else random.nextLong(from = min.epochSecond, until = max.epochSecond + 1)
 
         val instant = Instant.ofEpochSecond(seconds)
 
@@ -79,7 +81,10 @@ public fun Generator.Companion.durations(
     return Generator { random: Random ->
         val seconds =
             if (min.seconds == max.seconds) min.seconds
-            else random.nextLong(from = min.seconds, until = max.seconds)
+            // also include the max value (since "until" is not inclusive) by add 1,
+            // but only if Long.MAX_VALUE is not reached
+            else random.nextLong(from = min.seconds, until =
+                if (max.seconds == Long.MAX_VALUE) Long.MAX_VALUE else  max.seconds + 1)
 
         val duration = Duration.ofSeconds(seconds)
 

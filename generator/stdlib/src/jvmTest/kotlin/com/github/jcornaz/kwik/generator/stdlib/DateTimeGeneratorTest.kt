@@ -85,6 +85,20 @@ class DurationGeneratorTest : AbstractGeneratorTest() {
         val min = Duration.ofSeconds(1)
         assertTrue(Generator.durations(min = min).randomSequence(0).take(50).any { it == min })
     }
+
+    @Test
+    fun `generate durations with max seconds included`() {
+        val min = Duration.ofSeconds(1, MAX_NANOSECONDS - 2)
+        val max = Duration.ofSeconds(2, MAX_NANOSECONDS)
+        assertTrue(Generator.durations(min = min, max = max).randomSequence(0).take(50).filterNot { it == max }.any { it.seconds == max.seconds})
+    }
+
+    @Test
+    fun `do not created boundary errors if max seconds is long MAX_VALUE`() {
+        val min = Duration.ofSeconds(Long.MAX_VALUE - 1 )
+        val max = Duration.ofSeconds(Long.MAX_VALUE, MAX_NANOSECONDS)
+        assertTrue(Generator.durations(min = min, max = max).randomSequence(0).take(50).filterNot { it == max }.none { it.seconds == max.seconds })
+    }
 }
 
 class InstantGeneratorTest : AbstractGeneratorTest() {
@@ -162,6 +176,13 @@ class InstantGeneratorTest : AbstractGeneratorTest() {
     }
 
     @Test
+    fun `generate instants with max seconds included`() {
+        val min = Instant.ofEpochSecond(1)
+        val max = Instant.ofEpochSecond(2, MAX_NANOSECONDS)
+        assertTrue(Generator.instants(min = min, max = max).randomSequence(0).take(50).filterNot { it == max }.any { it.epochSecond == max.epochSecond })
+    }
+  
+    @Test
     fun `generate values within complete nanos range if epochsecond is not min boundary`() {
         val minNanoBoundary = MAX_NANOSECONDS - 10
         val min = Instant.ofEpochSecond(100, minNanoBoundary)
@@ -184,7 +205,6 @@ class InstantGeneratorTest : AbstractGeneratorTest() {
             .filter { it.epochSecond < max.epochSecond }
             .any { it.nano > maxNanoBoundary })
     }
-
 }
 
 class LocalTimeGeneratorTest : AbstractGeneratorTest() {
