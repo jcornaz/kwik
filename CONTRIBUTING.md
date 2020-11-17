@@ -2,15 +2,23 @@
 
 Feedback and pull requests are very welcome.
 
-## Ask for help, feature or report a bug
 
-Feel free to create feature request and bug report in the [issues](https://github.com/jcornaz/kwik/issues).
-Only make sure that your request/report is not the duplicate of an exiting issue.
+## Ask for help, request a feature or report a bug
+
+Feel free to create an [issue](https://github.com/jcornaz/kwik/issues).
+Only make sure that your question/request/report is not the duplicate of an exiting issue.
+
+The state of issues (backlog, todo, in progress, etc.) is tracked in a [zenhub workspace](https://app.zenhub.com/workspaces/kwik-5e3aa5f35d8a250b41d730e1).
+
+
+## Follow issues
+
+For a detailed view of the issues you can look at the [zenhub board](https://app.zenhub.com/workspaces/kwik-5e3aa5f35d8a250b41d730e1).
+
 
 ## Choose an issue to work on
 
-Issues marked [up-for-grabs](https://github.com/jcornaz/kwik/issues?q=is%3Aissue+is%3Aopen+label%3A%22up+for+grabs%22)
-are supposed to be easy and isolated enough to be done by anyone having interest in contributing.
+Issues marked [up-for-grabs](https://github.com/jcornaz/kwik/issues?q=is%3Aissue+is%3Aopen+label%3A%22up+for+grabs%22) should to be easy and isolated enough to be done by anyone having interest in contributing.
 
 I assign myself to issues when I am working on them. So you can safely pick any
 [unassigned issue](https://github.com/jcornaz/kwik/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+no%3Aassignee+).
@@ -28,6 +36,7 @@ This project uses [gradle](https://gradle.org/). Here are the most important tas
 * `./gradlew check -PwarningAsError` Build and test/check everything
 * `./gradlew sphinx` Generate documentation (result will be in `build/site/index.html`)
 * `./gradlew detekt` Run a static code analysis and report code smells (may fail if too many code smells are found)
+
 
 ## Coding standard
 
@@ -54,7 +63,7 @@ Run the static code analysis (`./gradlew detekt`) to get a reports of the code s
   * help to read and understand the code changes
   * point parts that requires special attention or consideration
 * Update documentation if necessary
-  * Documentation sources are in folder `docs`
+  * documentation sources are in folder `docs`
   * you can generate it locally with `./gradlew sphinx`
   * the locally generated documentation will be available in `build/site/index.html`
 
