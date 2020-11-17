@@ -10,7 +10,7 @@
         {"type": "deprecate", "section": "Deprecations"},
         {"type": "fix", "section": "Bug fixes"},
         {"type": "perf", "section": "Performance improvements"},
-        {"type": "docs", "section":  "Documentation"},
+        {"type": "docs", "hidden":  true},
         {"type": "chore", "hidden": true},
         {"type": "refactor", "hidden": true},
         {"type": "test", "hidden": true}
