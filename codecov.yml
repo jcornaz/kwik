@@ -10,10 +10,10 @@ coverage:
   status:
     project:
       default:
-        target: 79%
+        target: 82%
 
       generator:
-        target: 86%
+        target: 89%
         paths:
           - generator/
 
