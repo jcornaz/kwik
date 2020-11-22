@@ -196,7 +196,6 @@ class ForAnyTest {
     }
 
     @Test
-    @Ignore
     fun doesNotCauseAdditionalIterationInCaseOfFalsification() {
         var iteration = 0
 
@@ -256,7 +255,6 @@ class ForAnyTest {
     }
 
     @Test
-    @Ignore
     fun simplifyInputToGetSimplerInputFalsifingTheProperty() {
         val exception = assertFailsWith<FalsifiedPropertyError> {
             forAny(
@@ -271,8 +269,7 @@ class ForAnyTest {
                 iterations = 320,
                 seed = 87
             ) {
-                assertTrue(it < 10)
-                TestResult.Satisfied
+                (it < 10).alwaysTrue()
             }
         }
 
@@ -281,6 +278,8 @@ class ForAnyTest {
                 Property falsified after 1 tests (out of 320)
                 Argument 1: 10
                 Generation seed: 87
+                Expected: true
+                Actual: false
             """.trimIndent(),
             exception.message
         )

@@ -3,6 +3,7 @@ package com.github.jcornaz.kwik.evaluator
 import com.github.jcornaz.kwik.ExperimentalKwikApi
 import com.github.jcornaz.kwik.TestResult
 import com.github.jcornaz.kwik.fuzzer.api.Fuzzer
+import com.github.jcornaz.kwik.fuzzer.api.simplifier.Simplifier
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.findSimplestFalsification
 import com.github.jcornaz.kwik.generator.api.randomSequence
 
@@ -36,28 +37,44 @@ public fun <T> forAny(
 
         unsatisfiedGuarantees.removeSatisfying(input)
 
-        val testResult = try {
-            block(input)
-        } catch (throwable: Throwable) {
-            val simplerInput = fuzzer.simplifier.findSimplestFalsification(input) {
-                runCatching { block(it) }.isSuccess
-            }
-            throw FalsifiedPropertyError(iterationDone + 1, iterations, seed, listOf(simplerInput), throwable)
-        }
-
-        when (testResult) {
+        when (val testResult = safeTest(input, block)) {
             TestResult.Skip -> Unit
             TestResult.Satisfied -> ++iterationDone
-            is TestResult.Falsified -> throw FalsifiedPropertyError(
-                attempts = iterationDone + 1,
-                iterations = iterations,
-                seed = seed,
-                arguments = listOf(input),
-                testResult = testResult
-            )
+            is TestResult.Falsified, is TestResult.Error ->
+                fuzzer.simplifier.simplifyAndThrow(input, block, iterationDone, iterations, seed, testResult)
         }
     } while (iterationDone < iterations || unsatisfiedGuarantees.isNotEmpty())
 }
+
+@ExperimentalKwikApi
+private fun <T> Simplifier<T>.simplifyAndThrow(
+    input: T,
+    block: (T) -> TestResult,
+    iterationDone: Int,
+    iterations: Int,
+    seed: Long,
+    testResult: TestResult
+) {
+    val simplerInput = findSimplestFalsification(input) { safeTest(it, block) is TestResult.Satisfied }
+    throw FalsifiedPropertyError(
+        attempts = iterationDone + 1,
+        iterations = iterations,
+        seed = seed,
+        arguments = listOf(simplerInput),
+        falsification = when (testResult) {
+            is TestResult.Falsified -> Falsification.Result(testResult)
+            is TestResult.Error -> Falsification.Error(testResult.cause)
+            else -> error("$testResult was not a failure")
+        }
+    )
+}
+
+private fun <T> safeTest(input: T, block: (T) -> TestResult): TestResult =
+    try {
+        block(input)
+    } catch (t: Throwable) {
+        TestResult.Error(t)
+    }
 
 private fun <T> MutableList<(T) -> Boolean>.removeSatisfying(input: T) {
     val iterator = listIterator()

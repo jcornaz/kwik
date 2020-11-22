@@ -4,6 +4,7 @@ public sealed class TestResult {
     public object Skip : TestResult()
     public object Satisfied : TestResult()
     public data class Falsified(val expected: String, val actual: String) : TestResult()
+    public data class Error(val cause: Throwable): TestResult()
 }
 
 public fun Boolean.alwaysTrue(): TestResult = this alwaysEquals true
