@@ -47,6 +47,8 @@ class ForAll4Test : AbstractRunnerTest() {
                 Argument 3: 100
                 Argument 4: hello world
                 Generation seed: 78
+                Expected: true
+                Actual: false
             """.trimIndent(),
             exception.message
         )

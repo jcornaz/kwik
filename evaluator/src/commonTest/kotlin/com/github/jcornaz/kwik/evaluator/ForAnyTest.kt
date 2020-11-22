@@ -2,6 +2,7 @@ package com.github.jcornaz.kwik.evaluator
 
 import com.github.jcornaz.kwik.ExperimentalKwikApi
 import com.github.jcornaz.kwik.TestResult
+import com.github.jcornaz.kwik.alwaysTrue
 import com.github.jcornaz.kwik.fuzzer.api.ensureAtLeastOne
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.dontSimplify
 import com.github.jcornaz.kwik.fuzzer.api.toFuzzer
@@ -27,7 +28,21 @@ class ForAnyTest {
     }
 
     @Test
-    fun failFastInCaseOfFalsification() {
+    fun failsInCaseOfFalsification() {
+        var invocations = 0
+
+        assertFailsWith<AssertionError> {
+            forAny(Generator.ints().toFuzzer(dontSimplify())) {
+                ++invocations
+                TestResult.Falsified("", "")
+            }
+        }
+
+        assertEquals(1, invocations)
+    }
+
+    @Test
+    fun failsFastInCaseOfThrow() {
         var invocations = 0
 
         assertFailsWith<AssertionError> {
@@ -56,6 +71,28 @@ class ForAnyTest {
 
             assertEquals(generator.randomSequence(seed).take(100).toList(), values)
         }
+    }
+
+    @Test
+    fun throwFalsifiedPropertyErrorWithInfoInCaseOfFalsification() {
+        val exception = assertFailsWith<FalsifiedPropertyError> {
+            forAny(Generator.of(12).toFuzzer(dontSimplify()), iterations = 42, seed = 24) {
+                TestResult.Falsified(expected = "something", actual = "something else")
+            }
+        }
+
+        assertEquals(
+            """
+                Property falsified after 1 tests (out of 42)
+                Argument 1: 12
+                Generation seed: 24
+                Expected: something
+                Actual: something else
+            """.trimIndent(),
+            exception.message
+        )
+
+        assertNull(exception.cause)
     }
 
     @Test
@@ -103,6 +140,18 @@ class ForAnyTest {
     }
 
     @Test
+    fun skipTestResultCausesAdditionalEvaluation() {
+        var iterations = 0
+
+        forAny(
+            Generator { iterations + 1 }.toFuzzer(dontSimplify()),
+            iterations = 10
+        ) { if (++iterations % 2 != 0) TestResult.Skip else TestResult.Satisfied }
+
+        assertEquals(20, iterations)
+    }
+
+    @Test
     fun multipleGuaranteesCauseAdditionalIterationUntilTheyAreAllSatisfied() {
         var iterations = 0
 
@@ -147,7 +196,38 @@ class ForAnyTest {
     }
 
     @Test
+    @Ignore
     fun doesNotCauseAdditionalIterationInCaseOfFalsification() {
+        var iteration = 0
+
+        val exception = assertFailsWith<FalsifiedPropertyError> {
+            forAny(
+                Generator { 42 }
+                    .toFuzzer(dontSimplify())
+                    .ensureAtLeastOne { it > 10 },
+                iterations = 123,
+                seed = 78
+            ) {
+                ++iteration
+                (iteration < 10).alwaysTrue()
+            }
+        }
+
+        assertEquals(10, iteration)
+        assertEquals(
+            """
+                Property falsified after 10 tests (out of 123)
+                Argument 1: 42
+                Generation seed: 78
+                Expected: true
+                Actual: false
+            """.trimIndent(),
+            exception.message
+        )
+    }
+
+    @Test
+    fun doesNotCauseAdditionalIterationInCaseOfError() {
         var iteration = 0
 
         val exception = assertFailsWith<FalsifiedPropertyError> {
@@ -176,7 +256,38 @@ class ForAnyTest {
     }
 
     @Test
+    @Ignore
     fun simplifyInputToGetSimplerInputFalsifingTheProperty() {
+        val exception = assertFailsWith<FalsifiedPropertyError> {
+            forAny(
+                Generator { 42 }
+                    .toFuzzer { value ->
+                        when (value) {
+                            0 -> emptySequence()
+                            1 -> sequenceOf(0)
+                            else -> sequenceOf(value / 2, value - 1)
+                        }
+                    },
+                iterations = 320,
+                seed = 87
+            ) {
+                assertTrue(it < 10)
+                TestResult.Satisfied
+            }
+        }
+
+        assertEquals(
+            """
+                Property falsified after 1 tests (out of 320)
+                Argument 1: 10
+                Generation seed: 87
+            """.trimIndent(),
+            exception.message
+        )
+    }
+
+    @Test
+    fun simplifyInputToGetSimplerInputFalsifingThePropertyOnError() {
         val exception = assertFailsWith<FalsifiedPropertyError> {
             forAny(
                 Generator { 42 }

@@ -36,7 +36,7 @@ public fun <T> forAny(
 
         unsatisfiedGuarantees.removeSatisfying(input)
 
-        try {
+        val testResult = try {
             block(input)
         } catch (throwable: Throwable) {
             val simplerInput = fuzzer.simplifier.findSimplestFalsification(input) {
@@ -45,7 +45,17 @@ public fun <T> forAny(
             throw FalsifiedPropertyError(iterationDone + 1, iterations, seed, listOf(simplerInput), throwable)
         }
 
-        ++iterationDone
+        when (testResult) {
+            TestResult.Skip -> Unit
+            TestResult.Satisfied -> ++iterationDone
+            is TestResult.Falsified -> throw FalsifiedPropertyError(
+                attempts = iterationDone + 1,
+                iterations = iterations,
+                seed = seed,
+                arguments = listOf(input),
+                testResult = testResult
+            )
+        }
     } while (iterationDone < iterations || unsatisfiedGuarantees.isNotEmpty())
 }
 

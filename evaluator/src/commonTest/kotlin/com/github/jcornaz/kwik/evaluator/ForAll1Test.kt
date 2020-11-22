@@ -30,6 +30,8 @@ class ForAll1Test : AbstractRunnerTest() {
                 Property falsified after 12 tests (out of 123)
                 Argument 1: 42
                 Generation seed: 78
+                Expected: true
+                Actual: false
             """.trimIndent(),
             exception.message
         )
@@ -119,6 +121,8 @@ class ForAll1Test : AbstractRunnerTest() {
                 Property falsified after 10 tests (out of 123)
                 Argument 1: 42
                 Generation seed: 78
+                Expected: true
+                Actual: false
             """.trimIndent(),
             exception.message
         )
