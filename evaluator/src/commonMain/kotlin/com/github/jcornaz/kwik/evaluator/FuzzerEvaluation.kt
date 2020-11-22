@@ -39,7 +39,7 @@ public fun <T> forAny(
         unsatisfiedGuarantees.removeSatisfying(input)
 
         when (val testResult = safeTest(input, block)) {
-            TestResult.Skip -> Unit
+            TestResult.Discard -> Unit
             TestResult.Satisfied -> ++iterationDone
             is TestResult.Falsified ->
                 fuzzer.simplifier.simplifyAndThrow(input, block, iterationDone, iterations, seed, testResult.falsification)

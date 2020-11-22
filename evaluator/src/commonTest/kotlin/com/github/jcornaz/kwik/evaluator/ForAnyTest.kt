@@ -144,7 +144,7 @@ class ForAnyTest {
         forAny(
             Generator { iterations + 1 }.toFuzzer(dontSimplify()),
             iterations = 10
-        ) { if (++iterations % 2 != 0) TestResult.Skip else TestResult.Satisfied }
+        ) { if (++iterations % 2 != 0) TestResult.Discard else TestResult.Satisfied }
 
         assertEquals(20, iterations)
     }
