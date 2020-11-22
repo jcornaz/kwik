@@ -1,7 +1,7 @@
 package com.github.jcornaz.kwik.evaluator
 
 import com.github.jcornaz.kwik.ExperimentalKwikApi
-import com.github.jcornaz.kwik.PropertyEvalResult
+import com.github.jcornaz.kwik.TestResult
 import com.github.jcornaz.kwik.fuzzer.api.ensureAtLeastOne
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.dontSimplify
 import com.github.jcornaz.kwik.fuzzer.api.toFuzzer
@@ -20,7 +20,7 @@ class ForAnyTest {
 
         forAny(Generator.ints().toFuzzer(dontSimplify())) {
             ++invocations
-            PropertyEvalResult.Satisfied
+            TestResult.Satisfied
         }
 
         assertEquals(200, invocations)
@@ -51,7 +51,7 @@ class ForAnyTest {
 
             forAny(generator.toFuzzer(dontSimplify()), iterations = 100, seed = seed) {
                 values += it
-                PropertyEvalResult.Satisfied
+                TestResult.Satisfied
             }
 
             assertEquals(generator.randomSequence(seed).take(100).toList(), values)
@@ -84,7 +84,7 @@ class ForAnyTest {
     @Test
     fun failsForZeroIteration() {
         assertFailsWith<IllegalArgumentException> {
-            forAny(Generator.ints().toFuzzer(dontSimplify()), iterations = 0) { PropertyEvalResult.Satisfied }
+            forAny(Generator.ints().toFuzzer(dontSimplify()), iterations = 0) { TestResult.Satisfied }
         }
     }
 
@@ -97,7 +97,7 @@ class ForAnyTest {
                 .toFuzzer(dontSimplify())
                 .ensureAtLeastOne { it >= 100 },
             iterations = 10
-        ) { ++iterations ; PropertyEvalResult.Satisfied }
+        ) { ++iterations ; TestResult.Satisfied }
 
         assertEquals(100, iterations)
     }
@@ -113,7 +113,7 @@ class ForAnyTest {
                 .ensureAtLeastOne { it >= 100 }
                 .ensureAtLeastOne { it >= 10 },
             iterations = 10
-        ) { ++iterations ; PropertyEvalResult.Satisfied }
+        ) { ++iterations ; TestResult.Satisfied }
 
         assertEquals(100, iterations)
     }
@@ -128,7 +128,7 @@ class ForAnyTest {
                 .ensureAtLeastOne { it >= 10 }
                 .ensureAtLeastOne { it >= 100 },
             iterations = 10
-        ) { ++iterations ; PropertyEvalResult.Satisfied }
+        ) { ++iterations ; TestResult.Satisfied }
 
         assertEquals(100, iterations)
     }
@@ -142,7 +142,7 @@ class ForAnyTest {
                 .toFuzzer(dontSimplify())
                 .ensureAtLeastOne { it > 10 },
             iterations = 123
-        ) { ++iteration ; PropertyEvalResult.Satisfied }
+        ) { ++iteration ; TestResult.Satisfied }
 
         assertEquals(123, iteration)
     }
@@ -161,7 +161,7 @@ class ForAnyTest {
             ) {
                 ++iteration
                 assertTrue(iteration < 10)
-                PropertyEvalResult.Satisfied
+                TestResult.Satisfied
             }
         }
 
@@ -192,7 +192,7 @@ class ForAnyTest {
                 seed = 87
             ) {
                 assertTrue(it < 10)
-                PropertyEvalResult.Satisfied
+                TestResult.Satisfied
             }
         }
 
