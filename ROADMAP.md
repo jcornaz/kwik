@@ -77,8 +77,9 @@ The random generation would still be seeded. But the seed will only be configura
 
 ## Major tasks
 
-* [ ] Introduce TestResult with a minimal api (#85)
-* [ ] Provide a fuzzer API that can be used the same way as generator are currently used 
+* [x] Introduce TestResult with a minimal api (#85)
+* [ ] Provide a fuzzer API that can be used the same way as generator are currently used (#237)
+* [ ] Document usage of the new API (#243)
 * [ ] Provide decent support for input simplification (aka shrinking) (#62, #173, #174, #64)
 * [ ] Move the concept of 'sample' from generators to fuzzers (#186)
 * [ ] Deprecate old API and document how to migrate the new API (the more can be automated via Kotlin's deprecation system, the better)
