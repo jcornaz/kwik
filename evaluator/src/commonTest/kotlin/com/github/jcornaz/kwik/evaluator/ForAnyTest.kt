@@ -102,7 +102,6 @@ class ForAnyTest {
         assertEquals(100, iterations)
     }
 
-
     @Test
     fun multipleGuaranteesCauseAdditionalIterationUntilTheyAreAllSatisfied() {
         var iterations = 0

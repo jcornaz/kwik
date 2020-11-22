@@ -1,6 +1,7 @@
 package com.github.jcornaz.kwik.evaluator
 
 import com.github.jcornaz.kwik.ExperimentalKwikApi
+import com.github.jcornaz.kwik.TestResult
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.dontSimplify
 import com.github.jcornaz.kwik.fuzzer.api.toFuzzer
 import com.github.jcornaz.kwik.generator.api.Generator
@@ -18,6 +19,7 @@ class DefaultIterationPropertyTest {
         withSystemProperty("kwik.iterations", "101") {
             forAny(Generator.ints().toFuzzer(dontSimplify())) { _: Int ->
                 ++count
+                TestResult.Satisfied
             }
         }
 
