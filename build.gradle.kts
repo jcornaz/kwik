@@ -212,7 +212,5 @@ tasks {
 
     val check by existing {
         dependsOn(sphinx)
-
-        finalizedBy(testReport)
     }
 }
