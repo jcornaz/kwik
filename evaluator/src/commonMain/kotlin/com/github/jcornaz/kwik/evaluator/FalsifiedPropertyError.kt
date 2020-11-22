@@ -9,6 +9,7 @@ import com.github.jcornaz.kwik.Falsification
  * @property iterations Number of iteration that was requested
  * @property seed Seed used for the random generation
  * @property arguments Argument list that cause a falsification
+ * @property falsification Information about the falsification. See [Falsification]
  * @property cause Error thrown by the system under test (if any)
  */
 public data class FalsifiedPropertyError(

@@ -42,12 +42,20 @@ public fun <T> forAny(
             TestResult.Discard -> Unit
             TestResult.Satisfied -> ++iterationDone
             is TestResult.Falsified ->
-                fuzzer.simplifier.simplifyAndThrow(input, block, iterationDone, iterations, seed, testResult.falsification)
+                fuzzer.simplifier.simplifyAndThrow(
+                    input,
+                    block,
+                    iterationDone,
+                    iterations,
+                    seed,
+                    testResult.falsification
+                )
         }
     } while (iterationDone < iterations || unsatisfiedGuarantees.isNotEmpty())
 }
 
 @ExperimentalKwikApi
+@Suppress("LongParameterList")
 private fun <T> Simplifier<T>.simplifyAndThrow(
     input: T,
     block: (T) -> TestResult,
