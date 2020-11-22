@@ -4,6 +4,13 @@ All notable changes to this project are documented in this file.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+### [0.8.4](https://github.com/jcornaz/kwik/compare/v0.8.3...v0.8.4) (2020-11-22)
+
+
+### Features
+
+* Convenience functions to create pair/triple generator/simplifier/fuzzer when elements are using the same generator/simplifier/fuzzer ([#248](https://github.com/jcornaz/kwik/issues/248)) ([692c253](https://github.com/jcornaz/kwik/commit/692c253417fbe4557e4deab11dbaf8a965d46373))
+
 ### [0.8.3](https://github.com/jcornaz/kwik/compare/v0.8.2...v0.8.3) (2020-10-20)
 
 
