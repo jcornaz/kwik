@@ -1,6 +1,7 @@
 package com.github.jcornaz.kwik.fuzzer.api.simplifier
 
 import com.github.jcornaz.kwik.ExperimentalKwikApi
+import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -37,6 +38,18 @@ class TripleTest {
         )
     }
 
+    @Test
+    fun canUseSameSimplifierForAllElements() {
+        val itemSimplifier = Simplifier { it: Int -> if (it > 0) sequenceOf(it - 1) else emptySequence() }
+
+        repeat(100) {
+            val initialValue = Triple(Random.nextInt(0, 5), Random.nextInt(0, 5), Random.nextInt(0, 5))
+            assertEquals(
+                Simplifier.triple(itemSimplifier).simplify(initialValue).toList(),
+                Simplifier.triple(itemSimplifier, itemSimplifier, itemSimplifier).simplify(initialValue).toList(),
+            )
+        }
+    }
 
     @Test
     fun returnEmptySequenceIfNoneHaveSimplerValue() {

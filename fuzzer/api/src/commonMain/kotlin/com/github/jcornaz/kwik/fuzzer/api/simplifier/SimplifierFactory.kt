@@ -26,6 +26,15 @@ public fun <A, B> Simplifier.Companion.pair(
     }
 
 /**
+ * Create a [Simplifier] that can simplify pairs using [simplifier] for both elements of the pair.
+ *
+ * This is essentially an alias for `Simplifier.pair(simplifier, simplifier)`
+ */
+@ExperimentalKwikApi
+public fun <T> Simplifier.Companion.pair(simplifier: Simplifier<T>): Simplifier<Pair<T, T>> =
+    pair(simplifier, simplifier)
+
+/**
  * Create a [Simplifier] that can simplify triples.
  *
  * @param first Simplifier for the first elements of the pairs
@@ -51,3 +60,12 @@ public fun <A, B, C> Simplifier.Companion.triple(
             }
         }
     }
+
+/**
+ * Create a [Simplifier] that can simplify triples using [simplifier] for all elements of the triple.
+ *
+ * This is essentially an alias for `Simplifier.triple(simplifier, simplifier, simplifier)`
+ */
+@ExperimentalKwikApi
+public fun <T> Simplifier.Companion.triple(simplifier: Simplifier<T>): Simplifier<Triple<T, T, T>> =
+    triple(simplifier, simplifier, simplifier)
