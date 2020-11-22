@@ -8,7 +8,7 @@ import java.util.Date
 
 plugins {
     `maven-publish`
-    id("org.jetbrains.kotlin.multiplatform") version "1.4.10"
+    id("org.jetbrains.kotlin.multiplatform") version "1.4.20"
     id("com.github.ben-manes.versions") version "0.36.0"
     id("io.gitlab.arturbosch.detekt") version "1.14.2"
     id("com.jfrog.bintray") version "1.8.5" apply false
