@@ -1,6 +1,6 @@
 package com.github.jcornaz.kwik.evaluator
 
-import com.github.jcornaz.kwik.TestResult
+import com.github.jcornaz.kwik.Falsification
 import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.combineWith
 import com.github.jcornaz.kwik.generator.api.randomSequence
@@ -47,7 +47,7 @@ public fun <T> forAll(
             iterations,
             seed,
             extractArgumentList(input),
-            TestResult.Falsified("true", "false")
+            Falsification.UnexpectedResult("true", "false")
         )
     }
 
@@ -288,58 +288,3 @@ public inline fun <reified A, reified B, reified C, reified D> checkForAll(
  * @property second Second argument
  */
 public data class ArgumentPair<A, B>(public val first: A, public val second: B)
-
-/**
- * Exception thrown when a property is falsified
- *
- * @property attempts Number of attempts after which the falsification was found
- * @property iterations Number of iteration that was requested
- * @property seed Seed used for the random generation
- * @property arguments Argument list that cause a falsification
- * @property cause Error thrown by the system under test (if any)
- */
-public data class FalsifiedPropertyError(
-    public val attempts: Int,
-    public val iterations: Int,
-    public val seed: Long,
-    public val arguments: List<Any?>,
-    public val falsification: Falsification
-) : AssertionError(buildString {
-    appendLine("Property falsified after $attempts tests (out of $iterations)")
-
-    arguments.forEachIndexed { index, arg ->
-        appendLine("Argument ${index + 1}: $arg")
-    }
-
-    append("Generation seed: $seed")
-
-    if (falsification is Falsification.Result) {
-        append('\n')
-        appendLine("Expected: ${falsification.result.expected}")
-        append("Actual: ${falsification.result.actual}")
-    }
-}) {
-
-    override val cause: Throwable? get() = (falsification as? Falsification.Error)?.throwable
-
-    public constructor(
-        attempts: Int,
-        iterations: Int,
-        seed: Long,
-        arguments: List<Any?>,
-        cause: Throwable
-    ) : this(attempts, iterations, seed, arguments, Falsification.Error(cause))
-
-    public constructor(
-        attempts: Int,
-        iterations: Int,
-        seed: Long,
-        arguments: List<Any?>,
-        testResult: TestResult.Falsified
-    ) : this(attempts, iterations, seed, arguments, Falsification.Result(testResult))
-}
-
-public sealed class Falsification {
-    public data class Error(val throwable: Throwable) : Falsification()
-    public data class Result(val result: TestResult.Falsified) : Falsification()
-}

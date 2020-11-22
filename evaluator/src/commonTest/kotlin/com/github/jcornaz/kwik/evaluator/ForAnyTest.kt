@@ -1,8 +1,6 @@
 package com.github.jcornaz.kwik.evaluator
 
-import com.github.jcornaz.kwik.ExperimentalKwikApi
-import com.github.jcornaz.kwik.TestResult
-import com.github.jcornaz.kwik.alwaysTrue
+import com.github.jcornaz.kwik.*
 import com.github.jcornaz.kwik.fuzzer.api.ensureAtLeastOne
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.dontSimplify
 import com.github.jcornaz.kwik.fuzzer.api.toFuzzer
@@ -34,7 +32,7 @@ class ForAnyTest {
         assertFailsWith<AssertionError> {
             forAny(Generator.ints().toFuzzer(dontSimplify())) {
                 ++invocations
-                TestResult.Falsified("", "")
+                false.alwaysTrue()
             }
         }
 
@@ -77,7 +75,7 @@ class ForAnyTest {
     fun throwFalsifiedPropertyErrorWithInfoInCaseOfFalsification() {
         val exception = assertFailsWith<FalsifiedPropertyError> {
             forAny(Generator.of(12).toFuzzer(dontSimplify()), iterations = 42, seed = 24) {
-                TestResult.Falsified(expected = "something", actual = "something else")
+                "something" alwaysEquals "something else"
             }
         }
 
@@ -86,8 +84,8 @@ class ForAnyTest {
                 Property falsified after 1 tests (out of 42)
                 Argument 1: 12
                 Generation seed: 24
-                Expected: something
-                Actual: something else
+                Expected: something else
+                Actual: something
             """.trimIndent(),
             exception.message
         )
@@ -300,7 +298,12 @@ class ForAnyTest {
                 iterations = 320,
                 seed = 87
             ) {
-                if (it < 10) TestResult.Satisfied else TestResult.Falsified(expected = "< 10", actual = it.toString())
+                if (it < 10) TestResult.Satisfied else {
+                    TestResult.Falsified(Falsification.UnexpectedResult(
+                        expected = "< 10",
+                        actual = it.toString()
+                    ))
+                }
             }
         }
 

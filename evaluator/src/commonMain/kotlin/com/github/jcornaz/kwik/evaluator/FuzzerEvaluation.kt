@@ -1,6 +1,7 @@
 package com.github.jcornaz.kwik.evaluator
 
 import com.github.jcornaz.kwik.ExperimentalKwikApi
+import com.github.jcornaz.kwik.Falsification
 import com.github.jcornaz.kwik.TestResult
 import com.github.jcornaz.kwik.fuzzer.api.Fuzzer
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.Simplifier
@@ -40,8 +41,8 @@ public fun <T> forAny(
         when (val testResult = safeTest(input, block)) {
             TestResult.Skip -> Unit
             TestResult.Satisfied -> ++iterationDone
-            is TestResult.Falsified, is TestResult.Error ->
-                fuzzer.simplifier.simplifyAndThrow(input, block, iterationDone, iterations, seed, testResult)
+            is TestResult.Falsified ->
+                fuzzer.simplifier.simplifyAndThrow(input, block, iterationDone, iterations, seed, testResult.falsification)
         }
     } while (iterationDone < iterations || unsatisfiedGuarantees.isNotEmpty())
 }
@@ -53,7 +54,7 @@ private fun <T> Simplifier<T>.simplifyAndThrow(
     iterationDone: Int,
     iterations: Int,
     seed: Long,
-    testResult: TestResult
+    falsification: Falsification,
 ) {
     val simplerInput = findSimplestFalsification(input) { safeTest(it, block) is TestResult.Satisfied }
 
@@ -62,16 +63,8 @@ private fun <T> Simplifier<T>.simplifyAndThrow(
         iterations = iterations,
         seed = seed,
         arguments = listOf(simplerInput),
-        falsification = run {
-            val simplerResult =
-                if (simplerInput == input) testResult
-                else safeTest(simplerInput, block).takeIf { it is TestResult.Falsified || it is TestResult.Error } ?: testResult
-
-            when (simplerResult) {
-                is TestResult.Falsified -> Falsification.Result(simplerResult)
-                is TestResult.Error -> Falsification.Error(simplerResult.cause)
-                else -> error("$simplerInput is not a falsification")
-            }
+        falsification = if (simplerInput == input) falsification else {
+            (safeTest(simplerInput, block) as? TestResult.Falsified)?.falsification ?: falsification
         }
     )
 }
@@ -79,8 +72,8 @@ private fun <T> Simplifier<T>.simplifyAndThrow(
 private fun <T> safeTest(input: T, block: (T) -> TestResult): TestResult =
     try {
         block(input)
-    } catch (t: Throwable) {
-        TestResult.Error(t)
+    } catch (error: Throwable) {
+        TestResult.Falsified(Falsification.Error(error))
     }
 
 private fun <T> MutableList<(T) -> Boolean>.removeSatisfying(input: T) {

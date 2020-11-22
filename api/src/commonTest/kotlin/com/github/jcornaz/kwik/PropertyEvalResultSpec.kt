@@ -12,7 +12,10 @@ class PropertyEvalResultSpec {
 
     @Test
     fun alwaysTrueReturnsFalsifiedForFalse() {
-        assertEquals(false.alwaysTrue(), TestResult.Falsified(expected = "true", actual = "false"))
+        assertEquals(
+            false.alwaysTrue(),
+            TestResult.Falsified(Falsification.UnexpectedResult(expected = "true", actual = "false"))
+        )
     }
 
     @Test
@@ -22,12 +25,18 @@ class PropertyEvalResultSpec {
 
     @Test
     fun alwaysFalseReturnsFalsifiedForTrue() {
-        assertEquals(true.alwaysFalse(), TestResult.Falsified(expected = "false", actual = "true"))
+        assertEquals(
+            true.alwaysFalse(),
+            TestResult.Falsified(Falsification.UnexpectedResult(expected = "false", actual = "true"))
+        )
     }
 
     @Test
     fun neverTrueReturnsFalsifiedForTrue() {
-        assertEquals(true.neverTrue(), TestResult.Falsified(expected = "false", actual = "true"))
+        assertEquals(
+            true.neverTrue(),
+            TestResult.Falsified(Falsification.UnexpectedResult(expected = "false", actual = "true"))
+        )
     }
 
     @Test
@@ -37,7 +46,10 @@ class PropertyEvalResultSpec {
 
     @Test
     fun neverFalseReturnsFalsifiedForFalse() {
-        assertEquals(false.neverFalse(), TestResult.Falsified(expected = "true", actual = "false"))
+        assertEquals(
+            false.neverFalse(),
+            TestResult.Falsified(Falsification.UnexpectedResult(expected = "true", actual = "false"))
+        )
     }
 
     @Test
@@ -52,10 +64,10 @@ class PropertyEvalResultSpec {
 
     @Test
     fun alwaysEqualsReturnsFalsifiedWhenNotEqual() {
-        assertEquals(1 alwaysEquals 2, TestResult.Falsified(
-            expected = "2",
-            actual = "1"
-        ))
+        assertEquals(
+            1 alwaysEquals 2,
+            TestResult.Falsified( Falsification.UnexpectedResult(expected = "2", actual = "1"))
+        )
     }
 
     @Test
@@ -65,9 +77,9 @@ class PropertyEvalResultSpec {
 
     @Test
     fun neverEqualsReturnsFalsifiedWhenEqual() {
-        assertEquals(1 neverEquals 1, TestResult.Falsified(
-            expected = "NOT 1",
-            actual = "1"
-        ))
+        assertEquals(
+            1 neverEquals 1,
+            TestResult.Falsified(Falsification.UnexpectedResult(expected = "NOT 1", actual = "1"))
+        )
     }
 }
