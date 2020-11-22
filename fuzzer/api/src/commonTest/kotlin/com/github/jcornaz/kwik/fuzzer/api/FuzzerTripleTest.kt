@@ -53,4 +53,19 @@ class FuzzerTripleTest {
             pair.simplifier.simplify(Triple(10, 20, 30)).toList()
         )
     }
+
+    @Test
+    fun canCreatePairWithSingleItemFuzzer() {
+        val itemFuzz = Generator.of(1).toFuzzer { sequenceOf(it - 1) }
+        assertEquals(
+            Arbitrary.triple(itemFuzz).generator.generate(Random(0)),
+            Arbitrary.triple(itemFuzz, itemFuzz, itemFuzz).generator.generate(Random(0))
+        )
+        assertEquals(
+            Arbitrary.triple(itemFuzz).simplifier
+                .simplify(Triple(1, 2, 3)).toList(),
+            Arbitrary.triple(itemFuzz, itemFuzz, itemFuzz).simplifier
+                .simplify(Triple(1, 2, 3)).toList()
+        )
+    }
 }

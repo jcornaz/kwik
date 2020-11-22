@@ -1,6 +1,8 @@
 package com.github.jcornaz.kwik.fuzzer.api.simplifier
 
 import com.github.jcornaz.kwik.ExperimentalKwikApi
+import kotlin.random.Random
+import kotlin.random.nextUInt
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -31,6 +33,19 @@ class PairTest {
             ),
             actual = pair.simplify(10 to 'Z').toList()
         )
+    }
+
+    @Test
+    fun canUseSameSimplifierForBothElements() {
+        val itemSimplifier = Simplifier { it: Int -> if (it > 0) sequenceOf(it - 1) else emptySequence() }
+
+        repeat(100) {
+            val initialValue = Random.nextInt(0, 5) to Random.nextInt(0, 5)
+            assertEquals(
+                Simplifier.pair(itemSimplifier).simplify(initialValue).toList(),
+                Simplifier.pair(itemSimplifier, itemSimplifier).simplify(initialValue).toList(),
+            )
+        }
     }
 
     @Test

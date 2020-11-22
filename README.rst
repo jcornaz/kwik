@@ -13,8 +13,11 @@ Kwik
 .. image:: https://img.shields.io/badge/kotlin-1.4-informational
     :target: https://kotl.in
     
-.. image:: https://api.bintray.com/packages/kwik/stable/kwik/images/download.svg
+.. image:: https://img.shields.io/bintray/v/kwik/stable/kwik?color=blue&label=stable
     :target: https://bintray.com/kwik/stable/kwik
+
+.. image:: https://img.shields.io/bintray/v/kwik/preview/kwik?color=orange&label=preview
+    :target: https://bintray.com/kwik/preview/kwik
 
 .. afterBadges
 
