@@ -1,6 +1,7 @@
 package com.github.jcornaz.kwik.evaluator
 
 import com.github.jcornaz.kwik.ExperimentalKwikApi
+import com.github.jcornaz.kwik.PropertyEvalResult
 import com.github.jcornaz.kwik.fuzzer.api.Fuzzer
 import com.github.jcornaz.kwik.fuzzer.api.simplifier.findSimplestFalsification
 import com.github.jcornaz.kwik.generator.api.randomSequence
@@ -22,7 +23,7 @@ public fun <T> forAny(
     fuzzer: Fuzzer<T>,
     iterations: Int = kwikDefaultIterations,
     seed: Long = nextSeed(),
-    block: (T) -> Unit
+    block: (T) -> PropertyEvalResult
 ) {
     require(iterations > 0) { "Iterations must be > 0, but was: $iterations" }
 
