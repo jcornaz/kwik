@@ -40,4 +40,17 @@ class FuzzerPairTest {
 
         assertEquals(listOf(3 to 50, 10 to 42), pair.simplifier.simplify(10 to 50).toList())
     }
+
+    @Test
+    fun canCreatePairWithSingleItemFuzzer() {
+        val itemFuzz = Generator.of(1).toFuzzer { sequenceOf(it - 1) }
+        assertEquals(
+            Arbitrary.pair(itemFuzz).generator.generate(Random(0)),
+            Arbitrary.pair(itemFuzz, itemFuzz).generator.generate(Random(0))
+        )
+        assertEquals(
+            Arbitrary.pair(itemFuzz).simplifier.simplify(2 to 3).toList(),
+            Arbitrary.pair(itemFuzz, itemFuzz).simplifier.simplify(2 to 3).toList()
+        )
+    }
 }
