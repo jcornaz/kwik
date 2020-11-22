@@ -56,15 +56,22 @@ private fun <T> Simplifier<T>.simplifyAndThrow(
     testResult: TestResult
 ) {
     val simplerInput = findSimplestFalsification(input) { safeTest(it, block) is TestResult.Satisfied }
+
     throw FalsifiedPropertyError(
         attempts = iterationDone + 1,
         iterations = iterations,
         seed = seed,
         arguments = listOf(simplerInput),
-        falsification = when (testResult) {
-            is TestResult.Falsified -> Falsification.Result(testResult)
-            is TestResult.Error -> Falsification.Error(testResult.cause)
-            else -> error("$testResult was not a failure")
+        falsification = run {
+            val simplerResult =
+                if (simplerInput == input) testResult
+                else safeTest(simplerInput, block).takeIf { it is TestResult.Falsified || it is TestResult.Error } ?: testResult
+
+            when (simplerResult) {
+                is TestResult.Falsified -> Falsification.Result(simplerResult)
+                is TestResult.Error -> Falsification.Error(simplerResult.cause)
+                else -> error("$simplerInput is not a falsification")
+            }
         }
     )
 }

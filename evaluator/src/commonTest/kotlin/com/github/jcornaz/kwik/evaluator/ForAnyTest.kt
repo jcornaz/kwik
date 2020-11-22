@@ -286,6 +286,37 @@ class ForAnyTest {
     }
 
     @Test
+    fun returnsActualResultOfSimplerFalsification() {
+        val exception = assertFailsWith<FalsifiedPropertyError> {
+            forAny(
+                Generator { 42 }
+                    .toFuzzer { value ->
+                        when (value) {
+                            0 -> emptySequence()
+                            1 -> sequenceOf(0)
+                            else -> sequenceOf(value / 2, value - 1)
+                        }
+                    },
+                iterations = 320,
+                seed = 87
+            ) {
+                if (it < 10) TestResult.Satisfied else TestResult.Falsified(expected = "< 10", actual = it.toString())
+            }
+        }
+
+        assertEquals(
+            """
+                Property falsified after 1 tests (out of 320)
+                Argument 1: 10
+                Generation seed: 87
+                Expected: < 10
+                Actual: 10
+            """.trimIndent(),
+            exception.message
+        )
+    }
+
+    @Test
     fun simplifyInputToGetSimplerInputFalsifingThePropertyOnError() {
         val exception = assertFailsWith<FalsifiedPropertyError> {
             forAny(
