@@ -44,4 +44,30 @@ class PropertyEvalResultSpec {
     fun neverFalseReturnsSatisfiedForTrue() {
         assertEquals(true.neverFalse(), PropertyEvalResult.Satisfied)
     }
+
+    @Test
+    fun alwaysEqualsReturnsSatisfiedWhenEqual() {
+        assertEquals(1 alwaysEquals 1, PropertyEvalResult.Satisfied)
+    }
+
+    @Test
+    fun alwaysEqualsReturnsFalsifiedWhenNotEqual() {
+        assertEquals(1 alwaysEquals 2, PropertyEvalResult.Falsified(
+            expected = "2",
+            actual = "1"
+        ))
+    }
+
+    @Test
+    fun neverEqualsReturnsSatisfiedWhenNotEqual() {
+        assertEquals(1 neverEquals 2, PropertyEvalResult.Satisfied)
+    }
+
+    @Test
+    fun neverEqualsReturnsFalsifiedWhenEqual() {
+        assertEquals(1 neverEquals 1, PropertyEvalResult.Falsified(
+            expected = "NOT 1",
+            actual = "1"
+        ))
+    }
 }
