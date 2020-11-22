@@ -50,6 +50,12 @@ public fun <A, B> Generator.Companion.pair(
 ): Generator<Pair<A, B>> =
     combine(leftGen, rightGen, ::Pair)
 
+/**
+ * Returns a generator of pairs using the same [generator] for left and right elements.
+ */
+public fun <T> Generator.Companion.pair(generator: Generator<T>): Generator<Pair<T, T>> =
+    pair(generator, generator)
+
 private class CombinedGenerators<A, B, R>(
     private val generator1: Generator<A>,
     private val generator2: Generator<B>,

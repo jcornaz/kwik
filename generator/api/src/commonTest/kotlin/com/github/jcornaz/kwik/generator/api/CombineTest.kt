@@ -2,6 +2,7 @@ package com.github.jcornaz.kwik.generator.api
 
 import com.github.jcornaz.kwik.generator.test.AbstractGeneratorTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 @Suppress("DEPRECATION")
@@ -25,6 +26,39 @@ class CombineTest : AbstractGeneratorTest() {
         )
 
         assertTrue(gen.randomSequence(123).take(200).count { (a, b) -> a != b } > 150)
+    }
+}
+
+class PairTest : AbstractGeneratorTest() {
+
+    override val generator: Generator<*> = Generator.pair(
+        { it.nextInt() },
+        { it.nextDouble() }
+    )
+
+    @Test
+    fun combineTheValues() {
+        assertTrue(generator.randomSequence(0).take(200).distinct().count() > 190)
+    }
+
+    @Test
+    fun combineDifferentValues() {
+        val gen = Generator.pair(
+            { it.nextInt() },
+            { it.nextInt() }
+        )
+
+        assertTrue(gen.randomSequence(123).take(200).count { (a, b) -> a != b } > 150)
+    }
+
+    @Test
+    fun canUseSameGeneratorForBothElements() {
+        val itemGen = Generator { it.nextInt() }
+
+        assertEquals(
+            Generator.pair(itemGen).randomSequence(0).take(100).toList(),
+            Generator.pair(itemGen, itemGen).randomSequence(0).take(100).toList()
+        )
     }
 }
 
