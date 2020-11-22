@@ -1,5 +1,6 @@
 package com.github.jcornaz.kwik.evaluator
 
+import com.github.jcornaz.kwik.Falsification
 import com.github.jcornaz.kwik.generator.api.Generator
 import com.github.jcornaz.kwik.generator.api.combineWith
 import com.github.jcornaz.kwik.generator.api.randomSequence
@@ -41,7 +42,13 @@ public fun <T> forAll(
             throw FalsifiedPropertyError(context.attempts, iterations, seed, extractArgumentList(input), error)
         }
 
-        if (!isSatisfied) throw FalsifiedPropertyError(context.attempts, iterations, seed, extractArgumentList(input))
+        if (!isSatisfied) throw FalsifiedPropertyError(
+            context.attempts,
+            iterations,
+            seed,
+            extractArgumentList(input),
+            Falsification.UnexpectedResult("true", "false")
+        )
     }
 
     println("OK, passed ${context.attempts} tests. (seed: $seed)")
@@ -281,28 +288,3 @@ public inline fun <reified A, reified B, reified C, reified D> checkForAll(
  * @property second Second argument
  */
 public data class ArgumentPair<A, B>(public val first: A, public val second: B)
-
-/**
- * Exception thrown when a property is falsified
- *
- * @property attempts Number of attempts after which the falsification was found
- * @property iterations Number of iteration that was requested
- * @property seed Seed used for the random generation
- * @property arguments Argument list that cause a falsification
- * @property cause Error thrown by the system under test (if any)
- */
-public data class FalsifiedPropertyError(
-    public val attempts: Int,
-    public val iterations: Int,
-    public val seed: Long,
-    public val arguments: List<Any?>,
-    public override val cause: Throwable? = null
-) : AssertionError(buildString {
-    append("Property falsified after $attempts tests (out of $iterations)\n")
-
-    arguments.forEachIndexed { index, arg ->
-        append("Argument ${index + 1}: $arg\n")
-    }
-
-    append("Generation seed: $seed")
-})

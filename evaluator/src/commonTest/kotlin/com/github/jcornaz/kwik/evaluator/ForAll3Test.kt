@@ -41,6 +41,8 @@ class ForAll3Test : AbstractRunnerTest() {
                 Argument 2: -4.1
                 Argument 3: 100
                 Generation seed: 78
+                Expected: true
+                Actual: false
             """.trimIndent(),
             exception.message
         )
