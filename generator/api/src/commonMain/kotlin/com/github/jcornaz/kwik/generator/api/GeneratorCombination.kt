@@ -32,13 +32,23 @@ public fun <A, B, R> Generator.Companion.combine(
     CombinedGenerators(generator1, generator2, transform)
 
 /**
- * Returns a generator of combining the elements of [generator1] and [generator2]
+ * Returns a generator of pairs using [generator1] (for the left) and [generator2] (for the right)
  */
+@Deprecated("Use pair instead", ReplaceWith("pair(generator1, generator2)"))
 public fun <A, B> Generator.Companion.combine(
     generator1: Generator<A>,
     generator2: Generator<B>
 ): Generator<Pair<A, B>> =
-    combine(generator1, generator2, ::Pair)
+    pair(generator1, generator2)
+
+/**
+ * Returns a generator of pairs using [leftGen] and [rightGen]
+ */
+public fun <A, B> Generator.Companion.pair(
+    leftGen: Generator<A>,
+    rightGen: Generator<B>
+): Generator<Pair<A, B>> =
+    combine(leftGen, rightGen, ::Pair)
 
 private class CombinedGenerators<A, B, R>(
     private val generator1: Generator<A>,
