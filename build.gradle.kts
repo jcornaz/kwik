@@ -28,11 +28,10 @@ detekt {
     config = files("$rootDir/detekt-config.yml")
 }
 
-val currentVersion = rootDir.resolve("VERSION").readText().trim()
 
 allprojects {
     group = "com.github.jcornaz.kwik"
-    version = currentVersion
+    // version = currentVersion
 
     repositories {
         mavenCentral()
