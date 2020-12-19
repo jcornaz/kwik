@@ -1,4 +1,3 @@
-
 version: 2
 
 updates:
@@ -11,8 +10,8 @@ updates:
     assignees:
       - "jcornaz"
 
-- package-ecosystem: "gradle"
-    directory: "/example"
+  - package-ecosystem: "gradle"
+    directory: "/example/"
     schedule:
       interval: "daily"
     reviewers:
