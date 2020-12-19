@@ -1,0 +1,30 @@
+
+version: 2
+
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    reviewers:
+      - "jcornaz"
+    assignees:
+      - "jcornaz"
+
+- package-ecosystem: "gradle"
+    directory: "/example"
+    schedule:
+      interval: "daily"
+    reviewers:
+      - "jcornaz"
+    assignees:
+      - "jcornaz"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    reviewers:
+      - "jcornaz"
+    assignees:
+      - "jcornaz"
