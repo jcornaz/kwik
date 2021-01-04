@@ -18,7 +18,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'Kwik'
-copyright = '2019-2020, Jonathan Cornaz'
+copyright = '2019-2021, Jonathan Cornaz'
 author = 'Jonathan Cornaz'
 
 # -- General configuration ---------------------------------------------------
