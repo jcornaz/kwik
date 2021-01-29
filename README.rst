@@ -2,24 +2,24 @@ Kwik
 ====
 
 .. image:: https://img.shields.io/badge/License-Apache%202.0-blue.svg
-    :target: https://raw.githubusercontent.com/jcornaz/kwik/main/LICENSE
+    :target: https://github.com/jcornaz/kwik/blob/main/LICENSE
 
-.. image:: https://github.com/jcornaz/kwik/workflows/Build/badge.svg
-    :target: https://github.com/jcornaz/kwik/actions
+.. image:: https://img.shields.io/bintray/v/kwik/stable/kwik?color=blue&label=version
+    :target: https://bintray.com/kwik/stable/kwik
+
+.. image:: https://img.shields.io/badge/kotlin-1.4-informational
+    :target: https://kotl.in
 
 .. image:: https://readthedocs.org/projects/kwik/badge/?version=latest
     :target: https://kwik.readthedocs.io/en/latest/?badge=latest
 
-.. image:: https://img.shields.io/badge/kotlin-1.4-informational
-    :target: https://kotl.in
-    
-.. image:: https://img.shields.io/bintray/v/kwik/stable/kwik?color=blue&label=stable
-    :target: https://bintray.com/kwik/stable/kwik
+.. image:: https://img.shields.io/github/workflow/status/jcornaz/kwik/Build
+    :target: https://github.com/jcornaz/kwik/actions?query=branch%3Amain+workflow%3ABuild
 
-.. image:: https://img.shields.io/bintray/v/kwik/preview/kwik?color=orange&label=preview
-    :target: https://bintray.com/kwik/preview/kwik
+.. image:: https://img.shields.io/badge/workspace-zenhub-%236061be
+    :target: https://app.zenhub.com/workspaces/kwik-5e3aa5f35d8a250b41d730e1/board
 
-.. afterBadges
+.. afterBadge
 
 Property-based testing library for Kotlin.
 
