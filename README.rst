@@ -19,7 +19,7 @@ Kwik
 .. image:: https://img.shields.io/badge/workspace-zenhub-%236061be
     :target: https://app.zenhub.com/workspaces/kwik-5e3aa5f35d8a250b41d730e1/board
 
-.. afterBadge
+.. afterBadges
 
 Property-based testing library for Kotlin.
 
