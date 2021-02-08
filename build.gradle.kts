@@ -6,11 +6,13 @@ import org.gradle.api.publish.maven.MavenPublication
 
 plugins {
     `maven-publish`
+    signing
     id("org.jetbrains.kotlin.multiplatform") version "1.4.30"
     id("com.github.ben-manes.versions") version "0.36.0"
     id("io.gitlab.arturbosch.detekt") version "1.15.0"
     id("com.jfrog.bintray") version "1.8.5" apply false
     id("kr.motd.sphinx") version "2.9.0"
+    id("io.codearte.nexus-staging") version "0.22.0"
 }
 
 detekt {
@@ -29,12 +31,20 @@ detekt {
 
 allprojects {
     group = "com.github.jcornaz.kwik"
-    // version = currentVersion
 
     repositories {
         mavenCentral()
         jcenter()
     }
+}
+
+val ossrhUser get() = System.getenv("SONATYPE_USER_NAME")
+val ossrhPassword get() = System.getenv("SONATYPE_PASSWORD")
+
+nexusStaging {
+    username = ossrhUser
+    password = ossrhPassword
+    packageGroup = "com.github.jcornaz"
 }
 
 // Hack so that we can configure all subprojects from this file
@@ -45,6 +55,11 @@ subprojects {
     apply<MavenPublishPlugin>()
     apply<JacocoPlugin>()
     apply<JavaPlugin>()
+    apply<SigningPlugin>()
+
+    configure<SigningExtension> {
+        sign(configurations.archives.get())
+    }
 
     kotlin {
         jvm {
@@ -90,6 +105,15 @@ subprojects {
     }
 
     publishing {
+        repositories {
+            maven {
+                url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+                credentials {
+                    username = ossrhUser
+                    password = ossrhUser
+                }
+            }
+        }
         publications.withType<MavenPublication>().apply {
             fun MavenPublication.config() {
                 pom {
