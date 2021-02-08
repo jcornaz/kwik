@@ -1,10 +1,7 @@
 @file:Suppress("UNUSED_VARIABLE")
 
-import com.jfrog.bintray.gradle.BintrayExtension
-import com.jfrog.bintray.gradle.BintrayPlugin
 import kr.motd.gradle.sphinx.gradle.SphinxTask
 import org.codehaus.plexus.util.Os
-import java.util.Date
 
 plugins {
     `maven-publish`
@@ -44,7 +41,6 @@ kotlin { jvm() }
 
 subprojects {
     apply(plugin = "org.jetbrains.kotlin.multiplatform")
-    apply<BintrayPlugin>()
     apply<MavenPublishPlugin>()
     apply<JacocoPlugin>()
     apply<JavaPlugin>()
@@ -113,40 +109,6 @@ subprojects {
                     artifactId = "kwik-${project.name}-windows"
                 }
             }
-        }
-    }
-
-    configure<BintrayExtension> {
-        user = System.getenv("BINTRAY_USER")
-        key = System.getenv("BINTRAY_KEY")
-        publish = true
-
-        with(pkg) {
-            userOrg = "kwik"
-            name = "kwik"
-            repo = when {
-                '-' in project.version.toString() -> "preview"
-                else -> "stable"
-            }
-
-            setLicenses("Apache-2.0")
-
-            vcsUrl = "https://github.com/jcornaz/kwik"
-            githubRepo = "jcornaz/kwik"
-
-            with(version) {
-                name = project.version.toString()
-                released = Date().toString()
-                if ('+' !in project.version.toString()) {
-                    vcsTag = project.version.toString()
-                }
-            }
-        }
-
-        if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-            setPublications("windows")
-        } else {
-            setPublications("metadata", "jvm", "linux")
         }
     }
 
