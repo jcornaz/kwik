@@ -2,6 +2,7 @@
 
 import kr.motd.gradle.sphinx.gradle.SphinxTask
 import org.codehaus.plexus.util.Os
+import org.gradle.api.publish.maven.MavenPublication
 
 plugins {
     `maven-publish`
@@ -90,22 +91,51 @@ subprojects {
 
     publishing {
         publications.withType<MavenPublication>().apply {
+            fun MavenPublication.config() {
+                pom {
+                    name.set("Kwik")
+                    description.set("Property-based testing library for Kotlin")
+                    url.set("https://github.com/jcornaz/kwik")
+                    licenses {
+                        license {
+                            name.set("The Apache License, Version 2.0")
+                            url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                        }
+                    }
+                    developers {
+                        developer {
+                            id.set("jcornaz")
+                            name.set("Jonathan Cornaz")
+                            email.set("jonathan.cornaz@gmail.com")
+                        }
+                    }
+                    scm {
+                        connection.set("scm:git:git@github.com:jcornaz/kwik.git")
+                        url.set("https://github.com/jcornaz/kwik")
+                    }
+                }
+            }
+
             val metadata by getting {
+                config()
                 artifactId = "kwik-${project.name}-common"
             }
 
             val jvm by getting {
+                config()
                 artifactId = "kwik-${project.name}-jvm"
             }
 
             if (Os.isFamily(Os.FAMILY_UNIX)) {
                 val linux by getting {
+                    config()
                     artifactId = "kwik-${project.name}-linux"
                 }
             }
 
             if (Os.isFamily(Os.FAMILY_WINDOWS)) {
                 val windows by getting {
+                    config()
                     artifactId = "kwik-${project.name}-windows"
                 }
             }
