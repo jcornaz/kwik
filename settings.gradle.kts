@@ -3,6 +3,7 @@ rootProject.name = "kwik"
 pluginManagement {
     repositories {
         gradlePluginPortal()
+        mavenCentral()
         jcenter()
     }
 }

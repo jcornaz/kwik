@@ -1,18 +1,18 @@
 @file:Suppress("UNUSED_VARIABLE")
 
-import com.jfrog.bintray.gradle.BintrayExtension
-import com.jfrog.bintray.gradle.BintrayPlugin
 import kr.motd.gradle.sphinx.gradle.SphinxTask
 import org.codehaus.plexus.util.Os
-import java.util.Date
+import org.gradle.api.publish.maven.MavenPublication
 
 plugins {
     `maven-publish`
+    signing
     id("org.jetbrains.kotlin.multiplatform") version "1.4.30"
     id("com.github.ben-manes.versions") version "0.36.0"
     id("io.gitlab.arturbosch.detekt") version "1.15.0"
     id("com.jfrog.bintray") version "1.8.5" apply false
     id("kr.motd.sphinx") version "2.9.0"
+    id("io.codearte.nexus-staging") version "0.22.0"
 }
 
 detekt {
@@ -31,7 +31,6 @@ detekt {
 
 allprojects {
     group = "com.github.jcornaz.kwik"
-    // version = currentVersion
 
     repositories {
         mavenCentral()
@@ -39,15 +38,28 @@ allprojects {
     }
 }
 
+val ossrhUser get() = System.getenv("SONATYPE_USER_NAME")
+val ossrhPassword get() = System.getenv("SONATYPE_PASSWORD")
+
+nexusStaging {
+    username = ossrhUser
+    password = ossrhPassword
+    packageGroup = "com.github.jcornaz"
+}
+
 // Hack so that we can configure all subprojects from this file
 kotlin { jvm() }
 
 subprojects {
     apply(plugin = "org.jetbrains.kotlin.multiplatform")
-    apply<BintrayPlugin>()
     apply<MavenPublishPlugin>()
     apply<JacocoPlugin>()
     apply<JavaPlugin>()
+    apply<SigningPlugin>()
+
+    configure<SigningExtension> {
+        sign(configurations.archives.get())
+    }
 
     kotlin {
         jvm {
@@ -93,60 +105,64 @@ subprojects {
     }
 
     publishing {
+        repositories {
+            maven {
+                url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+                credentials {
+                    username = ossrhUser
+                    password = ossrhUser
+                }
+            }
+        }
         publications.withType<MavenPublication>().apply {
+            fun MavenPublication.config() {
+                pom {
+                    name.set("Kwik")
+                    description.set("Property-based testing library for Kotlin")
+                    url.set("https://github.com/jcornaz/kwik")
+                    licenses {
+                        license {
+                            name.set("The Apache License, Version 2.0")
+                            url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                        }
+                    }
+                    developers {
+                        developer {
+                            id.set("jcornaz")
+                            name.set("Jonathan Cornaz")
+                            email.set("jonathan.cornaz@gmail.com")
+                        }
+                    }
+                    scm {
+                        connection.set("scm:git:git@github.com:jcornaz/kwik.git")
+                        url.set("https://github.com/jcornaz/kwik")
+                    }
+                }
+            }
+
             val metadata by getting {
+                config()
                 artifactId = "kwik-${project.name}-common"
             }
 
             val jvm by getting {
+                config()
                 artifactId = "kwik-${project.name}-jvm"
             }
 
             if (Os.isFamily(Os.FAMILY_UNIX)) {
                 val linux by getting {
+                    config()
                     artifactId = "kwik-${project.name}-linux"
                 }
             }
 
             if (Os.isFamily(Os.FAMILY_WINDOWS)) {
                 val windows by getting {
+                    config()
                     artifactId = "kwik-${project.name}-windows"
                 }
             }
-        }
-    }
-
-    configure<BintrayExtension> {
-        user = System.getenv("BINTRAY_USER")
-        key = System.getenv("BINTRAY_KEY")
-        publish = true
-
-        with(pkg) {
-            userOrg = "kwik"
-            name = "kwik"
-            repo = when {
-                '-' in project.version.toString() -> "preview"
-                else -> "stable"
-            }
-
-            setLicenses("Apache-2.0")
-
-            vcsUrl = "https://github.com/jcornaz/kwik"
-            githubRepo = "jcornaz/kwik"
-
-            with(version) {
-                name = project.version.toString()
-                released = Date().toString()
-                if ('+' !in project.version.toString()) {
-                    vcsTag = project.version.toString()
-                }
-            }
-        }
-
-        if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-            setPublications("windows")
-        } else {
-            setPublications("metadata", "jvm", "linux")
         }
     }
 
