@@ -14,7 +14,7 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib"))
 
-    testImplementation("org.junit.jupiter:junit-jupiter:5.7.1")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.7.2")
 
     testImplementation("com.github.jcornaz.kwik:kwik-core-jvm:+")
 }
