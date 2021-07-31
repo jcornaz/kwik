@@ -3,6 +3,7 @@ package com.github.jcornaz.kwik.generator.api
 import kotlin.random.Random
 
 private const val DEFAULT_SAMPLE_PROBABILITY = 0.2
+private const val MAX_DISTINCT_TRIES = 100
 
 /**
  * Returns a generator containing the results of applying the given transform function to each element emitted by
@@ -39,6 +40,31 @@ public fun <T> Generator<T>.filter(predicate: (T) -> Boolean): Generator<T> =
  */
 public fun <T, R> Generator<T>.andThen(transform: (T) -> Generator<R>): Generator<R> =
     Generator { transform(generate(it)).generate(it) }
+
+/**
+ * Returns a generator that emits items of the upstream generator only once (based on result of `hashCode` and `equals` method)
+ *
+ * Be sure to use a generator function that can generate a big set of values
+ * Be sure to not overuse it has it may slow down your tests
+ */
+public fun <T> Generator<T>.distinct(): Generator<T> {
+    var generatedValues = mutableListOf<T>()
+    return Generator {
+        var retries = 0
+        val genSize = generatedValues.size
+        generatedValues.add(generate(it))
+        generatedValues = generatedValues.toMutableSet().toMutableList()
+        while (genSize == generatedValues.size) {
+            if (retries > MAX_DISTINCT_TRIES) {
+                throw Exception("Number of retries exceeded maximum. Distinct cannot be applied to this resource")
+            }
+            generatedValues.add(generate(it))
+            generatedValues = generatedValues.toMutableSet().toMutableList()
+            retries++
+        }
+        generatedValues.last()
+    }
+}
 
 /**
  * @Deprecated Use `andThen` operator instead
