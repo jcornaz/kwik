@@ -32,10 +32,6 @@ Property-based testing library for Kotlin.
 * Easy way to create and combine generators
 * Seeded generation for reproducible results
 
-**Planned features:**
-
-* Shrinking
-
 .. startReferenceToDoc
 
 Find more information on https://kwik.readthedocs.io
@@ -45,14 +41,10 @@ Find more information on https://kwik.readthedocs.io
 Status
 ------
 
-The project is incubating and its API is subject to changes.
+**This project is discontinued**. For property based testing with Kotlin, check out kotest_.
 
-Please give it a try and write a feedback in the issues_.
+.. _kotest: https://kotest.io
 
-For mode details about the future of kwik, here's a roadmap_.
-
-.. _issues: https://github.com/jcornaz/kwik/issues
-.. _roadmap: https://github.com/jcornaz/kwik/blob/main/ROADMAP.md
 
 How it looks like
 -----------------
